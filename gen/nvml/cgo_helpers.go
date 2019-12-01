@@ -15,6 +15,15 @@ type stringHeader struct {
 	Len  int
 }
 
+func clen(n []byte) int {
+	for i := 0; i < len(n); i++ {
+		if n[i] == 0 {
+			return i
+		}
+	}
+	return len(n)
+}
+
 // packPCharString creates a Go string backed by *C.char and avoids copying.
 func packPCharString(p *C.char) (raw string) {
 	if p != nil && *p != 0 {
