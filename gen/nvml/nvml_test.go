@@ -229,3 +229,47 @@ func TestUnit(t *testing.T) {
 		t.Logf("Unit.SetLedState: %v", ret)
 	}
 }
+
+func TestEventSet(t *testing.T) {
+	Init()
+	defer Shutdown()
+
+	set, ret := EventSetCreate()
+	if ret != SUCCESS {
+		t.Errorf("EventSetCreate: %v", ret)
+	} else {
+		t.Logf("EventSetCreate: %v", ret)
+		t.Logf("  set: %v", set)
+	}
+
+	data, ret := EventSetWait(set, 0)
+	if ret != ERROR_TIMEOUT {
+		t.Errorf("EventSetWait: %v", ret)
+	} else {
+		t.Logf("EventSetWait: %v", ret)
+		t.Logf("  data: %v", data)
+	}
+
+	data, ret = set.Wait(0)
+	if ret != ERROR_TIMEOUT {
+		t.Errorf("EventSet.Wait: %v", ret)
+	} else {
+		t.Logf("EventSet.Wait: %v", ret)
+		t.Logf("  data: %v", data)
+	}
+
+	ret = EventSetFree(set)
+	if ret != SUCCESS {
+		t.Errorf("EventSetFree: %v", ret)
+	} else {
+		t.Logf("EventSetFree: %v", ret)
+	}
+
+	set, _ = EventSetCreate()
+	ret = set.Free()
+	if ret != SUCCESS {
+		t.Errorf("EventSet.Free: %v", ret)
+	} else {
+		t.Logf("EventSet.Free: %v", ret)
+	}
+}
