@@ -49,6 +49,8 @@ TRANSLATOR:
       - {action: replace, from: "^nvml"}
       - {action: replace, from: "_t$"}
       - {transform: export}
+      - {action: replace, from: "^VgpuMetadata", to: "nvmlVgpuMetadata"}
+      - {action: replace, from: "^VgpuPgpuMetadata", to: "nvmlVgpuPgpuMetadata"}
     function:
       - {action: accept, from: "^nvml"}
       - {action: replace, from: "^nvmlInit$", to: "nvmlInit_v1"}

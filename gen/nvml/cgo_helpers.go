@@ -24,6 +24,14 @@ func clen(n []byte) int {
 	return len(n)
 }
 
+func uint32SliceToIntSlice(s []uint32) []int {
+	ret := make([]int, len(s))
+	for i := range s {
+		ret[i] = int(s[i])
+	}
+	return ret
+}
+
 // packPCharString creates a Go string backed by *C.char and avoids copying.
 func packPCharString(p *C.char) (raw string) {
 	if p != nil && *p != 0 {
