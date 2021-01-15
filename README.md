@@ -17,7 +17,7 @@
 - [Contributing](#contributing)
 
 ## Overview
- 
+
 This repository provides Go bindings for the [NVIDIA Management Library API
 (NVML)](https://docs.nvidia.com/deploy/nvml-api/).
 
@@ -35,8 +35,8 @@ any version of `libnvidia-ml.so` installed on your system.
 compile code that imports these bindings. However, you will get a runtime error
 if `libnvidia-ml.so` is not available in your library path at runtime.
 
-Please see the following link for documentation on the full NVML Go API:  
-http://godoc.org/github.com/NVIDIA/go-nvml/pkg/nvml 
+Please see the following link for documentation on the full NVML Go API:
+http://godoc.org/github.com/NVIDIA/go-nvml/pkg/nvml
 
 ## Quick Start
 
@@ -466,6 +466,8 @@ The test coverage is fairly sparse and could be greatly improved.
 Building and testing the bindings is fairly straight-forward. The only
 prerequisite is a working installation of `c-for-go` from
 https://github.com/xlab/c-for-go.
+
+**Note**: Please check the `Makefile` for the specific version of `c-for-go` used.
 
 Once this is available, just run the sequence below to build and test these
 NVML Go bindings. The generated bindings will be placed under `go-nvml/pkg/nvml`.
