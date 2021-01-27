@@ -91,50 +91,50 @@ var nvmlEventSetWait = nvmlEventSetWait_v1
 
 // updateVersionedSymbols()
 func updateVersionedSymbols() {
-	ret := nvml.Lookup("nvmlInit_v2")
-	if ret == SUCCESS {
+	err := nvml.Lookup("nvmlInit_v2")
+	if err == nil {
 		nvmlInit = nvmlInit_v2
 	}
-	ret = nvml.Lookup("nvmlDeviceGetPciInfo_v2")
-	if ret == SUCCESS {
+	err = nvml.Lookup("nvmlDeviceGetPciInfo_v2")
+	if err == nil {
 		nvmlDeviceGetPciInfo = nvmlDeviceGetPciInfo_v2
 	}
-	ret = nvml.Lookup("nvmlDeviceGetPciInfo_v3")
-	if ret == SUCCESS {
+	err = nvml.Lookup("nvmlDeviceGetPciInfo_v3")
+	if err == nil {
 		nvmlDeviceGetPciInfo = nvmlDeviceGetPciInfo_v3
 	}
-	ret = nvml.Lookup("nvmlDeviceGetCount_v2")
-	if ret == SUCCESS {
+	err = nvml.Lookup("nvmlDeviceGetCount_v2")
+	if err == nil {
 		nvmlDeviceGetCount = nvmlDeviceGetCount_v2
 	}
-	ret = nvml.Lookup("nvmlDeviceGetHandleByIndex_v2")
-	if ret == SUCCESS {
+	err = nvml.Lookup("nvmlDeviceGetHandleByIndex_v2")
+	if err == nil {
 		nvmlDeviceGetHandleByIndex = nvmlDeviceGetHandleByIndex_v2
 	}
-	ret = nvml.Lookup("nvmlDeviceGetHandleByPciBusId_v2")
-	if ret == SUCCESS {
+	err = nvml.Lookup("nvmlDeviceGetHandleByPciBusId_v2")
+	if err == nil {
 		nvmlDeviceGetHandleByPciBusId = nvmlDeviceGetHandleByPciBusId_v2
 	}
-	ret = nvml.Lookup("nvmlDeviceGetNvLinkRemotePciInfo_v2")
-	if ret == SUCCESS {
+	err = nvml.Lookup("nvmlDeviceGetNvLinkRemotePciInfo_v2")
+	if err == nil {
 		nvmlDeviceGetNvLinkRemotePciInfo = nvmlDeviceGetNvLinkRemotePciInfo_v2
 	}
 	// Unable to overwrite nvmlDeviceRemoveGpu() because the v2 function takes
 	// a different set of parameters than the v1 function.
-	//ret = nvml.Lookup("nvmlDeviceRemoveGpu_v2")
-	//if ret == SUCCESS {
+	//err = nvml.Lookup("nvmlDeviceRemoveGpu_v2")
+	//if err == nil {
 	//    nvmlDeviceRemoveGpu = nvmlDeviceRemoveGpu_v2
 	//}
-	ret = nvml.Lookup("nvmlDeviceGetGridLicensableFeatures_v2")
-	if ret == SUCCESS {
+	err = nvml.Lookup("nvmlDeviceGetGridLicensableFeatures_v2")
+	if err == nil {
 		nvmlDeviceGetGridLicensableFeatures = nvmlDeviceGetGridLicensableFeatures_v2
 	}
-	ret = nvml.Lookup("nvmlDeviceGetGridLicensableFeatures_v3")
-	if ret == SUCCESS {
+	err = nvml.Lookup("nvmlDeviceGetGridLicensableFeatures_v3")
+	if err == nil {
 		nvmlDeviceGetGridLicensableFeatures = nvmlDeviceGetGridLicensableFeatures_v3
 	}
-	ret = nvml.Lookup("nvmlEventSetWait_v2")
-	if ret == SUCCESS {
+	err = nvml.Lookup("nvmlEventSetWait_v2")
+	if err == nil {
 		nvmlEventSetWait = nvmlEventSetWait_v2
 	}
 }
