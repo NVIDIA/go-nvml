@@ -44,17 +44,30 @@ type BAR1Memory struct {
 }
 
 type ProcessInfo struct {
-	Pid           uint32
-	UsedGpuMemory uint64
+	Pid               uint32
+	UsedGpuMemory     uint64
+	GpuInstanceId     uint32
+	ComputeInstanceId uint32
 }
 
 type DeviceAttributes struct {
-	MultiprocessorCount   uint32
-	SharedCopyEngineCount uint32
-	SharedDecoderCount    uint32
-	SharedEncoderCount    uint32
-	SharedJpegCount       uint32
-	SharedOfaCount        uint32
+	MultiprocessorCount       uint32
+	SharedCopyEngineCount     uint32
+	SharedDecoderCount        uint32
+	SharedEncoderCount        uint32
+	SharedJpegCount           uint32
+	SharedOfaCount            uint32
+	GpuInstanceSliceCount     uint32
+	ComputeInstanceSliceCount uint32
+	MemorySizeMB              uint64
+}
+
+type RowRemapperHistogramValues struct {
+	Max     uint32
+	High    uint32
+	Partial uint32
+	Low     uint32
+	None    uint32
 }
 
 type NvLinkUtilizationControl struct {

@@ -1632,6 +1632,17 @@ func (Device Device) GetRemappedRows() (int, int, bool, bool, Return) {
 	return DeviceGetRemappedRows(Device)
 }
 
+// nvml.DeviceGetRowRemapperHistogram()
+func DeviceGetRowRemapperHistogram(Device Device) (RowRemapperHistogramValues, Return) {
+	var Values RowRemapperHistogramValues
+	ret := nvmlDeviceGetRowRemapperHistogram(Device, &Values)
+	return Values, ret
+}
+
+func (Device Device) GetRowRemapperHistogram() (RowRemapperHistogramValues, Return) {
+	return DeviceGetRowRemapperHistogram(Device)
+}
+
 // nvml.DeviceGetArchitecture()
 func DeviceGetArchitecture(Device Device) (DeviceArchitecture, Return) {
 	var Arch DeviceArchitecture
