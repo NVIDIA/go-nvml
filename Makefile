@@ -59,6 +59,17 @@ test-bindings: bindings
 clean-bindings:
 	rm -rf $(PKG_BINDINGS_DIR)
 
+# Update nvml.h from the specied CUDA_VERSION development image
+update-nvml-h:
+	if [[ $(CUDA_VERSION) == "" ]]; then echo "define CUDA_VERSION to update"; exit 1; fi
+	$(DOCKER) run \
+		--rm \
+		-v $(PWD):$(PWD) \
+		-w $(PWD) \
+		--user $$(id -u):$$(id -g) \
+		nvidia/cuda:$(CUDA_VERSION)-devel \
+			cp /usr/local/cuda-$(CUDA_VERSION)/targets/x86_64-linux/include/nvml.h $(GEN_BINDINGS_DIR)
+
 # Generate an image for containerized builds
 # Note: This image is local only
 .build-image: Dockerfile

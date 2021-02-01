@@ -537,10 +537,40 @@ if `libnvidia-ml.so` is not available in your library path at runtime.
 ## Updating the Code
 
 The general steps to update the bindings to a newer version of the NVML API are as follows:
-1. Pull down the `nvml.h` containing the updated API and commit it back to `gen/nvml/nvml.h`
-1. Do a diff of the new `nvml.h` and the old `nvml.h` to see which new API calls there are
-1. If there are any changes to the versioned APIs, update `nvml.yml` and `init.go` appropriately.
-1. Write a set of manual wappers around any new calls as described in one of the previous sections above
+
+### Update `nvml.h`
+
+Pull down the `nvml.h` containing the updated API and commit it back to `gen/nvml/nvml.h`. The `Makefile` contains a command:
+```bash
+make CUDA_VERSION=11.1 update-nvml-h
+```
+that copies the file from the specified NVIDIA CUDA development image (version 11.1 in this case). The command will fail if no `CUDA_VERSION` is specified.
+
+Since `gen/nvml/nvml.h` is under version control, running: 
+```
+git diff -w
+```
+(ignoring whitspace) will show us which new API calls there are.
+
+### Add new versioned APIs
+If there are changes to the versioned APIs (defined as in the `#ifndef NVML_NO_UNVERSIONED_FUNC_DEFS` block in `gen/nvml/nvml.h`) `nvml.yml` and `init.go` must be updated accordingly.
+
+The modified versioned calls can be found bu running:
+```
+git diff -w gen/nvml/nvml.h | grep -E "^\+\s*#define.*?_v[^1]"
+```
+
+### Add manual wrappers
+Write a set of manual wappers around any new calls as described in one of the previous sections above.
+
+The following command should show the API calls added in the update:
+```
+git diff -w gen/nvml/nvml.h | grep "+nvmlReturn_t DECLDIR nvml"
+```
+Note that these includes the new versions of existing calls -- which should already have been handled in the previous section. To exclude these run:
+```
+git diff -w gen/nvml/nvml.h | grep "+nvmlReturn_t DECLDIR nvml" | grep -vE "_v\d+\("
+```
 
 Of course this is just the general flow, and there may be more work to do if
 new types are added, or a new API is created that does something outside the
