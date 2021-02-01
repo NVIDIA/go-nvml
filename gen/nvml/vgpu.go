@@ -54,6 +54,17 @@ func (VgpuTypeId VgpuTypeId) GetName() (string, Return) {
 	return VgpuTypeGetName(VgpuTypeId)
 }
 
+// nvml.VgpuTypeGetGpuInstanceProfileId()
+func VgpuTypeGetGpuInstanceProfileId(VgpuTypeId VgpuTypeId) (uint32, Return) {
+	var Size uint32
+	ret := nvmlVgpuTypeGetGpuInstanceProfileId(VgpuTypeId, &Size)
+	return Size, ret
+}
+
+func (VgpuTypeId VgpuTypeId) GetGpuInstanceProfileId() (uint32, Return) {
+	return VgpuTypeGetGpuInstanceProfileId(VgpuTypeId)
+}
+
 // nvml.VgpuTypeGetDeviceID()
 func VgpuTypeGetDeviceID(VgpuTypeId VgpuTypeId) (uint64, uint64, Return) {
 	var DeviceID, SubsystemID uint64

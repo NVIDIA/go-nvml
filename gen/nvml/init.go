@@ -16,6 +16,7 @@ package nvml
 
 import (
 	"fmt"
+
 	"github.com/NVIDIA/go-nvml/pkg/dl"
 )
 
@@ -88,6 +89,9 @@ var nvmlDeviceGetNvLinkRemotePciInfo = nvmlDeviceGetNvLinkRemotePciInfo_v1
 var nvmlDeviceRemoveGpu = nvmlDeviceRemoveGpu_v1
 var nvmlDeviceGetGridLicensableFeatures = nvmlDeviceGetGridLicensableFeatures_v1
 var nvmlEventSetWait = nvmlEventSetWait_v1
+var nvmlDeviceGetAttributes = nvmlDeviceGetAttributes_v1
+var nvmlDeviceGetComputeRunningProcesses = nvmlDeviceGetComputeRunningProcesses_v1
+var nvmlDeviceGetGraphicsRunningProcesses = nvmlDeviceGetGraphicsRunningProcesses_v1
 
 // updateVersionedSymbols()
 func updateVersionedSymbols() {
@@ -137,4 +141,17 @@ func updateVersionedSymbols() {
 	if err == nil {
 		nvmlEventSetWait = nvmlEventSetWait_v2
 	}
+	err = nvml.Lookup("nvmlDeviceGetAttributes_v2")
+	if err == nil {
+		nvmlDeviceGetAttributes = nvmlDeviceGetAttributes_v2
+	}
+	err = nvml.Lookup("nvmlDeviceGetComputeRunningProcesses_v2")
+	if err == nil {
+		nvmlDeviceGetComputeRunningProcesses = nvmlDeviceGetComputeRunningProcesses_v2
+	}
+	err = nvml.Lookup("nvmlDeviceGetGraphicsRunningProcesses_v2")
+	if err == nil {
+		nvmlDeviceGetGraphicsRunningProcesses = nvmlDeviceGetGraphicsRunningProcesses_v2
+	}
+
 }
