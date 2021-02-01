@@ -128,8 +128,9 @@ extern "C" {
  */
 #define NVML_VALUE_NOT_AVAILABLE (-1)
 
-typedef struct {
-	struct nvmlDevice_st* handle;
+typedef struct
+{
+    struct nvmlDevice_st* handle;
 } nvmlDevice_t;
 
 /**
@@ -1237,8 +1238,9 @@ typedef struct nvmlFieldValue_st
  */
 /***************************************************************************************************/
 
-typedef struct {
-	struct nvmlUnit_st* handle;
+typedef struct
+{
+    struct nvmlUnit_st* handle;
 } nvmlUnit_t;
 
 /**
@@ -1341,8 +1343,9 @@ typedef struct nvmlUnitFanSpeeds_st
 /**
  * Handle to an event set
  */
-typedef struct {
-	struct nvmlEventSet_st* handle;
+typedef struct
+{
+    struct nvmlEventSet_st* handle;
 } nvmlEventSet_t;
 
 /** @defgroup nvmlEventType Event Types
@@ -6962,8 +6965,9 @@ typedef struct nvmlGpuInstanceInfo_st
     nvmlGpuInstancePlacement_t placement; //!< Placement for this instance
 } nvmlGpuInstanceInfo_t;
 
-typedef struct {
-	struct nvmlGpuInstance_st* handle;
+typedef struct
+{
+    struct nvmlGpuInstance_st* handle;
 } nvmlGpuInstance_t;
 
 /**
@@ -7003,8 +7007,9 @@ typedef struct nvmlComputeInstanceInfo_st
     unsigned int profileId;        //!< Unique profile ID within the GPU instance
 } nvmlComputeInstanceInfo_t;
 
-typedef struct {
-	struct nvmlComputeInstance_st* handle;
+typedef struct
+{
+    struct nvmlComputeInstance_st* handle;
 } nvmlComputeInstance_t;
 
 /**

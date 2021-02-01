@@ -25,7 +25,7 @@ PKG_BINDINGS_DIR := $(PKG_DIR)/nvml
 
 SOURCES = $(shell find $(GEN_BINDINGS_DIR) -type f)
 
-TARGETS := all test clean bindings test-bindings clean-bindings
+TARGETS := all test clean bindings test-bindings clean-bindings patch-nvml-h
 DOCKER_TARGETS := $(patsubst %, docker-%, $(TARGETS))
 .PHONY: $(TARGETS) $(DOCKER_TARGETS)
 
@@ -35,20 +35,23 @@ all: bindings
 test: test-bindings
 clean: clean-bindings
 
-$(PKG_BINDINGS_DIR): $(SOURCES)
+$(PKG_BINDINGS_DIR):
+	mkdir -p $(@)
+
+patch-nvml-h: $(PKG_BINDINGS_DIR)/nvml.h
+$(PKG_BINDINGS_DIR)/nvml.h: $(GEN_BINDINGS_DIR)/nvml.h | $(PKG_BINDINGS_DIR)
+	sed -E 's#(typedef\s+struct)\s+(nvml.*_st\*)\s+(nvml.*_t);#\1\n{\n    struct \2 handle;\n} \3;#g' $(<) > $(@)
+
+bindings: $(PKG_BINDINGS_DIR)/nvml.h $(SOURCES) | $(PKG_BINDINGS_DIR)
 	c-for-go -out $(PKG_DIR) $(GEN_BINDINGS_DIR)/nvml.yml
 	cp $(GEN_BINDINGS_DIR)/*.go $(PKG_BINDINGS_DIR)
-	cp $(GEN_BINDINGS_DIR)/nvml.h $(PKG_BINDINGS_DIR)
-	patch $(PKG_BINDINGS_DIR)/nvml.h $(GEN_BINDINGS_DIR)/nvml.h.patch
 	cd $(PKG_BINDINGS_DIR); \
 		go tool cgo -godefs types.go > types_gen.go; \
 		go fmt types_gen.go; \
 	cd -> /dev/null
 	rm -rf $(PKG_BINDINGS_DIR)/types.go $(PKG_BINDINGS_DIR)/_obj
 
-bindings: $(PKG_BINDINGS_DIR)
-
-test-bindings: $(PKG_BINDINGS_DIR)
+test-bindings: bindings
 	cd $(PKG_BINDINGS_DIR); \
 		go test -v .; \
 	cd -> /dev/null

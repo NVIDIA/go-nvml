@@ -250,28 +250,28 @@ Each of these parts is discussed in detail below, along with the files associate
 The following files aid in defining the NVML API and how any auto-generated bindings should be produced from it.
 
 * `gen/nvml/nvml.h`
-* `gen/nvml/nvml.h.patch`
 * `gen/nvml/nvml.yml`
 
 The `nvml.h` file is a direct copy of `nvml.h` from the NVIDIA driver.  Since
 the NVML API is guaranteed to be backwards compatible, we should strive to keep
 this always up to date with the latest.
 
-The `nvml.h.patch` file is a small patch to `nvml.h` that translates any opaque
+**Note:** The make process modifies `nvml.h` in that it translates any opaque
 types defined by `nvml.h` into something more recognizable by `cgo`.
 
 For example:
 ```
 -typedef struct nvmlDevice_st* nvmlDevice_t;
-+typedef struct {
++typedef struct
++{
 +   struct nvmlDevice_st* handle;
 +} nvmlDevice_t;
 ```
 
 The two statements are semantically equivalent in terms of how they are laid
 out in memory, but `cgo` will only generate a unique type for `nvmlDevice_t`
-when expressed as the latter. When building the bindings we first patch
-`nvml.h` as such, and then run `c-for-go` over it.
+when expressed as the latter. When building the bindings we first update
+`nvml.h` using `sed`, and then run `c-for-go` over it.
 
 Finally, the `nvml.yml` file is the input file to `c-for-go` that tells it how
 to parse `nvml.h` and auto-generate bindings for it. Please see the [`c-for-go`
@@ -476,9 +476,6 @@ $ make
 c-for-go -out pkg gen/nvml/nvml.yml
   processing gen/nvml/nvml.yml done.
 cp gen/nvml/*.go pkg/nvml
-cp gen/nvml/nvml.h pkg/nvml
-patch pkg/nvml/nvml.h gen/nvml/nvml.h.patch
-patching file pkg/nvml/nvml.h
 cd pkg/nvml; \
 	go tool cgo -godefs types.go > types_gen.go; \
 	go fmt types_gen.go; \

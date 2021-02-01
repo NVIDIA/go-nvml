@@ -1,11 +1,6 @@
 ARG GOLANG_VERSION=0.0.0
 FROM golang:${GOLANG_VERSION}
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-        patch \
-    && rm -rf /var/lib/apt/lists/*
-
 # Get the supported version of c-for-go. Here we force the use of `GO111MODULE` for go get
 # to support the @VERSION syntax.
 ARG C_FOR_GO_TAG=master
