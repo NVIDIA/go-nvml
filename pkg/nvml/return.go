@@ -18,15 +18,3 @@ package nvml
 func ErrorString(Result Return) string {
 	return nvmlErrorString(Result)
 }
-
-func (r Return) Value() Return {
-	return r
-}
-
-func (r Return) String() string {
-	return ErrorString(r)
-}
-
-func (r Return) Error() string {
-	return ErrorString(r)
-}
