@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
---- 
+---
 GENERATOR:
   PackageName: nvml
   PackageDescription: "Package NVML bindings"
@@ -76,4 +76,7 @@ TRANSLATOR:
       - {action: replace, from: "^nvmlDeviceRemoveGpu$", to: "nvmlDeviceRemoveGpu_v1"}
       - {action: replace, from: "^nvmlDeviceGetGridLicensableFeatures$", to: "nvmlDeviceGetGridLicensableFeatures_v1"}
       - {action: replace, from: "^nvmlEventSetWait$", to: "nvmlEventSetWait_v1"}
+      - {action: replace, from: "^nvmlDeviceGetAttributes$", to: "nvmlDeviceGetAttributes_v1"}
+      - {action: replace, from: "^nvmlDeviceGetComputeRunningProcesses$", to: "nvmlDeviceGetComputeRunningProcesses_v1"}
+      - {action: replace, from: "^nvmlDeviceGetGraphicsRunningProcesses$", to: "nvmlDeviceGetGraphicsRunningProcesses_v1"}
       - {transform: unexport}

@@ -250,28 +250,28 @@ Each of these parts is discussed in detail below, along with the files associate
 The following files aid in defining the NVML API and how any auto-generated bindings should be produced from it.
 
 * `gen/nvml/nvml.h`
-* `gen/nvml/nvml.h.patch`
 * `gen/nvml/nvml.yml`
 
 The `nvml.h` file is a direct copy of `nvml.h` from the NVIDIA driver.  Since
 the NVML API is guaranteed to be backwards compatible, we should strive to keep
 this always up to date with the latest.
 
-The `nvml.h.patch` file is a small patch to `nvml.h` that translates any opaque
+**Note:** The make process modifies `nvml.h` in that it translates any opaque
 types defined by `nvml.h` into something more recognizable by `cgo`.
 
 For example:
 ```
 -typedef struct nvmlDevice_st* nvmlDevice_t;
-+typedef struct {
++typedef struct
++{
 +   struct nvmlDevice_st* handle;
 +} nvmlDevice_t;
 ```
 
 The two statements are semantically equivalent in terms of how they are laid
 out in memory, but `cgo` will only generate a unique type for `nvmlDevice_t`
-when expressed as the latter. When building the bindings we first patch
-`nvml.h` as such, and then run `c-for-go` over it.
+when expressed as the latter. When building the bindings we first update
+`nvml.h` using `sed`, and then run `c-for-go` over it.
 
 Finally, the `nvml.yml` file is the input file to `c-for-go` that tells it how
 to parse `nvml.h` and auto-generate bindings for it. Please see the [`c-for-go`
@@ -292,15 +292,18 @@ symbols include the following (as defined in `nvml.h`):
 
 ```
 #ifndef NVML_NO_UNVERSIONED_FUNC_DEFS
-    #define nvmlInit                            nvmlInit_v2
-    #define nvmlDeviceGetPciInfo                nvmlDeviceGetPciInfo_v3
-    #define nvmlDeviceGetCount                  nvmlDeviceGetCount_v2
-    #define nvmlDeviceGetHandleByIndex          nvmlDeviceGetHandleByIndex_v2
-    #define nvmlDeviceGetHandleByPciBusId       nvmlDeviceGetHandleByPciBusId_v2
-    #define nvmlDeviceGetNvLinkRemotePciInfo    nvmlDeviceGetNvLinkRemotePciInfo_v2
-    #define nvmlDeviceRemoveGpu                 nvmlDeviceRemoveGpu_v2
-    #define nvmlDeviceGetGridLicensableFeatures nvmlDeviceGetGridLicensableFeatures_v3
-    #define nvmlEventSetWait                    nvmlEventSetWait_v2
+    #define nvmlInit                                nvmlInit_v2
+    #define nvmlDeviceGetPciInfo                    nvmlDeviceGetPciInfo_v3
+    #define nvmlDeviceGetCount                      nvmlDeviceGetCount_v2
+    #define nvmlDeviceGetHandleByIndex              nvmlDeviceGetHandleByIndex_v2
+    #define nvmlDeviceGetHandleByPciBusId           nvmlDeviceGetHandleByPciBusId_v2
+    #define nvmlDeviceGetNvLinkRemotePciInfo        nvmlDeviceGetNvLinkRemotePciInfo_v2
+    #define nvmlDeviceRemoveGpu                     nvmlDeviceRemoveGpu_v2
+    #define nvmlDeviceGetGridLicensableFeatures     nvmlDeviceGetGridLicensableFeatures_v3
+    #define nvmlEventSetWait                        nvmlEventSetWait_v2
+    #define nvmlDeviceGetAttributes                 nvmlDeviceGetAttributes_v2
+    #define nvmlDeviceGetComputeRunningProcesses    nvmlDeviceGetComputeRunningProcesses_v2
+    #define nvmlDeviceGetGraphicsRunningProcesses   nvmlDeviceGetGraphicsRunningProcesses_v2
 #endif // #ifndef NVML_NO_UNVERSIONED_FUNC_DEFS
 ```
 
@@ -476,9 +479,6 @@ $ make
 c-for-go -out pkg gen/nvml/nvml.yml
   processing gen/nvml/nvml.yml done.
 cp gen/nvml/*.go pkg/nvml
-cp gen/nvml/nvml.h pkg/nvml
-patch pkg/nvml/nvml.h gen/nvml/nvml.h.patch
-patching file pkg/nvml/nvml.h
 cd pkg/nvml; \
 	go tool cgo -godefs types.go > types_gen.go; \
 	go fmt types_gen.go; \
@@ -540,10 +540,40 @@ if `libnvidia-ml.so` is not available in your library path at runtime.
 ## Updating the Code
 
 The general steps to update the bindings to a newer version of the NVML API are as follows:
-1. Pull down the `nvml.h` containing the updated API and commit it back to `gen/nvml/nvml.h`
-1. Do a diff of the new `nvml.h` and the old `nvml.h` to see which new API calls there are
-1. If there are any changes to the versioned APIs, update `nvml.yml` and `init.go` appropriately.
-1. Write a set of manual wappers around any new calls as described in one of the previous sections above
+
+### Update `nvml.h`
+
+Pull down the `nvml.h` containing the updated API and commit it back to `gen/nvml/nvml.h`. The `Makefile` contains a command:
+```bash
+make CUDA_VERSION=11.1 update-nvml-h
+```
+that copies the file from the specified NVIDIA CUDA development image (version 11.1 in this case). The command will fail if no `CUDA_VERSION` is specified.
+
+Since `gen/nvml/nvml.h` is under version control, running: 
+```
+git diff -w
+```
+(ignoring whitspace) will show us which new API calls there are.
+
+### Add new versioned APIs
+If there are changes to the versioned APIs (defined as in the `#ifndef NVML_NO_UNVERSIONED_FUNC_DEFS` block in `gen/nvml/nvml.h`) `nvml.yml` and `init.go` must be updated accordingly.
+
+The modified versioned calls can be found bu running:
+```
+git diff -w gen/nvml/nvml.h | grep -E "^\+\s*#define.*?_v[^1]"
+```
+
+### Add manual wrappers
+Write a set of manual wappers around any new calls as described in one of the previous sections above.
+
+The following command should show the API calls added in the update:
+```
+git diff -w gen/nvml/nvml.h | grep "+nvmlReturn_t DECLDIR nvml"
+```
+Note that these includes the new versions of existing calls -- which should already have been handled in the previous section. To exclude these run:
+```
+git diff -w gen/nvml/nvml.h | grep "+nvmlReturn_t DECLDIR nvml" | grep -vE "_v\d+\("
+```
 
 Of course this is just the general flow, and there may be more work to do if
 new types are added, or a new API is created that does something outside the
