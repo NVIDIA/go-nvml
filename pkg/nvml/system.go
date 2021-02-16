@@ -14,9 +14,6 @@
 
 package nvml
 
-// #include <sys/prctl.h>
-import "C"
-
 // nvml.SystemGetDriverVersion()
 func SystemGetDriverVersion() (string, Return) {
 	Version := make([]byte, SYSTEM_DRIVER_VERSION_BUFFER_SIZE)
@@ -47,8 +44,8 @@ func SystemGetCudaDriverVersion_v2() (int, Return) {
 
 // nvml.SystemGetProcessName()
 func SystemGetProcessName(Pid int) (string, Return) {
-	Name := make([]byte, C.PR_SET_NAME)
-	ret := nvmlSystemGetProcessName(uint32(Pid), &Name[0], C.PR_SET_NAME)
+	Name := make([]byte, SYSTEM_PROCESS_NAME_BUFFER_SIZE)
+	ret := nvmlSystemGetProcessName(uint32(Pid), &Name[0], SYSTEM_PROCESS_NAME_BUFFER_SIZE)
 	return string(Name[:clen(Name)]), ret
 }
 
