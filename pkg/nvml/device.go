@@ -197,8 +197,8 @@ func (Device1 Device) GetP2PStatus(Device2 Device, P2pIndex GpuP2PCapsIndex) (Gp
 
 // nvml.DeviceGetUUID()
 func DeviceGetUUID(Device Device) (string, Return) {
-	Uuid := make([]byte, DEVICE_UUID_BUFFER_SIZE)
-	ret := nvmlDeviceGetUUID(Device, &Uuid[0], DEVICE_UUID_BUFFER_SIZE)
+	Uuid := make([]byte, DEVICE_UUID_V2_BUFFER_SIZE)
+	ret := nvmlDeviceGetUUID(Device, &Uuid[0], DEVICE_UUID_V2_BUFFER_SIZE)
 	return string(Uuid[:clen(Uuid)]), ret
 }
 
