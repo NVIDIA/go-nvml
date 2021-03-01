@@ -1468,7 +1468,7 @@ func (Device Device) GetGridLicensableFeatures() (GridLicensableFeatures, Return
 func DeviceGetProcessUtilization(Device Device, LastSeenTimeStamp uint64) ([]ProcessUtilizationSample, Return) {
 	var ProcessSamplesCount uint32
 	ret := nvmlDeviceGetProcessUtilization(Device, nil, &ProcessSamplesCount, LastSeenTimeStamp)
-	if ret != SUCCESS {
+	if ret != ERROR_INSUFFICIENT_SIZE {
 		return nil, ret
 	}
 	if ProcessSamplesCount == 0 {
@@ -1476,7 +1476,7 @@ func DeviceGetProcessUtilization(Device Device, LastSeenTimeStamp uint64) ([]Pro
 	}
 	Utilization := make([]ProcessUtilizationSample, ProcessSamplesCount)
 	ret = nvmlDeviceGetProcessUtilization(Device, &Utilization[0], &ProcessSamplesCount, LastSeenTimeStamp)
-	return Utilization, ret
+	return Utilization[:ProcessSamplesCount], ret
 }
 
 func (Device Device) GetProcessUtilization(LastSeenTimeStamp uint64) ([]ProcessUtilizationSample, Return) {
