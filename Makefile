@@ -42,7 +42,9 @@ patch-nvml-h: $(PKG_BINDINGS_DIR)/nvml.h
 $(PKG_BINDINGS_DIR)/nvml.h: $(GEN_BINDINGS_DIR)/nvml.h | $(PKG_BINDINGS_DIR)
 	sed -E 's#(typedef\s+struct)\s+(nvml.*_st\*)\s+(nvml.*_t);#\1\n{\n    struct \2 handle;\n} \3;#g' $(<) > $(@)
 
-bindings: $(PKG_BINDINGS_DIR)/nvml.h $(SOURCES) | $(PKG_BINDINGS_DIR)
+bindings: .create-bindings .strip-autogen-comment
+
+.create-bindings: $(PKG_BINDINGS_DIR)/nvml.h $(SOURCES) | $(PKG_BINDINGS_DIR)
 	c-for-go -out $(PKG_DIR) $(GEN_BINDINGS_DIR)/nvml.yml
 	cp $(GEN_BINDINGS_DIR)/*.go $(PKG_BINDINGS_DIR)
 	cd $(PKG_BINDINGS_DIR); \
@@ -50,6 +52,12 @@ bindings: $(PKG_BINDINGS_DIR)/nvml.h $(SOURCES) | $(PKG_BINDINGS_DIR)
 		go fmt types_gen.go; \
 	cd -> /dev/null
 	rm -rf $(PKG_BINDINGS_DIR)/types.go $(PKG_BINDINGS_DIR)/_obj
+
+SED_SEARCH_STRING := WARNING: This file has automatically been generated on
+SED_REPLACE_STRING := WARNING: THIS FILE WAS AUTOMATICALLY GENERATED.
+.strip-autogen-comment: | .create-bindings
+	grep -l -R "// WARNING: This file has automatically been generated on" pkg \
+		| xargs sed -i -E 's/ $(SED_SEARCH_STRING).*$$/ $(SED_REPLACE_STRING)/g'
 
 test-bindings: bindings
 	cd $(PKG_BINDINGS_DIR); \
