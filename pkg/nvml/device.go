@@ -1774,6 +1774,20 @@ func (Device Device) CreateGpuInstance(Info *GpuInstanceProfileInfo) (GpuInstanc
 	return DeviceCreateGpuInstance(Device, Info)
 }
 
+// nvml.DeviceCreateGpuInstanceWithPlacement()
+func DeviceCreateGpuInstanceWithPlacement(Device Device, Info *GpuInstanceProfileInfo, Placement *GpuInstancePlacement) (GpuInstance, Return) {
+	if Info == nil {
+		return GpuInstance{}, ERROR_INVALID_ARGUMENT
+	}
+	var GpuInstance GpuInstance
+	ret := nvmlDeviceCreateGpuInstanceWithPlacement(Device, Info.Id, Placement, &GpuInstance)
+	return GpuInstance, ret
+}
+
+func (Device Device) CreateGpuInstanceWithPlacement(Info *GpuInstanceProfileInfo, Placement *GpuInstancePlacement) (GpuInstance, Return) {
+	return DeviceCreateGpuInstanceWithPlacement(Device, Info, Placement)
+}
+
 // nvml.GpuInstanceDestroy()
 func GpuInstanceDestroy(GpuInstance GpuInstance) Return {
 	return nvmlGpuInstanceDestroy(GpuInstance)

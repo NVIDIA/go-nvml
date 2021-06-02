@@ -52,7 +52,7 @@ Supported products:
 - Full Support
     - All Tesla products, starting with the Fermi architecture
     - All Quadro products, starting with the Fermi architecture
-    - All GRID products, starting with the Kepler architecture
+    - All vGPU Software products, starting with the Kepler architecture
     - Selected GeForce Titan products
 - Limited Support
     - All Geforce products, starting with the Fermi architecture
@@ -541,13 +541,23 @@ typedef enum nvmlEnableState_enum
  *   */
 typedef enum nvmlBrandType_enum
 {
-    NVML_BRAND_UNKNOWN = 0,
-    NVML_BRAND_QUADRO  = 1,
-    NVML_BRAND_TESLA   = 2,
-    NVML_BRAND_NVS     = 3,
-    NVML_BRAND_GRID    = 4,
-    NVML_BRAND_GEFORCE = 5,
-    NVML_BRAND_TITAN   = 6,
+    NVML_BRAND_UNKNOWN          = 0,
+    NVML_BRAND_QUADRO           = 1,
+    NVML_BRAND_TESLA            = 2,
+    NVML_BRAND_NVS              = 3,
+    NVML_BRAND_GRID             = 4,   // Deprecated from API reporting. Keeping definition for backward compatibility.
+    NVML_BRAND_GEFORCE          = 5,
+    NVML_BRAND_TITAN            = 6,
+    NVML_BRAND_NVIDIA_VAPPS     = 7,   // NVIDIA Virtual Applications
+    NVML_BRAND_NVIDIA_VPC       = 8,   // NVIDIA Virtual PC
+    NVML_BRAND_NVIDIA_VCS       = 9,   // NVIDIA Virtual Compute Server
+    NVML_BRAND_NVIDIA_VWS       = 10,  // NVIDIA RTX Virtual Workstation
+    NVML_BRAND_NVIDIA_VGAMING   = 11,  // NVIDIA vGaming
+    NVML_BRAND_QUADRO_RTX       = 12,
+    NVML_BRAND_NVIDIA_RTX       = 13,
+    NVML_BRAND_NVIDIA           = 14,
+    NVML_BRAND_GEFORCE_RTX      = 15,
+    NVML_BRAND_TITAN_RTX        = 16,
 
     // Keep this last
     NVML_BRAND_COUNT
@@ -845,11 +855,11 @@ typedef enum nvmlRestrictedAPI_enum
 /** @} */
 
 /***************************************************************************************************/
-/** @addtogroup gridVirtual
+/** @addtogroup virtualGPU
  *  @{
  */
 /***************************************************************************************************/
-/** @defgroup nvmlGridEnums GRID Virtualization Enums
+/** @defgroup nvmlVirtualGpuEnums vGPU Enums
  *  @{
  */
 /***************************************************************************************************/
@@ -892,7 +902,7 @@ typedef enum nvmlVgpuGuestInfoState_enum
 } nvmlVgpuGuestInfoState_t;
 
 /**
- * GRID license feature code
+ * vGPU software licensable features
  */
 typedef enum {
     NVML_GRID_LICENSE_FEATURE_CODE_VGPU = 1,         //!< Virtual GPU
@@ -903,7 +913,7 @@ typedef enum {
 
 /***************************************************************************************************/
 
-/** @defgroup nvmlVgpuConstants GRID Virtualization Constants
+/** @defgroup nvmlVgpuConstants vGPU Constants
  *  @{
  */
 /***************************************************************************************************/
@@ -938,7 +948,7 @@ typedef enum {
 /** @} */
 
 /***************************************************************************************************/
-/** @defgroup nvmlVgpuStructs GRID Virtualization Structs
+/** @defgroup nvmlVgpuStructs vGPU Structs
  *  @{
  */
 /***************************************************************************************************/
@@ -989,7 +999,7 @@ typedef struct nvmlProcessUtilizationSample_st
 } nvmlProcessUtilizationSample_t;
 
 /**
- * Structure containing GRID licensable feature information
+ * Structure containing vGPU software licensable feature information
  */
 typedef struct nvmlGridLicensableFeature_st
 {
@@ -1001,13 +1011,13 @@ typedef struct nvmlGridLicensableFeature_st
 } nvmlGridLicensableFeature_t;
 
 /**
- * Structure to store GRID licensable features
+ * Structure to store vGPU software licensable features
  */
 typedef struct nvmlGridLicensableFeatures_st
 {
-    int                         isGridLicenseSupported;                                       //!< Non-zero if GRID Software Licensing is supported on the system, otherwise zero
+    int                         isGridLicenseSupported;                                       //!< Non-zero if vGPU Software Licensing is supported on the system, otherwise zero
     unsigned int                licensableFeaturesCount;                                      //!< Entries returned in \a gridLicensableFeatures array
-    nvmlGridLicensableFeature_t gridLicensableFeatures[NVML_GRID_LICENSE_FEATURE_MAX_COUNT];  //!< Array of GRID licensable features.
+    nvmlGridLicensableFeature_t gridLicensableFeatures[NVML_GRID_LICENSE_FEATURE_MAX_COUNT];  //!< Array of vGPU software licensable features.
 } nvmlGridLicensableFeatures_t;
 
 /**
@@ -5807,15 +5817,15 @@ nvmlReturn_t DECLDIR nvmlDeviceGetFieldValues(nvmlDevice_t device, int valuesCou
 /** @} */
 
 /***************************************************************************************************/
-/** @defgroup gridVirtual GRID Virtualization Enums, Constants and Structs
+/** @defgroup vGPU Enums, Constants and Structs
  *  @{
  */
 /** @} */
 /***************************************************************************************************/
 
 /***************************************************************************************************/
-/** @defgroup nvmlGridQueries GRID Virtualization APIs
- * This chapter describes operations that are associated with NVIDIA GRID products.
+/** @defgroup nvmlVirtualGpuQueries vGPU APIs
+ * This chapter describes operations that are associated with NVIDIA vGPU Software products.
  *  @{
  */
 /***************************************************************************************************/
@@ -5874,13 +5884,13 @@ nvmlReturn_t DECLDIR nvmlDeviceGetHostVgpuMode(nvmlDevice_t device, nvmlHostVgpu
 nvmlReturn_t DECLDIR nvmlDeviceSetVirtualizationMode(nvmlDevice_t device, nvmlGpuVirtualizationMode_t virtualMode);
 
 /**
- * Retrieve the GRID licensable features.
+ * Retrieve the vGPU Software licensable features.
  *
- * Identifies whether the system supports GRID Software Licensing. If it does, return the list of licensable feature(s)
+ * Identifies whether the system supports vGPU Software Licensing. If it does, return the list of licensable feature(s)
  * and their current license status.
  *
  * @param device                    Identifier of the target device
- * @param pGridLicensableFeatures   Pointer to structure in which GRID licensable features are returned
+ * @param pGridLicensableFeatures   Pointer to structure in which vGPU software licensable features are returned
  *
  * @return
  *         - \ref NVML_SUCCESS                 if licensable features are successfully retrieved
@@ -5934,10 +5944,10 @@ nvmlReturn_t DECLDIR nvmlDeviceGetProcessUtilization(nvmlDevice_t device, nvmlPr
 /** @} */
 
 /***************************************************************************************************/
-/** @defgroup nvmlVgpu GRID vGPU Management
+/** @defgroup nvmlVgpu vGPU Management
  * @{
  *
- * This chapter describes APIs supporting NVIDIA GRID vGPU.
+ * This chapter describes APIs supporting NVIDIA vGPU.
  */
 /***************************************************************************************************/
 
@@ -6546,7 +6556,7 @@ nvmlReturn_t DECLDIR nvmlVgpuInstanceGetGpuInstanceId(nvmlVgpuInstance_t vgpuIns
 /** @} */
 
 /***************************************************************************************************/
-/** @defgroup nvml GRID Virtualization Migration
+/** @defgroup nvml vGPU Migration
  * This chapter describes operations that are associated with vGPU Migration.
  *  @{
  */
@@ -6636,7 +6646,7 @@ typedef struct nvmlVgpuPgpuCompatibility_st
  * is available. The current state of these dependent fields is reflected in the info structure's \ref nvmlVgpuGuestInfoState_t field.
  *
  * The VMM may choose to read and save the vGPU's VM info as persistent metadata associated with the VM, and provide
- * it to GRID Virtual GPU Manager when creating a vGPU for subsequent instances of the VM.
+ * it to Virtual GPU Manager when creating a vGPU for subsequent instances of the VM.
  *
  * The caller passes in a buffer via \a vgpuMetadata, with the size of the buffer in \a bufferSize. If the vGPU Metadata structure
  * is too large to fit in the supplied buffer, the function returns NVML_ERROR_INSUFFICIENT_SIZE with the size needed
@@ -6783,7 +6793,7 @@ nvmlReturn_t DECLDIR nvmlSetVgpuVersion(nvmlVgpuVersion_t *vgpuVersion);
 /** @} */
 
 /***************************************************************************************************/
-/** @defgroup nvmlUtil GRID Virtualization Utilization and Accounting
+/** @defgroup nvmlUtil vGPU Utilization and Accounting
  * This chapter describes operations that are associated with vGPU Utilization and Accounting.
  *  @{
  */
@@ -7072,7 +7082,8 @@ nvmlReturn_t DECLDIR nvmlGetBlacklistDeviceInfoByIndex(unsigned int index, nvmlB
 #define NVML_GPU_INSTANCE_PROFILE_4_SLICE 0x3
 #define NVML_GPU_INSTANCE_PROFILE_7_SLICE 0x4
 #define NVML_GPU_INSTANCE_PROFILE_8_SLICE 0x5
-#define NVML_GPU_INSTANCE_PROFILE_COUNT   0x6
+#define NVML_GPU_INSTANCE_PROFILE_6_SLICE 0x6
+#define NVML_GPU_INSTANCE_PROFILE_COUNT   0x7
 
 typedef struct nvmlGpuInstancePlacement_st
 {
@@ -7120,7 +7131,8 @@ typedef struct
 #define NVML_COMPUTE_INSTANCE_PROFILE_4_SLICE 0x3
 #define NVML_COMPUTE_INSTANCE_PROFILE_7_SLICE 0x4
 #define NVML_COMPUTE_INSTANCE_PROFILE_8_SLICE 0x5
-#define NVML_COMPUTE_INSTANCE_PROFILE_COUNT   0x6
+#define NVML_COMPUTE_INSTANCE_PROFILE_6_SLICE 0x6
+#define NVML_COMPUTE_INSTANCE_PROFILE_COUNT   0x7
 
 #define NVML_COMPUTE_INSTANCE_ENGINE_PROFILE_SHARED 0x0 //!< All the engines except multiprocessors would be shared
 #define NVML_COMPUTE_INSTANCE_ENGINE_PROFILE_COUNT  0x1
@@ -7312,6 +7324,33 @@ nvmlReturn_t DECLDIR nvmlDeviceGetGpuInstanceRemainingCapacity(nvmlDevice_t devi
 nvmlReturn_t DECLDIR nvmlDeviceCreateGpuInstance(nvmlDevice_t device, unsigned int profileId,
                                                  nvmlGpuInstance_t *gpuInstance);
 
+/**
+ * Create GPU instance with the specified placement.
+ *
+ * For Ampere &tm; or newer fully supported devices.
+ * Supported on Linux only.
+ * Requires privileged user.
+ *
+ * If the parent device is unbound, reset or the GPU instance is destroyed explicitly, the GPU instance handle would
+ * become invalid. The GPU instance must be recreated to acquire a valid handle.
+ *
+ * @param device                               The identifier of the target device
+ * @param profileId                            The GPU instance profile ID. See \ref nvmlDeviceGetGpuInstanceProfileInfo
+ * @param placement                            The requested placement. See \ref nvmlDeviceGetGpuInstancePossiblePlacements
+ * @param gpuInstance                          Returns the GPU instance handle
+ *
+ * @return
+ *         - \ref NVML_SUCCESS                       Upon success
+ *         - \ref NVML_ERROR_UNINITIALIZED           If library has not been successfully initialized
+ *         - \ref NVML_ERROR_INVALID_ARGUMENT        If \a device, \a profile, \a profileId, \a placement or \a gpuInstance
+ *                                                   are invalid
+ *         - \ref NVML_ERROR_NOT_SUPPORTED           If \a device doesn't have MIG mode enabled or in vGPU guest
+ *         - \ref NVML_ERROR_NO_PERMISSION           If user doesn't have permission to perform the operation
+ *         - \ref NVML_ERROR_INSUFFICIENT_RESOURCES  If the requested GPU instance could not be created
+ */
+nvmlReturn_t DECLDIR nvmlDeviceCreateGpuInstanceWithPlacement(nvmlDevice_t device, unsigned int profileId,
+                                                              const nvmlGpuInstancePlacement_t *placement,
+                                                              nvmlGpuInstance_t *gpuInstance);
 /**
  * Destroy GPU instance.
  *

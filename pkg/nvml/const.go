@@ -469,8 +469,10 @@ const (
 	GPU_INSTANCE_PROFILE_7_SLICE = 4
 	// GPU_INSTANCE_PROFILE_8_SLICE as defined in nvml/nvml.h
 	GPU_INSTANCE_PROFILE_8_SLICE = 5
+	// GPU_INSTANCE_PROFILE_6_SLICE as defined in nvml/nvml.h
+	GPU_INSTANCE_PROFILE_6_SLICE = 6
 	// GPU_INSTANCE_PROFILE_COUNT as defined in nvml/nvml.h
-	GPU_INSTANCE_PROFILE_COUNT = 6
+	GPU_INSTANCE_PROFILE_COUNT = 7
 	// COMPUTE_INSTANCE_PROFILE_1_SLICE as defined in nvml/nvml.h
 	COMPUTE_INSTANCE_PROFILE_1_SLICE = 0
 	// COMPUTE_INSTANCE_PROFILE_2_SLICE as defined in nvml/nvml.h
@@ -483,8 +485,10 @@ const (
 	COMPUTE_INSTANCE_PROFILE_7_SLICE = 4
 	// COMPUTE_INSTANCE_PROFILE_8_SLICE as defined in nvml/nvml.h
 	COMPUTE_INSTANCE_PROFILE_8_SLICE = 5
+	// COMPUTE_INSTANCE_PROFILE_6_SLICE as defined in nvml/nvml.h
+	COMPUTE_INSTANCE_PROFILE_6_SLICE = 6
 	// COMPUTE_INSTANCE_PROFILE_COUNT as defined in nvml/nvml.h
-	COMPUTE_INSTANCE_PROFILE_COUNT = 6
+	COMPUTE_INSTANCE_PROFILE_COUNT = 7
 	// COMPUTE_INSTANCE_ENGINE_PROFILE_SHARED as defined in nvml/nvml.h
 	COMPUTE_INSTANCE_ENGINE_PROFILE_SHARED = 0
 	// COMPUTE_INSTANCE_ENGINE_PROFILE_COUNT as defined in nvml/nvml.h
@@ -662,14 +666,24 @@ type BrandType int32
 
 // BrandType enumeration from nvml/nvml.h
 const (
-	BRAND_UNKNOWN BrandType = iota
-	BRAND_QUADRO  BrandType = 1
-	BRAND_TESLA   BrandType = 2
-	BRAND_NVS     BrandType = 3
-	BRAND_GRID    BrandType = 4
-	BRAND_GEFORCE BrandType = 5
-	BRAND_TITAN   BrandType = 6
-	BRAND_COUNT   BrandType = 7
+	BRAND_UNKNOWN        BrandType = iota
+	BRAND_QUADRO         BrandType = 1
+	BRAND_TESLA          BrandType = 2
+	BRAND_NVS            BrandType = 3
+	BRAND_GRID           BrandType = 4
+	BRAND_GEFORCE        BrandType = 5
+	BRAND_TITAN          BrandType = 6
+	BRAND_NVIDIA_VAPPS   BrandType = 7
+	BRAND_NVIDIA_VPC     BrandType = 8
+	BRAND_NVIDIA_VCS     BrandType = 9
+	BRAND_NVIDIA_VWS     BrandType = 10
+	BRAND_NVIDIA_VGAMING BrandType = 11
+	BRAND_QUADRO_RTX     BrandType = 12
+	BRAND_NVIDIA_RTX     BrandType = 13
+	BRAND_NVIDIA         BrandType = 14
+	BRAND_GEFORCE_RTX    BrandType = 15
+	BRAND_TITAN_RTX      BrandType = 16
+	BRAND_COUNT          BrandType = 17
 )
 
 // TemperatureThresholds as declared in nvml/nvml.h

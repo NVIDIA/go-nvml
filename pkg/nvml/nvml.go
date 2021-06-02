@@ -2037,6 +2037,17 @@ func nvmlDeviceCreateGpuInstance(Device Device, ProfileId uint32, GpuInstance *G
 	return __v
 }
 
+// nvmlDeviceCreateGpuInstanceWithPlacement function as declared in nvml/nvml.h
+func nvmlDeviceCreateGpuInstanceWithPlacement(Device Device, ProfileId uint32, Placement *GpuInstancePlacement, GpuInstance *GpuInstance) Return {
+	cDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
+	cProfileId, _ := (C.uint)(ProfileId), cgoAllocsUnknown
+	cPlacement, _ := (*C.nvmlGpuInstancePlacement_t)(unsafe.Pointer(Placement)), cgoAllocsUnknown
+	cGpuInstance, _ := (*C.nvmlGpuInstance_t)(unsafe.Pointer(GpuInstance)), cgoAllocsUnknown
+	__ret := C.nvmlDeviceCreateGpuInstanceWithPlacement(cDevice, cProfileId, cPlacement, cGpuInstance)
+	__v := (Return)(__ret)
+	return __v
+}
+
 // nvmlGpuInstanceDestroy function as declared in nvml/nvml.h
 func nvmlGpuInstanceDestroy(GpuInstance GpuInstance) Return {
 	cGpuInstance, _ := *(*C.nvmlGpuInstance_t)(unsafe.Pointer(&GpuInstance)), cgoAllocsUnknown
