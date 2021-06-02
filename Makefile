@@ -77,7 +77,16 @@ clean-bindings:
 # Update nvml.h from the specied CUDA_VERSION development image
 update-nvml-h: CUDA_MAJOR := $(word 1,$(subst ., ,$(CUDA_VERSION)))
 update-nvml-h: CUDA_MINOR := $(word 2,$(subst ., ,$(CUDA_VERSION)))
-update-nvml-h:
+update-nvml-h: .copy-nvml-h
+	$(DOCKER) run \
+		--rm \
+		-v $(PWD):$(PWD) \
+		-w $(PWD) \
+		--user $$(id -u):$$(id -g) \
+		nvidia/cuda:$(CUDA_VERSION)-devel \
+			sed -i -E 's#[[:blank:]]+$$##g' $(GEN_BINDINGS_DIR)/nvml.h
+
+.copy-nvml-h:
 	if [[ $(CUDA_VERSION) == "" ]]; then echo "define CUDA_VERSION to update"; exit 1; fi
 	$(DOCKER) run \
 		--rm \
