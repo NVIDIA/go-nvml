@@ -312,6 +312,17 @@ func (VgpuInstance VgpuInstance) GetFBCSessions() (int, FBCSessionInfo, Return) 
 	return VgpuInstanceGetFBCSessions(VgpuInstance)
 }
 
+// nvml.VgpuInstanceGetGpuInstanceId()
+func VgpuInstanceGetGpuInstanceId(VgpuInstance VgpuInstance) (int, Return) {
+	var gpuInstanceId uint32
+	ret := nvmlVgpuInstanceGetGpuInstanceId(VgpuInstance, &gpuInstanceId)
+	return int(gpuInstanceId), SessionInfo, ret
+}
+
+func (VgpuInstance VgpuInstance) GetGpuInstanceId() (int, Return) {
+	return VgpuInstanceGetGpuInstanceId(VgpuInstance)
+}
+
 // nvml.VgpuInstanceGetMetadata()
 func VgpuInstanceGetMetadata(VgpuInstance VgpuInstance) (VgpuMetadata, Return) {
 	var VgpuMetadata VgpuMetadata

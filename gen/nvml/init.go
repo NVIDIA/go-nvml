@@ -90,6 +90,7 @@ var nvmlDeviceRemoveGpu = nvmlDeviceRemoveGpu_v1
 var nvmlDeviceGetGridLicensableFeatures = nvmlDeviceGetGridLicensableFeatures_v1
 var nvmlEventSetWait = nvmlEventSetWait_v1
 var nvmlDeviceGetAttributes = nvmlDeviceGetAttributes_v1
+var nvmlComputeInstanceGetInfo = nvmlComputeInstanceGetInfo_v1
 var nvmlDeviceGetComputeRunningProcesses = nvmlDeviceGetComputeRunningProcesses_v1
 var nvmlDeviceGetGraphicsRunningProcesses = nvmlDeviceGetGraphicsRunningProcesses_v1
 
@@ -144,6 +145,10 @@ func updateVersionedSymbols() {
 	err = nvml.Lookup("nvmlDeviceGetAttributes_v2")
 	if err == nil {
 		nvmlDeviceGetAttributes = nvmlDeviceGetAttributes_v2
+	}
+	err = nvml.Lookup("nvmlComputeInstanceGetInfo_v2")
+	if err == nil {
+		nvmlComputeInstanceGetInfo = nvmlComputeInstanceGetInfo_v2
 	}
 	err = nvml.Lookup("nvmlDeviceGetComputeRunningProcesses_v2")
 	if err == nil {

@@ -77,6 +77,7 @@ TRANSLATOR:
       - {action: replace, from: "^nvmlDeviceGetGridLicensableFeatures$", to: "nvmlDeviceGetGridLicensableFeatures_v1"}
       - {action: replace, from: "^nvmlEventSetWait$", to: "nvmlEventSetWait_v1"}
       - {action: replace, from: "^nvmlDeviceGetAttributes$", to: "nvmlDeviceGetAttributes_v1"}
+      - {action: replace, from: "^nvmlComputeInstanceGetInfo$", to: "nvmlComputeInstanceGetInfo_v1"}
       - {action: replace, from: "^nvmlDeviceGetComputeRunningProcesses$", to: "nvmlDeviceGetComputeRunningProcesses_v1"}
       - {action: replace, from: "^nvmlDeviceGetGraphicsRunningProcesses$", to: "nvmlDeviceGetGraphicsRunningProcesses_v1"}
       - {transform: unexport}
