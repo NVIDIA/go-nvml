@@ -321,6 +321,11 @@ type GpuInstance struct {
 	Handle *_Ctype_struct_nvmlGpuInstance_st
 }
 
+type ComputeInstancePlacement struct {
+	Start uint32
+	Size  uint32
+}
+
 type ComputeInstanceProfileInfo struct {
 	Id                    uint32
 	SliceCount            uint32
@@ -338,6 +343,7 @@ type ComputeInstanceInfo struct {
 	GpuInstance GpuInstance
 	Id          uint32
 	ProfileId   uint32
+	Placement   ComputeInstancePlacement
 }
 
 type ComputeInstance struct {

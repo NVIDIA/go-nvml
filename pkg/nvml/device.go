@@ -550,6 +550,16 @@ func (Device Device) GetTemperatureThreshold(ThresholdType TemperatureThresholds
 	return DeviceGetTemperatureThreshold(Device, ThresholdType)
 }
 
+// nvml.DeviceSetTemperatureThreshold()
+func DeviceSetTemperatureThreshold(Device Device, ThresholdType TemperatureThresholds, Temp int) Return {
+	ret := nvmlDeviceSetTemperatureThreshold(Device, ThresholdType, &Temp)
+	return ret
+}
+
+func (Device Device) SetTemperatureThreshold(ThresholdType TemperatureThresholds, Temp int) Return {
+	return DeviceSetTemperatureThreshold(Device, ThresholdType, Temp)
+}
+
 // nvml.DeviceGetPerformanceState()
 func DeviceGetPerformanceState(Device Device) (Pstates, Return) {
 	var PState Pstates

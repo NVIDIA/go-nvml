@@ -369,8 +369,10 @@ const (
 	FI_DEV_REMAPPED_FAILURE = 145
 	// FI_DEV_NVLINK_REMOTE_NVLINK_ID as defined in nvml/nvml.h
 	FI_DEV_NVLINK_REMOTE_NVLINK_ID = 146
+	// FI_DEV_NVSWITCH_CONNECTED_LINK_COUNT as defined in nvml/nvml.h
+	FI_DEV_NVSWITCH_CONNECTED_LINK_COUNT = 147
 	// FI_MAX as defined in nvml/nvml.h
-	FI_MAX = 147
+	FI_MAX = 148
 	// EventTypeSingleBitEccError as defined in nvml/nvml.h
 	EventTypeSingleBitEccError = 1
 	// EventTypeDoubleBitEccError as defined in nvml/nvml.h
@@ -675,11 +677,14 @@ type TemperatureThresholds int32
 
 // TemperatureThresholds enumeration from nvml/nvml.h
 const (
-	TEMPERATURE_THRESHOLD_SHUTDOWN TemperatureThresholds = iota
-	TEMPERATURE_THRESHOLD_SLOWDOWN TemperatureThresholds = 1
-	TEMPERATURE_THRESHOLD_MEM_MAX  TemperatureThresholds = 2
-	TEMPERATURE_THRESHOLD_GPU_MAX  TemperatureThresholds = 3
-	TEMPERATURE_THRESHOLD_COUNT    TemperatureThresholds = 4
+	TEMPERATURE_THRESHOLD_SHUTDOWN      TemperatureThresholds = iota
+	TEMPERATURE_THRESHOLD_SLOWDOWN      TemperatureThresholds = 1
+	TEMPERATURE_THRESHOLD_MEM_MAX       TemperatureThresholds = 2
+	TEMPERATURE_THRESHOLD_GPU_MAX       TemperatureThresholds = 3
+	TEMPERATURE_THRESHOLD_ACOUSTIC_MIN  TemperatureThresholds = 4
+	TEMPERATURE_THRESHOLD_ACOUSTIC_CURR TemperatureThresholds = 5
+	TEMPERATURE_THRESHOLD_ACOUSTIC_MAX  TemperatureThresholds = 6
+	TEMPERATURE_THRESHOLD_COUNT         TemperatureThresholds = 7
 )
 
 // TemperatureSensors as declared in nvml/nvml.h
