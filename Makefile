@@ -42,7 +42,7 @@ patch-nvml-h: $(PKG_BINDINGS_DIR)/nvml.h
 $(PKG_BINDINGS_DIR)/nvml.h: $(GEN_BINDINGS_DIR)/nvml.h | $(PKG_BINDINGS_DIR)
 	sed -E 's#(typedef\s+struct)\s+(nvml.*_st\*)\s+(nvml.*_t);#\1\n{\n    struct \2 handle;\n} \3;#g' $(<) > $(@)
 
-bindings: .create-bindings .strip-autogen-comment
+bindings: .create-bindings .strip-autogen-comment .strip-nvml-h-linenumber
 
 .create-bindings: $(PKG_BINDINGS_DIR)/nvml.h $(SOURCES) | $(PKG_BINDINGS_DIR)
 	c-for-go -out $(PKG_DIR) $(GEN_BINDINGS_DIR)/nvml.yml
@@ -53,11 +53,18 @@ bindings: .create-bindings .strip-autogen-comment
 	cd -> /dev/null
 	rm -rf $(PKG_BINDINGS_DIR)/types.go $(PKG_BINDINGS_DIR)/_obj
 
-SED_SEARCH_STRING := WARNING: This file has automatically been generated on
-SED_REPLACE_STRING := WARNING: THIS FILE WAS AUTOMATICALLY GENERATED.
+.strip-autogen-comment: SED_SEARCH_STRING := // WARNING: This file has automatically been generated on
+.strip-autogen-comment: SED_REPLACE_STRING := // WARNING: THIS FILE WAS AUTOMATICALLY GENERATED.
 .strip-autogen-comment: | .create-bindings
-	grep -l -R "// WARNING: This file has automatically been generated on" pkg \
-		| xargs sed -i -E 's/ $(SED_SEARCH_STRING).*$$/ $(SED_REPLACE_STRING)/g'
+	grep -l -R "$(SED_SEARCH_STRING)" pkg \
+		| xargs sed -i -E 's#$(SED_SEARCH_STRING).*$$#$(SED_REPLACE_STRING)#g'
+
+.strip-nvml-h-linenumber: SED_SEARCH_STRING := // (.*) nvml/nvml.h:[0-9]+
+.strip-nvml-h-linenumber: SED_REPLACE_STRING := // \1 nvml/nvml.h
+.strip-nvml-h-linenumber: | .create-bindings
+	grep -l -RE "$(SED_SEARCH_STRING)" pkg \
+		| xargs sed -i -E 's#$(SED_SEARCH_STRING)$$#$(SED_REPLACE_STRING)#g'
+
 
 test-bindings: bindings
 	cd $(PKG_BINDINGS_DIR); \
@@ -68,7 +75,18 @@ clean-bindings:
 	rm -rf $(PKG_BINDINGS_DIR)
 
 # Update nvml.h from the specied CUDA_VERSION development image
-update-nvml-h:
+update-nvml-h: CUDA_MAJOR := $(word 1,$(subst ., ,$(CUDA_VERSION)))
+update-nvml-h: CUDA_MINOR := $(word 2,$(subst ., ,$(CUDA_VERSION)))
+update-nvml-h: .copy-nvml-h
+	$(DOCKER) run \
+		--rm \
+		-v $(PWD):$(PWD) \
+		-w $(PWD) \
+		--user $$(id -u):$$(id -g) \
+		nvidia/cuda:$(CUDA_VERSION)-devel \
+			sed -i -E 's#[[:blank:]]+$$##g' $(GEN_BINDINGS_DIR)/nvml.h
+
+.copy-nvml-h:
 	if [[ $(CUDA_VERSION) == "" ]]; then echo "define CUDA_VERSION to update"; exit 1; fi
 	$(DOCKER) run \
 		--rm \
@@ -76,7 +94,7 @@ update-nvml-h:
 		-w $(PWD) \
 		--user $$(id -u):$$(id -g) \
 		nvidia/cuda:$(CUDA_VERSION)-devel \
-			cp /usr/local/cuda-$(CUDA_VERSION)/targets/x86_64-linux/include/nvml.h $(GEN_BINDINGS_DIR)
+			cp /usr/local/cuda-$(CUDA_MAJOR).$(CUDA_MINOR)/targets/x86_64-linux/include/nvml.h $(GEN_BINDINGS_DIR)
 
 # Generate an image for containerized builds
 # Note: This image is local only

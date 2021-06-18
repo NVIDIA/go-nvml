@@ -550,6 +550,16 @@ func (Device Device) GetTemperatureThreshold(ThresholdType TemperatureThresholds
 	return DeviceGetTemperatureThreshold(Device, ThresholdType)
 }
 
+// nvml.DeviceSetTemperatureThreshold()
+func DeviceSetTemperatureThreshold(Device Device, ThresholdType TemperatureThresholds, Temp int) Return {
+	ret := nvmlDeviceSetTemperatureThreshold(Device, ThresholdType, &Temp)
+	return ret
+}
+
+func (Device Device) SetTemperatureThreshold(ThresholdType TemperatureThresholds, Temp int) Return {
+	return DeviceSetTemperatureThreshold(Device, ThresholdType, Temp)
+}
+
 // nvml.DeviceGetPerformanceState()
 func DeviceGetPerformanceState(Device Device) (Pstates, Return) {
 	var PState Pstates
@@ -1762,6 +1772,20 @@ func DeviceCreateGpuInstance(Device Device, Info *GpuInstanceProfileInfo) (GpuIn
 
 func (Device Device) CreateGpuInstance(Info *GpuInstanceProfileInfo) (GpuInstance, Return) {
 	return DeviceCreateGpuInstance(Device, Info)
+}
+
+// nvml.DeviceCreateGpuInstanceWithPlacement()
+func DeviceCreateGpuInstanceWithPlacement(Device Device, Info *GpuInstanceProfileInfo, Placement *GpuInstancePlacement) (GpuInstance, Return) {
+	if Info == nil {
+		return GpuInstance{}, ERROR_INVALID_ARGUMENT
+	}
+	var GpuInstance GpuInstance
+	ret := nvmlDeviceCreateGpuInstanceWithPlacement(Device, Info.Id, Placement, &GpuInstance)
+	return GpuInstance, ret
+}
+
+func (Device Device) CreateGpuInstanceWithPlacement(Info *GpuInstanceProfileInfo, Placement *GpuInstancePlacement) (GpuInstance, Return) {
+	return DeviceCreateGpuInstanceWithPlacement(Device, Info, Placement)
 }
 
 // nvml.GpuInstanceDestroy()

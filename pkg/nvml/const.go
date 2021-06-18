@@ -29,479 +29,485 @@ import "C"
 const (
 	// NO_UNVERSIONED_FUNC_DEFS as defined in go-nvml/<predefine>:24
 	NO_UNVERSIONED_FUNC_DEFS = 1
-	// API_VERSION as defined in nvml/nvml.h:98
+	// API_VERSION as defined in nvml/nvml.h
 	API_VERSION = 11
-	// API_VERSION_STR as defined in nvml/nvml.h:99
+	// API_VERSION_STR as defined in nvml/nvml.h
 	API_VERSION_STR = "11"
-	// VALUE_NOT_AVAILABLE as defined in nvml/nvml.h:132
+	// VALUE_NOT_AVAILABLE as defined in nvml/nvml.h
 	VALUE_NOT_AVAILABLE = -1
-	// DEVICE_PCI_BUS_ID_BUFFER_SIZE as defined in nvml/nvml.h:139
+	// DEVICE_PCI_BUS_ID_BUFFER_SIZE as defined in nvml/nvml.h
 	DEVICE_PCI_BUS_ID_BUFFER_SIZE = 32
-	// DEVICE_PCI_BUS_ID_BUFFER_V2_SIZE as defined in nvml/nvml.h:144
+	// DEVICE_PCI_BUS_ID_BUFFER_V2_SIZE as defined in nvml/nvml.h
 	DEVICE_PCI_BUS_ID_BUFFER_V2_SIZE = 16
-	// DEVICE_PCI_BUS_ID_LEGACY_FMT as defined in nvml/nvml.h:166
+	// DEVICE_PCI_BUS_ID_LEGACY_FMT as defined in nvml/nvml.h
 	DEVICE_PCI_BUS_ID_LEGACY_FMT = "%04X:%02X:%02X.0"
-	// DEVICE_PCI_BUS_ID_FMT as defined in nvml/nvml.h:171
+	// DEVICE_PCI_BUS_ID_FMT as defined in nvml/nvml.h
 	DEVICE_PCI_BUS_ID_FMT = "%08X:%02X:%02X.0"
-	// NVLINK_MAX_LINKS as defined in nvml/nvml.h:279
+	// NVLINK_MAX_LINKS as defined in nvml/nvml.h
 	NVLINK_MAX_LINKS = 12
-	// TOPOLOGY_CPU as defined in nvml/nvml.h:369
+	// TOPOLOGY_CPU as defined in nvml/nvml.h
 	TOPOLOGY_CPU = 0
-	// MAX_PHYSICAL_BRIDGE as defined in nvml/nvml.h:398
+	// MAX_PHYSICAL_BRIDGE as defined in nvml/nvml.h
 	MAX_PHYSICAL_BRIDGE = 128
-	// FlagDefault as defined in nvml/nvml.h:531
+	// FlagDefault as defined in nvml/nvml.h
 	FlagDefault = 0
-	// FlagForce as defined in nvml/nvml.h:533
+	// FlagForce as defined in nvml/nvml.h
 	FlagForce = 1
-	// SINGLE_BIT_ECC as defined in nvml/nvml.h:607
+	// SINGLE_BIT_ECC as defined in nvml/nvml.h
 	SINGLE_BIT_ECC = 0
-	// DOUBLE_BIT_ECC as defined in nvml/nvml.h:614
+	// DOUBLE_BIT_ECC as defined in nvml/nvml.h
 	DOUBLE_BIT_ECC = 0
-	// GRID_LICENSE_BUFFER_SIZE as defined in nvml/nvml.h:901
+	// GRID_LICENSE_BUFFER_SIZE as defined in nvml/nvml.h
 	GRID_LICENSE_BUFFER_SIZE = 128
-	// VGPU_NAME_BUFFER_SIZE as defined in nvml/nvml.h:903
+	// VGPU_NAME_BUFFER_SIZE as defined in nvml/nvml.h
 	VGPU_NAME_BUFFER_SIZE = 64
-	// GRID_LICENSE_FEATURE_MAX_COUNT as defined in nvml/nvml.h:905
+	// GRID_LICENSE_FEATURE_MAX_COUNT as defined in nvml/nvml.h
 	GRID_LICENSE_FEATURE_MAX_COUNT = 3
-	// DEVICE_ARCH_KEPLER as defined in nvml/nvml.h:1001
+	// DEVICE_ARCH_KEPLER as defined in nvml/nvml.h
 	DEVICE_ARCH_KEPLER = 2
-	// DEVICE_ARCH_MAXWELL as defined in nvml/nvml.h:1002
+	// DEVICE_ARCH_MAXWELL as defined in nvml/nvml.h
 	DEVICE_ARCH_MAXWELL = 3
-	// DEVICE_ARCH_PASCAL as defined in nvml/nvml.h:1003
+	// DEVICE_ARCH_PASCAL as defined in nvml/nvml.h
 	DEVICE_ARCH_PASCAL = 4
-	// DEVICE_ARCH_VOLTA as defined in nvml/nvml.h:1004
+	// DEVICE_ARCH_VOLTA as defined in nvml/nvml.h
 	DEVICE_ARCH_VOLTA = 5
-	// DEVICE_ARCH_TURING as defined in nvml/nvml.h:1005
+	// DEVICE_ARCH_TURING as defined in nvml/nvml.h
 	DEVICE_ARCH_TURING = 6
-	// DEVICE_ARCH_AMPERE as defined in nvml/nvml.h:1007
+	// DEVICE_ARCH_AMPERE as defined in nvml/nvml.h
 	DEVICE_ARCH_AMPERE = 7
-	// DEVICE_ARCH_UNKNOWN as defined in nvml/nvml.h:1009
+	// DEVICE_ARCH_UNKNOWN as defined in nvml/nvml.h
 	DEVICE_ARCH_UNKNOWN = 4294967295
-	// FI_DEV_ECC_CURRENT as defined in nvml/nvml.h:1027
+	// FI_DEV_ECC_CURRENT as defined in nvml/nvml.h
 	FI_DEV_ECC_CURRENT = 1
-	// FI_DEV_ECC_PENDING as defined in nvml/nvml.h:1028
+	// FI_DEV_ECC_PENDING as defined in nvml/nvml.h
 	FI_DEV_ECC_PENDING = 2
-	// FI_DEV_ECC_SBE_VOL_TOTAL as defined in nvml/nvml.h:1030
+	// FI_DEV_ECC_SBE_VOL_TOTAL as defined in nvml/nvml.h
 	FI_DEV_ECC_SBE_VOL_TOTAL = 3
-	// FI_DEV_ECC_DBE_VOL_TOTAL as defined in nvml/nvml.h:1031
+	// FI_DEV_ECC_DBE_VOL_TOTAL as defined in nvml/nvml.h
 	FI_DEV_ECC_DBE_VOL_TOTAL = 4
-	// FI_DEV_ECC_SBE_AGG_TOTAL as defined in nvml/nvml.h:1032
+	// FI_DEV_ECC_SBE_AGG_TOTAL as defined in nvml/nvml.h
 	FI_DEV_ECC_SBE_AGG_TOTAL = 5
-	// FI_DEV_ECC_DBE_AGG_TOTAL as defined in nvml/nvml.h:1033
+	// FI_DEV_ECC_DBE_AGG_TOTAL as defined in nvml/nvml.h
 	FI_DEV_ECC_DBE_AGG_TOTAL = 6
-	// FI_DEV_ECC_SBE_VOL_L1 as defined in nvml/nvml.h:1035
+	// FI_DEV_ECC_SBE_VOL_L1 as defined in nvml/nvml.h
 	FI_DEV_ECC_SBE_VOL_L1 = 7
-	// FI_DEV_ECC_DBE_VOL_L1 as defined in nvml/nvml.h:1036
+	// FI_DEV_ECC_DBE_VOL_L1 as defined in nvml/nvml.h
 	FI_DEV_ECC_DBE_VOL_L1 = 8
-	// FI_DEV_ECC_SBE_VOL_L2 as defined in nvml/nvml.h:1037
+	// FI_DEV_ECC_SBE_VOL_L2 as defined in nvml/nvml.h
 	FI_DEV_ECC_SBE_VOL_L2 = 9
-	// FI_DEV_ECC_DBE_VOL_L2 as defined in nvml/nvml.h:1038
+	// FI_DEV_ECC_DBE_VOL_L2 as defined in nvml/nvml.h
 	FI_DEV_ECC_DBE_VOL_L2 = 10
-	// FI_DEV_ECC_SBE_VOL_DEV as defined in nvml/nvml.h:1039
+	// FI_DEV_ECC_SBE_VOL_DEV as defined in nvml/nvml.h
 	FI_DEV_ECC_SBE_VOL_DEV = 11
-	// FI_DEV_ECC_DBE_VOL_DEV as defined in nvml/nvml.h:1040
+	// FI_DEV_ECC_DBE_VOL_DEV as defined in nvml/nvml.h
 	FI_DEV_ECC_DBE_VOL_DEV = 12
-	// FI_DEV_ECC_SBE_VOL_REG as defined in nvml/nvml.h:1041
+	// FI_DEV_ECC_SBE_VOL_REG as defined in nvml/nvml.h
 	FI_DEV_ECC_SBE_VOL_REG = 13
-	// FI_DEV_ECC_DBE_VOL_REG as defined in nvml/nvml.h:1042
+	// FI_DEV_ECC_DBE_VOL_REG as defined in nvml/nvml.h
 	FI_DEV_ECC_DBE_VOL_REG = 14
-	// FI_DEV_ECC_SBE_VOL_TEX as defined in nvml/nvml.h:1043
+	// FI_DEV_ECC_SBE_VOL_TEX as defined in nvml/nvml.h
 	FI_DEV_ECC_SBE_VOL_TEX = 15
-	// FI_DEV_ECC_DBE_VOL_TEX as defined in nvml/nvml.h:1044
+	// FI_DEV_ECC_DBE_VOL_TEX as defined in nvml/nvml.h
 	FI_DEV_ECC_DBE_VOL_TEX = 16
-	// FI_DEV_ECC_DBE_VOL_CBU as defined in nvml/nvml.h:1045
+	// FI_DEV_ECC_DBE_VOL_CBU as defined in nvml/nvml.h
 	FI_DEV_ECC_DBE_VOL_CBU = 17
-	// FI_DEV_ECC_SBE_AGG_L1 as defined in nvml/nvml.h:1046
+	// FI_DEV_ECC_SBE_AGG_L1 as defined in nvml/nvml.h
 	FI_DEV_ECC_SBE_AGG_L1 = 18
-	// FI_DEV_ECC_DBE_AGG_L1 as defined in nvml/nvml.h:1047
+	// FI_DEV_ECC_DBE_AGG_L1 as defined in nvml/nvml.h
 	FI_DEV_ECC_DBE_AGG_L1 = 19
-	// FI_DEV_ECC_SBE_AGG_L2 as defined in nvml/nvml.h:1048
+	// FI_DEV_ECC_SBE_AGG_L2 as defined in nvml/nvml.h
 	FI_DEV_ECC_SBE_AGG_L2 = 20
-	// FI_DEV_ECC_DBE_AGG_L2 as defined in nvml/nvml.h:1049
+	// FI_DEV_ECC_DBE_AGG_L2 as defined in nvml/nvml.h
 	FI_DEV_ECC_DBE_AGG_L2 = 21
-	// FI_DEV_ECC_SBE_AGG_DEV as defined in nvml/nvml.h:1050
+	// FI_DEV_ECC_SBE_AGG_DEV as defined in nvml/nvml.h
 	FI_DEV_ECC_SBE_AGG_DEV = 22
-	// FI_DEV_ECC_DBE_AGG_DEV as defined in nvml/nvml.h:1051
+	// FI_DEV_ECC_DBE_AGG_DEV as defined in nvml/nvml.h
 	FI_DEV_ECC_DBE_AGG_DEV = 23
-	// FI_DEV_ECC_SBE_AGG_REG as defined in nvml/nvml.h:1052
+	// FI_DEV_ECC_SBE_AGG_REG as defined in nvml/nvml.h
 	FI_DEV_ECC_SBE_AGG_REG = 24
-	// FI_DEV_ECC_DBE_AGG_REG as defined in nvml/nvml.h:1053
+	// FI_DEV_ECC_DBE_AGG_REG as defined in nvml/nvml.h
 	FI_DEV_ECC_DBE_AGG_REG = 25
-	// FI_DEV_ECC_SBE_AGG_TEX as defined in nvml/nvml.h:1054
+	// FI_DEV_ECC_SBE_AGG_TEX as defined in nvml/nvml.h
 	FI_DEV_ECC_SBE_AGG_TEX = 26
-	// FI_DEV_ECC_DBE_AGG_TEX as defined in nvml/nvml.h:1055
+	// FI_DEV_ECC_DBE_AGG_TEX as defined in nvml/nvml.h
 	FI_DEV_ECC_DBE_AGG_TEX = 27
-	// FI_DEV_ECC_DBE_AGG_CBU as defined in nvml/nvml.h:1056
+	// FI_DEV_ECC_DBE_AGG_CBU as defined in nvml/nvml.h
 	FI_DEV_ECC_DBE_AGG_CBU = 28
-	// FI_DEV_RETIRED_SBE as defined in nvml/nvml.h:1059
+	// FI_DEV_RETIRED_SBE as defined in nvml/nvml.h
 	FI_DEV_RETIRED_SBE = 29
-	// FI_DEV_RETIRED_DBE as defined in nvml/nvml.h:1060
+	// FI_DEV_RETIRED_DBE as defined in nvml/nvml.h
 	FI_DEV_RETIRED_DBE = 30
-	// FI_DEV_RETIRED_PENDING as defined in nvml/nvml.h:1061
+	// FI_DEV_RETIRED_PENDING as defined in nvml/nvml.h
 	FI_DEV_RETIRED_PENDING = 31
-	// FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L0 as defined in nvml/nvml.h:1064
+	// FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L0 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L0 = 32
-	// FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L1 as defined in nvml/nvml.h:1065
+	// FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L1 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L1 = 33
-	// FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L2 as defined in nvml/nvml.h:1066
+	// FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L2 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L2 = 34
-	// FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L3 as defined in nvml/nvml.h:1067
+	// FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L3 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L3 = 35
-	// FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L4 as defined in nvml/nvml.h:1068
+	// FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L4 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L4 = 36
-	// FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L5 as defined in nvml/nvml.h:1069
+	// FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L5 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L5 = 37
-	// FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_TOTAL as defined in nvml/nvml.h:1070
+	// FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_TOTAL as defined in nvml/nvml.h
 	FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_TOTAL = 38
-	// FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L0 as defined in nvml/nvml.h:1073
+	// FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L0 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L0 = 39
-	// FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L1 as defined in nvml/nvml.h:1074
+	// FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L1 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L1 = 40
-	// FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L2 as defined in nvml/nvml.h:1075
+	// FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L2 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L2 = 41
-	// FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L3 as defined in nvml/nvml.h:1076
+	// FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L3 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L3 = 42
-	// FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L4 as defined in nvml/nvml.h:1077
+	// FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L4 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L4 = 43
-	// FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L5 as defined in nvml/nvml.h:1078
+	// FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L5 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L5 = 44
-	// FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_TOTAL as defined in nvml/nvml.h:1079
+	// FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_TOTAL as defined in nvml/nvml.h
 	FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_TOTAL = 45
-	// FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L0 as defined in nvml/nvml.h:1082
+	// FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L0 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L0 = 46
-	// FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L1 as defined in nvml/nvml.h:1083
+	// FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L1 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L1 = 47
-	// FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L2 as defined in nvml/nvml.h:1084
+	// FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L2 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L2 = 48
-	// FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L3 as defined in nvml/nvml.h:1085
+	// FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L3 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L3 = 49
-	// FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L4 as defined in nvml/nvml.h:1086
+	// FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L4 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L4 = 50
-	// FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L5 as defined in nvml/nvml.h:1087
+	// FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L5 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L5 = 51
-	// FI_DEV_NVLINK_REPLAY_ERROR_COUNT_TOTAL as defined in nvml/nvml.h:1088
+	// FI_DEV_NVLINK_REPLAY_ERROR_COUNT_TOTAL as defined in nvml/nvml.h
 	FI_DEV_NVLINK_REPLAY_ERROR_COUNT_TOTAL = 52
-	// FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L0 as defined in nvml/nvml.h:1091
+	// FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L0 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L0 = 53
-	// FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L1 as defined in nvml/nvml.h:1092
+	// FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L1 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L1 = 54
-	// FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L2 as defined in nvml/nvml.h:1093
+	// FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L2 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L2 = 55
-	// FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L3 as defined in nvml/nvml.h:1094
+	// FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L3 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L3 = 56
-	// FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L4 as defined in nvml/nvml.h:1095
+	// FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L4 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L4 = 57
-	// FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L5 as defined in nvml/nvml.h:1096
+	// FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L5 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L5 = 58
-	// FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_TOTAL as defined in nvml/nvml.h:1097
+	// FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_TOTAL as defined in nvml/nvml.h
 	FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_TOTAL = 59
-	// FI_DEV_NVLINK_BANDWIDTH_C0_L0 as defined in nvml/nvml.h:1108
+	// FI_DEV_NVLINK_BANDWIDTH_C0_L0 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_BANDWIDTH_C0_L0 = 60
-	// FI_DEV_NVLINK_BANDWIDTH_C0_L1 as defined in nvml/nvml.h:1109
+	// FI_DEV_NVLINK_BANDWIDTH_C0_L1 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_BANDWIDTH_C0_L1 = 61
-	// FI_DEV_NVLINK_BANDWIDTH_C0_L2 as defined in nvml/nvml.h:1110
+	// FI_DEV_NVLINK_BANDWIDTH_C0_L2 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_BANDWIDTH_C0_L2 = 62
-	// FI_DEV_NVLINK_BANDWIDTH_C0_L3 as defined in nvml/nvml.h:1111
+	// FI_DEV_NVLINK_BANDWIDTH_C0_L3 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_BANDWIDTH_C0_L3 = 63
-	// FI_DEV_NVLINK_BANDWIDTH_C0_L4 as defined in nvml/nvml.h:1112
+	// FI_DEV_NVLINK_BANDWIDTH_C0_L4 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_BANDWIDTH_C0_L4 = 64
-	// FI_DEV_NVLINK_BANDWIDTH_C0_L5 as defined in nvml/nvml.h:1113
+	// FI_DEV_NVLINK_BANDWIDTH_C0_L5 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_BANDWIDTH_C0_L5 = 65
-	// FI_DEV_NVLINK_BANDWIDTH_C0_TOTAL as defined in nvml/nvml.h:1114
+	// FI_DEV_NVLINK_BANDWIDTH_C0_TOTAL as defined in nvml/nvml.h
 	FI_DEV_NVLINK_BANDWIDTH_C0_TOTAL = 66
-	// FI_DEV_NVLINK_BANDWIDTH_C1_L0 as defined in nvml/nvml.h:1117
+	// FI_DEV_NVLINK_BANDWIDTH_C1_L0 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_BANDWIDTH_C1_L0 = 67
-	// FI_DEV_NVLINK_BANDWIDTH_C1_L1 as defined in nvml/nvml.h:1118
+	// FI_DEV_NVLINK_BANDWIDTH_C1_L1 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_BANDWIDTH_C1_L1 = 68
-	// FI_DEV_NVLINK_BANDWIDTH_C1_L2 as defined in nvml/nvml.h:1119
+	// FI_DEV_NVLINK_BANDWIDTH_C1_L2 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_BANDWIDTH_C1_L2 = 69
-	// FI_DEV_NVLINK_BANDWIDTH_C1_L3 as defined in nvml/nvml.h:1120
+	// FI_DEV_NVLINK_BANDWIDTH_C1_L3 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_BANDWIDTH_C1_L3 = 70
-	// FI_DEV_NVLINK_BANDWIDTH_C1_L4 as defined in nvml/nvml.h:1121
+	// FI_DEV_NVLINK_BANDWIDTH_C1_L4 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_BANDWIDTH_C1_L4 = 71
-	// FI_DEV_NVLINK_BANDWIDTH_C1_L5 as defined in nvml/nvml.h:1122
+	// FI_DEV_NVLINK_BANDWIDTH_C1_L5 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_BANDWIDTH_C1_L5 = 72
-	// FI_DEV_NVLINK_BANDWIDTH_C1_TOTAL as defined in nvml/nvml.h:1123
+	// FI_DEV_NVLINK_BANDWIDTH_C1_TOTAL as defined in nvml/nvml.h
 	FI_DEV_NVLINK_BANDWIDTH_C1_TOTAL = 73
-	// FI_DEV_PERF_POLICY_POWER as defined in nvml/nvml.h:1126
+	// FI_DEV_PERF_POLICY_POWER as defined in nvml/nvml.h
 	FI_DEV_PERF_POLICY_POWER = 74
-	// FI_DEV_PERF_POLICY_THERMAL as defined in nvml/nvml.h:1127
+	// FI_DEV_PERF_POLICY_THERMAL as defined in nvml/nvml.h
 	FI_DEV_PERF_POLICY_THERMAL = 75
-	// FI_DEV_PERF_POLICY_SYNC_BOOST as defined in nvml/nvml.h:1128
+	// FI_DEV_PERF_POLICY_SYNC_BOOST as defined in nvml/nvml.h
 	FI_DEV_PERF_POLICY_SYNC_BOOST = 76
-	// FI_DEV_PERF_POLICY_BOARD_LIMIT as defined in nvml/nvml.h:1129
+	// FI_DEV_PERF_POLICY_BOARD_LIMIT as defined in nvml/nvml.h
 	FI_DEV_PERF_POLICY_BOARD_LIMIT = 77
-	// FI_DEV_PERF_POLICY_LOW_UTILIZATION as defined in nvml/nvml.h:1130
+	// FI_DEV_PERF_POLICY_LOW_UTILIZATION as defined in nvml/nvml.h
 	FI_DEV_PERF_POLICY_LOW_UTILIZATION = 78
-	// FI_DEV_PERF_POLICY_RELIABILITY as defined in nvml/nvml.h:1131
+	// FI_DEV_PERF_POLICY_RELIABILITY as defined in nvml/nvml.h
 	FI_DEV_PERF_POLICY_RELIABILITY = 79
-	// FI_DEV_PERF_POLICY_TOTAL_APP_CLOCKS as defined in nvml/nvml.h:1132
+	// FI_DEV_PERF_POLICY_TOTAL_APP_CLOCKS as defined in nvml/nvml.h
 	FI_DEV_PERF_POLICY_TOTAL_APP_CLOCKS = 80
-	// FI_DEV_PERF_POLICY_TOTAL_BASE_CLOCKS as defined in nvml/nvml.h:1133
+	// FI_DEV_PERF_POLICY_TOTAL_BASE_CLOCKS as defined in nvml/nvml.h
 	FI_DEV_PERF_POLICY_TOTAL_BASE_CLOCKS = 81
-	// FI_DEV_MEMORY_TEMP as defined in nvml/nvml.h:1136
+	// FI_DEV_MEMORY_TEMP as defined in nvml/nvml.h
 	FI_DEV_MEMORY_TEMP = 82
-	// FI_DEV_TOTAL_ENERGY_CONSUMPTION as defined in nvml/nvml.h:1139
+	// FI_DEV_TOTAL_ENERGY_CONSUMPTION as defined in nvml/nvml.h
 	FI_DEV_TOTAL_ENERGY_CONSUMPTION = 83
-	// FI_DEV_NVLINK_SPEED_MBPS_L0 as defined in nvml/nvml.h:1142
+	// FI_DEV_NVLINK_SPEED_MBPS_L0 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_SPEED_MBPS_L0 = 84
-	// FI_DEV_NVLINK_SPEED_MBPS_L1 as defined in nvml/nvml.h:1143
+	// FI_DEV_NVLINK_SPEED_MBPS_L1 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_SPEED_MBPS_L1 = 85
-	// FI_DEV_NVLINK_SPEED_MBPS_L2 as defined in nvml/nvml.h:1144
+	// FI_DEV_NVLINK_SPEED_MBPS_L2 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_SPEED_MBPS_L2 = 86
-	// FI_DEV_NVLINK_SPEED_MBPS_L3 as defined in nvml/nvml.h:1145
+	// FI_DEV_NVLINK_SPEED_MBPS_L3 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_SPEED_MBPS_L3 = 87
-	// FI_DEV_NVLINK_SPEED_MBPS_L4 as defined in nvml/nvml.h:1146
+	// FI_DEV_NVLINK_SPEED_MBPS_L4 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_SPEED_MBPS_L4 = 88
-	// FI_DEV_NVLINK_SPEED_MBPS_L5 as defined in nvml/nvml.h:1147
+	// FI_DEV_NVLINK_SPEED_MBPS_L5 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_SPEED_MBPS_L5 = 89
-	// FI_DEV_NVLINK_SPEED_MBPS_COMMON as defined in nvml/nvml.h:1148
+	// FI_DEV_NVLINK_SPEED_MBPS_COMMON as defined in nvml/nvml.h
 	FI_DEV_NVLINK_SPEED_MBPS_COMMON = 90
-	// FI_DEV_NVLINK_LINK_COUNT as defined in nvml/nvml.h:1150
+	// FI_DEV_NVLINK_LINK_COUNT as defined in nvml/nvml.h
 	FI_DEV_NVLINK_LINK_COUNT = 91
-	// FI_DEV_RETIRED_PENDING_SBE as defined in nvml/nvml.h:1152
+	// FI_DEV_RETIRED_PENDING_SBE as defined in nvml/nvml.h
 	FI_DEV_RETIRED_PENDING_SBE = 92
-	// FI_DEV_RETIRED_PENDING_DBE as defined in nvml/nvml.h:1153
+	// FI_DEV_RETIRED_PENDING_DBE as defined in nvml/nvml.h
 	FI_DEV_RETIRED_PENDING_DBE = 93
-	// FI_DEV_PCIE_REPLAY_COUNTER as defined in nvml/nvml.h:1155
+	// FI_DEV_PCIE_REPLAY_COUNTER as defined in nvml/nvml.h
 	FI_DEV_PCIE_REPLAY_COUNTER = 94
-	// FI_DEV_PCIE_REPLAY_ROLLOVER_COUNTER as defined in nvml/nvml.h:1156
+	// FI_DEV_PCIE_REPLAY_ROLLOVER_COUNTER as defined in nvml/nvml.h
 	FI_DEV_PCIE_REPLAY_ROLLOVER_COUNTER = 95
-	// FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L6 as defined in nvml/nvml.h:1159
+	// FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L6 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L6 = 96
-	// FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L7 as defined in nvml/nvml.h:1160
+	// FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L7 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L7 = 97
-	// FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L8 as defined in nvml/nvml.h:1161
+	// FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L8 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L8 = 98
-	// FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L9 as defined in nvml/nvml.h:1162
+	// FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L9 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L9 = 99
-	// FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L10 as defined in nvml/nvml.h:1163
+	// FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L10 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L10 = 100
-	// FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L11 as defined in nvml/nvml.h:1164
+	// FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L11 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_CRC_FLIT_ERROR_COUNT_L11 = 101
-	// FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L6 as defined in nvml/nvml.h:1167
+	// FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L6 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L6 = 102
-	// FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L7 as defined in nvml/nvml.h:1168
+	// FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L7 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L7 = 103
-	// FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L8 as defined in nvml/nvml.h:1169
+	// FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L8 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L8 = 104
-	// FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L9 as defined in nvml/nvml.h:1170
+	// FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L9 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L9 = 105
-	// FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L10 as defined in nvml/nvml.h:1171
+	// FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L10 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L10 = 106
-	// FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L11 as defined in nvml/nvml.h:1172
+	// FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L11 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_CRC_DATA_ERROR_COUNT_L11 = 107
-	// FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L6 as defined in nvml/nvml.h:1175
+	// FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L6 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L6 = 108
-	// FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L7 as defined in nvml/nvml.h:1176
+	// FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L7 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L7 = 109
-	// FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L8 as defined in nvml/nvml.h:1177
+	// FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L8 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L8 = 110
-	// FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L9 as defined in nvml/nvml.h:1178
+	// FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L9 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L9 = 111
-	// FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L10 as defined in nvml/nvml.h:1179
+	// FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L10 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L10 = 112
-	// FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L11 as defined in nvml/nvml.h:1180
+	// FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L11 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_REPLAY_ERROR_COUNT_L11 = 113
-	// FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L6 as defined in nvml/nvml.h:1183
+	// FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L6 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L6 = 114
-	// FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L7 as defined in nvml/nvml.h:1184
+	// FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L7 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L7 = 115
-	// FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L8 as defined in nvml/nvml.h:1185
+	// FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L8 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L8 = 116
-	// FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L9 as defined in nvml/nvml.h:1186
+	// FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L9 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L9 = 117
-	// FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L10 as defined in nvml/nvml.h:1187
+	// FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L10 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L10 = 118
-	// FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L11 as defined in nvml/nvml.h:1188
+	// FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L11 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_RECOVERY_ERROR_COUNT_L11 = 119
-	// FI_DEV_NVLINK_BANDWIDTH_C0_L6 as defined in nvml/nvml.h:1199
+	// FI_DEV_NVLINK_BANDWIDTH_C0_L6 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_BANDWIDTH_C0_L6 = 120
-	// FI_DEV_NVLINK_BANDWIDTH_C0_L7 as defined in nvml/nvml.h:1200
+	// FI_DEV_NVLINK_BANDWIDTH_C0_L7 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_BANDWIDTH_C0_L7 = 121
-	// FI_DEV_NVLINK_BANDWIDTH_C0_L8 as defined in nvml/nvml.h:1201
+	// FI_DEV_NVLINK_BANDWIDTH_C0_L8 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_BANDWIDTH_C0_L8 = 122
-	// FI_DEV_NVLINK_BANDWIDTH_C0_L9 as defined in nvml/nvml.h:1202
+	// FI_DEV_NVLINK_BANDWIDTH_C0_L9 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_BANDWIDTH_C0_L9 = 123
-	// FI_DEV_NVLINK_BANDWIDTH_C0_L10 as defined in nvml/nvml.h:1203
+	// FI_DEV_NVLINK_BANDWIDTH_C0_L10 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_BANDWIDTH_C0_L10 = 124
-	// FI_DEV_NVLINK_BANDWIDTH_C0_L11 as defined in nvml/nvml.h:1204
+	// FI_DEV_NVLINK_BANDWIDTH_C0_L11 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_BANDWIDTH_C0_L11 = 125
-	// FI_DEV_NVLINK_BANDWIDTH_C1_L6 as defined in nvml/nvml.h:1207
+	// FI_DEV_NVLINK_BANDWIDTH_C1_L6 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_BANDWIDTH_C1_L6 = 126
-	// FI_DEV_NVLINK_BANDWIDTH_C1_L7 as defined in nvml/nvml.h:1208
+	// FI_DEV_NVLINK_BANDWIDTH_C1_L7 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_BANDWIDTH_C1_L7 = 127
-	// FI_DEV_NVLINK_BANDWIDTH_C1_L8 as defined in nvml/nvml.h:1209
+	// FI_DEV_NVLINK_BANDWIDTH_C1_L8 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_BANDWIDTH_C1_L8 = 128
-	// FI_DEV_NVLINK_BANDWIDTH_C1_L9 as defined in nvml/nvml.h:1210
+	// FI_DEV_NVLINK_BANDWIDTH_C1_L9 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_BANDWIDTH_C1_L9 = 129
-	// FI_DEV_NVLINK_BANDWIDTH_C1_L10 as defined in nvml/nvml.h:1211
+	// FI_DEV_NVLINK_BANDWIDTH_C1_L10 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_BANDWIDTH_C1_L10 = 130
-	// FI_DEV_NVLINK_BANDWIDTH_C1_L11 as defined in nvml/nvml.h:1212
+	// FI_DEV_NVLINK_BANDWIDTH_C1_L11 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_BANDWIDTH_C1_L11 = 131
-	// FI_DEV_NVLINK_SPEED_MBPS_L6 as defined in nvml/nvml.h:1215
+	// FI_DEV_NVLINK_SPEED_MBPS_L6 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_SPEED_MBPS_L6 = 132
-	// FI_DEV_NVLINK_SPEED_MBPS_L7 as defined in nvml/nvml.h:1216
+	// FI_DEV_NVLINK_SPEED_MBPS_L7 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_SPEED_MBPS_L7 = 133
-	// FI_DEV_NVLINK_SPEED_MBPS_L8 as defined in nvml/nvml.h:1217
+	// FI_DEV_NVLINK_SPEED_MBPS_L8 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_SPEED_MBPS_L8 = 134
-	// FI_DEV_NVLINK_SPEED_MBPS_L9 as defined in nvml/nvml.h:1218
+	// FI_DEV_NVLINK_SPEED_MBPS_L9 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_SPEED_MBPS_L9 = 135
-	// FI_DEV_NVLINK_SPEED_MBPS_L10 as defined in nvml/nvml.h:1219
+	// FI_DEV_NVLINK_SPEED_MBPS_L10 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_SPEED_MBPS_L10 = 136
-	// FI_DEV_NVLINK_SPEED_MBPS_L11 as defined in nvml/nvml.h:1220
+	// FI_DEV_NVLINK_SPEED_MBPS_L11 as defined in nvml/nvml.h
 	FI_DEV_NVLINK_SPEED_MBPS_L11 = 137
-	// FI_DEV_NVLINK_THROUGHPUT_DATA_TX as defined in nvml/nvml.h:1229
+	// FI_DEV_NVLINK_THROUGHPUT_DATA_TX as defined in nvml/nvml.h
 	FI_DEV_NVLINK_THROUGHPUT_DATA_TX = 138
-	// FI_DEV_NVLINK_THROUGHPUT_DATA_RX as defined in nvml/nvml.h:1230
+	// FI_DEV_NVLINK_THROUGHPUT_DATA_RX as defined in nvml/nvml.h
 	FI_DEV_NVLINK_THROUGHPUT_DATA_RX = 139
-	// FI_DEV_NVLINK_THROUGHPUT_RAW_TX as defined in nvml/nvml.h:1231
+	// FI_DEV_NVLINK_THROUGHPUT_RAW_TX as defined in nvml/nvml.h
 	FI_DEV_NVLINK_THROUGHPUT_RAW_TX = 140
-	// FI_DEV_NVLINK_THROUGHPUT_RAW_RX as defined in nvml/nvml.h:1232
+	// FI_DEV_NVLINK_THROUGHPUT_RAW_RX as defined in nvml/nvml.h
 	FI_DEV_NVLINK_THROUGHPUT_RAW_RX = 141
-	// FI_DEV_REMAPPED_COR as defined in nvml/nvml.h:1235
+	// FI_DEV_REMAPPED_COR as defined in nvml/nvml.h
 	FI_DEV_REMAPPED_COR = 142
-	// FI_DEV_REMAPPED_UNC as defined in nvml/nvml.h:1236
+	// FI_DEV_REMAPPED_UNC as defined in nvml/nvml.h
 	FI_DEV_REMAPPED_UNC = 143
-	// FI_DEV_REMAPPED_PENDING as defined in nvml/nvml.h:1237
+	// FI_DEV_REMAPPED_PENDING as defined in nvml/nvml.h
 	FI_DEV_REMAPPED_PENDING = 144
-	// FI_DEV_REMAPPED_FAILURE as defined in nvml/nvml.h:1238
+	// FI_DEV_REMAPPED_FAILURE as defined in nvml/nvml.h
 	FI_DEV_REMAPPED_FAILURE = 145
-	// FI_DEV_NVLINK_REMOTE_NVLINK_ID as defined in nvml/nvml.h:1245
+	// FI_DEV_NVLINK_REMOTE_NVLINK_ID as defined in nvml/nvml.h
 	FI_DEV_NVLINK_REMOTE_NVLINK_ID = 146
-	// FI_MAX as defined in nvml/nvml.h:1247
-	FI_MAX = 147
-	// EventTypeSingleBitEccError as defined in nvml/nvml.h:1390
+	// FI_DEV_NVSWITCH_CONNECTED_LINK_COUNT as defined in nvml/nvml.h
+	FI_DEV_NVSWITCH_CONNECTED_LINK_COUNT = 147
+	// FI_MAX as defined in nvml/nvml.h
+	FI_MAX = 148
+	// EventTypeSingleBitEccError as defined in nvml/nvml.h
 	EventTypeSingleBitEccError = 1
-	// EventTypeDoubleBitEccError as defined in nvml/nvml.h:1396
+	// EventTypeDoubleBitEccError as defined in nvml/nvml.h
 	EventTypeDoubleBitEccError = 2
-	// EventTypePState as defined in nvml/nvml.h:1404
+	// EventTypePState as defined in nvml/nvml.h
 	EventTypePState = 4
-	// EventTypeXidCriticalError as defined in nvml/nvml.h:1407
+	// EventTypeXidCriticalError as defined in nvml/nvml.h
 	EventTypeXidCriticalError = 8
-	// EventTypeClock as defined in nvml/nvml.h:1413
+	// EventTypeClock as defined in nvml/nvml.h
 	EventTypeClock = 16
-	// EventTypePowerSourceChange as defined in nvml/nvml.h:1416
+	// EventTypePowerSourceChange as defined in nvml/nvml.h
 	EventTypePowerSourceChange = 128
-	// EventMigConfigChange as defined in nvml/nvml.h:1419
+	// EventMigConfigChange as defined in nvml/nvml.h
 	EventMigConfigChange = 256
-	// EventTypeNone as defined in nvml/nvml.h:1422
+	// EventTypeNone as defined in nvml/nvml.h
 	EventTypeNone = 0
-	// EventTypeAll as defined in nvml/nvml.h:1425
+	// EventTypeAll as defined in nvml/nvml.h
 	EventTypeAll = 415
-	// ClocksThrottleReasonGpuIdle as defined in nvml/nvml.h:1464
+	// ClocksThrottleReasonGpuIdle as defined in nvml/nvml.h
 	ClocksThrottleReasonGpuIdle = 1
-	// ClocksThrottleReasonApplicationsClocksSetting as defined in nvml/nvml.h:1471
+	// ClocksThrottleReasonApplicationsClocksSetting as defined in nvml/nvml.h
 	ClocksThrottleReasonApplicationsClocksSetting = 2
-	// ClocksThrottleReasonUserDefinedClocks as defined in nvml/nvml.h:1477
+	// ClocksThrottleReasonUserDefinedClocks as defined in nvml/nvml.h
 	ClocksThrottleReasonUserDefinedClocks = 2
-	// ClocksThrottleReasonSwPowerCap as defined in nvml/nvml.h:1485
+	// ClocksThrottleReasonSwPowerCap as defined in nvml/nvml.h
 	ClocksThrottleReasonSwPowerCap = 4
-	// ClocksThrottleReasonHwSlowdown as defined in nvml/nvml.h:1500
+	// ClocksThrottleReasonHwSlowdown as defined in nvml/nvml.h
 	ClocksThrottleReasonHwSlowdown = 8
-	// ClocksThrottleReasonSyncBoost as defined in nvml/nvml.h:1511
+	// ClocksThrottleReasonSyncBoost as defined in nvml/nvml.h
 	ClocksThrottleReasonSyncBoost = 16
-	// ClocksThrottleReasonSwThermalSlowdown as defined in nvml/nvml.h:1520
+	// ClocksThrottleReasonSwThermalSlowdown as defined in nvml/nvml.h
 	ClocksThrottleReasonSwThermalSlowdown = 32
-	// ClocksThrottleReasonHwThermalSlowdown as defined in nvml/nvml.h:1531
+	// ClocksThrottleReasonHwThermalSlowdown as defined in nvml/nvml.h
 	ClocksThrottleReasonHwThermalSlowdown = 64
-	// ClocksThrottleReasonHwPowerBrakeSlowdown as defined in nvml/nvml.h:1542
+	// ClocksThrottleReasonHwPowerBrakeSlowdown as defined in nvml/nvml.h
 	ClocksThrottleReasonHwPowerBrakeSlowdown = 128
-	// ClocksThrottleReasonDisplayClockSetting as defined in nvml/nvml.h:1548
+	// ClocksThrottleReasonDisplayClockSetting as defined in nvml/nvml.h
 	ClocksThrottleReasonDisplayClockSetting = 256
-	// ClocksThrottleReasonNone as defined in nvml/nvml.h:1554
+	// ClocksThrottleReasonNone as defined in nvml/nvml.h
 	ClocksThrottleReasonNone = 0
-	// ClocksThrottleReasonAll as defined in nvml/nvml.h:1559
+	// ClocksThrottleReasonAll as defined in nvml/nvml.h
 	ClocksThrottleReasonAll = 511
-	// NVFBC_SESSION_FLAG_DIFFMAP_ENABLED as defined in nvml/nvml.h:1674
+	// NVFBC_SESSION_FLAG_DIFFMAP_ENABLED as defined in nvml/nvml.h
 	NVFBC_SESSION_FLAG_DIFFMAP_ENABLED = 1
-	// NVFBC_SESSION_FLAG_CLASSIFICATIONMAP_ENABLED as defined in nvml/nvml.h:1675
+	// NVFBC_SESSION_FLAG_CLASSIFICATIONMAP_ENABLED as defined in nvml/nvml.h
 	NVFBC_SESSION_FLAG_CLASSIFICATIONMAP_ENABLED = 2
-	// NVFBC_SESSION_FLAG_CAPTURE_WITH_WAIT_NO_WAIT as defined in nvml/nvml.h:1676
+	// NVFBC_SESSION_FLAG_CAPTURE_WITH_WAIT_NO_WAIT as defined in nvml/nvml.h
 	NVFBC_SESSION_FLAG_CAPTURE_WITH_WAIT_NO_WAIT = 4
-	// NVFBC_SESSION_FLAG_CAPTURE_WITH_WAIT_INFINITE as defined in nvml/nvml.h:1677
+	// NVFBC_SESSION_FLAG_CAPTURE_WITH_WAIT_INFINITE as defined in nvml/nvml.h
 	NVFBC_SESSION_FLAG_CAPTURE_WITH_WAIT_INFINITE = 8
-	// NVFBC_SESSION_FLAG_CAPTURE_WITH_WAIT_TIMEOUT as defined in nvml/nvml.h:1678
+	// NVFBC_SESSION_FLAG_CAPTURE_WITH_WAIT_TIMEOUT as defined in nvml/nvml.h
 	NVFBC_SESSION_FLAG_CAPTURE_WITH_WAIT_TIMEOUT = 16
-	// INIT_FLAG_NO_GPUS as defined in nvml/nvml.h:1736
+	// INIT_FLAG_NO_GPUS as defined in nvml/nvml.h
 	INIT_FLAG_NO_GPUS = 1
-	// INIT_FLAG_NO_ATTACH as defined in nvml/nvml.h:1737
+	// INIT_FLAG_NO_ATTACH as defined in nvml/nvml.h
 	INIT_FLAG_NO_ATTACH = 2
-	// DEVICE_INFOROM_VERSION_BUFFER_SIZE as defined in nvml/nvml.h:1834
+	// DEVICE_INFOROM_VERSION_BUFFER_SIZE as defined in nvml/nvml.h
 	DEVICE_INFOROM_VERSION_BUFFER_SIZE = 16
-	// DEVICE_UUID_BUFFER_SIZE as defined in nvml/nvml.h:1839
+	// DEVICE_UUID_BUFFER_SIZE as defined in nvml/nvml.h
 	DEVICE_UUID_BUFFER_SIZE = 80
-	// DEVICE_UUID_V2_BUFFER_SIZE as defined in nvml/nvml.h:1844
+	// DEVICE_UUID_V2_BUFFER_SIZE as defined in nvml/nvml.h
 	DEVICE_UUID_V2_BUFFER_SIZE = 96
-	// DEVICE_PART_NUMBER_BUFFER_SIZE as defined in nvml/nvml.h:1849
+	// DEVICE_PART_NUMBER_BUFFER_SIZE as defined in nvml/nvml.h
 	DEVICE_PART_NUMBER_BUFFER_SIZE = 80
-	// SYSTEM_DRIVER_VERSION_BUFFER_SIZE as defined in nvml/nvml.h:1854
+	// SYSTEM_DRIVER_VERSION_BUFFER_SIZE as defined in nvml/nvml.h
 	SYSTEM_DRIVER_VERSION_BUFFER_SIZE = 80
-	// SYSTEM_NVML_VERSION_BUFFER_SIZE as defined in nvml/nvml.h:1859
+	// SYSTEM_NVML_VERSION_BUFFER_SIZE as defined in nvml/nvml.h
 	SYSTEM_NVML_VERSION_BUFFER_SIZE = 80
-	// DEVICE_NAME_BUFFER_SIZE as defined in nvml/nvml.h:1864
+	// DEVICE_NAME_BUFFER_SIZE as defined in nvml/nvml.h
 	DEVICE_NAME_BUFFER_SIZE = 64
-	// DEVICE_NAME_V2_BUFFER_SIZE as defined in nvml/nvml.h:1869
+	// DEVICE_NAME_V2_BUFFER_SIZE as defined in nvml/nvml.h
 	DEVICE_NAME_V2_BUFFER_SIZE = 96
-	// DEVICE_SERIAL_BUFFER_SIZE as defined in nvml/nvml.h:1874
+	// DEVICE_SERIAL_BUFFER_SIZE as defined in nvml/nvml.h
 	DEVICE_SERIAL_BUFFER_SIZE = 30
-	// DEVICE_VBIOS_VERSION_BUFFER_SIZE as defined in nvml/nvml.h:1879
+	// DEVICE_VBIOS_VERSION_BUFFER_SIZE as defined in nvml/nvml.h
 	DEVICE_VBIOS_VERSION_BUFFER_SIZE = 32
-	// AFFINITY_SCOPE_NODE as defined in nvml/nvml.h:2479
+	// AFFINITY_SCOPE_NODE as defined in nvml/nvml.h
 	AFFINITY_SCOPE_NODE = 0
-	// AFFINITY_SCOPE_SOCKET as defined in nvml/nvml.h:2481
+	// AFFINITY_SCOPE_SOCKET as defined in nvml/nvml.h
 	AFFINITY_SCOPE_SOCKET = 1
-	// DEVICE_MIG_DISABLE as defined in nvml/nvml.h:6990
+	// DEVICE_MIG_DISABLE as defined in nvml/nvml.h
 	DEVICE_MIG_DISABLE = 0
-	// DEVICE_MIG_ENABLE as defined in nvml/nvml.h:6995
+	// DEVICE_MIG_ENABLE as defined in nvml/nvml.h
 	DEVICE_MIG_ENABLE = 1
-	// GPU_INSTANCE_PROFILE_1_SLICE as defined in nvml/nvml.h:7003
+	// GPU_INSTANCE_PROFILE_1_SLICE as defined in nvml/nvml.h
 	GPU_INSTANCE_PROFILE_1_SLICE = 0
-	// GPU_INSTANCE_PROFILE_2_SLICE as defined in nvml/nvml.h:7004
+	// GPU_INSTANCE_PROFILE_2_SLICE as defined in nvml/nvml.h
 	GPU_INSTANCE_PROFILE_2_SLICE = 1
-	// GPU_INSTANCE_PROFILE_3_SLICE as defined in nvml/nvml.h:7005
+	// GPU_INSTANCE_PROFILE_3_SLICE as defined in nvml/nvml.h
 	GPU_INSTANCE_PROFILE_3_SLICE = 2
-	// GPU_INSTANCE_PROFILE_4_SLICE as defined in nvml/nvml.h:7006
+	// GPU_INSTANCE_PROFILE_4_SLICE as defined in nvml/nvml.h
 	GPU_INSTANCE_PROFILE_4_SLICE = 3
-	// GPU_INSTANCE_PROFILE_7_SLICE as defined in nvml/nvml.h:7007
+	// GPU_INSTANCE_PROFILE_7_SLICE as defined in nvml/nvml.h
 	GPU_INSTANCE_PROFILE_7_SLICE = 4
-	// GPU_INSTANCE_PROFILE_8_SLICE as defined in nvml/nvml.h:7008
+	// GPU_INSTANCE_PROFILE_8_SLICE as defined in nvml/nvml.h
 	GPU_INSTANCE_PROFILE_8_SLICE = 5
-	// GPU_INSTANCE_PROFILE_COUNT as defined in nvml/nvml.h:7009
-	GPU_INSTANCE_PROFILE_COUNT = 6
-	// COMPUTE_INSTANCE_PROFILE_1_SLICE as defined in nvml/nvml.h:7048
+	// GPU_INSTANCE_PROFILE_6_SLICE as defined in nvml/nvml.h
+	GPU_INSTANCE_PROFILE_6_SLICE = 6
+	// GPU_INSTANCE_PROFILE_COUNT as defined in nvml/nvml.h
+	GPU_INSTANCE_PROFILE_COUNT = 7
+	// COMPUTE_INSTANCE_PROFILE_1_SLICE as defined in nvml/nvml.h
 	COMPUTE_INSTANCE_PROFILE_1_SLICE = 0
-	// COMPUTE_INSTANCE_PROFILE_2_SLICE as defined in nvml/nvml.h:7049
+	// COMPUTE_INSTANCE_PROFILE_2_SLICE as defined in nvml/nvml.h
 	COMPUTE_INSTANCE_PROFILE_2_SLICE = 1
-	// COMPUTE_INSTANCE_PROFILE_3_SLICE as defined in nvml/nvml.h:7050
+	// COMPUTE_INSTANCE_PROFILE_3_SLICE as defined in nvml/nvml.h
 	COMPUTE_INSTANCE_PROFILE_3_SLICE = 2
-	// COMPUTE_INSTANCE_PROFILE_4_SLICE as defined in nvml/nvml.h:7051
+	// COMPUTE_INSTANCE_PROFILE_4_SLICE as defined in nvml/nvml.h
 	COMPUTE_INSTANCE_PROFILE_4_SLICE = 3
-	// COMPUTE_INSTANCE_PROFILE_7_SLICE as defined in nvml/nvml.h:7052
+	// COMPUTE_INSTANCE_PROFILE_7_SLICE as defined in nvml/nvml.h
 	COMPUTE_INSTANCE_PROFILE_7_SLICE = 4
-	// COMPUTE_INSTANCE_PROFILE_8_SLICE as defined in nvml/nvml.h:7053
+	// COMPUTE_INSTANCE_PROFILE_8_SLICE as defined in nvml/nvml.h
 	COMPUTE_INSTANCE_PROFILE_8_SLICE = 5
-	// COMPUTE_INSTANCE_PROFILE_COUNT as defined in nvml/nvml.h:7054
-	COMPUTE_INSTANCE_PROFILE_COUNT = 6
-	// COMPUTE_INSTANCE_ENGINE_PROFILE_SHARED as defined in nvml/nvml.h:7056
+	// COMPUTE_INSTANCE_PROFILE_6_SLICE as defined in nvml/nvml.h
+	COMPUTE_INSTANCE_PROFILE_6_SLICE = 6
+	// COMPUTE_INSTANCE_PROFILE_COUNT as defined in nvml/nvml.h
+	COMPUTE_INSTANCE_PROFILE_COUNT = 7
+	// COMPUTE_INSTANCE_ENGINE_PROFILE_SHARED as defined in nvml/nvml.h
 	COMPUTE_INSTANCE_ENGINE_PROFILE_SHARED = 0
-	// COMPUTE_INSTANCE_ENGINE_PROFILE_COUNT as defined in nvml/nvml.h:7057
+	// COMPUTE_INSTANCE_ENGINE_PROFILE_COUNT as defined in nvml/nvml.h
 	COMPUTE_INSTANCE_ENGINE_PROFILE_COUNT = 1
 )
 
-// BridgeChipType as declared in nvml/nvml.h:274
+// BridgeChipType as declared in nvml/nvml.h
 type BridgeChipType int32
 
-// BridgeChipType enumeration from nvml/nvml.h:274
+// BridgeChipType enumeration from nvml/nvml.h
 const (
 	BRIDGE_CHIP_PLX  BridgeChipType = iota
 	BRIDGE_CHIP_BRO4 BridgeChipType = 1
 )
 
-// NvLinkUtilizationCountUnits as declared in nvml/nvml.h:292
+// NvLinkUtilizationCountUnits as declared in nvml/nvml.h
 type NvLinkUtilizationCountUnits int32
 
-// NvLinkUtilizationCountUnits enumeration from nvml/nvml.h:292
+// NvLinkUtilizationCountUnits enumeration from nvml/nvml.h
 const (
 	NVLINK_COUNTER_UNIT_CYCLES   NvLinkUtilizationCountUnits = iota
 	NVLINK_COUNTER_UNIT_PACKETS  NvLinkUtilizationCountUnits = 1
@@ -510,10 +516,10 @@ const (
 	NVLINK_COUNTER_UNIT_COUNT    NvLinkUtilizationCountUnits = 4
 )
 
-// NvLinkUtilizationCountPktTypes as declared in nvml/nvml.h:312
+// NvLinkUtilizationCountPktTypes as declared in nvml/nvml.h
 type NvLinkUtilizationCountPktTypes int32
 
-// NvLinkUtilizationCountPktTypes enumeration from nvml/nvml.h:312
+// NvLinkUtilizationCountPktTypes enumeration from nvml/nvml.h
 const (
 	NVLINK_COUNTER_PKTFILTER_NOP        NvLinkUtilizationCountPktTypes = 1
 	NVLINK_COUNTER_PKTFILTER_READ       NvLinkUtilizationCountPktTypes = 2
@@ -526,10 +532,10 @@ const (
 	NVLINK_COUNTER_PKTFILTER_ALL        NvLinkUtilizationCountPktTypes = 255
 )
 
-// NvLinkCapability as declared in nvml/nvml.h:336
+// NvLinkCapability as declared in nvml/nvml.h
 type NvLinkCapability int32
 
-// NvLinkCapability enumeration from nvml/nvml.h:336
+// NvLinkCapability enumeration from nvml/nvml.h
 const (
 	NVLINK_CAP_P2P_SUPPORTED  NvLinkCapability = iota
 	NVLINK_CAP_SYSMEM_ACCESS  NvLinkCapability = 1
@@ -540,10 +546,10 @@ const (
 	NVLINK_CAP_COUNT          NvLinkCapability = 6
 )
 
-// NvLinkErrorCounter as declared in nvml/nvml.h:350
+// NvLinkErrorCounter as declared in nvml/nvml.h
 type NvLinkErrorCounter int32
 
-// NvLinkErrorCounter enumeration from nvml/nvml.h:350
+// NvLinkErrorCounter enumeration from nvml/nvml.h
 const (
 	NVLINK_ERROR_DL_REPLAY   NvLinkErrorCounter = iota
 	NVLINK_ERROR_DL_RECOVERY NvLinkErrorCounter = 1
@@ -552,10 +558,10 @@ const (
 	NVLINK_ERROR_COUNT       NvLinkErrorCounter = 4
 )
 
-// GpuTopologyLevel as declared in nvml/nvml.h:366
+// GpuTopologyLevel as declared in nvml/nvml.h
 type GpuTopologyLevel int32
 
-// GpuTopologyLevel enumeration from nvml/nvml.h:366
+// GpuTopologyLevel enumeration from nvml/nvml.h
 const (
 	TOPOLOGY_INTERNAL   GpuTopologyLevel = iota
 	TOPOLOGY_SINGLE     GpuTopologyLevel = 10
@@ -565,10 +571,10 @@ const (
 	TOPOLOGY_SYSTEM     GpuTopologyLevel = 50
 )
 
-// GpuP2PStatus as declared in nvml/nvml.h:382
+// GpuP2PStatus as declared in nvml/nvml.h
 type GpuP2PStatus int32
 
-// GpuP2PStatus enumeration from nvml/nvml.h:382
+// GpuP2PStatus enumeration from nvml/nvml.h
 const (
 	P2P_STATUS_OK                         GpuP2PStatus = iota
 	P2P_STATUS_CHIPSET_NOT_SUPPORED       GpuP2PStatus = 1
@@ -579,10 +585,10 @@ const (
 	P2P_STATUS_UNKNOWN                    GpuP2PStatus = 6
 )
 
-// GpuP2PCapsIndex as declared in nvml/nvml.h:393
+// GpuP2PCapsIndex as declared in nvml/nvml.h
 type GpuP2PCapsIndex int32
 
-// GpuP2PCapsIndex enumeration from nvml/nvml.h:393
+// GpuP2PCapsIndex enumeration from nvml/nvml.h
 const (
 	P2P_CAPS_INDEX_READ    GpuP2PCapsIndex = iota
 	P2P_CAPS_INDEX_WRITE   GpuP2PCapsIndex = 1
@@ -592,10 +598,10 @@ const (
 	P2P_CAPS_INDEX_UNKNOWN GpuP2PCapsIndex = 5
 )
 
-// SamplingType as declared in nvml/nvml.h:434
+// SamplingType as declared in nvml/nvml.h
 type SamplingType int32
 
-// SamplingType enumeration from nvml/nvml.h:434
+// SamplingType enumeration from nvml/nvml.h
 const (
 	TOTAL_POWER_SAMPLES        SamplingType = iota
 	GPU_UTILIZATION_SAMPLES    SamplingType = 1
@@ -607,20 +613,20 @@ const (
 	SAMPLINGTYPE_COUNT         SamplingType = 7
 )
 
-// PcieUtilCounter as declared in nvml/nvml.h:446
+// PcieUtilCounter as declared in nvml/nvml.h
 type PcieUtilCounter int32
 
-// PcieUtilCounter enumeration from nvml/nvml.h:446
+// PcieUtilCounter enumeration from nvml/nvml.h
 const (
 	PCIE_UTIL_TX_BYTES PcieUtilCounter = iota
 	PCIE_UTIL_RX_BYTES PcieUtilCounter = 1
 	PCIE_UTIL_COUNT    PcieUtilCounter = 2
 )
 
-// ValueType as declared in nvml/nvml.h:461
+// ValueType as declared in nvml/nvml.h
 type ValueType int32
 
-// ValueType enumeration from nvml/nvml.h:461
+// ValueType enumeration from nvml/nvml.h
 const (
 	VALUE_TYPE_DOUBLE             ValueType = iota
 	VALUE_TYPE_UNSIGNED_INT       ValueType = 1
@@ -630,10 +636,10 @@ const (
 	VALUE_TYPE_COUNT              ValueType = 5
 )
 
-// PerfPolicyType as declared in nvml/nvml.h:502
+// PerfPolicyType as declared in nvml/nvml.h
 type PerfPolicyType int32
 
-// PerfPolicyType enumeration from nvml/nvml.h:502
+// PerfPolicyType enumeration from nvml/nvml.h
 const (
 	PERF_POLICY_POWER             PerfPolicyType = iota
 	PERF_POLICY_THERMAL           PerfPolicyType = 1
@@ -646,55 +652,68 @@ const (
 	PERF_POLICY_COUNT             PerfPolicyType = 12
 )
 
-// EnableState as declared in nvml/nvml.h:528
+// EnableState as declared in nvml/nvml.h
 type EnableState int32
 
-// EnableState enumeration from nvml/nvml.h:528
+// EnableState enumeration from nvml/nvml.h
 const (
 	FEATURE_DISABLED EnableState = iota
 	FEATURE_ENABLED  EnableState = 1
 )
 
-// BrandType as declared in nvml/nvml.h:550
+// BrandType as declared in nvml/nvml.h
 type BrandType int32
 
-// BrandType enumeration from nvml/nvml.h:550
+// BrandType enumeration from nvml/nvml.h
 const (
-	BRAND_UNKNOWN BrandType = iota
-	BRAND_QUADRO  BrandType = 1
-	BRAND_TESLA   BrandType = 2
-	BRAND_NVS     BrandType = 3
-	BRAND_GRID    BrandType = 4
-	BRAND_GEFORCE BrandType = 5
-	BRAND_TITAN   BrandType = 6
-	BRAND_COUNT   BrandType = 7
+	BRAND_UNKNOWN        BrandType = iota
+	BRAND_QUADRO         BrandType = 1
+	BRAND_TESLA          BrandType = 2
+	BRAND_NVS            BrandType = 3
+	BRAND_GRID           BrandType = 4
+	BRAND_GEFORCE        BrandType = 5
+	BRAND_TITAN          BrandType = 6
+	BRAND_NVIDIA_VAPPS   BrandType = 7
+	BRAND_NVIDIA_VPC     BrandType = 8
+	BRAND_NVIDIA_VCS     BrandType = 9
+	BRAND_NVIDIA_VWS     BrandType = 10
+	BRAND_NVIDIA_VGAMING BrandType = 11
+	BRAND_QUADRO_RTX     BrandType = 12
+	BRAND_NVIDIA_RTX     BrandType = 13
+	BRAND_NVIDIA         BrandType = 14
+	BRAND_GEFORCE_RTX    BrandType = 15
+	BRAND_TITAN_RTX      BrandType = 16
+	BRAND_COUNT          BrandType = 17
 )
 
-// TemperatureThresholds as declared in nvml/nvml.h:564
+// TemperatureThresholds as declared in nvml/nvml.h
 type TemperatureThresholds int32
 
-// TemperatureThresholds enumeration from nvml/nvml.h:564
+// TemperatureThresholds enumeration from nvml/nvml.h
 const (
-	TEMPERATURE_THRESHOLD_SHUTDOWN TemperatureThresholds = iota
-	TEMPERATURE_THRESHOLD_SLOWDOWN TemperatureThresholds = 1
-	TEMPERATURE_THRESHOLD_MEM_MAX  TemperatureThresholds = 2
-	TEMPERATURE_THRESHOLD_GPU_MAX  TemperatureThresholds = 3
-	TEMPERATURE_THRESHOLD_COUNT    TemperatureThresholds = 4
+	TEMPERATURE_THRESHOLD_SHUTDOWN      TemperatureThresholds = iota
+	TEMPERATURE_THRESHOLD_SLOWDOWN      TemperatureThresholds = 1
+	TEMPERATURE_THRESHOLD_MEM_MAX       TemperatureThresholds = 2
+	TEMPERATURE_THRESHOLD_GPU_MAX       TemperatureThresholds = 3
+	TEMPERATURE_THRESHOLD_ACOUSTIC_MIN  TemperatureThresholds = 4
+	TEMPERATURE_THRESHOLD_ACOUSTIC_CURR TemperatureThresholds = 5
+	TEMPERATURE_THRESHOLD_ACOUSTIC_MAX  TemperatureThresholds = 6
+	TEMPERATURE_THRESHOLD_COUNT         TemperatureThresholds = 7
 )
 
-// TemperatureSensors as declared in nvml/nvml.h:575
+// TemperatureSensors as declared in nvml/nvml.h
 type TemperatureSensors int32
 
-// TemperatureSensors enumeration from nvml/nvml.h:575
+// TemperatureSensors enumeration from nvml/nvml.h
 const (
 	TEMPERATURE_GPU   TemperatureSensors = iota
 	TEMPERATURE_COUNT TemperatureSensors = 1
 )
 
-// ComputeMode as declared in nvml/nvml.h:593
+// ComputeMode as declared in nvml/nvml.h
 type ComputeMode int32
 
-// ComputeMode enumeration from nvml/nvml.h:593
+// ComputeMode enumeration from nvml/nvml.h
 const (
 	COMPUTEMODE_DEFAULT           ComputeMode = iota
 	COMPUTEMODE_EXCLUSIVE_THREAD  ComputeMode = 1
@@ -703,30 +722,30 @@ const (
 	COMPUTEMODE_COUNT             ComputeMode = 4
 )
 
-// MemoryErrorType as declared in nvml/nvml.h:640
+// MemoryErrorType as declared in nvml/nvml.h
 type MemoryErrorType int32
 
-// MemoryErrorType enumeration from nvml/nvml.h:640
+// MemoryErrorType enumeration from nvml/nvml.h
 const (
 	MEMORY_ERROR_TYPE_CORRECTED   MemoryErrorType = iota
 	MEMORY_ERROR_TYPE_UNCORRECTED MemoryErrorType = 1
 	MEMORY_ERROR_TYPE_COUNT       MemoryErrorType = 2
 )
 
-// EccCounterType as declared in nvml/nvml.h:657
+// EccCounterType as declared in nvml/nvml.h
 type EccCounterType int32
 
-// EccCounterType enumeration from nvml/nvml.h:657
+// EccCounterType enumeration from nvml/nvml.h
 const (
 	VOLATILE_ECC           EccCounterType = iota
 	AGGREGATE_ECC          EccCounterType = 1
 	ECC_COUNTER_TYPE_COUNT EccCounterType = 2
 )
 
-// ClockType as declared in nvml/nvml.h:673
+// ClockType as declared in nvml/nvml.h
 type ClockType int32
 
-// ClockType enumeration from nvml/nvml.h:673
+// ClockType enumeration from nvml/nvml.h
 const (
 	CLOCK_GRAPHICS ClockType = iota
 	CLOCK_SM       ClockType = 1
@@ -735,10 +754,10 @@ const (
 	CLOCK_COUNT    ClockType = 4
 )
 
-// ClockId as declared in nvml/nvml.h:688
+// ClockId as declared in nvml/nvml.h
 type ClockId int32
 
-// ClockId enumeration from nvml/nvml.h:688
+// ClockId enumeration from nvml/nvml.h
 const (
 	CLOCK_ID_CURRENT            ClockId = iota
 	CLOCK_ID_APP_CLOCK_TARGET   ClockId = 1
@@ -747,19 +766,19 @@ const (
 	CLOCK_ID_COUNT              ClockId = 4
 )
 
-// DriverModel as declared in nvml/nvml.h:699
+// DriverModel as declared in nvml/nvml.h
 type DriverModel int32
 
-// DriverModel enumeration from nvml/nvml.h:699
+// DriverModel enumeration from nvml/nvml.h
 const (
 	DRIVER_WDDM DriverModel = iota
 	DRIVER_WDM  DriverModel = 1
 )
 
-// Pstates as declared in nvml/nvml.h:723
+// Pstates as declared in nvml/nvml.h
 type Pstates int32
 
-// Pstates enumeration from nvml/nvml.h:723
+// Pstates enumeration from nvml/nvml.h
 const (
 	PSTATE_0       Pstates = iota
 	PSTATE_1       Pstates = 1
@@ -780,20 +799,20 @@ const (
 	PSTATE_UNKNOWN Pstates = 32
 )
 
-// GpuOperationMode as declared in nvml/nvml.h:741
+// GpuOperationMode as declared in nvml/nvml.h
 type GpuOperationMode int32
 
-// GpuOperationMode enumeration from nvml/nvml.h:741
+// GpuOperationMode enumeration from nvml/nvml.h
 const (
 	GOM_ALL_ON  GpuOperationMode = iota
 	GOM_COMPUTE GpuOperationMode = 1
 	GOM_LOW_DP  GpuOperationMode = 2
 )
 
-// InforomObject as declared in nvml/nvml.h:754
+// InforomObject as declared in nvml/nvml.h
 type InforomObject int32
 
-// InforomObject enumeration from nvml/nvml.h:754
+// InforomObject enumeration from nvml/nvml.h
 const (
 	INFOROM_OEM   InforomObject = iota
 	INFOROM_ECC   InforomObject = 1
@@ -801,10 +820,10 @@ const (
 	INFOROM_COUNT InforomObject = 3
 )
 
-// Return as declared in nvml/nvml.h:787
+// Return as declared in nvml/nvml.h
 type Return int32
 
-// Return enumeration from nvml/nvml.h:787
+// Return enumeration from nvml/nvml.h
 const (
 	SUCCESS                       Return = iota
 	ERROR_UNINITIALIZED           Return = 1
@@ -833,10 +852,10 @@ const (
 	ERROR_UNKNOWN                 Return = 999
 )
 
-// MemoryLocation as declared in nvml/nvml.h:805
+// MemoryLocation as declared in nvml/nvml.h
 type MemoryLocation int32
 
-// MemoryLocation enumeration from nvml/nvml.h:805
+// MemoryLocation enumeration from nvml/nvml.h
 const (
 	MEMORY_LOCATION_L1_CACHE       MemoryLocation = iota
 	MEMORY_LOCATION_L2_CACHE       MemoryLocation = 1
@@ -850,30 +869,30 @@ const (
 	MEMORY_LOCATION_COUNT          MemoryLocation = 8
 )
 
-// PageRetirementCause as declared in nvml/nvml.h:817
+// PageRetirementCause as declared in nvml/nvml.h
 type PageRetirementCause int32
 
-// PageRetirementCause enumeration from nvml/nvml.h:817
+// PageRetirementCause enumeration from nvml/nvml.h
 const (
 	PAGE_RETIREMENT_CAUSE_MULTIPLE_SINGLE_BIT_ECC_ERRORS PageRetirementCause = iota
 	PAGE_RETIREMENT_CAUSE_DOUBLE_BIT_ECC_ERROR           PageRetirementCause = 1
 	PAGE_RETIREMENT_CAUSE_COUNT                          PageRetirementCause = 2
 )
 
-// RestrictedAPI as declared in nvml/nvml.h:830
+// RestrictedAPI as declared in nvml/nvml.h
 type RestrictedAPI int32
 
-// RestrictedAPI enumeration from nvml/nvml.h:830
+// RestrictedAPI enumeration from nvml/nvml.h
 const (
 	RESTRICTED_API_SET_APPLICATION_CLOCKS  RestrictedAPI = iota
 	RESTRICTED_API_SET_AUTO_BOOSTED_CLOCKS RestrictedAPI = 1
 	RESTRICTED_API_COUNT                   RestrictedAPI = 2
 )
 
-// GpuVirtualizationMode as declared in nvml/nvml.h:853
+// GpuVirtualizationMode as declared in nvml/nvml.h
 type GpuVirtualizationMode int32
 
-// GpuVirtualizationMode enumeration from nvml/nvml.h:853
+// GpuVirtualizationMode enumeration from nvml/nvml.h
 const (
 	GPU_VIRTUALIZATION_MODE_NONE        GpuVirtualizationMode = iota
 	GPU_VIRTUALIZATION_MODE_PASSTHROUGH GpuVirtualizationMode = 1
@@ -882,64 +901,64 @@ const (
 	GPU_VIRTUALIZATION_MODE_HOST_VSGA   GpuVirtualizationMode = 4
 )
 
-// HostVgpuMode as declared in nvml/nvml.h:862
+// HostVgpuMode as declared in nvml/nvml.h
 type HostVgpuMode int32
 
-// HostVgpuMode enumeration from nvml/nvml.h:862
+// HostVgpuMode enumeration from nvml/nvml.h
 const (
 	HOST_VGPU_MODE_NON_SRIOV HostVgpuMode = iota
 	HOST_VGPU_MODE_SRIOV     HostVgpuMode = 1
 )
 
-// VgpuVmIdType as declared in nvml/nvml.h:870
+// VgpuVmIdType as declared in nvml/nvml.h
 type VgpuVmIdType int32
 
-// VgpuVmIdType enumeration from nvml/nvml.h:870
+// VgpuVmIdType enumeration from nvml/nvml.h
 const (
 	VGPU_VM_ID_DOMAIN_ID VgpuVmIdType = iota
 	VGPU_VM_ID_UUID      VgpuVmIdType = 1
 )
 
-// VgpuGuestInfoState as declared in nvml/nvml.h:879
+// VgpuGuestInfoState as declared in nvml/nvml.h
 type VgpuGuestInfoState int32
 
-// VgpuGuestInfoState enumeration from nvml/nvml.h:879
+// VgpuGuestInfoState enumeration from nvml/nvml.h
 const (
 	VGPU_INSTANCE_GUEST_INFO_STATE_UNINITIALIZED VgpuGuestInfoState = iota
 	VGPU_INSTANCE_GUEST_INFO_STATE_INITIALIZED   VgpuGuestInfoState = 1
 )
 
-// FanState as declared in nvml/nvml.h:1290
+// FanState as declared in nvml/nvml.h
 type FanState int32
 
-// FanState enumeration from nvml/nvml.h:1290
+// FanState enumeration from nvml/nvml.h
 const (
 	FAN_NORMAL FanState = iota
 	FAN_FAILED FanState = 1
 )
 
-// LedColor as declared in nvml/nvml.h:1299
+// LedColor as declared in nvml/nvml.h
 type LedColor int32
 
-// LedColor enumeration from nvml/nvml.h:1299
+// LedColor enumeration from nvml/nvml.h
 const (
 	LED_COLOR_GREEN LedColor = iota
 	LED_COLOR_AMBER LedColor = 1
 )
 
-// EncoderType as declared in nvml/nvml.h:1627
+// EncoderType as declared in nvml/nvml.h
 type EncoderType int32
 
-// EncoderType enumeration from nvml/nvml.h:1627
+// EncoderType enumeration from nvml/nvml.h
 const (
 	ENCODER_QUERY_H264 EncoderType = iota
 	ENCODER_QUERY_HEVC EncoderType = 1
 )
 
-// FBCSessionType as declared in nvml/nvml.h:1662
+// FBCSessionType as declared in nvml/nvml.h
 type FBCSessionType int32
 
-// FBCSessionType enumeration from nvml/nvml.h:1662
+// FBCSessionType enumeration from nvml/nvml.h
 const (
 	FBC_SESSION_TYPE_UNKNOWN FBCSessionType = iota
 	FBC_SESSION_TYPE_TOSYS   FBCSessionType = 1
@@ -948,38 +967,38 @@ const (
 	FBC_SESSION_TYPE_HWENC   FBCSessionType = 4
 )
 
-// DetachGpuState as declared in nvml/nvml.h:1714
+// DetachGpuState as declared in nvml/nvml.h
 type DetachGpuState int32
 
-// DetachGpuState enumeration from nvml/nvml.h:1714
+// DetachGpuState enumeration from nvml/nvml.h
 const (
 	DETACH_GPU_KEEP   DetachGpuState = iota
 	DETACH_GPU_REMOVE DetachGpuState = 1
 )
 
-// PcieLinkState as declared in nvml/nvml.h:1723
+// PcieLinkState as declared in nvml/nvml.h
 type PcieLinkState int32
 
-// PcieLinkState enumeration from nvml/nvml.h:1723
+// PcieLinkState enumeration from nvml/nvml.h
 const (
 	PCIE_LINK_KEEP      PcieLinkState = iota
 	PCIE_LINK_SHUT_DOWN PcieLinkState = 1
 )
 
-// ClockLimitId as declared in nvml/nvml.h:4969
+// ClockLimitId as declared in nvml/nvml.h
 type ClockLimitId int32
 
-// ClockLimitId enumeration from nvml/nvml.h:4969
+// ClockLimitId enumeration from nvml/nvml.h
 const (
 	CLOCK_LIMIT_ID_RANGE_START ClockLimitId = -256
 	CLOCK_LIMIT_ID_TDP         ClockLimitId = -255
 	CLOCK_LIMIT_ID_UNLIMITED   ClockLimitId = -254
 )
 
-// VgpuVmCompatibility as declared in nvml/nvml.h:6540
+// VgpuVmCompatibility as declared in nvml/nvml.h
 type VgpuVmCompatibility int32
 
-// VgpuVmCompatibility enumeration from nvml/nvml.h:6540
+// VgpuVmCompatibility enumeration from nvml/nvml.h
 const (
 	VGPU_VM_COMPATIBILITY_NONE      VgpuVmCompatibility = iota
 	VGPU_VM_COMPATIBILITY_COLD      VgpuVmCompatibility = 1
@@ -988,10 +1007,10 @@ const (
 	VGPU_VM_COMPATIBILITY_LIVE      VgpuVmCompatibility = 8
 )
 
-// VgpuPgpuCompatibilityLimitCode as declared in nvml/nvml.h:6552
+// VgpuPgpuCompatibilityLimitCode as declared in nvml/nvml.h
 type VgpuPgpuCompatibilityLimitCode int32
 
-// VgpuPgpuCompatibilityLimitCode enumeration from nvml/nvml.h:6552
+// VgpuPgpuCompatibilityLimitCode enumeration from nvml/nvml.h
 const (
 	VGPU_COMPATIBILITY_LIMIT_NONE         VgpuPgpuCompatibilityLimitCode = iota
 	VGPU_COMPATIBILITY_LIMIT_HOST_DRIVER  VgpuPgpuCompatibilityLimitCode = 1
@@ -1000,10 +1019,10 @@ const (
 	VGPU_COMPATIBILITY_LIMIT_OTHER        VgpuPgpuCompatibilityLimitCode = -2147483648
 )
 
-// GridLicenseFeatureCode as declared in nvml/nvml.h:887
+// GridLicenseFeatureCode as declared in nvml/nvml.h
 type GridLicenseFeatureCode int32
 
-// GridLicenseFeatureCode enumeration from nvml/nvml.h:887
+// GridLicenseFeatureCode enumeration from nvml/nvml.h
 const (
 	GRID_LICENSE_FEATURE_CODE_VGPU         GridLicenseFeatureCode = 1
 	GRID_LICENSE_FEATURE_CODE_VWORKSTATION GridLicenseFeatureCode = 2
