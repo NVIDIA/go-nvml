@@ -933,18 +933,32 @@ func (Device Device) GetBridgeChipInfo() (BridgeChipHierarchy, Return) {
 
 // nvml.DeviceGetComputeRunningProcesses()
 func DeviceGetComputeRunningProcesses(Device Device) ([]ProcessInfo, Return) {
+	var Infos []ProcessInfo
 	var InfoCount uint32 = 1 // Will be reduced upon returning
 	for {
-		Infos := make([]ProcessInfo, InfoCount)
+		Infos = make([]ProcessInfo, InfoCount)
 		ret := nvmlDeviceGetComputeRunningProcesses(Device, &InfoCount, &Infos[0])
 		if ret == SUCCESS {
-			return Infos[:InfoCount], ret
+			break
 		}
 		if ret != ERROR_INSUFFICIENT_SIZE {
 			return nil, ret
 		}
 		InfoCount *= 2
 	}
+
+	if InfoCount == 0 {
+		return []ProcessInfo{}, SUCCESS
+	}
+	if usesNvmlDeviceGetComputeRunningProcesses_v1 {
+		// in the case of the _v1 API we need to adjust the size of the process info data structure
+		adjusted, err := adjustProcessInfoSlice(Infos[:InfoCount])
+		if err != nil {
+			return nil, ERROR_UNKNOWN
+		}
+		return adjusted, SUCCESS
+	}
+	return Infos[:InfoCount], SUCCESS
 }
 
 func (Device Device) GetComputeRunningProcesses() ([]ProcessInfo, Return) {
@@ -953,18 +967,32 @@ func (Device Device) GetComputeRunningProcesses() ([]ProcessInfo, Return) {
 
 // nvml.DeviceGetGraphicsRunningProcesses()
 func DeviceGetGraphicsRunningProcesses(Device Device) ([]ProcessInfo, Return) {
+	var Infos []ProcessInfo
 	var InfoCount uint32 = 1 // Will be reduced upon returning
 	for {
-		Infos := make([]ProcessInfo, InfoCount)
+		Infos = make([]ProcessInfo, InfoCount)
 		ret := nvmlDeviceGetGraphicsRunningProcesses(Device, &InfoCount, &Infos[0])
 		if ret == SUCCESS {
-			return Infos[:InfoCount], ret
+			break
 		}
 		if ret != ERROR_INSUFFICIENT_SIZE {
 			return nil, ret
 		}
 		InfoCount *= 2
 	}
+
+	if InfoCount == 0 {
+		return []ProcessInfo{}, SUCCESS
+	}
+	if usesNvmlDeviceGetGraphicsRunningProcesses_v1 {
+		// in the case of the _v1 API we need to adjust the size of the process info data structure
+		adjusted, err := adjustProcessInfoSlice(Infos[:InfoCount])
+		if err != nil {
+			return nil, ERROR_UNKNOWN
+		}
+		return adjusted, SUCCESS
+	}
+	return Infos[:InfoCount], SUCCESS
 }
 
 func (Device Device) GetGraphicsRunningProcesses() ([]ProcessInfo, Return) {

@@ -15,6 +15,9 @@
 package nvml
 
 import (
+	"bytes"
+	"encoding/binary"
+	"fmt"
 	"unsafe"
 )
 
@@ -61,4 +64,40 @@ func packPCharString(p *C.char) (raw string) {
 func unpackPCharString(str string) (*C.char, *struct{}) {
 	h := (*stringHeader)(unsafe.Pointer(&str))
 	return (*C.char)(h.Data), cgoAllocsUnknown
+}
+
+// adjustProcessInfoSlice can be used to adjust a ProcessInfo slice to account for
+// differences in the structure across multiple NVML versions. This handles fields that
+// were added across versions, for example.
+func adjustProcessInfoSlice(in []ProcessInfo) ([]ProcessInfo, error) {
+	type v1ProcessInfo struct {
+		pid           uint32
+		usedGpuMemory uint64
+	}
+
+	b := &bytes.Buffer{}
+	err := binary.Write(b, binary.LittleEndian, in)
+	if err != nil {
+		return nil, fmt.Errorf("error creating temporary buffer: %v", err)
+	}
+
+	intermediate := make([]v1ProcessInfo, len(in)*2)
+	err = binary.Read(b, binary.LittleEndian, intermediate)
+	if err != nil {
+		return nil, fmt.Errorf("error reading intermediate values: %v", err)
+	}
+
+	var out []ProcessInfo
+	for i := range in {
+		pin := intermediate[i]
+
+		pout := ProcessInfo{
+			Pid:           pin.pid,
+			UsedGpuMemory: pin.usedGpuMemory,
+		}
+
+		out = append(out, pout)
+	}
+
+	return out, nil
 }
