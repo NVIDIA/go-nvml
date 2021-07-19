@@ -316,7 +316,7 @@ func (VgpuInstance VgpuInstance) GetFBCSessions() (int, FBCSessionInfo, Return) 
 func VgpuInstanceGetGpuInstanceId(VgpuInstance VgpuInstance) (int, Return) {
 	var gpuInstanceId uint32
 	ret := nvmlVgpuInstanceGetGpuInstanceId(VgpuInstance, &gpuInstanceId)
-	return int(gpuInstanceId), SessionInfo, ret
+	return int(gpuInstanceId), ret
 }
 
 func (VgpuInstance VgpuInstance) GetGpuInstanceId() (int, Return) {
