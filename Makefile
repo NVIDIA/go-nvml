@@ -13,7 +13,7 @@
 # limitations under the License.
 
 DOCKER ?= docker
-GOLANG_VERSION ?= 1.14.4
+GOLANG_VERSION ?= 1.15
 C_FOR_GO_TAG ?= 8eeee8c3b71f9c3c90c4a73db54ed08b0bba971d
 BUILDIMAGE ?= nvidia/go-nvml-devel:$(GOLANG_VERSION)-$(C_FOR_GO_TAG)
 
@@ -25,7 +25,10 @@ PKG_BINDINGS_DIR := $(PKG_DIR)/nvml
 
 SOURCES = $(shell find $(GEN_BINDINGS_DIR) -type f)
 
-TARGETS := all test clean bindings test-bindings clean-bindings patch-nvml-h
+EXAMPLES := $(patsubst ./examples/%/,%,$(sort $(dir $(wildcard ./examples/*/))))
+EXAMPLE_TARGETS := $(patsubst %,example-%, $(EXAMPLES))
+
+TARGETS := all test clean bindings test-bindings clean-bindings patch-nvml-h examples $(EXAMPLE_TARGETS)
 DOCKER_TARGETS := $(patsubst %, docker-%, $(TARGETS))
 .PHONY: $(TARGETS) $(DOCKER_TARGETS)
 
@@ -34,6 +37,12 @@ DOCKER_TARGETS := $(patsubst %, docker-%, $(TARGETS))
 all: bindings
 test: test-bindings
 clean: clean-bindings
+
+GOOS := linux
+
+examples: $(EXAMPLE_TARGETS)
+$(EXAMPLE_TARGETS): example-%: bindings
+	GOOS=$(GOOS) go build ./examples/$(*)
 
 $(PKG_BINDINGS_DIR):
 	mkdir -p $(@)
