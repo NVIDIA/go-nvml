@@ -94,6 +94,15 @@ var nvmlComputeInstanceGetInfo = nvmlComputeInstanceGetInfo_v1
 var nvmlDeviceGetComputeRunningProcesses = nvmlDeviceGetComputeRunningProcesses_v1
 var nvmlDeviceGetGraphicsRunningProcesses = nvmlDeviceGetGraphicsRunningProcesses_v1
 
+type ProcessInfo_v1 struct {
+	Pid           uint32
+	UsedGpuMemory uint64
+}
+type ProcessInfo_v2 ProcessInfo  // Set from cgo (always v2)
+
+var usesNvmlDeviceGetComputeRunningProcesses_v1 = true
+var usesNvmlDeviceGetGraphicsRunningProcesses_v1 = true
+
 // updateVersionedSymbols()
 func updateVersionedSymbols() {
 	err := nvml.Lookup("nvmlInit_v2")
@@ -153,10 +162,12 @@ func updateVersionedSymbols() {
 	err = nvml.Lookup("nvmlDeviceGetComputeRunningProcesses_v2")
 	if err == nil {
 		nvmlDeviceGetComputeRunningProcesses = nvmlDeviceGetComputeRunningProcesses_v2
+		usesNvmlDeviceGetComputeRunningProcesses_v1 = false
 	}
 	err = nvml.Lookup("nvmlDeviceGetGraphicsRunningProcesses_v2")
 	if err == nil {
 		nvmlDeviceGetGraphicsRunningProcesses = nvmlDeviceGetGraphicsRunningProcesses_v2
+		usesNvmlDeviceGetGraphicsRunningProcesses_v1 = false
 	}
 
 }
