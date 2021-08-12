@@ -69,34 +69,37 @@ func unpackPCharString(str string) (*C.char, *struct{}) {
 // adjustProcessInfoSlice can be used to adjust a ProcessInfo slice to account for
 // differences in the structure across multiple NVML versions. This handles fields that
 // were added across versions, for example.
-func adjustProcessInfoSlice(in []ProcessInfo) ([]ProcessInfo, error) {
-	type v1ProcessInfo struct {
-		pid           uint32
-		usedGpuMemory uint64
+func adjustProcessInfoSlice(v2Infos []ProcessInfo) ([]ProcessInfo, error) {
+	// ProcessInfo_v1 matches the ProcessInfo_st definition before CUDA 11.
+	type ProcessInfo_v1 struct {
+		Pid           uint32
+		UsedGpuMemory uint64
 	}
 
+	// Write the input slice to a buffer, b
 	b := &bytes.Buffer{}
-	err := binary.Write(b, binary.LittleEndian, in)
+	err := binary.Write(b, binary.LittleEndian, v2Infos)
 	if err != nil {
 		return nil, fmt.Errorf("error creating temporary buffer: %v", err)
 	}
 
-	intermediate := make([]v1ProcessInfo, len(in)*2)
-	err = binary.Read(b, binary.LittleEndian, intermediate)
+	// Convert the contents of the buffer to a slice of ProcessInfo_v1 structs
+	v1Infos := make([]ProcessInfo_v1, len(v2Infos))
+	err = binary.Read(b, binary.LittleEndian, v1Infos)
 	if err != nil {
 		return nil, fmt.Errorf("error reading intermediate values: %v", err)
 	}
 
+	// Create an output slice with the valid values from the ProcessInfo_v1 structs
 	var out []ProcessInfo
-	for i := range in {
-		pin := intermediate[i]
+	for i := range v2Infos {
+		pv1 := v1Infos[i]
 
-		pout := ProcessInfo{
-			Pid:           pin.pid,
-			UsedGpuMemory: pin.usedGpuMemory,
+		pv2 := ProcessInfo{
+			Pid:           pv1.Pid,
+			UsedGpuMemory: pv1.UsedGpuMemory,
 		}
-
-		out = append(out, pout)
+		out = append(out, pv2)
 	}
 
 	return out, nil
