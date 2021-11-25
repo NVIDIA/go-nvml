@@ -557,10 +557,11 @@ The general steps to update the bindings to a newer version of the NVML API are 
 Pull down the `nvml.h` containing the updated API and commit it back to `gen/nvml/nvml.h`. The `Makefile` contains a command:
 
 ```bash
-make update-nvml-h
+make LABEL=cuda-11.5.1 update-nvml-h
 ```
 
-that copies the file from the Anaconda package [`anaconda.org/nvidia/cuda-nvml-dev`](https://anaconda.org/nvidia/cuda-nvml-dev) (latest version with the `main` label).
+that copies the file from the Anaconda package [`anaconda.org/nvidia/cuda-nvml-dev`](https://anaconda.org/nvidia/cuda-nvml-dev) (latest version with the given label).
+Available labels can be found at https://anaconda.org/nvidia/cuda-nvml-dev/labels (`main` and `cuda-xx.y.z`).
 
 Since `gen/nvml/nvml.h` is under version control, running:
 

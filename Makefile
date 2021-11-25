@@ -84,13 +84,14 @@ clean-bindings:
 	rm -rf $(PKG_BINDINGS_DIR)
 
 # Update nvml.h from the Anaconda package repository
-update-nvml-h: CONDA_PACKAGE_FILE := $(shell wget -qO - https://conda.anaconda.org/nvidia/linux-64/repodata.json | grep -oh '"cuda-nvml-dev-[^"]*"' | tr -d '"' | sort -rV | head -n 1)
-update-nvml-h: NVML_VERSION := $(word 4,$(subst -, ,$(CONDA_PACKAGE_FILE)))
+update-nvml-h: NVML_DEV_PACKAGE_FILE := $(shell wget -qO - https://conda.anaconda.org/nvidia/label/$(LABEL)/linux-64/repodata.json | grep -oh '"cuda-nvml-dev-[^"]*"' | tr -d '"' | sort -rV | head -n 1)
+update-nvml-h: NVML_VERSION := $(word 4,$(subst -, ,$(NVML_DEV_PACKAGE_FILE)))
 update-nvml-h:
-	if [ -z "$(NVML_VERSION)" ]; then echo "Failed to get NVML from anaconda.org, please try again."; exit 1; fi
+	if [ -z "$(LABEL)" ]; then echo "Define LABEL to update, please check the labels at https://anaconda.org/nvidia/cuda-nvml-dev/labels and try again."; exit 1; fi
+	if [ -z "$(NVML_VERSION)" ]; then echo "Failed to get NVML from anaconda.org with label \"$(LABEL)\", please check the labels at https://anaconda.org/nvidia/cuda-nvml-dev/labels and try again."; exit 1; fi
 	@echo "NVML version: $(NVML_VERSION)"
-	wget -qO - https://anaconda.org/nvidia/cuda-nvml-dev/$(NVML_VERSION)/download/linux-64/$(CONDA_PACKAGE_FILE) | \
-		tar xj --strip-components=1 include/nvml.h --directory=$(GEN_BINDINGS_DIR)
+	wget -qO - https://anaconda.org/nvidia/cuda-nvml-dev/$(NVML_VERSION)/download/linux-64/$(NVML_DEV_PACKAGE_FILE) | \
+		tar xj --directory=$(GEN_BINDINGS_DIR) --strip-components=1 include/nvml.h
 	sed -i -E 's#[[:blank:]]+$$##g' $(GEN_BINDINGS_DIR)/nvml.h
 
 # Generate an image for containerized builds
