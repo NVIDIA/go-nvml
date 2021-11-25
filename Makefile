@@ -83,27 +83,15 @@ test-bindings: bindings
 clean-bindings:
 	rm -rf $(PKG_BINDINGS_DIR)
 
-# Update nvml.h from the specied CUDA_VERSION development image
-update-nvml-h: CUDA_MAJOR := $(word 1,$(subst ., ,$(CUDA_VERSION)))
-update-nvml-h: CUDA_MINOR := $(word 2,$(subst ., ,$(CUDA_VERSION)))
-update-nvml-h: .copy-nvml-h
-	$(DOCKER) run \
-		--rm \
-		-v $(PWD):$(PWD) \
-		-w $(PWD) \
-		--user $$(id -u):$$(id -g) \
-		nvidia/cuda:$(CUDA_VERSION)-devel \
-			sed -i -E 's#[[:blank:]]+$$##g' $(GEN_BINDINGS_DIR)/nvml.h
-
-.copy-nvml-h:
-	if [[ $(CUDA_VERSION) == "" ]]; then echo "define CUDA_VERSION to update"; exit 1; fi
-	$(DOCKER) run \
-		--rm \
-		-v $(PWD):$(PWD) \
-		-w $(PWD) \
-		--user $$(id -u):$$(id -g) \
-		nvidia/cuda:$(CUDA_VERSION)-devel \
-			cp /usr/local/cuda-$(CUDA_MAJOR).$(CUDA_MINOR)/targets/x86_64-linux/include/nvml.h $(GEN_BINDINGS_DIR)
+# Update nvml.h from the Anaconda package repository
+update-nvml-h: CONDA_PACKAGE_FILE := $(shell wget -qO - https://conda.anaconda.org/nvidia/linux-64/repodata.json | grep -oh '"cuda-nvml-dev-[^"]*"' | tr -d '"' | sort -rV | head -n 1)
+update-nvml-h: NVML_VERSION := $(word 4,$(subst -, ,$(CONDA_PACKAGE_FILE)))
+update-nvml-h:
+	if [ -z "$(NVML_VERSION)" ]; then echo "Failed to get NVML from anaconda.org, please try again."; exit 1; fi
+	@echo "NVML version: $(NVML_VERSION)"
+	wget -qO - https://anaconda.org/nvidia/cuda-nvml-dev/$(NVML_VERSION)/download/linux-64/$(CONDA_PACKAGE_FILE) | \
+		tar xj --strip-components=1 include/nvml.h --directory=$(GEN_BINDINGS_DIR)
+	sed -i -E 's#[[:blank:]]+$$##g' $(GEN_BINDINGS_DIR)/nvml.h
 
 # Generate an image for containerized builds
 # Note: This image is local only
