@@ -50,42 +50,42 @@ GPUs on your system and print out their UUIDs.
 package main
 
 import (
-    "fmt"
-    "log"
+	"fmt"
+	"log"
 
-    "github.com/NVIDIA/go-nvml/pkg/nvml"
+	"github.com/NVIDIA/go-nvml/pkg/nvml"
 )
 
 func main() {
-    ret := nvml.Init()
-    if ret != nvml.SUCCESS {
-        log.Fatalf("Unable to initialize NVML: %v", nvml.ErrorString(ret))
-    }
-    defer func() {
-        ret := nvml.Shutdown()
-        if ret != nvml.SUCCESS {
-            log.Fatalf("Unable to shutdown NVML: %v", nvml.ErrorString(ret))
-        }
-    }()
+	ret := nvml.Init()
+	if ret != nvml.SUCCESS {
+		log.Fatalf("Unable to initialize NVML: %v", nvml.ErrorString(ret))
+	}
+	defer func() {
+		ret := nvml.Shutdown()
+		if ret != nvml.SUCCESS {
+			log.Fatalf("Unable to shutdown NVML: %v", nvml.ErrorString(ret))
+		}
+	}()
 
-    count, ret := nvml.DeviceGetCount()
-    if ret != nvml.SUCCESS {
-        log.Fatalf("Unable to get device count: %v", nvml.ErrorString(ret))
-    }
+	count, ret := nvml.DeviceGetCount()
+	if ret != nvml.SUCCESS {
+		log.Fatalf("Unable to get device count: %v", nvml.ErrorString(ret))
+	}
 
-    for i := 0; i < count; i++ {
-        device, ret := nvml.DeviceGetHandleByIndex(i)
-        if ret != nvml.SUCCESS {
-            log.Fatalf("Unable to get device at index %d: %v", i, nvml.ErrorString(ret))
-        }
+	for i := 0; i < count; i++ {
+		device, ret := nvml.DeviceGetHandleByIndex(i)
+		if ret != nvml.SUCCESS {
+			log.Fatalf("Unable to get device at index %d: %v", i, nvml.ErrorString(ret))
+		}
 
-        uuid, ret := device.GetUUID()
-        if ret != nvml.SUCCESS {
-            log.Fatalf("Unable to get uuid of device at index %d: %v", i, nvml.ErrorString(ret))
-        }
+		uuid, ret := device.GetUUID()
+		if ret != nvml.SUCCESS {
+			log.Fatalf("Unable to get uuid of device at index %d: %v", i, nvml.ErrorString(ret))
+		}
 
-        fmt.Printf("%v\n", uuid)
-    }
+		fmt.Printf("%v\n", uuid)
+	}
 }
 ```
 
@@ -135,12 +135,12 @@ Auto-generated Go bindings from `c-for-go`:
 
 ```go
 func nvmlDeviceGetAccountingPids(Device Device, Count *uint32, Pids *uint32) Return {
-    cDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
-    cCount, _ := (*C.uint)(unsafe.Pointer(Count)), cgoAllocsUnknown
-    cPids, _ := (*C.uint)(unsafe.Pointer(Pids)), cgoAllocsUnknown
-    __ret := C.nvmlDeviceGetAccountingPids(cDevice, cCount, cPids)
-    __v := (Return)(__ret)
-    return __v
+	cDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
+	cCount, _ := (*C.uint)(unsafe.Pointer(Count)), cgoAllocsUnknown
+	cPids, _ := (*C.uint)(unsafe.Pointer(Pids)), cgoAllocsUnknown
+	__ret := C.nvmlDeviceGetAccountingPids(cDevice, cCount, cPids)
+	__v := (Return)(__ret)
+	return __v
 }
 ```
 
@@ -150,22 +150,22 @@ Manual wrapper around the auto-generated bindings:
 package nvml
 
 func DeviceGetAccountingPids(Device Device) ([]int, Return) {
-    var Count uint32 = 1 // Will be reduced upon returning
-    for {
-        Pids := make([]uint32, Count)
-        ret := nvmlDeviceGetAccountingPids(Device, &Count, &Pids[0])
-        if ret == SUCCESS {
-            return uint32SliceToIntSlice(Pids[:Count]), ret
-        }
-        if ret != ERROR_INSUFFICIENT_SIZE {
-            return nil, ret
-        }
-        Count *= 2
-    }
+	var Count uint32 = 1 // Will be reduced upon returning
+	for {
+		Pids := make([]uint32, Count)
+		ret := nvmlDeviceGetAccountingPids(Device, &Count, &Pids[0])
+		if ret == SUCCESS {
+			return uint32SliceToIntSlice(Pids[:Count]), ret
+		}
+		if ret != ERROR_INSUFFICIENT_SIZE {
+			return nil, ret
+		}
+		Count *= 2
+	}
 }
 
 func (Device Device) GetAccountingPids() ([]int, Return) {
-    return DeviceGetAccountingPids(Device)
+	return DeviceGetAccountingPids(Device)
 }
 ```
 
@@ -193,12 +193,12 @@ Auto-generated Go bindings from `c-for-go`:
 
 ```go
 func nvmlDeviceGetUUID(Device Device, Uuid *byte, Length uint32) Return {
-    cDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
-    cUuid, _ := (*C.char)(unsafe.Pointer(Uuid)), cgoAllocsUnknown
-    cLength, _ := (C.uint)(Length), cgoAllocsUnknown
-    __ret := C.nvmlDeviceGetUUID(cDevice, cUuid, cLength)
-    __v := (Return)(__ret)
-    return __v
+	cDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
+	cUuid, _ := (*C.char)(unsafe.Pointer(Uuid)), cgoAllocsUnknown
+	cLength, _ := (C.uint)(Length), cgoAllocsUnknown
+	__ret := C.nvmlDeviceGetUUID(cDevice, cUuid, cLength)
+	__v := (Return)(__ret)
+	return __v
 }
 ```
 
@@ -208,13 +208,13 @@ Manual wrapper around the auto-generated bindings:
 package nvml
 
 func DeviceGetUUID(Device Device) (string, Return) {
-    Uuid := make([]byte, DEVICE_UUID_BUFFER_SIZE)
-    ret := nvmlDeviceGetUUID(Device, &Uuid[0], DEVICE_UUID_BUFFER_SIZE)
-    return string(Uuid[:clen(Uuid)]), ret
+	Uuid := make([]byte, DEVICE_UUID_BUFFER_SIZE)
+	ret := nvmlDeviceGetUUID(Device, &Uuid[0], DEVICE_UUID_BUFFER_SIZE)
+	return string(Uuid[:clen(Uuid)]), ret
 }
 
 func (Device Device) GetUUID() (string, Return) {
-    return DeviceGetUUID(Device)
+	return DeviceGetUUID(Device)
 }
 ```
 
@@ -330,23 +330,23 @@ var nvmlDeviceGetCount = nvmlDeviceGetCount_v1
 
 // updateVersionedSymbols()
 func updateVersionedSymbols() {
-    ret := nvml.Lookup("nvmlInit_v2")
-    if ret == SUCCESS {
-        nvmlInit = nvmlInit_v2
-    }
-    ret = nvml.Lookup("nvmlDeviceGetPciInfo_v2")
-    if ret == SUCCESS {
-        nvmlDeviceGetPciInfo = nvmlDeviceGetPciInfo_v2
-    }
-    ret = nvml.Lookup("nvmlDeviceGetPciInfo_v3")
-    if ret == SUCCESS {
-        nvmlDeviceGetPciInfo = nvmlDeviceGetPciInfo_v3
-    }
-    ret = nvml.Lookup("nvmlDeviceGetCount_v2")
-    if ret == SUCCESS {
-        nvmlDeviceGetCount = nvmlDeviceGetCount_v2
-    }
-    ...
+	ret := nvml.Lookup("nvmlInit_v2")
+	if ret == SUCCESS {
+		nvmlInit = nvmlInit_v2
+	}
+	ret = nvml.Lookup("nvmlDeviceGetPciInfo_v2")
+	if ret == SUCCESS {
+		nvmlDeviceGetPciInfo = nvmlDeviceGetPciInfo_v2
+	}
+	ret = nvml.Lookup("nvmlDeviceGetPciInfo_v3")
+	if ret == SUCCESS {
+		nvmlDeviceGetPciInfo = nvmlDeviceGetPciInfo_v3
+	}
+	ret = nvml.Lookup("nvmlDeviceGetCount_v2")
+	if ret == SUCCESS {
+		nvmlDeviceGetCount = nvmlDeviceGetCount_v2
+	}
+	...
 }
 ```
 
@@ -406,58 +406,58 @@ A few examples of a this can be seen below:
 ```go
 // nvml.UnitGetDevices()
 func UnitGetDevices(Unit Unit) ([]Device, Return) {
-    var DeviceCount uint32 = 1 // Will be reduced upon returning
-    for {
-        Devices := make([]Device, DeviceCount)
-        ret := nvmlUnitGetDevices(Unit, &DeviceCount, &Devices[0])
-        if ret == SUCCESS {
-            return Devices[:DeviceCount], ret
-        }
-        if ret != ERROR_INSUFFICIENT_SIZE {
-            return nil, ret
-        }
-        DeviceCount *= 2
-    }
+	var DeviceCount uint32 = 1 // Will be reduced upon returning
+	for {
+		Devices := make([]Device, DeviceCount)
+		ret := nvmlUnitGetDevices(Unit, &DeviceCount, &Devices[0])
+		if ret == SUCCESS {
+			return Devices[:DeviceCount], ret
+		}
+		if ret != ERROR_INSUFFICIENT_SIZE {
+			return nil, ret
+		}
+		DeviceCount *= 2
+	}
 }
 
 func (Unit Unit) GetDevices() ([]Device, Return) {
-    return UnitGetDevices(Unit)
+	return UnitGetDevices(Unit)
 }
 
 
 // nvml.DeviceGetUUID()
 func DeviceGetUUID(Device Device) (string, Return) {
-    Uuid := make([]byte, DEVICE_UUID_BUFFER_SIZE)
-    ret := nvmlDeviceGetUUID(Device, &Uuid[0], DEVICE_UUID_BUFFER_SIZE)
-    return string(Uuid[:clen(Uuid)]), ret
+	Uuid := make([]byte, DEVICE_UUID_BUFFER_SIZE)
+	ret := nvmlDeviceGetUUID(Device, &Uuid[0], DEVICE_UUID_BUFFER_SIZE)
+	return string(Uuid[:clen(Uuid)]), ret
 }
 
 func (Device Device) GetUUID() (string, Return) {
-    return DeviceGetUUID(Device)
+	return DeviceGetUUID(Device)
 }
 
 
 // nvml.EventSetWait()
 func EventSetWait(Set EventSet, Timeoutms uint32) (EventData, Return) {
-    var Data EventData
-    ret := nvmlEventSetWait(Set, &Data, Timeoutms)
-    return Data, ret
+	var Data EventData
+	ret := nvmlEventSetWait(Set, &Data, Timeoutms)
+	return Data, ret
 }
 
 func (Set EventSet) Wait(Timeoutms uint32) (EventData, Return) {
-    return EventSetWait(Set, Timeoutms)
+	return EventSetWait(Set, Timeoutms)
 }
 
 
 // nvml.VgpuInstanceGetUUID()
 func VgpuInstanceGetUUID(VgpuInstance VgpuInstance) (string, Return) {
-    Uuid := make([]byte, DEVICE_UUID_BUFFER_SIZE)
-    ret := nvmlVgpuInstanceGetUUID(VgpuInstance, &Uuid[0], DEVICE_UUID_BUFFER_SIZE)
-    return string(Uuid[:clen(Uuid)]), ret
+	Uuid := make([]byte, DEVICE_UUID_BUFFER_SIZE)
+	ret := nvmlVgpuInstanceGetUUID(VgpuInstance, &Uuid[0], DEVICE_UUID_BUFFER_SIZE)
+	return string(Uuid[:clen(Uuid)]), ret
 }
 
 func (VgpuInstance VgpuInstance) GetUUID() (string, Return) {
-    return VgpuInstanceGetUUID(VgpuInstance)
+	return VgpuInstanceGetUUID(VgpuInstance)
 }
 ```
 
