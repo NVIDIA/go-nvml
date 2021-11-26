@@ -102,16 +102,16 @@ update-nvml-h:
 	echo; \
 	echo "NVML version: $${NVML_VERSION}"; \
 	echo "Package: $${NVML_DEV_PACKAGE}"; \
-	echo "File: $${NVML_DEV_PACKAGE_FILE}"; \
-	echo "Download URL: $${NVML_DEV_PACKAGE_URL}"; \
 	echo; \
-	echo "Updating nvml.h to $${NVML_VERSION}..."; \
+	echo "Updating nvml.h to $${NVML_VERSION} from $${NVML_DEV_PACKAGE_URL} ..."; \
 	wget -q "$${NVML_DEV_PACKAGE_URL}" && \
 	tar xaf "$${NVML_DEV_PACKAGE_FILE}" \
 		--directory=$(GEN_BINDINGS_DIR) \
 		--strip-components=1 include/nvml.h && \
 	rm -f "$${NVML_DEV_PACKAGE_FILE}" && \
 	sed -i -E 's#[[:blank:]]+$$##g' "$(GEN_BINDINGS_DIR)/nvml.h" && \
+	sed -i "1i /*** From $${NVML_DEV_PACKAGE_URL} ***/" "$(GEN_BINDINGS_DIR)/nvml.h" && \
+	sed -i "1i /*** NVML VERSION: $${NVML_VERSION} ***/" "$(GEN_BINDINGS_DIR)/nvml.h" && \
 	echo "Successfully updated nvml.h to $${NVML_VERSION}."
 
 .list-nvml-packages:

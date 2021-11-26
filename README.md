@@ -569,10 +569,8 @@ Pick an NVML package to update ([1]-5): 1
 
 NVML version: 11.5.50
 Package: nvidia/cuda-nvml-dev/11.5.50/linux-64/cuda-nvml-dev-11.5.50-h511b398_0.tar.bz2
-File: cuda-nvml-dev-11.5.50-h511b398_0.tar.bz2
-Download URL: https://api.anaconda.org/download/nvidia/cuda-nvml-dev/11.5.50/linux-64/cuda-nvml-dev-11.5.50-h511b398_0.tar.bz2
 
-Updating nvml.h to 11.5.50 ...
+Updating nvml.h to 11.5.50 from https://api.anaconda.org/download/nvidia/cuda-nvml-dev/11.5.50/linux-64/cuda-nvml-dev-11.5.50-h511b398_0.tar.bz2 ...
 Successfully updated nvml.h to 11.5.50.
 ```
 
