@@ -84,15 +84,49 @@ clean-bindings:
 	rm -rf $(PKG_BINDINGS_DIR)
 
 # Update nvml.h from the Anaconda package repository
-update-nvml-h: NVML_DEV_PACKAGE_FILE := $(shell wget -qO - https://conda.anaconda.org/nvidia/label/$(LABEL)/linux-64/repodata.json | grep -oh '"cuda-nvml-dev-[^"]*"' | tr -d '"' | sort -rV | head -n 1)
-update-nvml-h: NVML_VERSION := $(word 4,$(subst -, ,$(NVML_DEV_PACKAGE_FILE)))
+update-nvml-h: NVML_DEV_PACKAGES := $(shell \
+		wget -qO - https://api.anaconda.org/package/nvidia/cuda-nvml-dev/files | \
+			grep -o '"nvidia/cuda-nvml-dev/[^"/]*/linux-64/[^"]*"' | tr -d '"' | \
+			sort -rV \
+	)
+update-nvml-h: NVML_DEV_PACKAGES_COUNT := $(words $(NVML_DEV_PACKAGES))
+update-nvml-h: .list-nvml-packages
 update-nvml-h:
-	if [ -z "$(LABEL)" ]; then echo "Define LABEL to update, please check the labels at https://anaconda.org/nvidia/cuda-nvml-dev/labels and try again."; exit 1; fi
-	if [ -z "$(NVML_VERSION)" ]; then echo "Failed to get NVML from anaconda.org with label \"$(LABEL)\", please check the labels at https://anaconda.org/nvidia/cuda-nvml-dev/labels and try again."; exit 1; fi
-	@echo "NVML version: $(NVML_VERSION)"
-	wget -qO - https://anaconda.org/nvidia/cuda-nvml-dev/$(NVML_VERSION)/download/linux-64/$(NVML_DEV_PACKAGE_FILE) | \
-		tar xj --directory=$(GEN_BINDINGS_DIR) --strip-components=1 include/nvml.h
-	sed -i -E 's#[[:blank:]]+$$##g' $(GEN_BINDINGS_DIR)/nvml.h
+	@read -p "Pick an NVML package to update ([1]-$(NVML_DEV_PACKAGES_COUNT)): " idx; \
+	if [ -z $${idx} ]; then idx=1; fi; \
+	if ! [ $${idx} -ge 1 ] || ! [ $${idx} -le $(NVML_DEV_PACKAGES_COUNT) ]; then echo "Invalid index: \"$${idx}\""; exit 1; fi; \
+	NVML_DEV_PACKAGE="$$(echo $(NVML_DEV_PACKAGES) | cut -d ' ' -f$${idx})"; \
+	NVML_VERSION="$$(echo "$${NVML_DEV_PACKAGE}" | cut -d '/' -f3)"; \
+	NVML_DEV_PACKAGE_FILE="$$(basename "$${NVML_DEV_PACKAGE}")"; \
+	NVML_DEV_PACKAGE_URL="https://api.anaconda.org/download/$${NVML_DEV_PACKAGE}"; \
+	echo; \
+	echo "NVML version: $${NVML_VERSION}"; \
+	echo "Package: $${NVML_DEV_PACKAGE}"; \
+	echo "File: $${NVML_DEV_PACKAGE_FILE}"; \
+	echo "Download URL: $${NVML_DEV_PACKAGE_URL}"; \
+	echo; \
+	echo "Updating nvml.h to $${NVML_VERSION}..."; \
+	wget -q "$${NVML_DEV_PACKAGE_URL}" && \
+	tar xaf "$${NVML_DEV_PACKAGE_FILE}" \
+		--directory=$(GEN_BINDINGS_DIR) \
+		--strip-components=1 include/nvml.h && \
+	rm -f "$${NVML_DEV_PACKAGE_FILE}" && \
+	sed -i -E 's#[[:blank:]]+$$##g' "$(GEN_BINDINGS_DIR)/nvml.h" && \
+	echo "Successfully updated nvml.h to $${NVML_VERSION}."
+
+.list-nvml-packages:
+	@if [ $(NVML_DEV_PACKAGES_COUNT) -eq 0 ]; then \
+		echo "Failed to get NVML from anaconda.org, please try again."; \
+		exit 1; \
+	fi
+	@echo "Found $(NVML_DEV_PACKAGES_COUNT) NVML packages:"
+	@idx=0; \
+	for file in $(NVML_DEV_PACKAGES); do \
+		idx=$$((idx + 1)); \
+		NVML_VERSION="$$(echo "$$file" | cut -d '/' -f3)"; \
+		printf "%3s -- %-8s -- %s\n" "$$idx" "$$NVML_VERSION" "$$file"; \
+	done; \
+	echo
 
 # Generate an image for containerized builds
 # Note: This image is local only
