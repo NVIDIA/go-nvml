@@ -74,7 +74,6 @@ bindings: .create-bindings .strip-autogen-comment .strip-nvml-h-linenumber
 	grep -l -RE "$(SED_SEARCH_STRING)" pkg \
 		| xargs sed -i -E 's#$(SED_SEARCH_STRING)$$#$(SED_REPLACE_STRING)#g'
 
-
 test-bindings: bindings
 	cd $(PKG_BINDINGS_DIR); \
 		go test -v .; \
@@ -174,3 +173,14 @@ $(DOCKER_TARGETS): docker-%: .build-image
 		-w $(PWD) \
 		$(BUILDIMAGE) \
 			bash
+
+# Run markdownlint (https://github.com/markdownlint/markdownlint) for README.md
+# Note: Tabs are preferred for Golang code blocks
+markdownlint:
+	$(DOCKER) run \
+		--rm \
+		-v $(PWD):$(PWD) \
+		-w $(PWD) \
+		markdownlint/markdownlint:latest \
+		--rules=~no-hard-tabs,~line-length \
+		README.md
