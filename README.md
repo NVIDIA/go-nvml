@@ -556,12 +556,28 @@ The general steps to update the bindings to a newer version of the NVML API are 
 
 Pull down the `nvml.h` containing the updated API and commit it back to `gen/nvml/nvml.h`. The `Makefile` contains a command:
 
-```bash
-make LABEL=cuda-11.5.1 update-nvml-h
+```console
+$ make update-nvml-h
+Found 5 NVML packages:
+  1 -- 11.5.50  -- nvidia/cuda-nvml-dev/11.5.50/linux-64/cuda-nvml-dev-11.5.50-h511b398_0.tar.bz2
+  2 -- 11.4.120 -- nvidia/cuda-nvml-dev/11.4.120/linux-64/cuda-nvml-dev-11.4.120-hb8c74d6_0.tar.bz2
+  3 -- 11.4.43  -- nvidia/cuda-nvml-dev/11.4.43/linux-64/cuda-nvml-dev-11.4.43-he36855d_0.tar.bz2
+  4 -- 11.3.58  -- nvidia/cuda-nvml-dev/11.3.58/linux-64/cuda-nvml-dev-11.3.58-hc25e488_0.tar.bz2
+  5 -- 11.3.58  -- nvidia/cuda-nvml-dev/11.3.58/linux-64/cuda-nvml-dev-11.3.58-h70090ce_0.tar.bz2
+
+Pick an NVML package to update ([1]-5): 1
+
+NVML version: 11.5.50
+Package: nvidia/cuda-nvml-dev/11.5.50/linux-64/cuda-nvml-dev-11.5.50-h511b398_0.tar.bz2
+File: cuda-nvml-dev-11.5.50-h511b398_0.tar.bz2
+Download URL: https://api.anaconda.org/download/nvidia/cuda-nvml-dev/11.5.50/linux-64/cuda-nvml-dev-11.5.50-h511b398_0.tar.bz2
+
+Updating nvml.h to 11.5.50 ...
+Successfully updated nvml.h to 11.5.50.
 ```
 
-that copies the file from the Anaconda package [`anaconda.org/nvidia/cuda-nvml-dev`](https://anaconda.org/nvidia/cuda-nvml-dev) (latest version with the given label).
-Available labels can be found at https://anaconda.org/nvidia/cuda-nvml-dev/labels (`main` and `cuda-xx.y.z`).
+that copies the file from the Anaconda package [`anaconda.org/nvidia/cuda-nvml-dev`](https://anaconda.org/nvidia/cuda-nvml-dev).
+Available files can be found at https://anaconda.org/nvidia/cuda-nvml-dev/files (platform: `linux-64`).
 
 Since `gen/nvml/nvml.h` is under version control, running:
 
