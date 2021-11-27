@@ -559,11 +559,13 @@ Pull down the `nvml.h` containing the updated API and commit it back to `gen/nvm
 ```console
 $ make update-nvml-h
 Found 5 NVML packages:
-  1 -- 11.5.50  -- nvidia/cuda-nvml-dev/11.5.50/linux-64/cuda-nvml-dev-11.5.50-h511b398_0.tar.bz2
-  2 -- 11.4.120 -- nvidia/cuda-nvml-dev/11.4.120/linux-64/cuda-nvml-dev-11.4.120-hb8c74d6_0.tar.bz2
-  3 -- 11.4.43  -- nvidia/cuda-nvml-dev/11.4.43/linux-64/cuda-nvml-dev-11.4.43-he36855d_0.tar.bz2
-  4 -- 11.3.58  -- nvidia/cuda-nvml-dev/11.3.58/linux-64/cuda-nvml-dev-11.3.58-hc25e488_0.tar.bz2
-  5 -- 11.3.58  -- nvidia/cuda-nvml-dev/11.3.58/linux-64/cuda-nvml-dev-11.3.58-h70090ce_0.tar.bz2
+
+No.  Version   Upload Time          Package
+  1  11.5.50   2021-11-23-22:46:02  nvidia/cuda-nvml-dev/11.5.50/linux-64/cuda-nvml-dev-11.5.50-h511b398_0.tar.bz2
+  2  11.4.120  2021-11-03-22:08:33  nvidia/cuda-nvml-dev/11.4.120/linux-64/cuda-nvml-dev-11.4.120-hb8c74d6_0.tar.bz2
+  3  11.4.43   2021-09-08-00:10:30  nvidia/cuda-nvml-dev/11.4.43/linux-64/cuda-nvml-dev-11.4.43-he36855d_0.tar.bz2
+  4  11.3.58   2021-09-08-00:36:34  nvidia/cuda-nvml-dev/11.3.58/linux-64/cuda-nvml-dev-11.3.58-hc25e488_0.tar.bz2
+  5  11.3.58   2021-09-08-00:36:31  nvidia/cuda-nvml-dev/11.3.58/linux-64/cuda-nvml-dev-11.3.58-h70090ce_0.tar.bz2
 
 Pick an NVML package to update ([1]-5): 1
 

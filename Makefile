@@ -83,19 +83,21 @@ clean-bindings:
 	rm -rf $(PKG_BINDINGS_DIR)
 
 # Update nvml.h from the Anaconda package repository
-update-nvml-h: NVML_DEV_PACKAGES := $(shell \
+update-nvml-h: JQ := $(DOCKER) run -i -v "$(PWD):$(PWD)" -w "$(PWD)" stedolan/jq:latest
+update-nvml-h: NVML_DEV_PACKAGES_INFO := $(shell \
 		wget -qO - https://api.anaconda.org/package/nvidia/cuda-nvml-dev/files | \
-			grep -o '"nvidia/cuda-nvml-dev/[^"/]*/linux-64/[^"]*"' | tr -d '"' | \
-			sort -rV \
+			$(JQ) '.[] | select(.attrs.subdir=="linux-64") | .version + "@" + .upload_time[:19] + "@" + .full_name' | \
+			tr -d '"' | tr ' ' '-' | sort -rV \
 	)
-update-nvml-h: NVML_DEV_PACKAGES_COUNT := $(words $(NVML_DEV_PACKAGES))
+update-nvml-h: NVML_DEV_PACKAGES_COUNT := $(words $(NVML_DEV_PACKAGES_INFO))
 update-nvml-h: .list-nvml-packages
 update-nvml-h:
 	@read -p "Pick an NVML package to update ([1]-$(NVML_DEV_PACKAGES_COUNT)): " idx; \
 	if [ -z $${idx} ]; then idx=1; fi; \
-	if ! [ $${idx} -ge 1 ] || ! [ $${idx} -le $(NVML_DEV_PACKAGES_COUNT) ]; then echo "Invalid index: \"$${idx}\""; exit 1; fi; \
-	NVML_DEV_PACKAGE="$$(echo $(NVML_DEV_PACKAGES) | cut -d ' ' -f$${idx})"; \
-	NVML_VERSION="$$(echo "$${NVML_DEV_PACKAGE}" | cut -d '/' -f3)"; \
+	if ! [ $${idx} -ge 1 ] || ! [ $${idx} -le $(NVML_DEV_PACKAGES_COUNT) ]; then echo "Invalid number: \"$${idx}\""; exit 1; fi; \
+	NVML_DEV_PACKAGE_INFO="$$(echo "$(NVML_DEV_PACKAGES_INFO)" | cut -d ' ' -f$${idx})"; \
+	NVML_VERSION="$$(echo "$${NVML_DEV_PACKAGE_INFO}" | cut -d '@' -f1)"; \
+	NVML_DEV_PACKAGE="$$(echo "$${NVML_DEV_PACKAGE_INFO}" | cut -d '@' -f3)"; \
 	NVML_DEV_PACKAGE_FILE="$$(basename "$${NVML_DEV_PACKAGE}")"; \
 	NVML_DEV_PACKAGE_URL="https://api.anaconda.org/download/$${NVML_DEV_PACKAGE}"; \
 	echo; \
@@ -105,7 +107,7 @@ update-nvml-h:
 	echo "Updating nvml.h to $${NVML_VERSION} from $${NVML_DEV_PACKAGE_URL} ..."; \
 	wget -q "$${NVML_DEV_PACKAGE_URL}" && \
 	tar xaf "$${NVML_DEV_PACKAGE_FILE}" \
-		--directory=$(GEN_BINDINGS_DIR) \
+		--directory="$(GEN_BINDINGS_DIR)" \
 		--strip-components=1 include/nvml.h && \
 	rm -f "$${NVML_DEV_PACKAGE_FILE}" && \
 	sed -i -E 's#[[:blank:]]+$$##g' "$(GEN_BINDINGS_DIR)/nvml.h" && \
@@ -118,12 +120,15 @@ update-nvml-h:
 		echo "Failed to get NVML from anaconda.org, please try again."; \
 		exit 1; \
 	fi
-	@echo "Found $(NVML_DEV_PACKAGES_COUNT) NVML packages:"
+	@echo "Found $(NVML_DEV_PACKAGES_COUNT) NVML packages:"; echo
+	@printf "%3s  %-8s  %-19s  %-s\n" "No." "Version" "Upload Time" "Package"
 	@idx=0; \
-	for file in $(NVML_DEV_PACKAGES); do \
+	for info in $(NVML_DEV_PACKAGES_INFO); do \
 		idx=$$((idx + 1)); \
-		NVML_VERSION="$$(echo "$$file" | cut -d '/' -f3)"; \
-		printf "%3s -- %-8s -- %s\n" "$$idx" "$$NVML_VERSION" "$$file"; \
+		NVML_VERSION="$$(echo "$${info}" | cut -d '@' -f1)"; \
+		UPLOAD_TIME="$$(echo "$${info}" | cut -d '@' -f2)"; \
+		PACKAGE="$$(echo "$${info}" | cut -d '@' -f3)"; \
+		printf "%3s  %-8s  %-19s  %-s\n" "$${idx}" "$${NVML_VERSION}" "$${UPLOAD_TIME}" "$${PACKAGE}"; \
 	done; \
 	echo
 
