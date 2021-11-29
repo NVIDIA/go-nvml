@@ -13,6 +13,9 @@
   - [Test code](#test-code)
 - [Building and Testing](#building-and-testing)
 - [Updating the Code](#updating-the-code)
+  - [Update `nvml.h`](#update-nvmlh)
+  - [Add new versioned APIs](#add-new-versioned-apis)
+  - [Add manual wrappers](#add-manual-wrappers)
 - [Releasing](#releasing)
 - [Contributing](#contributing)
 
@@ -599,7 +602,7 @@ git diff -w gen/nvml/nvml.h | grep -E "^\+\s*#define.*?_v[^1]"
 
 ### Add manual wrappers
 
-Write a set of manual wappers around any new calls as described in one of the previous sections above.
+Write a set of manual wrappers around any new calls as described in one of the previous sections above.
 
 The following command should show the API calls added in the update:
 
