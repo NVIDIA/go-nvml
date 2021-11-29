@@ -83,7 +83,7 @@ clean-bindings:
 	rm -rf $(PKG_BINDINGS_DIR)
 
 # Update nvml.h from the Anaconda package repository
-update-nvml-h: JQ := $(DOCKER) run -i -v "$(PWD):$(PWD)" -w "$(PWD)" stedolan/jq:latest
+update-nvml-h: JQ := $(DOCKER) run -i --rm -v "$(PWD):$(PWD)" -w "$(PWD)" stedolan/jq:latest
 update-nvml-h: NVML_DEV_PACKAGES_INFO := $(shell \
 		wget -qO - https://api.anaconda.org/package/nvidia/cuda-nvml-dev/files | \
 			$(JQ) '.[] | select(.attrs.subdir=="linux-64") | .version + "@" + .upload_time[:19] + "@" + .full_name' | \
@@ -98,18 +98,15 @@ update-nvml-h:
 	NVML_DEV_PACKAGE_INFO="$$(echo "$(NVML_DEV_PACKAGES_INFO)" | cut -d ' ' -f$${idx})"; \
 	NVML_VERSION="$$(echo "$${NVML_DEV_PACKAGE_INFO}" | cut -d '@' -f1)"; \
 	NVML_DEV_PACKAGE="$$(echo "$${NVML_DEV_PACKAGE_INFO}" | cut -d '@' -f3)"; \
-	NVML_DEV_PACKAGE_FILE="$$(basename "$${NVML_DEV_PACKAGE}")"; \
 	NVML_DEV_PACKAGE_URL="https://api.anaconda.org/download/$${NVML_DEV_PACKAGE}"; \
 	echo; \
 	echo "NVML version: $${NVML_VERSION}"; \
 	echo "Package: $${NVML_DEV_PACKAGE}"; \
 	echo; \
 	echo "Updating nvml.h to $${NVML_VERSION} from $${NVML_DEV_PACKAGE_URL} ..."; \
-	wget -q "$${NVML_DEV_PACKAGE_URL}" && \
-	tar xaf "$${NVML_DEV_PACKAGE_FILE}" \
-		--directory="$(GEN_BINDINGS_DIR)" \
+	wget -qO - "$${NVML_DEV_PACKAGE_URL}" | \
+	tar -xj --directory="$(GEN_BINDINGS_DIR)" \
 		--strip-components=1 include/nvml.h && \
-	rm -f "$${NVML_DEV_PACKAGE_FILE}" && \
 	sed -i -E 's#[[:blank:]]+$$##g' "$(GEN_BINDINGS_DIR)/nvml.h" && \
 	sed -i "1i /*** From $${NVML_DEV_PACKAGE_URL} ***/" "$(GEN_BINDINGS_DIR)/nvml.h" && \
 	sed -i "1i /*** NVML VERSION: $${NVML_VERSION} ***/" "$(GEN_BINDINGS_DIR)/nvml.h" && \
@@ -181,11 +178,6 @@ $(DOCKER_TARGETS): docker-%: .build-image
 
 # Run markdownlint (https://github.com/markdownlint/markdownlint) for README.md
 # Note: Tabs are preferred for Golang code blocks
+markdownlint: MDL := $(DOCKER) run --rm -v "$(PWD):$(PWD)" -w "$(PWD)" markdownlint/markdownlint:latest
 markdownlint:
-	$(DOCKER) run \
-		--rm \
-		-v $(PWD):$(PWD) \
-		-w $(PWD) \
-		markdownlint/markdownlint:latest \
-		--rules=~no-hard-tabs,~line-length \
-		README.md
+	@$(MDL) --rules=~no-hard-tabs,~line-length README.md
