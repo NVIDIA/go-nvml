@@ -28,6 +28,12 @@ SOURCES = $(shell find $(GEN_BINDINGS_DIR) -type f)
 EXAMPLES := $(patsubst ./examples/%/,%,$(sort $(dir $(wildcard ./examples/*/))))
 EXAMPLE_TARGETS := $(patsubst %,example-%, $(EXAMPLES))
 
+ifeq ($(shell uname),Darwin)
+	SED := $(DOCKER) run -it --rm -v "$(PWD):$(PWD)" -w "$(PWD)" alpine:latest sed
+else
+	SED := sed
+endif
+
 TARGETS := all test clean bindings test-bindings clean-bindings patch-nvml-h examples $(EXAMPLE_TARGETS)
 DOCKER_TARGETS := $(patsubst %, docker-%, $(TARGETS))
 .PHONY: $(TARGETS) $(DOCKER_TARGETS)
@@ -49,7 +55,7 @@ $(PKG_BINDINGS_DIR):
 
 patch-nvml-h: $(PKG_BINDINGS_DIR)/nvml.h
 $(PKG_BINDINGS_DIR)/nvml.h: $(GEN_BINDINGS_DIR)/nvml.h | $(PKG_BINDINGS_DIR)
-	sed -E 's#(typedef\s+struct)\s+(nvml.*_st\*)\s+(nvml.*_t);#\1\n{\n    struct \2 handle;\n} \3;#g' $(<) > $(@)
+	$(SED) -E 's#(typedef\s+struct)\s+(nvml.*_st\*)\s+(nvml.*_t);#\1\n{\n    struct \2 handle;\n} \3;#g' $(<) > $(@)
 
 bindings: .create-bindings .strip-autogen-comment .strip-nvml-h-linenumber
 
@@ -66,13 +72,13 @@ bindings: .create-bindings .strip-autogen-comment .strip-nvml-h-linenumber
 .strip-autogen-comment: SED_REPLACE_STRING := // WARNING: THIS FILE WAS AUTOMATICALLY GENERATED.
 .strip-autogen-comment: | .create-bindings
 	grep -l -R "$(SED_SEARCH_STRING)" pkg \
-		| xargs sed -i -E 's#$(SED_SEARCH_STRING).*$$#$(SED_REPLACE_STRING)#g'
+		| xargs $(SED) -i -E 's#$(SED_SEARCH_STRING).*$$#$(SED_REPLACE_STRING)#g'
 
 .strip-nvml-h-linenumber: SED_SEARCH_STRING := // (.*) nvml/nvml.h:[0-9]+
 .strip-nvml-h-linenumber: SED_REPLACE_STRING := // \1 nvml/nvml.h
 .strip-nvml-h-linenumber: | .create-bindings
 	grep -l -RE "$(SED_SEARCH_STRING)" pkg \
-		| xargs sed -i -E 's#$(SED_SEARCH_STRING)$$#$(SED_REPLACE_STRING)#g'
+		| xargs $(SED) -i -E 's#$(SED_SEARCH_STRING)$$#$(SED_REPLACE_STRING)#g'
 
 test-bindings: bindings
 	cd $(PKG_BINDINGS_DIR); \
@@ -107,9 +113,9 @@ update-nvml-h:
 	wget -qO - "$${NVML_DEV_PACKAGE_URL}" | \
 	tar -xj --directory="$(GEN_BINDINGS_DIR)" \
 		--strip-components=1 include/nvml.h && \
-	sed -i -E 's#[[:blank:]]+$$##g' "$(GEN_BINDINGS_DIR)/nvml.h" && \
-	sed -i "1i /*** From $${NVML_DEV_PACKAGE_URL} ***/" "$(GEN_BINDINGS_DIR)/nvml.h" && \
-	sed -i "1i /*** NVML VERSION: $${NVML_VERSION} ***/" "$(GEN_BINDINGS_DIR)/nvml.h" && \
+	$(SED) -i -E 's#[[:blank:]]+$$##g' "$(GEN_BINDINGS_DIR)/nvml.h" && \
+	$(SED) -i "1i /*** From $${NVML_DEV_PACKAGE_URL} ***/" "$(GEN_BINDINGS_DIR)/nvml.h" && \
+	$(SED) -i "1i /*** NVML VERSION: $${NVML_VERSION} ***/" "$(GEN_BINDINGS_DIR)/nvml.h" && \
 	echo "Successfully updated nvml.h to $${NVML_VERSION}."
 
 .list-nvml-packages:
