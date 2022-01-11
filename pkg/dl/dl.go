@@ -21,6 +21,7 @@ import (
 
 // #cgo LDFLAGS: -ldl
 // #include <dlfcn.h>
+// #include <stdlib.h>
 import "C"
 
 const (
@@ -48,7 +49,10 @@ func New(name string, flags int) *DynamicLibrary {
 }
 
 func (dl *DynamicLibrary) Open() error {
-	handle := C.dlopen(C.CString(dl.Name), C.int(dl.Flags))
+	name := C.CString(dl.Name)
+	defer C.free(unsafe.Pointer(name))
+
+	handle := C.dlopen(name, C.int(dl.Flags))
 	if handle == C.NULL {
 		return fmt.Errorf("%s", C.GoString(C.dlerror()))
 	}
@@ -65,8 +69,11 @@ func (dl *DynamicLibrary) Close() error {
 }
 
 func (dl *DynamicLibrary) Lookup(symbol string) error {
+	sym := C.CString(symbol)
+	defer C.free(unsafe.Pointer(sym))
+
 	C.dlerror() // Clear out any previous errors
-	C.dlsym(dl.handle, C.CString(symbol))
+	C.dlsym(dl.handle, sym)
 	err := C.dlerror()
 	if unsafe.Pointer(err) == C.NULL {
 		return nil
