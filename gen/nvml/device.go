@@ -101,14 +101,14 @@ func (Device Device) GetSerial() (string, Return) {
 }
 
 // nvml.DeviceGetCpuAffinity()
-func DeviceGetCpuAffinity(Device Device, NumCPUs int) ([]uint, Return) {
+func DeviceGetCpuAffinity(Device Device, NumCPUs int) ([]uint32, Return) {
 	CpuSetSize := uint32((NumCPUs-1)/int(unsafe.Sizeof(uint(0))) + 1)
-	CpuSet := make([]uint, CpuSetSize)
+	CpuSet := make([]uint32, CpuSetSize)
 	ret := nvmlDeviceGetCpuAffinity(Device, CpuSetSize, &CpuSet[0])
 	return CpuSet, ret
 }
 
-func (Device Device) GetCpuAffinity(NumCPUs int) ([]uint, Return) {
+func (Device Device) GetCpuAffinity(NumCPUs int) ([]uint32, Return) {
 	return DeviceGetCpuAffinity(Device, NumCPUs)
 }
 
@@ -131,26 +131,26 @@ func (Device Device) ClearCpuAffinity() Return {
 }
 
 // nvml.DeviceGetMemoryAffinity()
-func DeviceGetMemoryAffinity(Device Device, NumNodes int, Scope AffinityScope) ([]uint, Return) {
+func DeviceGetMemoryAffinity(Device Device, NumNodes int, Scope AffinityScope) ([]uint32, Return) {
 	NodeSetSize := uint32((NumNodes-1)/int(unsafe.Sizeof(uint(0))) + 1)
-	NodeSet := make([]uint, NodeSetSize)
+	NodeSet := make([]uint32, NodeSetSize)
 	ret := nvmlDeviceGetMemoryAffinity(Device, NodeSetSize, &NodeSet[0], Scope)
 	return NodeSet, ret
 }
 
-func (Device Device) GetMemoryAffinity(NumNodes int, Scope AffinityScope) ([]uint, Return) {
+func (Device Device) GetMemoryAffinity(NumNodes int, Scope AffinityScope) ([]uint32, Return) {
 	return DeviceGetMemoryAffinity(Device, NumNodes, Scope)
 }
 
 // nvml.DeviceGetCpuAffinityWithinScope()
-func DeviceGetCpuAffinityWithinScope(Device Device, NumCPUs int, Scope AffinityScope) ([]uint, Return) {
+func DeviceGetCpuAffinityWithinScope(Device Device, NumCPUs int, Scope AffinityScope) ([]uint32, Return) {
 	CpuSetSize := uint32((NumCPUs-1)/int(unsafe.Sizeof(uint(0))) + 1)
-	CpuSet := make([]uint, CpuSetSize)
+	CpuSet := make([]uint32, CpuSetSize)
 	ret := nvmlDeviceGetCpuAffinityWithinScope(Device, CpuSetSize, &CpuSet[0], Scope)
 	return CpuSet, ret
 }
 
-func (Device Device) GetCpuAffinityWithinScope(NumCPUs int, Scope AffinityScope) ([]uint, Return) {
+func (Device Device) GetCpuAffinityWithinScope(NumCPUs int, Scope AffinityScope) ([]uint32, Return) {
 	return DeviceGetCpuAffinityWithinScope(Device, NumCPUs, Scope)
 }
 
