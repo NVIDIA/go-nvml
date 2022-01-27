@@ -243,8 +243,7 @@ been generated. The one exception is the code used to dynamically load the
 `libnvidia-ml.so` code from a host system and attach the go bindings to it. This
 package requires no generated code and is housed statically under `pkg/dl`.
 Once the code under `gen/nvml` has passed through `c-for-go` and any manual
-manual wrappers applied, the final generated bindings are placed under
-`pkg/nvml`.
+wrappers applied, the final generated bindings are placed under `pkg/nvml`.
 
 In general, the code used to generate the NVML Go bindings can be broken into 4 logical parts:
 
@@ -618,7 +617,7 @@ git diff -w gen/nvml/nvml.h | grep "+nvmlReturn_t DECLDIR nvml" | grep -vE "_v\d
 
 Of course this is just the general flow, and there may be more work to do if
 new types are added, or a new API is created that does something outside the
-scope of what has been done so far. These guidelines should be good a starting
+scope of what has been done so far. These guidelines should be a good starting
 point though.
 
 Keep in mind, that all updates to the NVML bindings code should be made in the
