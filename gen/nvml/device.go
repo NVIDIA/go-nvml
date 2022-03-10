@@ -1100,6 +1100,17 @@ func (Device Device) GetViolationStatus(PerfPolicyType PerfPolicyType) (Violatio
 	return DeviceGetViolationStatus(Device, PerfPolicyType)
 }
 
+// nvml.DeviceGetIrqNum()
+func DeviceGetIrqNum(Device Device) (int, Return) {
+	var IrqNum uint32
+	ret := nvmlDeviceGetIrqNum(Device, &IrqNum)
+	return int(IrqNum), ret
+}
+
+func (Device Device) GetIrqNum() (int, Return) {
+	return DeviceGetIrqNum(Device)
+}
+
 // nvml.DeviceGetAccountingMode()
 func DeviceGetAccountingMode(Device Device) (EnableState, Return) {
 	var Mode EnableState
@@ -2089,4 +2100,15 @@ func DeviceGetDeviceHandleFromMigDeviceHandle(MigDevice Device) (Device, Return)
 
 func (MigDevice Device) GetDeviceHandleFromMigDeviceHandle() (Device, Return) {
 	return DeviceGetDeviceHandleFromMigDeviceHandle(MigDevice)
+}
+
+// nvml.DeviceGetBusType()
+func DeviceGetBusType(Device Device) (BusType, Return) {
+	var Type BusType
+	ret := nvmlDeviceGetBusType(Device, &Type)
+	return Type, ret
+}
+
+func (Device Device) GetBusType() (BusType, Return) {
+	return DeviceGetBusType(Device)
 }
