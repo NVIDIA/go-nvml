@@ -528,6 +528,17 @@ func (Device Device) GetFanSpeed_v2(Fan int) (uint32, Return) {
 	return DeviceGetFanSpeed_v2(Device, Fan)
 }
 
+// nvml.DeviceGetNumFans()
+func DeviceGetNumFans(Device Device) (int, Return) {
+	var NumFans uint32
+	ret := nvmlDeviceGetNumFans(Device, &NumFans)
+	return int(NumFans), ret
+}
+
+func (Device Device) GetNumFans() (int, Return) {
+	return DeviceGetNumFans(Device)
+}
+
 // nvml.DeviceGetTemperature()
 func DeviceGetTemperature(Device Device, SensorType TemperatureSensors) (uint32, Return) {
 	var Temp uint32
@@ -702,6 +713,18 @@ func DeviceGetMemoryInfo(Device Device) (Memory, Return) {
 
 func (Device Device) GetMemoryInfo() (Memory, Return) {
 	return DeviceGetMemoryInfo(Device)
+}
+
+// nvml.DeviceGetMemoryInfo_v2()
+func DeviceGetMemoryInfo_v2(Device Device) (Memory_v2, Return) {
+	var Memory Memory_v2
+	Memory.Version = STRUCT_VERSION(Memory, 2)
+	ret := nvmlDeviceGetMemoryInfo_v2(Device, &Memory)
+	return Memory, ret
+}
+
+func (Device Device) GetMemoryInfo_v2() (Memory_v2, Return) {
+	return DeviceGetMemoryInfo_v2(Device)
 }
 
 // nvml.DeviceGetComputeMode()
@@ -950,8 +973,23 @@ func deviceGetComputeRunningProcesses_v1(Device Device) ([]ProcessInfo, Return) 
 func deviceGetComputeRunningProcesses_v2(Device Device) ([]ProcessInfo, Return) {
 	var InfoCount uint32 = 1 // Will be reduced upon returning
 	for {
-		Infos := make([]ProcessInfo, InfoCount)
+		Infos := make([]ProcessInfo_v2, InfoCount)
 		ret := nvmlDeviceGetComputeRunningProcesses_v2(Device, &InfoCount, &Infos[0])
+		if ret == SUCCESS {
+			return ProcessInfo_v2Slice(Infos[:InfoCount]).ToProcessInfoSlice(), ret
+		}
+		if ret != ERROR_INSUFFICIENT_SIZE {
+			return nil, ret
+		}
+		InfoCount *= 2
+	}
+}
+
+func deviceGetComputeRunningProcesses_v3(Device Device) ([]ProcessInfo, Return) {
+	var InfoCount uint32 = 1 // Will be reduced upon returning
+	for {
+		Infos := make([]ProcessInfo, InfoCount)
+		ret := nvmlDeviceGetComputeRunningProcesses_v3(Device, &InfoCount, &Infos[0])
 		if ret == SUCCESS {
 			return Infos[:InfoCount], ret
 		}
@@ -985,8 +1023,23 @@ func deviceGetGraphicsRunningProcesses_v1(Device Device) ([]ProcessInfo, Return)
 func deviceGetGraphicsRunningProcesses_v2(Device Device) ([]ProcessInfo, Return) {
 	var InfoCount uint32 = 1 // Will be reduced upon returning
 	for {
-		Infos := make([]ProcessInfo, InfoCount)
+		Infos := make([]ProcessInfo_v2, InfoCount)
 		ret := nvmlDeviceGetGraphicsRunningProcesses_v2(Device, &InfoCount, &Infos[0])
+		if ret == SUCCESS {
+			return ProcessInfo_v2Slice(Infos[:InfoCount]).ToProcessInfoSlice(), ret
+		}
+		if ret != ERROR_INSUFFICIENT_SIZE {
+			return nil, ret
+		}
+		InfoCount *= 2
+	}
+}
+
+func deviceGetGraphicsRunningProcesses_v3(Device Device) ([]ProcessInfo, Return) {
+	var InfoCount uint32 = 1 // Will be reduced upon returning
+	for {
+		Infos := make([]ProcessInfo, InfoCount)
+		ret := nvmlDeviceGetGraphicsRunningProcesses_v3(Device, &InfoCount, &Infos[0])
 		if ret == SUCCESS {
 			return Infos[:InfoCount], ret
 		}
@@ -1020,8 +1073,23 @@ func deviceGetMPSComputeRunningProcesses_v1(Device Device) ([]ProcessInfo, Retur
 func deviceGetMPSComputeRunningProcesses_v2(Device Device) ([]ProcessInfo, Return) {
 	var InfoCount uint32 = 1 // Will be reduced upon returning
 	for {
-		Infos := make([]ProcessInfo, InfoCount)
+		Infos := make([]ProcessInfo_v2, InfoCount)
 		ret := nvmlDeviceGetMPSComputeRunningProcesses_v2(Device, &InfoCount, &Infos[0])
+		if ret == SUCCESS {
+			return ProcessInfo_v2Slice(Infos[:InfoCount]).ToProcessInfoSlice(), ret
+		}
+		if ret != ERROR_INSUFFICIENT_SIZE {
+			return nil, ret
+		}
+		InfoCount *= 2
+	}
+}
+
+func deviceGetMPSComputeRunningProcesses_v3(Device Device) ([]ProcessInfo, Return) {
+	var InfoCount uint32 = 1 // Will be reduced upon returning
+	for {
+		Infos := make([]ProcessInfo, InfoCount)
+		ret := nvmlDeviceGetMPSComputeRunningProcesses_v3(Device, &InfoCount, &Infos[0])
 		if ret == SUCCESS {
 			return Infos[:InfoCount], ret
 		}
@@ -1109,6 +1177,61 @@ func DeviceGetIrqNum(Device Device) (int, Return) {
 
 func (Device Device) GetIrqNum() (int, Return) {
 	return DeviceGetIrqNum(Device)
+}
+
+// nvml.DeviceGetNumGpuCores()
+func DeviceGetNumGpuCores(Device Device) (int, Return) {
+	var NumCores uint32
+	ret := nvmlDeviceGetNumGpuCores(Device, &NumCores)
+	return int(NumCores), ret
+}
+
+func (Device Device) GetNumGpuCores() (int, Return) {
+	return DeviceGetNumGpuCores(Device)
+}
+
+// nvml.DeviceGetPowerSource()
+func DeviceGetPowerSource(Device Device) (PowerSource, Return) {
+	var PowerSource PowerSource
+	ret := nvmlDeviceGetPowerSource(Device, &PowerSource)
+	return PowerSource, ret
+}
+
+func (Device Device) GetPowerSource() (PowerSource, Return) {
+	return DeviceGetPowerSource(Device)
+}
+
+// nvml.DeviceGetMemoryBusWidth()
+func DeviceGetMemoryBusWidth(Device Device) (uint32, Return) {
+	var BusWidth uint32
+	ret := nvmlDeviceGetMemoryBusWidth(Device, &BusWidth)
+	return BusWidth, ret
+}
+
+func (Device Device) GetMemoryBusWidth() (uint32, Return) {
+	return DeviceGetMemoryBusWidth(Device)
+}
+
+// nvml.DeviceGetPcieLinkMaxSpeed()
+func DeviceGetPcieLinkMaxSpeed(Device Device) (uint32, Return) {
+	var MaxSpeed uint32
+	ret := nvmlDeviceGetPcieLinkMaxSpeed(Device, &MaxSpeed)
+	return MaxSpeed, ret
+}
+
+func (Device Device) GetPcieLinkMaxSpeed() (uint32, Return) {
+	return DeviceGetPcieLinkMaxSpeed(Device)
+}
+
+// nvml.DeviceGetAdaptiveClockInfoStatus()
+func DeviceGetAdaptiveClockInfoStatus(Device Device) (uint32, Return) {
+	var AdaptiveClockStatus uint32
+	ret := nvmlDeviceGetAdaptiveClockInfoStatus(Device, &AdaptiveClockStatus)
+	return AdaptiveClockStatus, ret
+}
+
+func (Device Device) GetAdaptiveClockInfoStatus() (uint32, Return) {
+	return DeviceGetAdaptiveClockInfoStatus(Device)
 }
 
 // nvml.DeviceGetAccountingMode()
@@ -1848,6 +1971,31 @@ func (Device Device) GetGpuInstanceProfileInfo(Profile int) (GpuInstanceProfileI
 	return DeviceGetGpuInstanceProfileInfo(Device, Profile)
 }
 
+// nvml.DeviceGetGpuInstanceProfileInfoV()
+type GpuInstanceProfileInfoV struct {
+	device  Device
+	profile int
+}
+
+func (InfoV GpuInstanceProfileInfoV) V1() (GpuInstanceProfileInfo, Return) {
+	return DeviceGetGpuInstanceProfileInfo(InfoV.device, InfoV.profile)
+}
+
+func (InfoV GpuInstanceProfileInfoV) V2() (GpuInstanceProfileInfo_v2, Return) {
+	var Info GpuInstanceProfileInfo_v2
+	Info.Version = STRUCT_VERSION(Info, 2)
+	ret := nvmlDeviceGetGpuInstanceProfileInfoV(InfoV.device, uint32(InfoV.profile), &Info)
+	return Info, ret
+}
+
+func DeviceGetGpuInstanceProfileInfoV(Device Device, Profile int) GpuInstanceProfileInfoV {
+	return GpuInstanceProfileInfoV{Device, Profile}
+}
+
+func (Device Device) GetGpuInstanceProfileInfoV(Profile int) GpuInstanceProfileInfoV {
+	return DeviceGetGpuInstanceProfileInfoV(Device, Profile)
+}
+
 // nvml.DeviceGetGpuInstancePossiblePlacements()
 func DeviceGetGpuInstancePossiblePlacements(Device Device, Info *GpuInstanceProfileInfo) ([]GpuInstancePlacement, Return) {
 	if Info == nil {
@@ -1960,6 +2108,32 @@ func GpuInstanceGetComputeInstanceProfileInfo(GpuInstance GpuInstance, Profile i
 
 func (GpuInstance GpuInstance) GetComputeInstanceProfileInfo(Profile int, EngProfile int) (ComputeInstanceProfileInfo, Return) {
 	return GpuInstanceGetComputeInstanceProfileInfo(GpuInstance, Profile, EngProfile)
+}
+
+// nvml.GpuInstanceGetComputeInstanceProfileInfoV()
+type ComputeInstanceProfileInfoV struct {
+	gpuInstance GpuInstance
+	profile     int
+	engProfile  int
+}
+
+func (InfoV ComputeInstanceProfileInfoV) V1() (ComputeInstanceProfileInfo, Return) {
+	return GpuInstanceGetComputeInstanceProfileInfo(InfoV.gpuInstance, InfoV.profile, InfoV.engProfile)
+}
+
+func (InfoV ComputeInstanceProfileInfoV) V2() (ComputeInstanceProfileInfo_v2, Return) {
+	var Info ComputeInstanceProfileInfo_v2
+	Info.Version = STRUCT_VERSION(Info, 2)
+	ret := nvmlGpuInstanceGetComputeInstanceProfileInfoV(InfoV.gpuInstance, uint32(InfoV.profile), uint32(InfoV.engProfile), &Info)
+	return Info, ret
+}
+
+func GpuInstanceGetComputeInstanceProfileInfoV(GpuInstance GpuInstance, Profile int, EngProfile int) ComputeInstanceProfileInfoV {
+	return ComputeInstanceProfileInfoV{GpuInstance, Profile, EngProfile}
+}
+
+func (GpuInstance GpuInstance) GetComputeInstanceProfileInfoV(Profile int, EngProfile int) ComputeInstanceProfileInfoV {
+	return GpuInstanceGetComputeInstanceProfileInfoV(GpuInstance, Profile, EngProfile)
 }
 
 // nvml.GpuInstanceGetComputeInstanceRemainingCapacity()

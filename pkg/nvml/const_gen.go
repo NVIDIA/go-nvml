@@ -14,6 +14,14 @@
 
 package nvml
 
+import (
+	"reflect"
+)
+
 const (
 	SYSTEM_PROCESS_NAME_BUFFER_SIZE = 256
 )
+
+func STRUCT_VERSION(data interface{}, version uint32) uint32 {
+	return uint32(uint32(reflect.Indirect(reflect.ValueOf(data)).Type().Size()) | (version << uint32(24)))
+}

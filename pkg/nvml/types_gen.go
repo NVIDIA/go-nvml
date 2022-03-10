@@ -37,6 +37,14 @@ type Memory struct {
 	Used  uint64
 }
 
+type Memory_v2 struct {
+	Version  uint32
+	Total    uint64
+	Reserved uint64
+	Free     uint64
+	Used     uint64
+}
+
 type BAR1Memory struct {
 	Bar1Total uint64
 	Bar1Free  uint64
@@ -46,6 +54,13 @@ type BAR1Memory struct {
 type ProcessInfo_v1 struct {
 	Pid           uint32
 	UsedGpuMemory uint64
+}
+
+type ProcessInfo_v2 struct {
+	Pid               uint32
+	UsedGpuMemory     uint64
+	GpuInstanceId     uint32
+	ComputeInstanceId uint32
 }
 
 type ProcessInfo struct {
@@ -153,6 +168,7 @@ type VgpuLicenseExpiry struct {
 type VgpuLicenseInfo struct {
 	IsLicensed    uint8
 	LicenseExpiry VgpuLicenseExpiry
+	CurrentState  uint32
 }
 
 type ProcessUtilizationSample struct {
@@ -193,6 +209,8 @@ type GridLicensableFeatures struct {
 type DeviceArchitecture uint32
 
 type BusType uint32
+
+type PowerSource uint32
 
 type FieldValue struct {
 	FieldId     uint32
@@ -356,6 +374,22 @@ type GpuInstanceProfileInfo struct {
 	MemorySizeMB        uint64
 }
 
+type GpuInstanceProfileInfo_v2 struct {
+	Version             uint32
+	Id                  uint32
+	IsP2pSupported      uint32
+	SliceCount          uint32
+	InstanceCount       uint32
+	MultiprocessorCount uint32
+	CopyEngineCount     uint32
+	DecoderCount        uint32
+	EncoderCount        uint32
+	JpegCount           uint32
+	OfaCount            uint32
+	MemorySizeMB        uint64
+	Name                [96]int8
+}
+
 type GpuInstanceInfo struct {
 	Device    Device
 	Id        uint32
@@ -382,6 +416,20 @@ type ComputeInstanceProfileInfo struct {
 	SharedEncoderCount    uint32
 	SharedJpegCount       uint32
 	SharedOfaCount        uint32
+}
+
+type ComputeInstanceProfileInfo_v2 struct {
+	Version               uint32
+	Id                    uint32
+	SliceCount            uint32
+	InstanceCount         uint32
+	MultiprocessorCount   uint32
+	SharedCopyEngineCount uint32
+	SharedDecoderCount    uint32
+	SharedEncoderCount    uint32
+	SharedJpegCount       uint32
+	SharedOfaCount        uint32
+	Name                  [96]int8
 }
 
 type ComputeInstanceInfo struct {
