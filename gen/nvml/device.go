@@ -933,44 +933,18 @@ func (Device Device) GetBridgeChipInfo() (BridgeChipHierarchy, Return) {
 
 // nvml.DeviceGetComputeRunningProcesses()
 func DeviceGetComputeRunningProcesses(Device Device) ([]ProcessInfo, Return) {
-	var Infos []ProcessInfo  // This is the v2 version of process info data structure
 	var InfoCount uint32 = 1 // Will be reduced upon returning
-	var ret = SUCCESS        // Will be changed upon returning
 	for {
-		if usesNvmlDeviceGetComputeRunningProcesses_v1 {
-			var v1Infos = make([]ProcessInfo_v1, InfoCount)
-			ret = nvmlDeviceGetComputeRunningProcesses_v1(Device, &InfoCount, (*ProcessInfo)(unsafe.Pointer(&v1Infos[0]))) // Call v1 version
-			if ret == SUCCESS && InfoCount > 0 {
-				// Convert process info data structure from v1 to v2
-				for i := range v1Infos {
-					pv1 := v1Infos[i]
-					pv2 := ProcessInfo{
-						Pid:               pv1.Pid,
-						UsedGpuMemory:     pv1.UsedGpuMemory,
-						GpuInstanceId:     0xFFFFFFFF, // GPU instance ID is invalid in v1
-						ComputeInstanceId: 0xFFFFFFFF, // Compute instance ID is invalid in v1
-					}
-					Infos = append(Infos, pv2)
-				}
-				break
-			}
-		} else {
-			Infos = make([]ProcessInfo, InfoCount)
-			ret = nvmlDeviceGetComputeRunningProcesses(Device, &InfoCount, &Infos[0]) // Call v2 version directly
-		}
+		Infos := make([]ProcessInfo, InfoCount)
+		ret := nvmlDeviceGetComputeRunningProcesses(Device, &InfoCount, &Infos[0])
 		if ret == SUCCESS {
-			break
+			return Infos[:InfoCount], ret
 		}
 		if ret != ERROR_INSUFFICIENT_SIZE {
 			return nil, ret
 		}
 		InfoCount *= 2
 	}
-
-	if InfoCount == 0 {
-		return []ProcessInfo{}, SUCCESS
-	}
-	return Infos[:InfoCount], SUCCESS
 }
 
 func (Device Device) GetComputeRunningProcesses() ([]ProcessInfo, Return) {
@@ -979,44 +953,18 @@ func (Device Device) GetComputeRunningProcesses() ([]ProcessInfo, Return) {
 
 // nvml.DeviceGetGraphicsRunningProcesses()
 func DeviceGetGraphicsRunningProcesses(Device Device) ([]ProcessInfo, Return) {
-	var Infos []ProcessInfo  // This is the v2 version of process info data structure
 	var InfoCount uint32 = 1 // Will be reduced upon returning
-	var ret = SUCCESS        // Will be changed upon returning
 	for {
-		if usesNvmlDeviceGetComputeRunningProcesses_v1 {
-			var v1Infos = make([]ProcessInfo_v1, InfoCount)
-			ret = nvmlDeviceGetGraphicsRunningProcesses_v1(Device, &InfoCount, (*ProcessInfo)(unsafe.Pointer(&v1Infos[0]))) // Call v1 version
-			if ret == SUCCESS && InfoCount > 0 {
-				// Convert process info data structure from v1 to v2
-				for i := range v1Infos {
-					pv1 := v1Infos[i]
-					pv2 := ProcessInfo{
-						Pid:               pv1.Pid,
-						UsedGpuMemory:     pv1.UsedGpuMemory,
-						GpuInstanceId:     0xFFFFFFFF, // GPU instance ID is invalid in v1
-						ComputeInstanceId: 0xFFFFFFFF, // Compute instance ID is invalid in v1
-					}
-					Infos = append(Infos, pv2)
-				}
-				break
-			}
-		} else {
-			Infos = make([]ProcessInfo, InfoCount)
-			ret = nvmlDeviceGetGraphicsRunningProcesses(Device, &InfoCount, &Infos[0]) // Call v2 version directly
-		}
+		Infos := make([]ProcessInfo, InfoCount)
+		ret := nvmlDeviceGetGraphicsRunningProcesses(Device, &InfoCount, &Infos[0])
 		if ret == SUCCESS {
-			break
+			return Infos[:InfoCount], ret
 		}
 		if ret != ERROR_INSUFFICIENT_SIZE {
 			return nil, ret
 		}
 		InfoCount *= 2
 	}
-
-	if InfoCount == 0 {
-		return []ProcessInfo{}, SUCCESS
-	}
-	return Infos[:InfoCount], SUCCESS
 }
 
 func (Device Device) GetGraphicsRunningProcesses() ([]ProcessInfo, Return) {
