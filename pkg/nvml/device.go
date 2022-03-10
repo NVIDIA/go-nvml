@@ -2428,3 +2428,87 @@ func DeviceGetSupportedPerformanceStates(Device Device) ([]Pstates, Return) {
 func (Device Device) GetSupportedPerformanceStates() ([]Pstates, Return) {
 	return DeviceGetSupportedPerformanceStates(Device)
 }
+
+// nvml.DeviceGetTargetFanSpeed()
+func DeviceGetTargetFanSpeed(Device Device, Fan int) (int, Return) {
+	var TargetSpeed uint32
+	ret := nvmlDeviceGetTargetFanSpeed(Device, uint32(Fan), &TargetSpeed)
+	return int(TargetSpeed), ret
+}
+
+func (Device Device) GetTargetFanSpeed(Fan int) (int, Return) {
+	return DeviceGetTargetFanSpeed(Device, Fan)
+}
+
+// nvml.DeviceGetPowerMode()
+func DeviceGetPowerMode(Device Device) (int, Return) {
+	var PowerModeId uint32
+	ret := nvmlDeviceGetPowerMode(Device, &PowerModeId)
+	return int(PowerModeId), ret
+}
+
+func (Device Device) GetPowerMode() (int, Return) {
+	return DeviceGetPowerMode(Device)
+}
+
+// nvml.DeviceGetSupportedPowerModes()
+func DeviceGetSupportedPowerModes(Device Device) (uint32, Return) {
+	var SupportedPowerModes uint32
+	ret := nvmlDeviceGetSupportedPowerModes(Device, &SupportedPowerModes)
+	return SupportedPowerModes, ret
+}
+
+func (Device Device) GetSupportedPowerModes() (uint32, Return) {
+	return DeviceGetSupportedPowerModes(Device)
+}
+
+// nvml.DeviceSetPowerMode()
+func DeviceSetPowerMode(Device Device, PowerModeId int) Return {
+	return nvmlDeviceSetPowerMode(Device, uint32(PowerModeId))
+}
+
+func (Device Device) SetPowerMode(PowerModeId int) Return {
+	return DeviceSetPowerMode(Device, PowerModeId)
+}
+
+// nvml.DeviceGetMemClkVfOffset()
+func DeviceGetMemClkVfOffset(Device Device) (int, Return) {
+	var Offset int32
+	ret := nvmlDeviceGetMemClkVfOffset(Device, &Offset)
+	return int(Offset), ret
+}
+
+func (Device Device) GetMemClkVfOffset() (int, Return) {
+	return DeviceGetMemClkVfOffset(Device)
+}
+
+// nvml.DeviceSetMemClkVfOffset()
+func DeviceSetMemClkVfOffset(Device Device, Offset int) Return {
+	return nvmlDeviceSetMemClkVfOffset(Device, int32(Offset))
+}
+
+func (Device Device) SetMemClkVfOffset(Offset int) Return {
+	return DeviceSetMemClkVfOffset(Device, Offset)
+}
+
+// nvml.DeviceGetGpcClkMinMaxVfOffset()
+func DeviceGetGpcClkMinMaxVfOffset(Device Device) (int, int, Return) {
+	var MinOffset, MaxOffset int32
+	ret := nvmlDeviceGetGpcClkMinMaxVfOffset(Device, &MinOffset, &MaxOffset)
+	return int(MinOffset), int(MaxOffset), ret
+}
+
+func (Device Device) GetGpcClkMinMaxVfOffset() (int, int, Return) {
+	return DeviceGetGpcClkMinMaxVfOffset(Device)
+}
+
+// nvml.DeviceGetMemClkMinMaxVfOffset()
+func DeviceGetMemClkMinMaxVfOffset(Device Device) (int, int, Return) {
+	var MinOffset, MaxOffset int32
+	ret := nvmlDeviceGetMemClkMinMaxVfOffset(Device, &MinOffset, &MaxOffset)
+	return int(MinOffset), int(MaxOffset), ret
+}
+
+func (Device Device) GetMemClkMinMaxVfOffset() (int, int, Return) {
+	return DeviceGetMemClkMinMaxVfOffset(Device)
+}

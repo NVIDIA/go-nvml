@@ -121,9 +121,9 @@ type ViolationTime struct {
 
 type GpuThermalSettingsSensor struct {
 	Controller     int32
-	DefaultMinTemp uint32
-	DefaultMaxTemp uint32
-	CurrentTemp    uint32
+	DefaultMinTemp int32
+	DefaultMaxTemp int32
+	CurrentTemp    int32
 	Target         int32
 }
 
@@ -467,4 +467,34 @@ type ComputeInstanceInfo struct {
 
 type ComputeInstance struct {
 	Handle *_Ctype_struct_nvmlComputeInstance_st
+}
+
+type GpmSample struct {
+	Handle *_Ctype_struct_nvmlGpmSample_st
+}
+
+type GpmMetricMetricInfo struct {
+	ShortName *int8
+	LongName  *int8
+	Unit      *int8
+}
+
+type GpmMetric struct {
+	MetricId   uint32
+	NvmlReturn uint32
+	Value      float64
+	MetricInfo GpmMetricMetricInfo
+}
+
+type GpmMetricsGetType struct {
+	Version    uint32
+	NumMetrics uint32
+	Sample1    GpmSample
+	Sample2    GpmSample
+	Metrics    [98]GpmMetric
+}
+
+type GpmSupport struct {
+	Version           uint32
+	IsSupportedDevice uint32
 }
