@@ -98,12 +98,11 @@ var GetBlacklistDeviceInfoByIndex = GetExcludedDeviceInfoByIndex
 
 type BlacklistDeviceInfo = ExcludedDeviceInfo
 
-// ProcessInfo_v1 matches the ProcessInfo_st definition before CUDA 11.
 type ProcessInfo_v1 struct {
 	Pid           uint32
 	UsedGpuMemory uint64
 }
-type ProcessInfo_v2 ProcessInfo // Defined by cgo from nvml.h (always v2)
+type ProcessInfo_v2 ProcessInfo  // Set from cgo (always v2)
 
 var usesNvmlDeviceGetComputeRunningProcesses_v1 = true
 var usesNvmlDeviceGetGraphicsRunningProcesses_v1 = true
