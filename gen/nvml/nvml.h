@@ -1,5 +1,5 @@
-/*** NVML VERSION: 11.4.120 ***/
-/*** From https://api.anaconda.org/download/nvidia/cuda-nvml-dev/11.4.120/linux-64/cuda-nvml-dev-11.4.120-hb8c74d6_0.tar.bz2 ***/
+/*** NVML VERSION: 11.5.50 ***/
+/*** From https://api.anaconda.org/download/nvidia/cuda-nvml-dev/11.5.50/linux-64/cuda-nvml-dev-11.5.50-h511b398_0.tar.bz2 ***/
 /*
  * Copyright 1993-2021 NVIDIA Corporation.  All rights reserved.
  *
@@ -1058,12 +1058,12 @@ typedef unsigned int nvmlVgpuInstance_t;
  */
 typedef struct nvmlVgpuInstanceUtilizationSample_st
 {
-    nvmlVgpuInstance_t vgpuInstance;    //!< vGPU Instance
-    unsigned long long timeStamp;       //!< CPU Timestamp in microseconds
-    nvmlValue_t smUtil;                 //!< SM (3D/Compute) Util Value
-    nvmlValue_t memUtil;                //!< Frame Buffer Memory Util Value
-    nvmlValue_t encUtil;                //!< Encoder Util Value
-    nvmlValue_t decUtil;                //!< Decoder Util Value
+    nvmlVgpuInstance_t  vgpuInstance;       //!< vGPU Instance
+    unsigned long long  timeStamp;          //!< CPU Timestamp in microseconds
+    nvmlValue_t         smUtil;             //!< SM (3D/Compute) Util Value
+    nvmlValue_t         memUtil;            //!< Frame Buffer Memory Util Value
+    nvmlValue_t         encUtil;            //!< Encoder Util Value
+    nvmlValue_t         decUtil;            //!< Decoder Util Value
 } nvmlVgpuInstanceUtilizationSample_t;
 
 /**
@@ -1071,27 +1071,47 @@ typedef struct nvmlVgpuInstanceUtilizationSample_st
  */
 typedef struct nvmlVgpuProcessUtilizationSample_st
 {
-    nvmlVgpuInstance_t vgpuInstance;                //!< vGPU Instance
-    unsigned int pid;                               //!< PID of process running within the vGPU VM
-    char processName[NVML_VGPU_NAME_BUFFER_SIZE];   //!< Name of process running within the vGPU VM
-    unsigned long long timeStamp;                   //!< CPU Timestamp in microseconds
-    unsigned int smUtil;                            //!< SM (3D/Compute) Util Value
-    unsigned int memUtil;                           //!< Frame Buffer Memory Util Value
-    unsigned int encUtil;                           //!< Encoder Util Value
-    unsigned int decUtil;                           //!< Decoder Util Value
+    nvmlVgpuInstance_t  vgpuInstance;                               //!< vGPU Instance
+    unsigned int        pid;                                        //!< PID of process running within the vGPU VM
+    char                processName[NVML_VGPU_NAME_BUFFER_SIZE];    //!< Name of process running within the vGPU VM
+    unsigned long long  timeStamp;                                  //!< CPU Timestamp in microseconds
+    unsigned int        smUtil;                                     //!< SM (3D/Compute) Util Value
+    unsigned int        memUtil;                                    //!< Frame Buffer Memory Util Value
+    unsigned int        encUtil;                                    //!< Encoder Util Value
+    unsigned int        decUtil;                                    //!< Decoder Util Value
 } nvmlVgpuProcessUtilizationSample_t;
+
+/**
+ * Structure to store the vGPU license expiry details
+ */
+typedef struct nvmlVgpuLicenseExpiry_st
+{
+    unsigned int    year;        //!< Year of license expiry
+    unsigned short  month;       //!< Month of license expiry
+    unsigned short  day;         //!< Day of license expiry
+    unsigned short  hour;        //!< Hour of license expiry
+    unsigned short  min;         //!< Minutes of license expiry
+    unsigned short  sec;         //!< Seconds of license expiry
+    unsigned char   status;      //!< License expiry status
+} nvmlVgpuLicenseExpiry_t;
+
+typedef struct nvmlVgpuLicenseInfo_st
+{
+    unsigned char               isLicensed;     //!< License status
+    nvmlVgpuLicenseExpiry_t     licenseExpiry;  //!< License expiry information
+} nvmlVgpuLicenseInfo_t;
 
 /**
  * Structure to store utilization value and process Id
  */
 typedef struct nvmlProcessUtilizationSample_st
 {
-    unsigned int pid;                   //!< PID of process
-    unsigned long long timeStamp;       //!< CPU Timestamp in microseconds
-    unsigned int smUtil;                //!< SM (3D/Compute) Util Value
-    unsigned int memUtil;               //!< Frame Buffer Memory Util Value
-    unsigned int encUtil;               //!< Encoder Util Value
-    unsigned int decUtil;               //!< Decoder Util Value
+    unsigned int        pid;            //!< PID of process
+    unsigned long long  timeStamp;      //!< CPU Timestamp in microseconds
+    unsigned int        smUtil;         //!< SM (3D/Compute) Util Value
+    unsigned int        memUtil;        //!< Frame Buffer Memory Util Value
+    unsigned int        encUtil;        //!< Encoder Util Value
+    unsigned int        decUtil;        //!< Decoder Util Value
 } nvmlProcessUtilizationSample_t;
 
 /**
@@ -1105,7 +1125,6 @@ typedef struct nvmlGridLicenseExpiry_st
     unsigned short hour;        //!< Hour value of license expiry
     unsigned short min;         //!< Minutes value of license expiry
     unsigned short sec;         //!< Seconds value of license expiry
-
     unsigned char  status;      //!< License expiry status
 } nvmlGridLicenseExpiry_t;
 
@@ -1146,6 +1165,17 @@ typedef struct nvmlGridLicensableFeatures_st
 #define NVML_DEVICE_ARCH_UNKNOWN   0xffffffff // Anything else, presumably something newer
 
 typedef unsigned int nvmlDeviceArchitecture_t;
+
+/**
+ * PCI bus types
+ */
+#define NVML_BUS_TYPE_UNKNOWN  0
+#define NVML_BUS_TYPE_PCI      1
+#define NVML_BUS_TYPE_PCIE     2
+#define NVML_BUS_TYPE_FPCI     3
+#define NVML_BUS_TYPE_AGP      4
+
+typedef unsigned int nvmlBusType_t;
 
 /** @} */
 /** @} */
@@ -3581,7 +3611,6 @@ nvmlReturn_t DECLDIR nvmlDeviceGetFanSpeed(nvmlDevice_t device, unsigned int *sp
  */
 nvmlReturn_t DECLDIR nvmlDeviceGetFanSpeed_v2(nvmlDevice_t device, unsigned int fan, unsigned int * speed);
 
-
 /**
  * Retrieves the current temperature readings for the device, in degrees C.
  *
@@ -4489,6 +4518,8 @@ nvmlReturn_t DECLDIR nvmlDeviceGetComputeRunningProcesses_v2(nvmlDevice_t device
  *       Querying per-instance information using MIG device handles is not supported if the device is in vGPU Host virtualization mode.
  *
  * @param device                               The device handle or MIG device handle
+#else
+ * @param device                               The device handle
  * @param infoCount                            Reference in which to provide the \a infos array size, and
  *                                             to return the number of returned elements
  * @param infos                                Reference in which to return the process information
@@ -4695,6 +4726,22 @@ nvmlReturn_t DECLDIR nvmlDeviceGetBAR1MemoryInfo(nvmlDevice_t device, nvmlBAR1Me
  *
  */
 nvmlReturn_t DECLDIR nvmlDeviceGetViolationStatus(nvmlDevice_t device, nvmlPerfPolicyType_t perfPolicyType, nvmlViolationTime_t *violTime);
+
+/**
+ * Gets the device's interrupt number
+ *
+ * @param device                               The identifier of the target device
+ * @param irqNum                               The interrupt number associated with the specified device
+ *
+ * @return
+ *         - \ref NVML_SUCCESS                 if irq number is successfully retrieved
+ *         - \ref NVML_ERROR_UNINITIALIZED     if the library has not been successfully initialized
+ *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a device is invalid, or \a irqNum is NULL
+ *         - \ref NVML_ERROR_NOT_SUPPORTED     if this query is not supported by the device
+ *         - \ref NVML_ERROR_GPU_IS_LOST       if the target GPU has fallen off the bus or is otherwise inaccessible
+ *
+ */
+nvmlReturn_t DECLDIR nvmlDeviceGetIrqNum(nvmlDevice_t device, unsigned int *irqNum);
 
 /**
  * @}
@@ -6590,6 +6637,8 @@ nvmlReturn_t DECLDIR nvmlVgpuInstanceGetVmDriverVersion(nvmlVgpuInstance_t vgpuI
 nvmlReturn_t DECLDIR nvmlVgpuInstanceGetFbUsage(nvmlVgpuInstance_t vgpuInstance, unsigned long long *fbUsage);
 
 /**
+ * @deprecated Use \ref nvmlVgpuInstanceGetLicenseInfo.
+ *
  * Retrieve the current licensing state of the vGPU instance.
  *
  * If the vGPU is currently licensed, \a licensed is set to 1, otherwise it is set to 0.
@@ -7262,6 +7311,23 @@ nvmlReturn_t DECLDIR nvmlVgpuInstanceGetAccountingStats(nvmlVgpuInstance_t vgpuI
  *         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
  */
 nvmlReturn_t DECLDIR nvmlVgpuInstanceClearAccountingPids(nvmlVgpuInstance_t vgpuInstance);
+
+/**
+ * Query the license information of the vGPU instance.
+ *
+ * For Maxwell &tm; or newer fully supported devices.
+ *
+ * @param vgpuInstance              Identifier of the target vGPU instance
+ * @param licenseInfo               Pointer to vGPU license information structure
+ *
+ * @return
+ *         - \ref NVML_SUCCESS                 if information is successfully retrieved
+ *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a vgpuInstance is 0, or \a licenseInfo is NULL
+ *         - \ref NVML_ERROR_NOT_FOUND         if \a vgpuInstance does not match a valid active vGPU instance on the system
+ *         - \ref NVML_ERROR_DRIVER_NOT_LOADED if NVIDIA driver is not running on the vGPU instance
+ *         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
+ */
+nvmlReturn_t DECLDIR nvmlVgpuInstanceGetLicenseInfo(nvmlVgpuInstance_t vgpuInstance, nvmlVgpuLicenseInfo_t *licenseInfo);
 /** @} */
 
 /***************************************************************************************************/
@@ -7976,6 +8042,20 @@ nvmlReturn_t DECLDIR nvmlDeviceGetMigDeviceHandleByIndex(nvmlDevice_t device, un
  *         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
  */
 nvmlReturn_t DECLDIR nvmlDeviceGetDeviceHandleFromMigDeviceHandle(nvmlDevice_t migDevice, nvmlDevice_t *device);
+
+/**
+ * Get the type of the GPU Bus (PCIe, PCI, ...)
+ *
+ * @param device                               The identifier of the target device
+ * @param type                                 The PCI Bus type
+ *
+ * return
+ *         - \ref NVML_SUCCESS                 if the bus \a type is successfully retreived
+ *         - \ref NVML_ERROR_UNINITIALIZED     if the library has not been successfully initialized
+ *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \device is invalid or \type is NULL
+ *         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
+ */
+nvmlReturn_t DECLDIR nvmlDeviceGetBusType(nvmlDevice_t device, nvmlBusType_t *type);
 
 /** @} */
 
