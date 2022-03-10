@@ -1253,6 +1253,24 @@ func nvmlDeviceResetGpuLockedClocks(Device Device) Return {
 	return __v
 }
 
+// nvmlDeviceSetMemoryLockedClocks function as declared in nvml/nvml.h
+func nvmlDeviceSetMemoryLockedClocks(Device Device, MinMemClockMHz uint32, MaxMemClockMHz uint32) Return {
+	cDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
+	cMinMemClockMHz, _ := (C.uint)(MinMemClockMHz), cgoAllocsUnknown
+	cMaxMemClockMHz, _ := (C.uint)(MaxMemClockMHz), cgoAllocsUnknown
+	__ret := C.nvmlDeviceSetMemoryLockedClocks(cDevice, cMinMemClockMHz, cMaxMemClockMHz)
+	__v := (Return)(__ret)
+	return __v
+}
+
+// nvmlDeviceResetMemoryLockedClocks function as declared in nvml/nvml.h
+func nvmlDeviceResetMemoryLockedClocks(Device Device) Return {
+	cDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
+	__ret := C.nvmlDeviceResetMemoryLockedClocks(cDevice)
+	__v := (Return)(__ret)
+	return __v
+}
+
 // nvmlDeviceSetApplicationsClocks function as declared in nvml/nvml.h
 func nvmlDeviceSetApplicationsClocks(Device Device, MemClockMHz uint32, GraphicsClockMHz uint32) Return {
 	cDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
@@ -1959,19 +1977,19 @@ func nvmlVgpuInstanceClearAccountingPids(VgpuInstance VgpuInstance) Return {
 	return __v
 }
 
-// nvmlGetBlacklistDeviceCount function as declared in nvml/nvml.h
-func nvmlGetBlacklistDeviceCount(DeviceCount *uint32) Return {
+// nvmlGetExcludedDeviceCount function as declared in nvml/nvml.h
+func nvmlGetExcludedDeviceCount(DeviceCount *uint32) Return {
 	cDeviceCount, _ := (*C.uint)(unsafe.Pointer(DeviceCount)), cgoAllocsUnknown
-	__ret := C.nvmlGetBlacklistDeviceCount(cDeviceCount)
+	__ret := C.nvmlGetExcludedDeviceCount(cDeviceCount)
 	__v := (Return)(__ret)
 	return __v
 }
 
-// nvmlGetBlacklistDeviceInfoByIndex function as declared in nvml/nvml.h
-func nvmlGetBlacklistDeviceInfoByIndex(Index uint32, Info *BlacklistDeviceInfo) Return {
+// nvmlGetExcludedDeviceInfoByIndex function as declared in nvml/nvml.h
+func nvmlGetExcludedDeviceInfoByIndex(Index uint32, Info *ExcludedDeviceInfo) Return {
 	cIndex, _ := (C.uint)(Index), cgoAllocsUnknown
-	cInfo, _ := (*C.nvmlBlacklistDeviceInfo_t)(unsafe.Pointer(Info)), cgoAllocsUnknown
-	__ret := C.nvmlGetBlacklistDeviceInfoByIndex(cIndex, cInfo)
+	cInfo, _ := (*C.nvmlExcludedDeviceInfo_t)(unsafe.Pointer(Info)), cgoAllocsUnknown
+	__ret := C.nvmlGetExcludedDeviceInfoByIndex(cIndex, cInfo)
 	__v := (Return)(__ret)
 	return __v
 }
