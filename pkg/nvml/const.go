@@ -57,6 +57,16 @@ const (
 	SINGLE_BIT_ECC = 0
 	// DOUBLE_BIT_ECC as defined in nvml/nvml.h
 	DOUBLE_BIT_ECC = 0
+	// GRID_LICENSE_EXPIRY_NOT_AVAILABLE as defined in nvml/nvml.h
+	GRID_LICENSE_EXPIRY_NOT_AVAILABLE = 0
+	// GRID_LICENSE_EXPIRY_INVALID as defined in nvml/nvml.h
+	GRID_LICENSE_EXPIRY_INVALID = 1
+	// GRID_LICENSE_EXPIRY_VALID as defined in nvml/nvml.h
+	GRID_LICENSE_EXPIRY_VALID = 2
+	// GRID_LICENSE_EXPIRY_NOT_APPLICABLE as defined in nvml/nvml.h
+	GRID_LICENSE_EXPIRY_NOT_APPLICABLE = 3
+	// GRID_LICENSE_EXPIRY_PERMANENT as defined in nvml/nvml.h
+	GRID_LICENSE_EXPIRY_PERMANENT = 4
 	// GRID_LICENSE_BUFFER_SIZE as defined in nvml/nvml.h
 	GRID_LICENSE_BUFFER_SIZE = 128
 	// VGPU_NAME_BUFFER_SIZE as defined in nvml/nvml.h
@@ -371,8 +381,34 @@ const (
 	FI_DEV_NVLINK_REMOTE_NVLINK_ID = 146
 	// FI_DEV_NVSWITCH_CONNECTED_LINK_COUNT as defined in nvml/nvml.h
 	FI_DEV_NVSWITCH_CONNECTED_LINK_COUNT = 147
+	// FI_DEV_NVLINK_ECC_DATA_ERROR_COUNT_L0 as defined in nvml/nvml.h
+	FI_DEV_NVLINK_ECC_DATA_ERROR_COUNT_L0 = 148
+	// FI_DEV_NVLINK_ECC_DATA_ERROR_COUNT_L1 as defined in nvml/nvml.h
+	FI_DEV_NVLINK_ECC_DATA_ERROR_COUNT_L1 = 149
+	// FI_DEV_NVLINK_ECC_DATA_ERROR_COUNT_L2 as defined in nvml/nvml.h
+	FI_DEV_NVLINK_ECC_DATA_ERROR_COUNT_L2 = 150
+	// FI_DEV_NVLINK_ECC_DATA_ERROR_COUNT_L3 as defined in nvml/nvml.h
+	FI_DEV_NVLINK_ECC_DATA_ERROR_COUNT_L3 = 151
+	// FI_DEV_NVLINK_ECC_DATA_ERROR_COUNT_L4 as defined in nvml/nvml.h
+	FI_DEV_NVLINK_ECC_DATA_ERROR_COUNT_L4 = 152
+	// FI_DEV_NVLINK_ECC_DATA_ERROR_COUNT_L5 as defined in nvml/nvml.h
+	FI_DEV_NVLINK_ECC_DATA_ERROR_COUNT_L5 = 153
+	// FI_DEV_NVLINK_ECC_DATA_ERROR_COUNT_L6 as defined in nvml/nvml.h
+	FI_DEV_NVLINK_ECC_DATA_ERROR_COUNT_L6 = 154
+	// FI_DEV_NVLINK_ECC_DATA_ERROR_COUNT_L7 as defined in nvml/nvml.h
+	FI_DEV_NVLINK_ECC_DATA_ERROR_COUNT_L7 = 155
+	// FI_DEV_NVLINK_ECC_DATA_ERROR_COUNT_L8 as defined in nvml/nvml.h
+	FI_DEV_NVLINK_ECC_DATA_ERROR_COUNT_L8 = 156
+	// FI_DEV_NVLINK_ECC_DATA_ERROR_COUNT_L9 as defined in nvml/nvml.h
+	FI_DEV_NVLINK_ECC_DATA_ERROR_COUNT_L9 = 157
+	// FI_DEV_NVLINK_ECC_DATA_ERROR_COUNT_L10 as defined in nvml/nvml.h
+	FI_DEV_NVLINK_ECC_DATA_ERROR_COUNT_L10 = 158
+	// FI_DEV_NVLINK_ECC_DATA_ERROR_COUNT_L11 as defined in nvml/nvml.h
+	FI_DEV_NVLINK_ECC_DATA_ERROR_COUNT_L11 = 159
+	// FI_DEV_NVLINK_ECC_DATA_ERROR_COUNT_TOTAL as defined in nvml/nvml.h
+	FI_DEV_NVLINK_ECC_DATA_ERROR_COUNT_TOTAL = 160
 	// FI_MAX as defined in nvml/nvml.h
-	FI_MAX = 148
+	FI_MAX = 161
 	// EventTypeSingleBitEccError as defined in nvml/nvml.h
 	EventTypeSingleBitEccError = 1
 	// EventTypeDoubleBitEccError as defined in nvml/nvml.h
@@ -471,8 +507,10 @@ const (
 	GPU_INSTANCE_PROFILE_8_SLICE = 5
 	// GPU_INSTANCE_PROFILE_6_SLICE as defined in nvml/nvml.h
 	GPU_INSTANCE_PROFILE_6_SLICE = 6
+	// GPU_INSTANCE_PROFILE_1_SLICE_REV1 as defined in nvml/nvml.h
+	GPU_INSTANCE_PROFILE_1_SLICE_REV1 = 7
 	// GPU_INSTANCE_PROFILE_COUNT as defined in nvml/nvml.h
-	GPU_INSTANCE_PROFILE_COUNT = 7
+	GPU_INSTANCE_PROFILE_COUNT = 8
 	// COMPUTE_INSTANCE_PROFILE_1_SLICE as defined in nvml/nvml.h
 	COMPUTE_INSTANCE_PROFILE_1_SLICE = 0
 	// COMPUTE_INSTANCE_PROFILE_2_SLICE as defined in nvml/nvml.h
@@ -555,7 +593,19 @@ const (
 	NVLINK_ERROR_DL_RECOVERY NvLinkErrorCounter = 1
 	NVLINK_ERROR_DL_CRC_FLIT NvLinkErrorCounter = 2
 	NVLINK_ERROR_DL_CRC_DATA NvLinkErrorCounter = 3
-	NVLINK_ERROR_COUNT       NvLinkErrorCounter = 4
+	NVLINK_ERROR_DL_ECC_DATA NvLinkErrorCounter = 4
+	NVLINK_ERROR_COUNT       NvLinkErrorCounter = 5
+)
+
+// IntNvLinkDeviceType as declared in nvml/nvml.h
+type IntNvLinkDeviceType int32
+
+// IntNvLinkDeviceType enumeration from nvml/nvml.h
+const (
+	NVLINK_DEVICE_TYPE_GPU     IntNvLinkDeviceType = iota
+	NVLINK_DEVICE_TYPE_IBMNPU  IntNvLinkDeviceType = 1
+	NVLINK_DEVICE_TYPE_SWITCH  IntNvLinkDeviceType = 2
+	NVLINK_DEVICE_TYPE_UNKNOWN IntNvLinkDeviceType = 255
 )
 
 // GpuTopologyLevel as declared in nvml/nvml.h
@@ -849,6 +899,7 @@ const (
 	ERROR_NO_DATA                 Return = 21
 	ERROR_VGPU_ECC_NOT_SUPPORTED  Return = 22
 	ERROR_INSUFFICIENT_RESOURCES  Return = 23
+	ERROR_FREQ_NOT_SUPPORTED      Return = 24
 	ERROR_UNKNOWN                 Return = 999
 )
 
@@ -887,6 +938,18 @@ const (
 	RESTRICTED_API_SET_APPLICATION_CLOCKS  RestrictedAPI = iota
 	RESTRICTED_API_SET_AUTO_BOOSTED_CLOCKS RestrictedAPI = 1
 	RESTRICTED_API_COUNT                   RestrictedAPI = 2
+)
+
+// NvLinkEccLaneErrorCounter as declared in nvml/nvml.h
+type NvLinkEccLaneErrorCounter int32
+
+// NvLinkEccLaneErrorCounter enumeration from nvml/nvml.h
+const (
+	NVLINK_ERROR_DL_ECC_LANE0 NvLinkEccLaneErrorCounter = iota
+	NVLINK_ERROR_DL_ECC_LANE1 NvLinkEccLaneErrorCounter = 1
+	NVLINK_ERROR_DL_ECC_LANE2 NvLinkEccLaneErrorCounter = 2
+	NVLINK_ERROR_DL_ECC_LANE3 NvLinkEccLaneErrorCounter = 3
+	NVLINK_ERROR_DL_ECC_COUNT NvLinkEccLaneErrorCounter = 4
 )
 
 // GpuVirtualizationMode as declared in nvml/nvml.h
@@ -1024,6 +1087,10 @@ type GridLicenseFeatureCode int32
 
 // GridLicenseFeatureCode enumeration from nvml/nvml.h
 const (
+	GRID_LICENSE_FEATURE_CODE_UNKNOWN      GridLicenseFeatureCode = iota
 	GRID_LICENSE_FEATURE_CODE_VGPU         GridLicenseFeatureCode = 1
+	GRID_LICENSE_FEATURE_CODE_NVIDIA_RTX   GridLicenseFeatureCode = 2
 	GRID_LICENSE_FEATURE_CODE_VWORKSTATION GridLicenseFeatureCode = 2
+	GRID_LICENSE_FEATURE_CODE_GAMING       GridLicenseFeatureCode = 3
+	GRID_LICENSE_FEATURE_CODE_COMPUTE      GridLicenseFeatureCode = 4
 )
