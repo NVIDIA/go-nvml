@@ -1090,6 +1090,15 @@ func nvmlDeviceGetViolationStatus(Device Device, PerfPolicyType PerfPolicyType, 
 	return __v
 }
 
+// nvmlDeviceGetIrqNum function as declared in nvml/nvml.h
+func nvmlDeviceGetIrqNum(Device Device, IrqNum *uint32) Return {
+	cDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
+	cIrqNum, _ := (*C.uint)(unsafe.Pointer(IrqNum)), cgoAllocsUnknown
+	__ret := C.nvmlDeviceGetIrqNum(cDevice, cIrqNum)
+	__v := (Return)(__ret)
+	return __v
+}
+
 // nvmlDeviceGetAccountingMode function as declared in nvml/nvml.h
 func nvmlDeviceGetAccountingMode(Device Device, Mode *EnableState) Return {
 	cDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
@@ -2006,6 +2015,15 @@ func nvmlVgpuInstanceClearAccountingPids(VgpuInstance VgpuInstance) Return {
 	return __v
 }
 
+// nvmlVgpuInstanceGetLicenseInfo function as declared in nvml/nvml.h
+func nvmlVgpuInstanceGetLicenseInfo(VgpuInstance VgpuInstance, LicenseInfo *VgpuLicenseInfo) Return {
+	cVgpuInstance, _ := (C.nvmlVgpuInstance_t)(VgpuInstance), cgoAllocsUnknown
+	cLicenseInfo, _ := (*C.nvmlVgpuLicenseInfo_t)(unsafe.Pointer(LicenseInfo)), cgoAllocsUnknown
+	__ret := C.nvmlVgpuInstanceGetLicenseInfo(cVgpuInstance, cLicenseInfo)
+	__v := (Return)(__ret)
+	return __v
+}
+
 // nvmlGetExcludedDeviceCount function as declared in nvml/nvml.h
 func nvmlGetExcludedDeviceCount(DeviceCount *uint32) Return {
 	cDeviceCount, _ := (*C.uint)(unsafe.Pointer(DeviceCount)), cgoAllocsUnknown
@@ -2253,6 +2271,15 @@ func nvmlDeviceGetDeviceHandleFromMigDeviceHandle(MigDevice Device, Device *Devi
 	cMigDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&MigDevice)), cgoAllocsUnknown
 	cDevice, _ := (*C.nvmlDevice_t)(unsafe.Pointer(Device)), cgoAllocsUnknown
 	__ret := C.nvmlDeviceGetDeviceHandleFromMigDeviceHandle(cMigDevice, cDevice)
+	__v := (Return)(__ret)
+	return __v
+}
+
+// nvmlDeviceGetBusType function as declared in nvml/nvml.h
+func nvmlDeviceGetBusType(Device Device, _type *BusType) Return {
+	cDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
+	c_type, _ := (*C.nvmlBusType_t)(unsafe.Pointer(_type)), cgoAllocsUnknown
+	__ret := C.nvmlDeviceGetBusType(cDevice, c_type)
 	__v := (Return)(__ret)
 	return __v
 }
