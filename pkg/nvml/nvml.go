@@ -1028,6 +1028,16 @@ func nvmlDeviceGetGraphicsRunningProcesses_v2(Device Device, InfoCount *uint32, 
 	return __v
 }
 
+// nvmlDeviceGetMPSComputeRunningProcesses_v2 function as declared in nvml/nvml.h
+func nvmlDeviceGetMPSComputeRunningProcesses_v2(Device Device, InfoCount *uint32, Infos *ProcessInfo) Return {
+	cDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
+	cInfoCount, _ := (*C.uint)(unsafe.Pointer(InfoCount)), cgoAllocsUnknown
+	cInfos, _ := (*C.nvmlProcessInfo_t)(unsafe.Pointer(Infos)), cgoAllocsUnknown
+	__ret := C.nvmlDeviceGetMPSComputeRunningProcesses_v2(cDevice, cInfoCount, cInfos)
+	__v := (Return)(__ret)
+	return __v
+}
+
 // nvmlDeviceOnSameBoard function as declared in nvml/nvml.h
 func nvmlDeviceOnSameBoard(Device1 Device, Device2 Device, OnSameBoard *int32) Return {
 	cDevice1, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device1)), cgoAllocsUnknown
@@ -1281,6 +1291,15 @@ func nvmlDeviceSetApplicationsClocks(Device Device, MemClockMHz uint32, Graphics
 	return __v
 }
 
+// nvmlDeviceGetClkMonStatus function as declared in nvml/nvml.h
+func nvmlDeviceGetClkMonStatus(Device Device, Status *ClkMonStatus) Return {
+	cDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
+	cStatus, _ := (*C.nvmlClkMonStatus_t)(unsafe.Pointer(Status)), cgoAllocsUnknown
+	__ret := C.nvmlDeviceGetClkMonStatus(cDevice, cStatus)
+	__v := (Return)(__ret)
+	return __v
+}
+
 // nvmlDeviceSetPowerManagementLimit function as declared in nvml/nvml.h
 func nvmlDeviceSetPowerManagementLimit(Device Device, Limit uint32) Return {
 	cDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
@@ -1443,6 +1462,16 @@ func nvmlDeviceResetNvLinkUtilizationCounter(Device Device, Link uint32, Counter
 	return __v
 }
 
+// nvmlDeviceGetNvLinkRemoteDeviceType function as declared in nvml/nvml.h
+func nvmlDeviceGetNvLinkRemoteDeviceType(Device Device, Link uint32, PNvLinkDeviceType *IntNvLinkDeviceType) Return {
+	cDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
+	cLink, _ := (C.uint)(Link), cgoAllocsUnknown
+	cPNvLinkDeviceType, _ := (*C.nvmlIntNvLinkDeviceType_t)(unsafe.Pointer(PNvLinkDeviceType)), cgoAllocsUnknown
+	__ret := C.nvmlDeviceGetNvLinkRemoteDeviceType(cDevice, cLink, cPNvLinkDeviceType)
+	__v := (Return)(__ret)
+	return __v
+}
+
 // nvmlEventSetCreate function as declared in nvml/nvml.h
 func nvmlEventSetCreate(Set *EventSet) Return {
 	cSet, _ := (*C.nvmlEventSet_t)(unsafe.Pointer(Set)), cgoAllocsUnknown
@@ -1561,11 +1590,11 @@ func nvmlDeviceSetVirtualizationMode(Device Device, VirtualMode GpuVirtualizatio
 	return __v
 }
 
-// nvmlDeviceGetGridLicensableFeatures_v3 function as declared in nvml/nvml.h
-func nvmlDeviceGetGridLicensableFeatures_v3(Device Device, PGridLicensableFeatures *GridLicensableFeatures) Return {
+// nvmlDeviceGetGridLicensableFeatures_v4 function as declared in nvml/nvml.h
+func nvmlDeviceGetGridLicensableFeatures_v4(Device Device, PGridLicensableFeatures *GridLicensableFeatures) Return {
 	cDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cPGridLicensableFeatures, _ := (*C.nvmlGridLicensableFeatures_t)(unsafe.Pointer(PGridLicensableFeatures)), cgoAllocsUnknown
-	__ret := C.nvmlDeviceGetGridLicensableFeatures_v3(cDevice, cPGridLicensableFeatures)
+	__ret := C.nvmlDeviceGetGridLicensableFeatures_v4(cDevice, cPGridLicensableFeatures)
 	__v := (Return)(__ret)
 	return __v
 }
@@ -2024,13 +2053,13 @@ func nvmlDeviceGetGpuInstanceProfileInfo(Device Device, Profile uint32, Info *Gp
 	return __v
 }
 
-// nvmlDeviceGetGpuInstancePossiblePlacements function as declared in nvml/nvml.h
-func nvmlDeviceGetGpuInstancePossiblePlacements(Device Device, ProfileId uint32, Placements *GpuInstancePlacement, Count *uint32) Return {
+// nvmlDeviceGetGpuInstancePossiblePlacements_v2 function as declared in nvml/nvml.h
+func nvmlDeviceGetGpuInstancePossiblePlacements_v2(Device Device, ProfileId uint32, Placements *GpuInstancePlacement, Count *uint32) Return {
 	cDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cProfileId, _ := (C.uint)(ProfileId), cgoAllocsUnknown
 	cPlacements, _ := (*C.nvmlGpuInstancePlacement_t)(unsafe.Pointer(Placements)), cgoAllocsUnknown
 	cCount, _ := (*C.uint)(unsafe.Pointer(Count)), cgoAllocsUnknown
-	__ret := C.nvmlDeviceGetGpuInstancePossiblePlacements(cDevice, cProfileId, cPlacements, cCount)
+	__ret := C.nvmlDeviceGetGpuInstancePossiblePlacements_v2(cDevice, cProfileId, cPlacements, cCount)
 	__v := (Return)(__ret)
 	return __v
 }
@@ -2307,6 +2336,15 @@ func nvmlDeviceGetGridLicensableFeatures_v2(Device Device, PGridLicensableFeatur
 	return __v
 }
 
+// nvmlDeviceGetGridLicensableFeatures_v3 function as declared in nvml/nvml.h
+func nvmlDeviceGetGridLicensableFeatures_v3(Device Device, PGridLicensableFeatures *GridLicensableFeatures) Return {
+	cDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
+	cPGridLicensableFeatures, _ := (*C.nvmlGridLicensableFeatures_t)(unsafe.Pointer(PGridLicensableFeatures)), cgoAllocsUnknown
+	__ret := C.nvmlDeviceGetGridLicensableFeatures_v3(cDevice, cPGridLicensableFeatures)
+	__v := (Return)(__ret)
+	return __v
+}
+
 // nvmlDeviceRemoveGpu_v1 function as declared in nvml/nvml.h
 func nvmlDeviceRemoveGpu_v1(PciInfo *PciInfo) Return {
 	cPciInfo, _ := (*C.nvmlPciInfo_t)(unsafe.Pointer(PciInfo)), cgoAllocsUnknown
@@ -2344,21 +2382,42 @@ func nvmlComputeInstanceGetInfo_v1(ComputeInstance ComputeInstance, Info *Comput
 }
 
 // nvmlDeviceGetComputeRunningProcesses_v1 function as declared in nvml/nvml.h
-func nvmlDeviceGetComputeRunningProcesses_v1(Device Device, InfoCount *uint32, Infos *ProcessInfo) Return {
+func nvmlDeviceGetComputeRunningProcesses_v1(Device Device, InfoCount *uint32, Infos *ProcessInfo_v1) Return {
 	cDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cInfoCount, _ := (*C.uint)(unsafe.Pointer(InfoCount)), cgoAllocsUnknown
-	cInfos, _ := (*C.nvmlProcessInfo_t)(unsafe.Pointer(Infos)), cgoAllocsUnknown
+	cInfos, _ := (*C.nvmlProcessInfo_v1_t)(unsafe.Pointer(Infos)), cgoAllocsUnknown
 	__ret := C.nvmlDeviceGetComputeRunningProcesses(cDevice, cInfoCount, cInfos)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlDeviceGetGraphicsRunningProcesses_v1 function as declared in nvml/nvml.h
-func nvmlDeviceGetGraphicsRunningProcesses_v1(Device Device, InfoCount *uint32, Infos *ProcessInfo) Return {
+func nvmlDeviceGetGraphicsRunningProcesses_v1(Device Device, InfoCount *uint32, Infos *ProcessInfo_v1) Return {
 	cDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cInfoCount, _ := (*C.uint)(unsafe.Pointer(InfoCount)), cgoAllocsUnknown
-	cInfos, _ := (*C.nvmlProcessInfo_t)(unsafe.Pointer(Infos)), cgoAllocsUnknown
+	cInfos, _ := (*C.nvmlProcessInfo_v1_t)(unsafe.Pointer(Infos)), cgoAllocsUnknown
 	__ret := C.nvmlDeviceGetGraphicsRunningProcesses(cDevice, cInfoCount, cInfos)
+	__v := (Return)(__ret)
+	return __v
+}
+
+// nvmlDeviceGetMPSComputeRunningProcesses_v1 function as declared in nvml/nvml.h
+func nvmlDeviceGetMPSComputeRunningProcesses_v1(Device Device, InfoCount *uint32, Infos *ProcessInfo_v1) Return {
+	cDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
+	cInfoCount, _ := (*C.uint)(unsafe.Pointer(InfoCount)), cgoAllocsUnknown
+	cInfos, _ := (*C.nvmlProcessInfo_v1_t)(unsafe.Pointer(Infos)), cgoAllocsUnknown
+	__ret := C.nvmlDeviceGetMPSComputeRunningProcesses(cDevice, cInfoCount, cInfos)
+	__v := (Return)(__ret)
+	return __v
+}
+
+// nvmlDeviceGetGpuInstancePossiblePlacements_v1 function as declared in nvml/nvml.h
+func nvmlDeviceGetGpuInstancePossiblePlacements_v1(Device Device, ProfileId uint32, Placements *GpuInstancePlacement, Count *uint32) Return {
+	cDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
+	cProfileId, _ := (C.uint)(ProfileId), cgoAllocsUnknown
+	cPlacements, _ := (*C.nvmlGpuInstancePlacement_t)(unsafe.Pointer(Placements)), cgoAllocsUnknown
+	cCount, _ := (*C.uint)(unsafe.Pointer(Count)), cgoAllocsUnknown
+	__ret := C.nvmlDeviceGetGpuInstancePossiblePlacements(cDevice, cProfileId, cPlacements, cCount)
 	__v := (Return)(__ret)
 	return __v
 }

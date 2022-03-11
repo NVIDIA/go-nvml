@@ -43,6 +43,11 @@ type BAR1Memory struct {
 	Bar1Used  uint64
 }
 
+type ProcessInfo_v1 struct {
+	Pid           uint32
+	UsedGpuMemory uint64
+}
+
 type ProcessInfo struct {
 	Pid               uint32
 	UsedGpuMemory     uint64
@@ -99,6 +104,17 @@ type ViolationTime struct {
 	ViolationTime uint64
 }
 
+type ClkMonFaultInfo struct {
+	ClkApiDomain       uint32
+	ClkDomainFaultMask uint32
+}
+
+type ClkMonStatus struct {
+	BGlobalStatus  uint32
+	ClkMonListSize uint32
+	ClkMonList     [32]ClkMonFaultInfo
+}
+
 type VgpuTypeId uint32
 
 type VgpuInstance uint32
@@ -132,12 +148,24 @@ type ProcessUtilizationSample struct {
 	DecUtil   uint32
 }
 
+type GridLicenseExpiry struct {
+	Year      uint32
+	Month     uint16
+	Day       uint16
+	Hour      uint16
+	Min       uint16
+	Sec       uint16
+	Status    uint8
+	Pad_cgo_0 [1]byte
+}
+
 type GridLicensableFeature struct {
 	FeatureCode    uint32
 	FeatureState   uint32
 	LicenseInfo    [128]int8
 	ProductName    [128]int8
 	FeatureEnabled uint32
+	LicenseExpiry  GridLicenseExpiry
 }
 
 type GridLicensableFeatures struct {

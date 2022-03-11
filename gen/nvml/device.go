@@ -931,54 +931,35 @@ func (Device Device) GetBridgeChipInfo() (BridgeChipHierarchy, Return) {
 	return DeviceGetBridgeChipInfo(Device)
 }
 
-// Helper function for DeviceGet{Compute,Graphics}RunningProcesses
-func (p *ProcessInfo_v1) AsProcessInfoPointer() *ProcessInfo {
-	return (*ProcessInfo)(unsafe.Pointer(p))
-}
-
-// Helper function for DeviceGet{Compute,Graphics}RunningProcesses
-func (p ProcessInfo_v1) ToProcessInfo() ProcessInfo {
-	return ProcessInfo{
-		Pid:               p.Pid,
-		UsedGpuMemory:     p.UsedGpuMemory,
-		GpuInstanceId:     0xFFFFFFFF, // GPU instance ID is invalid in v1
-		ComputeInstanceId: 0xFFFFFFFF, // Compute instance ID is invalid in v1
-	}
-}
-
 // nvml.DeviceGetComputeRunningProcesses()
-func DeviceGetComputeRunningProcesses(Device Device) ([]ProcessInfo, Return) {
-	var Infos []ProcessInfo  // This is the v2 version of process info data structure
+func deviceGetComputeRunningProcesses_v1(Device Device) ([]ProcessInfo, Return) {
 	var InfoCount uint32 = 1 // Will be reduced upon returning
-	var ret = SUCCESS        // Will be changed upon returning
 	for {
-		if usesNvmlDeviceGetComputeRunningProcesses_v1 {
-			var v1Infos = make([]ProcessInfo_v1, InfoCount)
-			ret = nvmlDeviceGetComputeRunningProcesses_v1(Device, &InfoCount, (&v1Infos[0]).AsProcessInfoPointer()) // Call v1 version
-			if ret == SUCCESS {
-				// Convert process info data structure from v1 to v2
-				for i := uint32(0); i < InfoCount; i++ {
-					Infos = append(Infos, v1Infos[i].ToProcessInfo())
-				}
-				break
-			}
-		} else {
-			Infos = make([]ProcessInfo, InfoCount)
-			ret = nvmlDeviceGetComputeRunningProcesses(Device, &InfoCount, &Infos[0]) // Call v2 version directly
-			if ret == SUCCESS {
-				break
-			}
+		Infos := make([]ProcessInfo_v1, InfoCount)
+		ret := nvmlDeviceGetComputeRunningProcesses_v1(Device, &InfoCount, &Infos[0])
+		if ret == SUCCESS {
+			return ProcessInfo_v1Slice(Infos[:InfoCount]).ToProcessInfoSlice(), ret
 		}
 		if ret != ERROR_INSUFFICIENT_SIZE {
 			return nil, ret
 		}
 		InfoCount *= 2
 	}
+}
 
-	if InfoCount == 0 {
-		return []ProcessInfo{}, SUCCESS
+func deviceGetComputeRunningProcesses_v2(Device Device) ([]ProcessInfo, Return) {
+	var InfoCount uint32 = 1 // Will be reduced upon returning
+	for {
+		Infos := make([]ProcessInfo, InfoCount)
+		ret := nvmlDeviceGetComputeRunningProcesses_v2(Device, &InfoCount, &Infos[0])
+		if ret == SUCCESS {
+			return Infos[:InfoCount], ret
+		}
+		if ret != ERROR_INSUFFICIENT_SIZE {
+			return nil, ret
+		}
+		InfoCount *= 2
 	}
-	return Infos[:InfoCount], SUCCESS
 }
 
 func (Device Device) GetComputeRunningProcesses() ([]ProcessInfo, Return) {
@@ -986,42 +967,73 @@ func (Device Device) GetComputeRunningProcesses() ([]ProcessInfo, Return) {
 }
 
 // nvml.DeviceGetGraphicsRunningProcesses()
-func DeviceGetGraphicsRunningProcesses(Device Device) ([]ProcessInfo, Return) {
-	var Infos []ProcessInfo  // This is the v2 version of process info data structure
+func deviceGetGraphicsRunningProcesses_v1(Device Device) ([]ProcessInfo, Return) {
 	var InfoCount uint32 = 1 // Will be reduced upon returning
-	var ret = SUCCESS        // Will be changed upon returning
 	for {
-		if usesNvmlDeviceGetGraphicsRunningProcesses_v1 {
-			var v1Infos = make([]ProcessInfo_v1, InfoCount)
-			ret = nvmlDeviceGetGraphicsRunningProcesses_v1(Device, &InfoCount, (&v1Infos[0]).AsProcessInfoPointer()) // Call v1 version
-			if ret == SUCCESS {
-				// Convert process info data structure from v1 to v2
-				for i := uint32(0); i < InfoCount; i++ {
-					Infos = append(Infos, v1Infos[i].ToProcessInfo())
-				}
-				break
-			}
-		} else {
-			Infos = make([]ProcessInfo, InfoCount)
-			ret = nvmlDeviceGetGraphicsRunningProcesses(Device, &InfoCount, &Infos[0]) // Call v2 version directly
-			if ret == SUCCESS {
-				break
-			}
+		Infos := make([]ProcessInfo_v1, InfoCount)
+		ret := nvmlDeviceGetGraphicsRunningProcesses_v1(Device, &InfoCount, &Infos[0])
+		if ret == SUCCESS {
+			return ProcessInfo_v1Slice(Infos[:InfoCount]).ToProcessInfoSlice(), ret
 		}
 		if ret != ERROR_INSUFFICIENT_SIZE {
 			return nil, ret
 		}
 		InfoCount *= 2
 	}
+}
 
-	if InfoCount == 0 {
-		return []ProcessInfo{}, SUCCESS
+func deviceGetGraphicsRunningProcesses_v2(Device Device) ([]ProcessInfo, Return) {
+	var InfoCount uint32 = 1 // Will be reduced upon returning
+	for {
+		Infos := make([]ProcessInfo, InfoCount)
+		ret := nvmlDeviceGetGraphicsRunningProcesses_v2(Device, &InfoCount, &Infos[0])
+		if ret == SUCCESS {
+			return Infos[:InfoCount], ret
+		}
+		if ret != ERROR_INSUFFICIENT_SIZE {
+			return nil, ret
+		}
+		InfoCount *= 2
 	}
-	return Infos[:InfoCount], SUCCESS
 }
 
 func (Device Device) GetGraphicsRunningProcesses() ([]ProcessInfo, Return) {
 	return DeviceGetGraphicsRunningProcesses(Device)
+}
+
+// nvml.DeviceGetMPSComputeRunningProcesses()
+func deviceGetMPSComputeRunningProcesses_v1(Device Device) ([]ProcessInfo, Return) {
+	var InfoCount uint32 = 1 // Will be reduced upon returning
+	for {
+		Infos := make([]ProcessInfo_v1, InfoCount)
+		ret := nvmlDeviceGetMPSComputeRunningProcesses_v1(Device, &InfoCount, &Infos[0])
+		if ret == SUCCESS {
+			return ProcessInfo_v1Slice(Infos[:InfoCount]).ToProcessInfoSlice(), ret
+		}
+		if ret != ERROR_INSUFFICIENT_SIZE {
+			return nil, ret
+		}
+		InfoCount *= 2
+	}
+}
+
+func deviceGetMPSComputeRunningProcesses_v2(Device Device) ([]ProcessInfo, Return) {
+	var InfoCount uint32 = 1 // Will be reduced upon returning
+	for {
+		Infos := make([]ProcessInfo, InfoCount)
+		ret := nvmlDeviceGetMPSComputeRunningProcesses_v2(Device, &InfoCount, &Infos[0])
+		if ret == SUCCESS {
+			return Infos[:InfoCount], ret
+		}
+		if ret != ERROR_INSUFFICIENT_SIZE {
+			return nil, ret
+		}
+		InfoCount *= 2
+	}
+}
+
+func (Device Device) GetMPSComputeRunningProcesses() ([]ProcessInfo, Return) {
+	return DeviceGetMPSComputeRunningProcesses(Device)
 }
 
 // nvml.DeviceOnSameBoard()
@@ -1274,6 +1286,17 @@ func (Device Device) ResetMemoryLockedClocks() Return {
 	return DeviceResetMemoryLockedClocks(Device)
 }
 
+// nvml.DeviceGetClkMonStatus()
+func DeviceGetClkMonStatus(Device Device) (ClkMonStatus, Return) {
+	var Status ClkMonStatus
+	ret := nvmlDeviceGetClkMonStatus(Device, &Status)
+	return Status, ret
+}
+
+func (Device Device) GetClkMonStatus() (ClkMonStatus, Return) {
+	return DeviceGetClkMonStatus(Device)
+}
+
 // nvml.DeviceSetApplicationsClocks()
 func DeviceSetApplicationsClocks(Device Device, MemClockMHz uint32, GraphicsClockMHz uint32) Return {
 	return nvmlDeviceSetApplicationsClocks(Device, MemClockMHz, GraphicsClockMHz)
@@ -1443,6 +1466,17 @@ func DeviceResetNvLinkUtilizationCounter(Device Device, Link int, Counter int) R
 
 func (Device Device) ResetNvLinkUtilizationCounter(Link int, Counter int) Return {
 	return DeviceResetNvLinkUtilizationCounter(Device, Link, Counter)
+}
+
+// nvml.DeviceGetNvLinkRemoteDeviceType()
+func DeviceGetNvLinkRemoteDeviceType(Device Device, Link int) (IntNvLinkDeviceType, Return) {
+	var NvLinkDeviceType IntNvLinkDeviceType
+	ret := nvmlDeviceGetNvLinkRemoteDeviceType(Device, uint32(Link), &NvLinkDeviceType)
+	return NvLinkDeviceType, ret
+}
+
+func (Device Device) GetNvLinkRemoteDeviceType(Link int) (IntNvLinkDeviceType, Return) {
+	return DeviceGetNvLinkRemoteDeviceType(Device, Link)
 }
 
 // nvml.DeviceRegisterEvents()
