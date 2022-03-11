@@ -73,6 +73,18 @@ const (
 	VGPU_NAME_BUFFER_SIZE = 64
 	// GRID_LICENSE_FEATURE_MAX_COUNT as defined in nvml/nvml.h
 	GRID_LICENSE_FEATURE_MAX_COUNT = 3
+	// GRID_LICENSE_STATE_UNKNOWN as defined in nvml/nvml.h
+	GRID_LICENSE_STATE_UNKNOWN = 0
+	// GRID_LICENSE_STATE_UNINITIALIZED as defined in nvml/nvml.h
+	GRID_LICENSE_STATE_UNINITIALIZED = 1
+	// GRID_LICENSE_STATE_UNLICENSED_UNRESTRICTED as defined in nvml/nvml.h
+	GRID_LICENSE_STATE_UNLICENSED_UNRESTRICTED = 2
+	// GRID_LICENSE_STATE_UNLICENSED_RESTRICTED as defined in nvml/nvml.h
+	GRID_LICENSE_STATE_UNLICENSED_RESTRICTED = 3
+	// GRID_LICENSE_STATE_UNLICENSED as defined in nvml/nvml.h
+	GRID_LICENSE_STATE_UNLICENSED = 4
+	// GRID_LICENSE_STATE_LICENSED as defined in nvml/nvml.h
+	GRID_LICENSE_STATE_LICENSED = 5
 	// DEVICE_ARCH_KEPLER as defined in nvml/nvml.h
 	DEVICE_ARCH_KEPLER = 2
 	// DEVICE_ARCH_MAXWELL as defined in nvml/nvml.h
@@ -97,6 +109,26 @@ const (
 	BUS_TYPE_FPCI = 3
 	// BUS_TYPE_AGP as defined in nvml/nvml.h
 	BUS_TYPE_AGP = 4
+	// POWER_SOURCE_AC as defined in nvml/nvml.h
+	POWER_SOURCE_AC = 0
+	// POWER_SOURCE_BATTERY as defined in nvml/nvml.h
+	POWER_SOURCE_BATTERY = 1
+	// PCIE_LINK_MAX_SPEED_INVALID as defined in nvml/nvml.h
+	PCIE_LINK_MAX_SPEED_INVALID = 0
+	// PCIE_LINK_MAX_SPEED_2500MBPS as defined in nvml/nvml.h
+	PCIE_LINK_MAX_SPEED_2500MBPS = 1
+	// PCIE_LINK_MAX_SPEED_5000MBPS as defined in nvml/nvml.h
+	PCIE_LINK_MAX_SPEED_5000MBPS = 2
+	// PCIE_LINK_MAX_SPEED_8000MBPS as defined in nvml/nvml.h
+	PCIE_LINK_MAX_SPEED_8000MBPS = 3
+	// PCIE_LINK_MAX_SPEED_16000MBPS as defined in nvml/nvml.h
+	PCIE_LINK_MAX_SPEED_16000MBPS = 4
+	// PCIE_LINK_MAX_SPEED_32000MBPS as defined in nvml/nvml.h
+	PCIE_LINK_MAX_SPEED_32000MBPS = 5
+	// ADAPTIVE_CLOCKING_INFO_STATUS_DISABLED as defined in nvml/nvml.h
+	ADAPTIVE_CLOCKING_INFO_STATUS_DISABLED = 0
+	// ADAPTIVE_CLOCKING_INFO_STATUS_ENABLED as defined in nvml/nvml.h
+	ADAPTIVE_CLOCKING_INFO_STATUS_ENABLED = 1
 	// FI_DEV_ECC_CURRENT as defined in nvml/nvml.h
 	FI_DEV_ECC_CURRENT = 1
 	// FI_DEV_ECC_PENDING as defined in nvml/nvml.h
@@ -726,24 +758,25 @@ type BrandType int32
 
 // BrandType enumeration from nvml/nvml.h
 const (
-	BRAND_UNKNOWN        BrandType = iota
-	BRAND_QUADRO         BrandType = 1
-	BRAND_TESLA          BrandType = 2
-	BRAND_NVS            BrandType = 3
-	BRAND_GRID           BrandType = 4
-	BRAND_GEFORCE        BrandType = 5
-	BRAND_TITAN          BrandType = 6
-	BRAND_NVIDIA_VAPPS   BrandType = 7
-	BRAND_NVIDIA_VPC     BrandType = 8
-	BRAND_NVIDIA_VCS     BrandType = 9
-	BRAND_NVIDIA_VWS     BrandType = 10
-	BRAND_NVIDIA_VGAMING BrandType = 11
-	BRAND_QUADRO_RTX     BrandType = 12
-	BRAND_NVIDIA_RTX     BrandType = 13
-	BRAND_NVIDIA         BrandType = 14
-	BRAND_GEFORCE_RTX    BrandType = 15
-	BRAND_TITAN_RTX      BrandType = 16
-	BRAND_COUNT          BrandType = 17
+	BRAND_UNKNOWN             BrandType = iota
+	BRAND_QUADRO              BrandType = 1
+	BRAND_TESLA               BrandType = 2
+	BRAND_NVS                 BrandType = 3
+	BRAND_GRID                BrandType = 4
+	BRAND_GEFORCE             BrandType = 5
+	BRAND_TITAN               BrandType = 6
+	BRAND_NVIDIA_VAPPS        BrandType = 7
+	BRAND_NVIDIA_VPC          BrandType = 8
+	BRAND_NVIDIA_VCS          BrandType = 9
+	BRAND_NVIDIA_VWS          BrandType = 10
+	BRAND_NVIDIA_CLOUD_GAMING BrandType = 11
+	BRAND_NVIDIA_VGAMING      BrandType = 11
+	BRAND_QUADRO_RTX          BrandType = 12
+	BRAND_NVIDIA_RTX          BrandType = 13
+	BRAND_NVIDIA              BrandType = 14
+	BRAND_GEFORCE_RTX         BrandType = 15
+	BRAND_TITAN_RTX           BrandType = 16
+	BRAND_COUNT               BrandType = 17
 )
 
 // TemperatureThresholds as declared in nvml/nvml.h
