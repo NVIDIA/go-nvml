@@ -202,6 +202,17 @@ func (VgpuInstance VgpuInstance) GetFbUsage() (uint64, Return) {
 	return VgpuInstanceGetFbUsage(VgpuInstance)
 }
 
+// nvml.VgpuInstanceGetLicenseInfo()
+func VgpuInstanceGetLicenseInfo(VgpuInstance VgpuInstance) (VgpuLicenseInfo, Return) {
+	var LicenseInfo VgpuLicenseInfo
+	ret := nvmlVgpuInstanceGetLicenseInfo(VgpuInstance, &LicenseInfo)
+	return LicenseInfo, ret
+}
+
+func (VgpuInstance VgpuInstance) GetLicenseInfo() (VgpuLicenseInfo, Return) {
+	return VgpuInstanceGetLicenseInfo(VgpuInstance)
+}
+
 // nvml.VgpuInstanceGetLicenseStatus()
 func VgpuInstanceGetLicenseStatus(VgpuInstance VgpuInstance) (int, Return) {
 	var Licensed uint32

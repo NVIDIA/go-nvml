@@ -87,6 +87,16 @@ const (
 	DEVICE_ARCH_AMPERE = 7
 	// DEVICE_ARCH_UNKNOWN as defined in nvml/nvml.h
 	DEVICE_ARCH_UNKNOWN = 4294967295
+	// BUS_TYPE_UNKNOWN as defined in nvml/nvml.h
+	BUS_TYPE_UNKNOWN = 0
+	// BUS_TYPE_PCI as defined in nvml/nvml.h
+	BUS_TYPE_PCI = 1
+	// BUS_TYPE_PCIE as defined in nvml/nvml.h
+	BUS_TYPE_PCIE = 2
+	// BUS_TYPE_FPCI as defined in nvml/nvml.h
+	BUS_TYPE_FPCI = 3
+	// BUS_TYPE_AGP as defined in nvml/nvml.h
+	BUS_TYPE_AGP = 4
 	// FI_DEV_ECC_CURRENT as defined in nvml/nvml.h
 	FI_DEV_ECC_CURRENT = 1
 	// FI_DEV_ECC_PENDING as defined in nvml/nvml.h

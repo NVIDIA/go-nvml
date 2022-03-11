@@ -139,6 +139,22 @@ type VgpuProcessUtilizationSample struct {
 	DecUtil      uint32
 }
 
+type VgpuLicenseExpiry struct {
+	Year      uint32
+	Month     uint16
+	Day       uint16
+	Hour      uint16
+	Min       uint16
+	Sec       uint16
+	Status    uint8
+	Pad_cgo_0 [1]byte
+}
+
+type VgpuLicenseInfo struct {
+	IsLicensed    uint8
+	LicenseExpiry VgpuLicenseExpiry
+}
+
 type ProcessUtilizationSample struct {
 	Pid       uint32
 	TimeStamp uint64
@@ -175,6 +191,8 @@ type GridLicensableFeatures struct {
 }
 
 type DeviceArchitecture uint32
+
+type BusType uint32
 
 type FieldValue struct {
 	FieldId     uint32
