@@ -3650,6 +3650,24 @@ nvmlReturn_t DECLDIR nvmlDeviceGetFanSpeed(nvmlDevice_t device, unsigned int *sp
 nvmlReturn_t DECLDIR nvmlDeviceGetFanSpeed_v2(nvmlDevice_t device, unsigned int fan, unsigned int * speed);
 
 /**
+ * Retrieves the number of fans on the device.
+ *
+ * For all discrete products with dedicated fans.
+ *
+ * @param device                               The identifier of the target device
+ * @param numFans                              The number of fans
+ *
+ * @return
+ *         - \ref NVML_SUCCESS                 if \a fan number query was successful
+ *         - \ref NVML_ERROR_UNINITIALIZED     if the library has not been successfully initialized
+ *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a device is invalid or \a numFans is NULL
+ *         - \ref NVML_ERROR_NOT_SUPPORTED     if the device does not have a fan
+ *         - \ref NVML_ERROR_GPU_IS_LOST       if the target GPU has fallen off the bus or is otherwise inaccessible
+ *         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
+ */
+nvmlReturn_t DECLDIR nvmlDeviceGetNumFans(nvmlDevice_t device, unsigned int *numFans);
+
+/**
  * Retrieves the current temperature readings for the device, in degrees C.
  *
  * For all products.
@@ -4780,6 +4798,86 @@ nvmlReturn_t DECLDIR nvmlDeviceGetViolationStatus(nvmlDevice_t device, nvmlPerfP
  *
  */
 nvmlReturn_t DECLDIR nvmlDeviceGetIrqNum(nvmlDevice_t device, unsigned int *irqNum);
+
+/**
+ * Gets the device's core count
+ *
+ * @param device                               The identifier of the target device
+ * @param numCores                             The number of cores for the specified device
+ *
+ * @return
+ *         - \ref NVML_SUCCESS                 if Gpu core count is successfully retrieved
+ *         - \ref NVML_ERROR_UNINITIALIZED     if the library has not been successfully initialized
+ *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a device is invalid, or \a numCores is NULL
+ *         - \ref NVML_ERROR_NOT_SUPPORTED     if this query is not supported by the device
+ *         - \ref NVML_ERROR_GPU_IS_LOST       if the target GPU has fallen off the bus or is otherwise inaccessible
+ *
+ */
+nvmlReturn_t DECLDIR nvmlDeviceGetNumGpuCores(nvmlDevice_t device, unsigned int *numCores);
+
+/**
+ * Gets the devices power source
+ *
+ * @param device                               The identifier of the target device
+ * @param powerSource                          The power source of the device
+ *
+ * @return
+ *         - \ref NVML_SUCCESS                 if the current power source was successfully retrieved
+ *         - \ref NVML_ERROR_UNINITIALIZED     if the library has not been successfully initialized
+ *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a device is invalid, or \a powerSource is NULL
+ *         - \ref NVML_ERROR_NOT_SUPPORTED     if this query is not supported by the device
+ *         - \ref NVML_ERROR_GPU_IS_LOST       if the target GPU has fallen off the bus or is otherwise inaccessible
+ *
+ */
+nvmlReturn_t DECLDIR nvmlDeviceGetPowerSource(nvmlDevice_t device, nvmlPowerSource_t *powerSource);
+
+/**
+ * Gets the device's memory bus width
+ *
+ * @param device                               The identifier of the target device
+ * @param maxSpeed                             The devices's memory bus width
+ *
+ * @return
+ *         - \ref NVML_SUCCESS                 if the memory bus width is successfully retrieved
+ *         - \ref NVML_ERROR_UNINITIALIZED     if the library has not been successfully initialized
+ *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a device is invalid, or \a busWidth is NULL
+ *         - \ref NVML_ERROR_NOT_SUPPORTED     if this query is not supported by the device
+ *         - \ref NVML_ERROR_GPU_IS_LOST       if the target GPU has fallen off the bus or is otherwise inaccessible
+ *
+ */
+nvmlReturn_t DECLDIR nvmlDeviceGetMemoryBusWidth(nvmlDevice_t device, unsigned int *busWidth);
+
+/**
+ * Gets the device's PCIE Max Link speed in MBPS
+ *
+ * @param device                               The identifier of the target device
+ * @param maxSpeed                             The devices's PCIE Max Link speed in MBPS
+ *
+ * @return
+ *         - \ref NVML_SUCCESS                 if Pcie Max Link Speed is successfully retrieved
+ *         - \ref NVML_ERROR_UNINITIALIZED     if the library has not been successfully initialized
+ *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a device is invalid, or \a maxSpeed is NULL
+ *         - \ref NVML_ERROR_NOT_SUPPORTED     if this query is not supported by the device
+ *         - \ref NVML_ERROR_GPU_IS_LOST       if the target GPU has fallen off the bus or is otherwise inaccessible
+ *
+ */
+nvmlReturn_t DECLDIR nvmlDeviceGetPcieLinkMaxSpeed(nvmlDevice_t device, unsigned int *maxSpeed);
+
+/**
+ * Gets the device's Adaptive Clock status
+ *
+ * @param device                               The identifier of the target device
+ * @param adaptiveClockStatus                  The current adaptive clocking status
+ *
+ * @return
+ *         - \ref NVML_SUCCESS                 if the current adaptive clocking status is successfully retrieved
+ *         - \ref NVML_ERROR_UNINITIALIZED     if the library has not been successfully initialized
+ *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a device is invalid, or \a adaptiveClockStatus is NULL
+ *         - \ref NVML_ERROR_NOT_SUPPORTED     if this query is not supported by the device
+ *         - \ref NVML_ERROR_GPU_IS_LOST       if the target GPU has fallen off the bus or is otherwise inaccessible
+ *
+ */
+nvmlReturn_t DECLDIR nvmlDeviceGetAdaptiveClockInfoStatus(nvmlDevice_t device, unsigned int *adaptiveClockStatus);
 
 /**
  * @}
@@ -6901,6 +6999,26 @@ nvmlReturn_t DECLDIR nvmlVgpuInstanceGetFBCSessions(nvmlVgpuInstance_t vgpuInsta
 *         - \ref NVML_ERROR_UNKNOWN            on any unexpected error
 */
 nvmlReturn_t DECLDIR nvmlVgpuInstanceGetGpuInstanceId(nvmlVgpuInstance_t vgpuInstance, unsigned int *gpuInstanceId);
+
+/**
+* Retrieves the PCI Id of the given vGPU Instance i.e. the PCI Id of the GPU as seen inside the VM.
+*
+* The vGPU PCI id is returned as "00000000:00:00.0" if NVIDIA driver is not installed on the vGPU instance.
+*
+* @param vgpuInstance                         Identifier of the target vGPU instance
+* @param vgpuPciId                            Caller-supplied buffer to return vGPU PCI Id string
+* @param length                               Size of the vgpuPciId buffer
+*
+* @return
+*         - \ref NVML_SUCCESS                 if vGPU PCI Id is sucessfully retrieved
+*         - \ref NVML_ERROR_UNINITIALIZED     if the library has not been successfully initialized
+*         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a vgpuInstance is 0, or \a vgpuPciId is NULL
+*         - \ref NVML_ERROR_NOT_FOUND         if \a vgpuInstance does not match a valid active vGPU instance on the system
+*         - \ref NVML_ERROR_DRIVER_NOT_LOADED if NVIDIA driver is not running on the vGPU instance
+*         - \ref NVML_ERROR_INSUFFICIENT_SIZE if \a length is too small, \a length is set to required length
+*         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
+*/
+nvmlReturn_t DECLDIR nvmlVgpuInstanceGetGpuPciId(nvmlVgpuInstance_t vgpuInstance, char *vgpuPciId, unsigned int *length);
 
 /** @} */
 

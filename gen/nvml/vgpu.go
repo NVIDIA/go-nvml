@@ -334,6 +334,26 @@ func (VgpuInstance VgpuInstance) GetGpuInstanceId() (int, Return) {
 	return VgpuInstanceGetGpuInstanceId(VgpuInstance)
 }
 
+// nvml.VgpuInstanceGetGpuPciId()
+func VgpuInstanceGetGpuPciId(VgpuInstance VgpuInstance) (string, Return) {
+	var Length uint32 = 1 // Will be reduced upon returning
+	for {
+		VgpuPciId := make([]byte, Length)
+		ret := nvmlVgpuInstanceGetGpuPciId(VgpuInstance, &VgpuPciId[0], &Length)
+		if ret == SUCCESS {
+			return string(VgpuPciId[:clen(VgpuPciId)]), ret
+		}
+		if ret != ERROR_INSUFFICIENT_SIZE {
+			return "", ret
+		}
+		Length *= 2
+	}
+}
+
+func (VgpuInstance VgpuInstance) GetGpuPciId() (string, Return) {
+	return VgpuInstanceGetGpuPciId(VgpuInstance)
+}
+
 // nvml.VgpuInstanceGetMetadata()
 func VgpuInstanceGetMetadata(VgpuInstance VgpuInstance) (VgpuMetadata, Return) {
 	var VgpuMetadata VgpuMetadata

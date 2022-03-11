@@ -528,6 +528,17 @@ func (Device Device) GetFanSpeed_v2(Fan int) (uint32, Return) {
 	return DeviceGetFanSpeed_v2(Device, Fan)
 }
 
+// nvml.DeviceGetNumFans()
+func DeviceGetNumFans(Device Device) (int, Return) {
+	var NumFans uint32
+	ret := nvmlDeviceGetNumFans(Device, &NumFans)
+	return int(NumFans), ret
+}
+
+func (Device Device) GetNumFans() (int, Return) {
+	return DeviceGetNumFans(Device)
+}
+
 // nvml.DeviceGetTemperature()
 func DeviceGetTemperature(Device Device, SensorType TemperatureSensors) (uint32, Return) {
 	var Temp uint32
@@ -1109,6 +1120,61 @@ func DeviceGetIrqNum(Device Device) (int, Return) {
 
 func (Device Device) GetIrqNum() (int, Return) {
 	return DeviceGetIrqNum(Device)
+}
+
+// nvml.DeviceGetNumGpuCores()
+func DeviceGetNumGpuCores(Device Device) (int, Return) {
+	var NumCores uint32
+	ret := nvmlDeviceGetNumGpuCores(Device, &NumCores)
+	return int(NumCores), ret
+}
+
+func (Device Device) GetNumGpuCores() (int, Return) {
+	return DeviceGetNumGpuCores(Device)
+}
+
+// nvml.DeviceGetPowerSource()
+func DeviceGetPowerSource(Device Device) (PowerSource, Return) {
+	var PowerSource PowerSource
+	ret := nvmlDeviceGetPowerSource(Device, &PowerSource)
+	return PowerSource, ret
+}
+
+func (Device Device) GetPowerSource() (PowerSource, Return) {
+	return DeviceGetPowerSource(Device)
+}
+
+// nvml.DeviceGetMemoryBusWidth()
+func DeviceGetMemoryBusWidth(Device Device) (uint32, Return) {
+	var BusWidth uint32
+	ret := nvmlDeviceGetMemoryBusWidth(Device, &BusWidth)
+	return BusWidth, ret
+}
+
+func (Device Device) GetMemoryBusWidth() (uint32, Return) {
+	return DeviceGetMemoryBusWidth(Device)
+}
+
+// nvml.DeviceGetPcieLinkMaxSpeed()
+func DeviceGetPcieLinkMaxSpeed(Device Device) (uint32, Return) {
+	var MaxSpeed uint32
+	ret := nvmlDeviceGetPcieLinkMaxSpeed(Device, &MaxSpeed)
+	return MaxSpeed, ret
+}
+
+func (Device Device) GetPcieLinkMaxSpeed() (uint32, Return) {
+	return DeviceGetPcieLinkMaxSpeed(Device)
+}
+
+// nvml.DeviceGetAdaptiveClockInfoStatus()
+func DeviceGetAdaptiveClockInfoStatus(Device Device) (uint32, Return) {
+	var AdaptiveClockStatus uint32
+	ret := nvmlDeviceGetAdaptiveClockInfoStatus(Device, &AdaptiveClockStatus)
+	return AdaptiveClockStatus, ret
+}
+
+func (Device Device) GetAdaptiveClockInfoStatus() (uint32, Return) {
+	return DeviceGetAdaptiveClockInfoStatus(Device)
 }
 
 // nvml.DeviceGetAccountingMode()
