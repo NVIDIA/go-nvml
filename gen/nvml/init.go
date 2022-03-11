@@ -93,6 +93,10 @@ var nvmlDeviceGetAttributes = nvmlDeviceGetAttributes_v1
 var nvmlComputeInstanceGetInfo = nvmlComputeInstanceGetInfo_v1
 var nvmlDeviceGetComputeRunningProcesses = nvmlDeviceGetComputeRunningProcesses_v1
 var nvmlDeviceGetGraphicsRunningProcesses = nvmlDeviceGetGraphicsRunningProcesses_v1
+var GetBlacklistDeviceCount = GetExcludedDeviceCount
+var GetBlacklistDeviceInfoByIndex = GetExcludedDeviceInfoByIndex
+
+type BlacklistDeviceInfo = ExcludedDeviceInfo
 
 // ProcessInfo_v1 matches the ProcessInfo_st definition before CUDA 11.
 type ProcessInfo_v1 struct {

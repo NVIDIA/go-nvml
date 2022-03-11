@@ -1256,6 +1256,24 @@ func (Device Device) ResetGpuLockedClocks() Return {
 	return DeviceResetGpuLockedClocks(Device)
 }
 
+// nvmlDeviceSetMemoryLockedClocks()
+func DeviceSetMemoryLockedClocks(Device Device, MinMemClockMHz uint32, MaxMemClockMHz uint32) Return {
+	return nvmlDeviceSetMemoryLockedClocks(Device, MinMemClockMHz, MaxMemClockMHz)
+}
+
+func (Device Device) SetMemoryLockedClocks(NinMemClockMHz uint32, MaxMemClockMHz uint32) Return {
+	return DeviceSetMemoryLockedClocks(Device, NinMemClockMHz, MaxMemClockMHz)
+}
+
+// nvmlDeviceResetMemoryLockedClocks()
+func DeviceResetMemoryLockedClocks(Device Device) Return {
+	return nvmlDeviceResetMemoryLockedClocks(Device)
+}
+
+func (Device Device) ResetMemoryLockedClocks() Return {
+	return DeviceResetMemoryLockedClocks(Device)
+}
+
 // nvml.DeviceSetApplicationsClocks()
 func DeviceSetApplicationsClocks(Device Device, MemClockMHz uint32, GraphicsClockMHz uint32) Return {
 	return nvmlDeviceSetApplicationsClocks(Device, MemClockMHz, GraphicsClockMHz)
@@ -1738,17 +1756,17 @@ func (Device Device) GetVgpuProcessUtilization(LastSeenTimeStamp uint64) ([]Vgpu
 	return DeviceGetVgpuProcessUtilization(Device, LastSeenTimeStamp)
 }
 
-// nvml.GetBlacklistDeviceCount()
-func GetBlacklistDeviceCount() (int, Return) {
+// nvml.GetExcludedDeviceCount()
+func GetExcludedDeviceCount() (int, Return) {
 	var DeviceCount uint32
-	ret := nvmlGetBlacklistDeviceCount(&DeviceCount)
+	ret := nvmlGetExcludedDeviceCount(&DeviceCount)
 	return int(DeviceCount), ret
 }
 
-// nvml.GetBlacklistDeviceInfoByIndex()
-func GetBlacklistDeviceInfoByIndex(Index int) (BlacklistDeviceInfo, Return) {
-	var Info BlacklistDeviceInfo
-	ret := nvmlGetBlacklistDeviceInfoByIndex(uint32(Index), &Info)
+// nvml.GetExcludedDeviceInfoByIndex()
+func GetExcludedDeviceInfoByIndex(Index int) (ExcludedDeviceInfo, Return) {
+	var Info ExcludedDeviceInfo
+	ret := nvmlGetExcludedDeviceInfoByIndex(uint32(Index), &Info)
 	return Info, ret
 }
 

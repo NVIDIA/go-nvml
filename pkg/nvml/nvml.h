@@ -1,3 +1,5 @@
+/*** NVML VERSION: 11.3.58 ***/
+/*** From https://api.anaconda.org/download/nvidia/cuda-nvml-dev/11.3.58/linux-64/cuda-nvml-dev-11.3.58-h70090ce_0.tar.bz2 ***/
 /*
  * Copyright 1993-2020 NVIDIA Corporation.  All rights reserved.
  *
@@ -116,6 +118,9 @@ extern "C" {
     #define nvmlComputeInstanceGetInfo              nvmlComputeInstanceGetInfo_v2
     #define nvmlDeviceGetComputeRunningProcesses    nvmlDeviceGetComputeRunningProcesses_v2
     #define nvmlDeviceGetGraphicsRunningProcesses   nvmlDeviceGetGraphicsRunningProcesses_v2
+    #define nvmlBlacklistDeviceInfo_t               nvmlExcludedDeviceInfo_t
+    #define nvmlGetBlacklistDeviceCount             nvmlGetExcludedDeviceCount
+    #define nvmlGetBlacklistDeviceInfoByIndex       nvmlGetExcludedDeviceInfoByIndex
 #endif // #ifndef NVML_NO_UNVERSIONED_FUNC_DEFS
 
 /***************************************************************************************************/
@@ -556,8 +561,8 @@ typedef enum nvmlBrandType_enum
     NVML_BRAND_QUADRO_RTX       = 12,
     NVML_BRAND_NVIDIA_RTX       = 13,
     NVML_BRAND_NVIDIA           = 14,
-    NVML_BRAND_GEFORCE_RTX      = 15,
-    NVML_BRAND_TITAN_RTX        = 16,
+    NVML_BRAND_GEFORCE_RTX      = 15,  // Unused
+    NVML_BRAND_TITAN_RTX        = 16,  // Unused
 
     // Keep this last
     NVML_BRAND_COUNT
@@ -2346,13 +2351,11 @@ nvmlReturn_t DECLDIR nvmlDeviceGetHandleBySerial(const char *serial, nvmlDevice_
  *
  * For all products.
  *
- * @param uuid                                 The UUID of the target GPU
- * @param device                               Reference in which to return the device handle
+ * @param uuid                                 The UUID of the target GPU or MIG instance
+ * @param device                               Reference in which to return the device handle or MIG device handle
  *
  * Starting from NVML 5, this API causes NVML to initialize the target GPU
  * NVML may initialize additional GPUs as it searches for the target GPU
- *
- * This API does not currently support acquiring MIG device handles using MIG device UUIDs.
  *
  * @return
  *         - \ref NVML_SUCCESS                  if \a device has been set
@@ -4128,7 +4131,6 @@ nvmlReturn_t DECLDIR nvmlDeviceGetEncoderCapacity (nvmlDevice_t device, nvmlEnco
  *         - \ref NVML_ERROR_INVALID_ARGUMENT   if \a sessionCount, or \a device or \a averageFps,
  *                                              or \a averageLatency is NULL
  *         - \ref NVML_ERROR_GPU_IS_LOST        if the target GPU has fallen off the bus or is otherwise inaccessible
- *         - \ref NVML_ERROR_NOT_SUPPORTED      if this query is not supported by \a device
  *         - \ref NVML_ERROR_UNKNOWN            on any unexpected error
  */
 nvmlReturn_t DECLDIR nvmlDeviceGetEncoderStats (nvmlDevice_t device, unsigned int *sessionCount,
@@ -5092,6 +5094,60 @@ nvmlReturn_t DECLDIR nvmlDeviceSetGpuLockedClocks(nvmlDevice_t device, unsigned 
  *         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
  */
 nvmlReturn_t DECLDIR nvmlDeviceResetGpuLockedClocks(nvmlDevice_t device);
+
+/**
+ * Set memory clocks that device will lock to.
+ *
+ * Sets the device's memory clocks to the value in the range of minMemClockMHz to maxMemClockMHz.
+ * Setting this will supersede application clock values and take effect regardless of whether a cuda app is running.
+ * See /ref nvmlDeviceSetApplicationsClocks
+ *
+ * Can be used as a setting to request constant performance.
+ *
+ * Requires root/admin permissions.
+ *
+ * After system reboot or driver reload applications clocks go back to their default value.
+ * See \ref nvmlDeviceResetMemoryLockedClocks.
+ *
+ * For Ampere &tm; or newer fully supported devices.
+ *
+ * @param device                               The identifier of the target device
+ * @param minMemClockMHz                       Requested minimum memory clock in MHz
+ * @param maxMemClockMHz                       Requested maximum memory clock in MHz
+ *
+ * @return
+ *         - \ref NVML_SUCCESS                 if new settings were successfully set
+ *         - \ref NVML_ERROR_UNINITIALIZED     if the library has not been successfully initialized
+ *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a device is invalid or \a minGpuClockMHz and \a maxGpuClockMHz
+ *                                                 is not a valid clock combination
+ *         - \ref NVML_ERROR_NO_PERMISSION     if the user doesn't have permission to perform this operation
+ *         - \ref NVML_ERROR_NOT_SUPPORTED     if the device doesn't support this feature
+ *         - \ref NVML_ERROR_GPU_IS_LOST       if the target GPU has fallen off the bus or is otherwise inaccessible
+ *         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
+ */
+nvmlReturn_t DECLDIR nvmlDeviceSetMemoryLockedClocks(nvmlDevice_t device, unsigned int minMemClockMHz, unsigned int maxMemClockMHz);
+
+/**
+ * Resets the memory clock to the default value
+ *
+ * This is the memory clock that will be used after system reboot or driver reload.
+ * Default values are idle clocks, but the current values can be changed using \ref nvmlDeviceSetApplicationsClocks.
+ *
+ * @see nvmlDeviceSetMemoryLockedClocks
+ *
+ * For Ampere &tm; or newer fully supported devices.
+ *
+ * @param device                               The identifier of the target device
+ *
+ * @return
+ *         - \ref NVML_SUCCESS                 if new settings were successfully set
+ *         - \ref NVML_ERROR_UNINITIALIZED     if the library has not been successfully initialized
+ *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a device is invalid
+ *         - \ref NVML_ERROR_NOT_SUPPORTED     if the device does not support this feature
+ *         - \ref NVML_ERROR_GPU_IS_LOST       if the target GPU has fallen off the bus or is otherwise inaccessible
+ *         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
+ */
+nvmlReturn_t DECLDIR nvmlDeviceResetMemoryLockedClocks(nvmlDevice_t device);
 
 /**
  * Set clocks that applications will lock to.
@@ -7003,41 +7059,41 @@ nvmlReturn_t DECLDIR nvmlVgpuInstanceClearAccountingPids(nvmlVgpuInstance_t vgpu
 /** @} */
 
 /***************************************************************************************************/
-/** @defgroup nvmlGpuBlacklistQueries GPU Blacklist Queries
- * This chapter describes NVML operations that are associated with blacklisted GPUs.
+/** @defgroup nvmlExcludedGpuQueries Excluded GPU Queries
+ * This chapter describes NVML operations that are associated with excluded GPUs.
  *  @{
  */
 /***************************************************************************************************/
 
 /**
- * Blacklist GPU device information
+ * Excluded GPU device information
  **/
-typedef struct nvmlBlacklistDeviceInfo_st
+typedef struct nvmlExcludedDeviceInfo_st
 {
-    nvmlPciInfo_t pciInfo;                   //!< The PCI information for the blacklisted GPU
-    char uuid[NVML_DEVICE_UUID_BUFFER_SIZE]; //!< The ASCII string UUID for the blacklisted GPU
-} nvmlBlacklistDeviceInfo_t;
+    nvmlPciInfo_t pciInfo;                   //!< The PCI information for the excluded GPU
+    char uuid[NVML_DEVICE_UUID_BUFFER_SIZE]; //!< The ASCII string UUID for the excluded GPU
+} nvmlExcludedDeviceInfo_t;
 
  /**
- * Retrieves the number of blacklisted GPU devices in the system.
+ * Retrieves the number of excluded GPU devices in the system.
  *
  * For all products.
  *
- * @param deviceCount                          Reference in which to return the number of blacklisted devices
+ * @param deviceCount                          Reference in which to return the number of excluded devices
  *
  * @return
  *         - \ref NVML_SUCCESS                 if \a deviceCount has been set
  *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a deviceCount is NULL
  */
-nvmlReturn_t DECLDIR nvmlGetBlacklistDeviceCount(unsigned int *deviceCount);
+nvmlReturn_t DECLDIR nvmlGetExcludedDeviceCount(unsigned int *deviceCount);
 
 /**
- * Acquire the device information for a blacklisted device, based on its index.
+ * Acquire the device information for an excluded GPU device, based on its index.
  *
  * For all products.
  *
  * Valid indices are derived from the \a deviceCount returned by
- *   \ref nvmlGetBlacklistDeviceCount(). For example, if \a deviceCount is 2 the valid indices
+ *   \ref nvmlGetExcludedDeviceCount(). For example, if \a deviceCount is 2 the valid indices
  *   are 0 and 1, corresponding to GPU 0 and GPU 1.
  *
  * @param index                                The index of the target GPU, >= 0 and < \a deviceCount
@@ -7047,9 +7103,9 @@ nvmlReturn_t DECLDIR nvmlGetBlacklistDeviceCount(unsigned int *deviceCount);
  *         - \ref NVML_SUCCESS                  if \a device has been set
  *         - \ref NVML_ERROR_INVALID_ARGUMENT   if \a index is invalid or \a info is NULL
  *
- * @see nvmlGetBlacklistDeviceCount
+ * @see nvmlGetExcludedDeviceCount
  */
-nvmlReturn_t DECLDIR nvmlGetBlacklistDeviceInfoByIndex(unsigned int index, nvmlBlacklistDeviceInfo_t *info);
+nvmlReturn_t DECLDIR nvmlGetExcludedDeviceInfoByIndex(unsigned int index, nvmlExcludedDeviceInfo_t *info);
 
 /** @} */
 
@@ -7761,6 +7817,9 @@ nvmlReturn_t DECLDIR nvmlDeviceGetGraphicsRunningProcesses(nvmlDevice_t device, 
 #undef nvmlDeviceGetHandleByIndex
 #undef nvmlDeviceGetHandleByPciBusId
 #undef nvmlInit
+#undef nvmlBlacklistDeviceInfo_t
+#undef nvmlGetBlacklistDeviceCount
+#undef nvmlGetBlacklistDeviceInfoByIndex
 #endif
 
 #ifdef __cplusplus
