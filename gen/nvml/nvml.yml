@@ -65,6 +65,7 @@ TRANSLATOR:
       - {transform: export}
       - {action: replace, from: "^VgpuMetadata", to: "nvmlVgpuMetadata"}
       - {action: replace, from: "^VgpuPgpuMetadata", to: "nvmlVgpuPgpuMetadata"}
+      - {action: replace, from: "^GpmMetricsGet", to: "GpmMetricsGetType"}
     function:
       - {action: accept, from: "^nvml"}
       - {action: replace, from: "^nvmlInit$", to: "nvmlInit_v1"}
