@@ -2286,3 +2286,145 @@ func DeviceGetBusType(Device Device) (BusType, Return) {
 func (Device Device) GetBusType() (BusType, Return) {
 	return DeviceGetBusType(Device)
 }
+
+// nvml.DeviceSetDefaultFanSpeed_v2()
+func DeviceSetDefaultFanSpeed_v2(Device Device, Fan int) Return {
+	return nvmlDeviceSetDefaultFanSpeed_v2(Device, uint32(Fan))
+}
+
+func (Device Device) SetDefaultFanSpeed_v2(Fan int) Return {
+	return DeviceSetDefaultFanSpeed_v2(Device, Fan)
+}
+
+// nvml.DeviceGetMinMaxFanSpeed()
+func DeviceGetMinMaxFanSpeed(Device Device) (int, int, Return) {
+	var MinSpeed, MaxSpeed uint32
+	ret := nvmlDeviceGetMinMaxFanSpeed(Device, &MinSpeed, &MaxSpeed)
+	return int(MinSpeed), int(MaxSpeed), ret
+}
+
+func (Device Device) GetMinMaxFanSpeed() (int, int, Return) {
+	return DeviceGetMinMaxFanSpeed(Device)
+}
+
+// nvml.DeviceGetThermalSettings()
+func DeviceGetThermalSettings(Device Device, SensorIndex uint32) (GpuThermalSettings, Return) {
+	var PThermalSettings GpuThermalSettings
+	ret := nvmlDeviceGetThermalSettings(Device, SensorIndex, &PThermalSettings)
+	return PThermalSettings, ret
+}
+
+func (Device Device) GetThermalSettings(SensorIndex uint32) (GpuThermalSettings, Return) {
+	return DeviceGetThermalSettings(Device, SensorIndex)
+}
+
+// nvml.DeviceGetDefaultEccMode()
+func DeviceGetDefaultEccMode(Device Device) (EnableState, Return) {
+	var DefaultMode EnableState
+	ret := nvmlDeviceGetDefaultEccMode(Device, &DefaultMode)
+	return DefaultMode, ret
+}
+
+func (Device Device) GetDefaultEccMode() (EnableState, Return) {
+	return DeviceGetDefaultEccMode(Device)
+}
+
+// nvml.DeviceGetPcieSpeed()
+func DeviceGetPcieSpeed(Device Device) (int, Return) {
+	var PcieSpeed uint32
+	ret := nvmlDeviceGetPcieSpeed(Device, &PcieSpeed)
+	return int(PcieSpeed), ret
+}
+
+func (Device Device) GetPcieSpeed() (int, Return) {
+	return DeviceGetPcieSpeed(Device)
+}
+
+// nvml.DeviceGetGspFirmwareVersion()
+func DeviceGetGspFirmwareVersion(Device Device) (string, Return) {
+	Version := make([]byte, GSP_FIRMWARE_VERSION_BUF_SIZE)
+	ret := nvmlDeviceGetGspFirmwareVersion(Device, &Version[0])
+	return string(Version[:clen(Version)]), ret
+}
+
+func (Device Device) GetGspFirmwareVersion() (string, Return) {
+	return DeviceGetGspFirmwareVersion(Device)
+}
+
+// nvml.DeviceGetGspFirmwareMode()
+func DeviceGetGspFirmwareMode(Device Device) (bool, bool, Return) {
+	var IsEnabled, DefaultMode uint32
+	ret := nvmlDeviceGetGspFirmwareMode(Device, &IsEnabled, &DefaultMode)
+	return (IsEnabled != 0), (DefaultMode != 0), ret
+}
+
+func (Device Device) GetGspFirmwareMode() (bool, bool, Return) {
+	return DeviceGetGspFirmwareMode(Device)
+}
+
+// nvml.DeviceGetDynamicPstatesInfo()
+func DeviceGetDynamicPstatesInfo(Device Device) (GpuDynamicPstatesInfo, Return) {
+	var PDynamicPstatesInfo GpuDynamicPstatesInfo
+	ret := nvmlDeviceGetDynamicPstatesInfo(Device, &PDynamicPstatesInfo)
+	return PDynamicPstatesInfo, ret
+}
+
+func (Device Device) GetDynamicPstatesInfo() (GpuDynamicPstatesInfo, Return) {
+	return DeviceGetDynamicPstatesInfo(Device)
+}
+
+// nvml.DeviceSetFanSpeed_v2()
+func DeviceSetFanSpeed_v2(Device Device, Fan int, Speed int) Return {
+	return nvmlDeviceSetFanSpeed_v2(Device, uint32(Fan), uint32(Speed))
+}
+
+func (Device Device) SetFanSpeed_v2(Fan int, Speed int) Return {
+	return DeviceSetFanSpeed_v2(Device, Fan, Speed)
+}
+
+// nvml.DeviceGetGpcClkVfOffset()
+func DeviceGetGpcClkVfOffset(Device Device) (int, Return) {
+	var Offset int32
+	ret := nvmlDeviceGetGpcClkVfOffset(Device, &Offset)
+	return int(Offset), ret
+}
+
+func (Device Device) GetGpcClkVfOffset() (int, Return) {
+	return DeviceGetGpcClkVfOffset(Device)
+}
+
+// nvml.DeviceSetGpcClkVfOffset()
+func DeviceSetGpcClkVfOffset(Device Device, Offset int) Return {
+	return nvmlDeviceSetGpcClkVfOffset(Device, int32(Offset))
+}
+
+func (Device Device) SetGpcClkVfOffset(Offset int) Return {
+	return DeviceSetGpcClkVfOffset(Device, Offset)
+}
+
+// nvml.DeviceGetMinMaxClockOfPState()
+func DeviceGetMinMaxClockOfPState(Device Device, _type ClockType, Pstate Pstates) (uint32, uint32, Return) {
+	var MinClockMHz, MaxClockMHz uint32
+	ret := nvmlDeviceGetMinMaxClockOfPState(Device, _type, Pstate, &MinClockMHz, &MaxClockMHz)
+	return MinClockMHz, MaxClockMHz, ret
+}
+
+func (Device Device) GetMinMaxClockOfPState(_type ClockType, Pstate Pstates) (uint32, uint32, Return) {
+	return DeviceGetMinMaxClockOfPState(Device, _type, Pstate)
+}
+
+// nvml.DeviceGetSupportedPerformanceStates()
+func DeviceGetSupportedPerformanceStates(Device Device) ([]Pstates, Return) {
+	Pstates := make([]Pstates, MAX_GPU_PERF_PSTATES)
+	ret := nvmlDeviceGetSupportedPerformanceStates(Device, &Pstates[0], MAX_GPU_PERF_PSTATES)
+	for i := 0; i < MAX_GPU_PERF_PSTATES; i++ {
+		if Pstates[i] == PSTATE_UNKNOWN {
+			return Pstates[0:i], ret
+		}
+	}
+	return Pstates, ret
+}
+
+func (Device Device) GetSupportedPerformanceStates() ([]Pstates, Return) {
+	return DeviceGetSupportedPerformanceStates(Device)
+}
