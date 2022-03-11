@@ -961,8 +961,23 @@ func deviceGetComputeRunningProcesses_v1(Device Device) ([]ProcessInfo, Return) 
 func deviceGetComputeRunningProcesses_v2(Device Device) ([]ProcessInfo, Return) {
 	var InfoCount uint32 = 1 // Will be reduced upon returning
 	for {
-		Infos := make([]ProcessInfo, InfoCount)
+		Infos := make([]ProcessInfo_v2, InfoCount)
 		ret := nvmlDeviceGetComputeRunningProcesses_v2(Device, &InfoCount, &Infos[0])
+		if ret == SUCCESS {
+			return ProcessInfo_v2Slice(Infos[:InfoCount]).ToProcessInfoSlice(), ret
+		}
+		if ret != ERROR_INSUFFICIENT_SIZE {
+			return nil, ret
+		}
+		InfoCount *= 2
+	}
+}
+
+func deviceGetComputeRunningProcesses_v3(Device Device) ([]ProcessInfo, Return) {
+	var InfoCount uint32 = 1 // Will be reduced upon returning
+	for {
+		Infos := make([]ProcessInfo, InfoCount)
+		ret := nvmlDeviceGetComputeRunningProcesses_v3(Device, &InfoCount, &Infos[0])
 		if ret == SUCCESS {
 			return Infos[:InfoCount], ret
 		}
@@ -996,8 +1011,23 @@ func deviceGetGraphicsRunningProcesses_v1(Device Device) ([]ProcessInfo, Return)
 func deviceGetGraphicsRunningProcesses_v2(Device Device) ([]ProcessInfo, Return) {
 	var InfoCount uint32 = 1 // Will be reduced upon returning
 	for {
-		Infos := make([]ProcessInfo, InfoCount)
+		Infos := make([]ProcessInfo_v2, InfoCount)
 		ret := nvmlDeviceGetGraphicsRunningProcesses_v2(Device, &InfoCount, &Infos[0])
+		if ret == SUCCESS {
+			return ProcessInfo_v2Slice(Infos[:InfoCount]).ToProcessInfoSlice(), ret
+		}
+		if ret != ERROR_INSUFFICIENT_SIZE {
+			return nil, ret
+		}
+		InfoCount *= 2
+	}
+}
+
+func deviceGetGraphicsRunningProcesses_v3(Device Device) ([]ProcessInfo, Return) {
+	var InfoCount uint32 = 1 // Will be reduced upon returning
+	for {
+		Infos := make([]ProcessInfo, InfoCount)
+		ret := nvmlDeviceGetGraphicsRunningProcesses_v3(Device, &InfoCount, &Infos[0])
 		if ret == SUCCESS {
 			return Infos[:InfoCount], ret
 		}
@@ -1031,8 +1061,23 @@ func deviceGetMPSComputeRunningProcesses_v1(Device Device) ([]ProcessInfo, Retur
 func deviceGetMPSComputeRunningProcesses_v2(Device Device) ([]ProcessInfo, Return) {
 	var InfoCount uint32 = 1 // Will be reduced upon returning
 	for {
-		Infos := make([]ProcessInfo, InfoCount)
+		Infos := make([]ProcessInfo_v2, InfoCount)
 		ret := nvmlDeviceGetMPSComputeRunningProcesses_v2(Device, &InfoCount, &Infos[0])
+		if ret == SUCCESS {
+			return ProcessInfo_v2Slice(Infos[:InfoCount]).ToProcessInfoSlice(), ret
+		}
+		if ret != ERROR_INSUFFICIENT_SIZE {
+			return nil, ret
+		}
+		InfoCount *= 2
+	}
+}
+
+func deviceGetMPSComputeRunningProcesses_v3(Device Device) ([]ProcessInfo, Return) {
+	var InfoCount uint32 = 1 // Will be reduced upon returning
+	for {
+		Infos := make([]ProcessInfo, InfoCount)
+		ret := nvmlDeviceGetMPSComputeRunningProcesses_v3(Device, &InfoCount, &Infos[0])
 		if ret == SUCCESS {
 			return Infos[:InfoCount], ret
 		}

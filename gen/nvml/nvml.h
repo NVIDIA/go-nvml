@@ -116,13 +116,14 @@ extern "C" {
     #define nvmlEventSetWait                            nvmlEventSetWait_v2
     #define nvmlDeviceGetAttributes                     nvmlDeviceGetAttributes_v2
     #define nvmlComputeInstanceGetInfo                  nvmlComputeInstanceGetInfo_v2
-    #define nvmlDeviceGetComputeRunningProcesses        nvmlDeviceGetComputeRunningProcesses_v2
-    #define nvmlDeviceGetGraphicsRunningProcesses       nvmlDeviceGetGraphicsRunningProcesses_v2
-    #define nvmlDeviceGetMPSComputeRunningProcesses     nvmlDeviceGetMPSComputeRunningProcesses_v2
+    #define nvmlDeviceGetComputeRunningProcesses        nvmlDeviceGetComputeRunningProcesses_v3
+    #define nvmlDeviceGetGraphicsRunningProcesses       nvmlDeviceGetGraphicsRunningProcesses_v3
+    #define nvmlDeviceGetMPSComputeRunningProcesses     nvmlDeviceGetMPSComputeRunningProcesses_v3
     #define nvmlBlacklistDeviceInfo_t                   nvmlExcludedDeviceInfo_t
     #define nvmlGetBlacklistDeviceCount                 nvmlGetExcludedDeviceCount
     #define nvmlGetBlacklistDeviceInfoByIndex           nvmlGetExcludedDeviceInfoByIndex
     #define nvmlDeviceGetGpuInstancePossiblePlacements  nvmlDeviceGetGpuInstancePossiblePlacements_v2
+    #define nvmlVgpuInstanceGetLicenseInfo              nvmlVgpuInstanceGetLicenseInfo_v2
 #endif // #ifndef NVML_NO_UNVERSIONED_FUNC_DEFS
 
 /***************************************************************************************************/
@@ -245,6 +246,22 @@ typedef struct nvmlProcessInfo_v1_st
 
 /**
  * Information about running compute processes on the GPU
+ */
+typedef struct nvmlProcessInfo_v2_st
+{
+    unsigned int        pid;                //!< Process ID
+    unsigned long long  usedGpuMemory;      //!< Amount of used GPU memory in bytes.
+                                            //! Under WDDM, \ref NVML_VALUE_NOT_AVAILABLE is always reported
+                                            //! because Windows KMD manages all the memory and not the NVIDIA driver
+    unsigned int        gpuInstanceId;      //!< If MIG is enabled, stores a valid GPU instance ID. gpuInstanceId is set to
+                                            //  0xFFFFFFFF otherwise.
+    unsigned int        computeInstanceId;  //!< If MIG is enabled, stores a valid compute instance ID. computeInstanceId is set to
+                                            //  0xFFFFFFFF otherwise.
+} nvmlProcessInfo_v2_t;
+
+/**
+ * Information about running compute processes on the GPU
+ * Version 2 adds versioning for the struct and the conf compute protected memory in output.
  */
 typedef struct nvmlProcessInfo_st
 {
@@ -4549,7 +4566,7 @@ nvmlReturn_t DECLDIR nvmlDeviceGetBridgeChipInfo(nvmlDevice_t device, nvmlBridge
  *
  * @see \ref nvmlSystemGetProcessName
  */
-nvmlReturn_t DECLDIR nvmlDeviceGetComputeRunningProcesses_v2(nvmlDevice_t device, unsigned int *infoCount, nvmlProcessInfo_t *infos);
+nvmlReturn_t DECLDIR nvmlDeviceGetComputeRunningProcesses_v3(nvmlDevice_t device, unsigned int *infoCount, nvmlProcessInfo_t *infos);
 
 /**
  * Get information about processes with a graphics context on a device
@@ -4574,8 +4591,6 @@ nvmlReturn_t DECLDIR nvmlDeviceGetComputeRunningProcesses_v2(nvmlDevice_t device
  *       Querying per-instance information using MIG device handles is not supported if the device is in vGPU Host virtualization mode.
  *
  * @param device                               The device handle or MIG device handle
-#else
- * @param device                               The device handle
  * @param infoCount                            Reference in which to provide the \a infos array size, and
  *                                             to return the number of returned elements
  * @param infos                                Reference in which to return the process information
@@ -4594,7 +4609,7 @@ nvmlReturn_t DECLDIR nvmlDeviceGetComputeRunningProcesses_v2(nvmlDevice_t device
  *
  * @see \ref nvmlSystemGetProcessName
  */
-nvmlReturn_t DECLDIR nvmlDeviceGetGraphicsRunningProcesses_v2(nvmlDevice_t device, unsigned int *infoCount, nvmlProcessInfo_t *infos);
+nvmlReturn_t DECLDIR nvmlDeviceGetGraphicsRunningProcesses_v3(nvmlDevice_t device, unsigned int *infoCount, nvmlProcessInfo_t *infos);
 
 /**
  * Get information about processes with a MPS compute context on a device
@@ -4637,7 +4652,7 @@ nvmlReturn_t DECLDIR nvmlDeviceGetGraphicsRunningProcesses_v2(nvmlDevice_t devic
  *
  * @see \ref nvmlSystemGetProcessName
  */
-nvmlReturn_t DECLDIR nvmlDeviceGetMPSComputeRunningProcesses_v2(nvmlDevice_t device, unsigned int *infoCount, nvmlProcessInfo_t *infos);
+nvmlReturn_t DECLDIR nvmlDeviceGetMPSComputeRunningProcesses_v3(nvmlDevice_t device, unsigned int *infoCount, nvmlProcessInfo_t *infos);
 
 /**
  * Check if the GPU devices are on the same physical board.
@@ -6773,7 +6788,7 @@ nvmlReturn_t DECLDIR nvmlVgpuInstanceGetVmDriverVersion(nvmlVgpuInstance_t vgpuI
 nvmlReturn_t DECLDIR nvmlVgpuInstanceGetFbUsage(nvmlVgpuInstance_t vgpuInstance, unsigned long long *fbUsage);
 
 /**
- * @deprecated Use \ref nvmlVgpuInstanceGetLicenseInfo.
+ * @deprecated Use \ref nvmlVgpuInstanceGetLicenseInfo_v2.
  *
  * Retrieve the current licensing state of the vGPU instance.
  *
@@ -7483,7 +7498,7 @@ nvmlReturn_t DECLDIR nvmlVgpuInstanceClearAccountingPids(nvmlVgpuInstance_t vgpu
  *         - \ref NVML_ERROR_DRIVER_NOT_LOADED if NVIDIA driver is not running on the vGPU instance
  *         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
  */
-nvmlReturn_t DECLDIR nvmlVgpuInstanceGetLicenseInfo(nvmlVgpuInstance_t vgpuInstance, nvmlVgpuLicenseInfo_t *licenseInfo);
+nvmlReturn_t DECLDIR nvmlVgpuInstanceGetLicenseInfo_v2(nvmlVgpuInstance_t vgpuInstance, nvmlVgpuLicenseInfo_t *licenseInfo);
 /** @} */
 
 /***************************************************************************************************/
@@ -8241,9 +8256,13 @@ nvmlReturn_t DECLDIR nvmlEventSetWait(nvmlEventSet_t set, nvmlEventData_t * data
 nvmlReturn_t DECLDIR nvmlDeviceGetAttributes(nvmlDevice_t device, nvmlDeviceAttributes_t *attributes);
 nvmlReturn_t DECLDIR nvmlComputeInstanceGetInfo(nvmlComputeInstance_t computeInstance, nvmlComputeInstanceInfo_t *info);
 nvmlReturn_t DECLDIR nvmlDeviceGetComputeRunningProcesses(nvmlDevice_t device, unsigned int *infoCount, nvmlProcessInfo_v1_t *infos);
+nvmlReturn_t DECLDIR nvmlDeviceGetComputeRunningProcesses_v2(nvmlDevice_t device, unsigned int *infoCount, nvmlProcessInfo_v2_t *infos);
 nvmlReturn_t DECLDIR nvmlDeviceGetGraphicsRunningProcesses(nvmlDevice_t device, unsigned int *infoCount, nvmlProcessInfo_v1_t *infos);
+nvmlReturn_t DECLDIR nvmlDeviceGetGraphicsRunningProcesses_v2(nvmlDevice_t device, unsigned int *infoCount, nvmlProcessInfo_v2_t *infos);
 nvmlReturn_t DECLDIR nvmlDeviceGetMPSComputeRunningProcesses(nvmlDevice_t device, unsigned int *infoCount, nvmlProcessInfo_v1_t *infos);
+nvmlReturn_t DECLDIR nvmlDeviceGetMPSComputeRunningProcesses_v2(nvmlDevice_t device, unsigned int *infoCount, nvmlProcessInfo_v2_t *infos);
 nvmlReturn_t DECLDIR nvmlDeviceGetGpuInstancePossiblePlacements(nvmlDevice_t device, unsigned int profileId, nvmlGpuInstancePlacement_t *placements, unsigned int *count);
+nvmlReturn_t DECLDIR nvmlVgpuInstanceGetLicenseInfo(nvmlVgpuInstance_t vgpuInstance, nvmlVgpuLicenseInfo_t *licenseInfo);
 #endif // #ifdef NVML_NO_UNVERSIONED_FUNC_DEFS
 
 #if defined(NVML_NO_UNVERSIONED_FUNC_DEFS)
@@ -8268,6 +8287,7 @@ nvmlReturn_t DECLDIR nvmlDeviceGetGpuInstancePossiblePlacements(nvmlDevice_t dev
 #undef nvmlGetBlacklistDeviceCount
 #undef nvmlGetBlacklistDeviceInfoByIndex
 #undef nvmlDeviceGetGpuInstancePossiblePlacements
+#undef nvmlVgpuInstanceGetLicenseInfo
 #endif
 
 #ifdef __cplusplus
