@@ -636,8 +636,8 @@ As part of the release, two things need to happen:
 An example of this workflow for the 11.0 release of NVML can be seen below:
 
 ```bash
-# Commit the generated bindings back to master
-git checkout master
+# Commit the generated bindings back to main
+git checkout main
 make
 git add -f pkg/
 git commit -m "Add bindings for v11.0 of the NVML API"
