@@ -142,7 +142,7 @@ update-nvml-h:
 # Generate an image for containerized builds
 # Note: This image is local only
 .build-image: Dockerfile
-	$(DOCKER) build \
+	$(DOCKER) buildx build \
 		--progress=plain \
 		--build-arg GOLANG_VERSION="$(GOLANG_VERSION)" \
 		--build-arg C_FOR_GO_TAG="$(C_FOR_GO_TAG)" \
