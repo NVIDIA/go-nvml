@@ -89,7 +89,7 @@ clean-bindings:
 	rm -rf $(PKG_BINDINGS_DIR)
 
 # Update nvml.h from the Anaconda package repository
-update-nvml-h: JQ := $(DOCKER) run -i --rm -v "$(PWD):$(PWD)" -w "$(PWD)" stedolan/jq:latest
+update-nvml-h: JQ ?= $(DOCKER) run -i --rm -v "$(PWD):$(PWD)" -w "$(PWD)" stedolan/jq:latest
 update-nvml-h: NVML_DEV_PACKAGES_INFO := $(shell \
 		wget -qO - https://api.anaconda.org/package/nvidia/cuda-nvml-dev/files | \
 			$(JQ) '.[] | select(.attrs.subdir=="linux-64") | .version + "@" + .upload_time[:19] + "@" + .full_name' | \
@@ -150,6 +150,7 @@ $(DOCKER_TARGETS): docker-%: .build-image
 	@echo "Running 'make $(*)' in docker container $(BUILDIMAGE)"
 	$(DOCKER) run \
 		--rm \
+		-e JQ=jq \
 		-e GOCACHE=/tmp/.cache \
 		-v $(PWD):$(PWD) \
 		-w $(PWD) \
@@ -163,6 +164,7 @@ $(DOCKER_TARGETS): docker-%: .build-image
 	$(DOCKER) run \
 		-ti \
 		--rm \
+		-e JQ=jq \
 		-e GOCACHE=/tmp/.cache \
 		-v $(PWD):$(PWD) \
 		-w $(PWD) \
@@ -176,6 +178,7 @@ $(DOCKER_TARGETS): docker-%: .build-image
 	$(DOCKER) run \
 		-ti \
 		--rm \
+		-e JQ=jq \
 		-e GOCACHE=/tmp/.cache \
 		-v $(PWD):$(PWD) \
 		-w $(PWD) \
