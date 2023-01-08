@@ -87,6 +87,8 @@ test-bindings: bindings
 
 clean-bindings:
 	rm -rf $(PKG_BINDINGS_DIR)
+	git checkout $(PKG_BINDINGS_DIR)
+	rm -rf $(PKG_BINDINGS_DIR)/nvml.h
 
 # Update nvml.h from the Anaconda package repository
 update-nvml-h: JQ ?= $(DOCKER) run -i --rm -v "$(PWD):$(PWD)" -w "$(PWD)" stedolan/jq:latest
