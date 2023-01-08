@@ -55,18 +55,20 @@ $(PKG_BINDINGS_DIR):
 
 patch-nvml-h: $(PKG_BINDINGS_DIR)/nvml.h
 $(PKG_BINDINGS_DIR)/nvml.h: $(GEN_BINDINGS_DIR)/nvml.h | $(PKG_BINDINGS_DIR)
-	$(SED) -E 's#(typedef\s+struct)\s+(nvml.*_st\*)\s+(nvml.*_t);#\1\n{\n    struct \2 handle;\n} \3;#g' $(<) > $(@)
+	cp $(<) $(@)
+	$(SED) -i -E 's#(typedef\s+struct)\s+(nvml.*_st\*)\s+(nvml.*_t);#\1\n{\n    struct \2 handle;\n} \3;#g' $(@)
 
 bindings: .create-bindings .strip-autogen-comment .strip-nvml-h-linenumber
 
 .create-bindings: $(PKG_BINDINGS_DIR)/nvml.h $(SOURCES) | $(PKG_BINDINGS_DIR)
-	c-for-go -out $(PKG_DIR) $(GEN_BINDINGS_DIR)/nvml.yml
+	cp $(GEN_BINDINGS_DIR)/nvml.yml $(PKG_BINDINGS_DIR)
+	c-for-go -out $(PKG_DIR) $(PKG_BINDINGS_DIR)/nvml.yml
 	cp $(GEN_BINDINGS_DIR)/*.go $(PKG_BINDINGS_DIR)
 	cd $(PKG_BINDINGS_DIR); \
 		go tool cgo -godefs types.go > types_gen.go; \
 		go fmt types_gen.go; \
 	cd -> /dev/null
-	rm -rf $(PKG_BINDINGS_DIR)/types.go $(PKG_BINDINGS_DIR)/_obj
+	rm -rf $(PKG_BINDINGS_DIR)/nvml.yml $(PKG_BINDINGS_DIR)/types.go $(PKG_BINDINGS_DIR)/_obj
 
 .strip-autogen-comment: SED_SEARCH_STRING := // WARNING: This file has automatically been generated on
 .strip-autogen-comment: SED_REPLACE_STRING := // WARNING: THIS FILE WAS AUTOMATICALLY GENERATED.
