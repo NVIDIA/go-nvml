@@ -77,6 +77,18 @@ const (
 	VGPU_NAME_BUFFER_SIZE = 64
 	// GRID_LICENSE_FEATURE_MAX_COUNT as defined in nvml/nvml.h
 	GRID_LICENSE_FEATURE_MAX_COUNT = 3
+	// VGPU_SCHEDULER_POLICY_UNKNOWN as defined in nvml/nvml.h
+	VGPU_SCHEDULER_POLICY_UNKNOWN = 0
+	// VGPU_SCHEDULER_POLICY_BEST_EFFORT as defined in nvml/nvml.h
+	VGPU_SCHEDULER_POLICY_BEST_EFFORT = 1
+	// VGPU_SCHEDULER_POLICY_EQUAL_SHARE as defined in nvml/nvml.h
+	VGPU_SCHEDULER_POLICY_EQUAL_SHARE = 2
+	// VGPU_SCHEDULER_POLICY_FIXED_SHARE as defined in nvml/nvml.h
+	VGPU_SCHEDULER_POLICY_FIXED_SHARE = 3
+	// SUPPORTED_VGPU_SCHEDULER_POLICY_COUNT as defined in nvml/nvml.h
+	SUPPORTED_VGPU_SCHEDULER_POLICY_COUNT = 3
+	// SCHEDULER_SW_MAX_LOG_ENTRIES as defined in nvml/nvml.h
+	SCHEDULER_SW_MAX_LOG_ENTRIES = 200
 	// GRID_LICENSE_STATE_UNKNOWN as defined in nvml/nvml.h
 	GRID_LICENSE_STATE_UNKNOWN = 0
 	// GRID_LICENSE_STATE_UNINITIALIZED as defined in nvml/nvml.h
@@ -119,10 +131,10 @@ const (
 	BUS_TYPE_FPCI = 3
 	// BUS_TYPE_AGP as defined in nvml/nvml.h
 	BUS_TYPE_AGP = 4
-	// POWER_MODE_ID_BALANCED as defined in nvml/nvml.h
-	POWER_MODE_ID_BALANCED = 0
-	// POWER_MODE_ID_MAX as defined in nvml/nvml.h
-	POWER_MODE_ID_MAX = 1
+	// FAN_POLICY_TEMPERATURE_CONTINOUS_SW as defined in nvml/nvml.h
+	FAN_POLICY_TEMPERATURE_CONTINOUS_SW = 0
+	// FAN_POLICY_MANUAL as defined in nvml/nvml.h
+	FAN_POLICY_MANUAL = 1
 	// POWER_SOURCE_AC as defined in nvml/nvml.h
 	POWER_SOURCE_AC = 0
 	// POWER_SOURCE_BATTERY as defined in nvml/nvml.h
@@ -139,6 +151,8 @@ const (
 	PCIE_LINK_MAX_SPEED_16000MBPS = 4
 	// PCIE_LINK_MAX_SPEED_32000MBPS as defined in nvml/nvml.h
 	PCIE_LINK_MAX_SPEED_32000MBPS = 5
+	// PCIE_LINK_MAX_SPEED_64000MBPS as defined in nvml/nvml.h
+	PCIE_LINK_MAX_SPEED_64000MBPS = 6
 	// ADAPTIVE_CLOCKING_INFO_STATUS_DISABLED as defined in nvml/nvml.h
 	ADAPTIVE_CLOCKING_INFO_STATUS_DISABLED = 0
 	// ADAPTIVE_CLOCKING_INFO_STATUS_ENABLED as defined in nvml/nvml.h
@@ -477,8 +491,14 @@ const (
 	FI_DEV_NVLINK_GET_STATE = 165
 	// FI_DEV_NVLINK_GET_VERSION as defined in nvml/nvml.h
 	FI_DEV_NVLINK_GET_VERSION = 166
+	// FI_DEV_NVLINK_GET_POWER_STATE as defined in nvml/nvml.h
+	FI_DEV_NVLINK_GET_POWER_STATE = 167
+	// FI_DEV_NVLINK_GET_POWER_THRESHOLD as defined in nvml/nvml.h
+	FI_DEV_NVLINK_GET_POWER_THRESHOLD = 168
+	// FI_DEV_PCIE_L0_TO_RECOVERY_COUNTER as defined in nvml/nvml.h
+	FI_DEV_PCIE_L0_TO_RECOVERY_COUNTER = 169
 	// FI_MAX as defined in nvml/nvml.h
-	FI_MAX = 167
+	FI_MAX = 170
 	// EventTypeSingleBitEccError as defined in nvml/nvml.h
 	EventTypeSingleBitEccError = 1
 	// EventTypeDoubleBitEccError as defined in nvml/nvml.h
@@ -531,6 +551,16 @@ const (
 	NVFBC_SESSION_FLAG_CAPTURE_WITH_WAIT_INFINITE = 8
 	// NVFBC_SESSION_FLAG_CAPTURE_WITH_WAIT_TIMEOUT as defined in nvml/nvml.h
 	NVFBC_SESSION_FLAG_CAPTURE_WITH_WAIT_TIMEOUT = 16
+	// GPU_FABRIC_UUID_LEN as defined in nvml/nvml.h
+	GPU_FABRIC_UUID_LEN = 16
+	// GPU_FABRIC_STATE_NOT_SUPPORTED as defined in nvml/nvml.h
+	GPU_FABRIC_STATE_NOT_SUPPORTED = 0
+	// GPU_FABRIC_STATE_NOT_STARTED as defined in nvml/nvml.h
+	GPU_FABRIC_STATE_NOT_STARTED = 1
+	// GPU_FABRIC_STATE_IN_PROGRESS as defined in nvml/nvml.h
+	GPU_FABRIC_STATE_IN_PROGRESS = 2
+	// GPU_FABRIC_STATE_COMPLETED as defined in nvml/nvml.h
+	GPU_FABRIC_STATE_COMPLETED = 3
 	// INIT_FLAG_NO_GPUS as defined in nvml/nvml.h
 	INIT_FLAG_NO_GPUS = 1
 	// INIT_FLAG_NO_ATTACH as defined in nvml/nvml.h
@@ -579,8 +609,12 @@ const (
 	GPU_INSTANCE_PROFILE_6_SLICE = 6
 	// GPU_INSTANCE_PROFILE_1_SLICE_REV1 as defined in nvml/nvml.h
 	GPU_INSTANCE_PROFILE_1_SLICE_REV1 = 7
+	// GPU_INSTANCE_PROFILE_2_SLICE_REV1 as defined in nvml/nvml.h
+	GPU_INSTANCE_PROFILE_2_SLICE_REV1 = 8
+	// GPU_INSTANCE_PROFILE_1_SLICE_REV2 as defined in nvml/nvml.h
+	GPU_INSTANCE_PROFILE_1_SLICE_REV2 = 9
 	// GPU_INSTANCE_PROFILE_COUNT as defined in nvml/nvml.h
-	GPU_INSTANCE_PROFILE_COUNT = 8
+	GPU_INSTANCE_PROFILE_COUNT = 10
 	// COMPUTE_INSTANCE_PROFILE_1_SLICE as defined in nvml/nvml.h
 	COMPUTE_INSTANCE_PROFILE_1_SLICE = 0
 	// COMPUTE_INSTANCE_PROFILE_2_SLICE as defined in nvml/nvml.h
@@ -595,8 +629,10 @@ const (
 	COMPUTE_INSTANCE_PROFILE_8_SLICE = 5
 	// COMPUTE_INSTANCE_PROFILE_6_SLICE as defined in nvml/nvml.h
 	COMPUTE_INSTANCE_PROFILE_6_SLICE = 6
+	// COMPUTE_INSTANCE_PROFILE_1_SLICE_REV1 as defined in nvml/nvml.h
+	COMPUTE_INSTANCE_PROFILE_1_SLICE_REV1 = 7
 	// COMPUTE_INSTANCE_PROFILE_COUNT as defined in nvml/nvml.h
-	COMPUTE_INSTANCE_PROFILE_COUNT = 7
+	COMPUTE_INSTANCE_PROFILE_COUNT = 8
 	// COMPUTE_INSTANCE_ENGINE_PROFILE_SHARED as defined in nvml/nvml.h
 	COMPUTE_INSTANCE_ENGINE_PROFILE_SHARED = 0
 	// COMPUTE_INSTANCE_ENGINE_PROFILE_COUNT as defined in nvml/nvml.h
@@ -605,6 +641,20 @@ const (
 	GPM_METRICS_GET_VERSION = 1
 	// GPM_SUPPORT_VERSION as defined in nvml/nvml.h
 	GPM_SUPPORT_VERSION = 1
+	// COUNTER_COLLECTION_UNIT_STREAM_STATE_DISABLE as defined in nvml/nvml.h
+	COUNTER_COLLECTION_UNIT_STREAM_STATE_DISABLE = 0
+	// COUNTER_COLLECTION_UNIT_STREAM_STATE_ENABLE as defined in nvml/nvml.h
+	COUNTER_COLLECTION_UNIT_STREAM_STATE_ENABLE = 1
+	// NVLINK_POWER_STATE_HIGH_SPEED as defined in nvml/nvml.h
+	NVLINK_POWER_STATE_HIGH_SPEED = 0
+	// NVLINK_POWER_STATE_LOW as defined in nvml/nvml.h
+	NVLINK_POWER_STATE_LOW = 1
+	// NVLINK_LOW_POWER_THRESHOLD_MIN as defined in nvml/nvml.h
+	NVLINK_LOW_POWER_THRESHOLD_MIN = 1
+	// NVLINK_LOW_POWER_THRESHOLD_MAX as defined in nvml/nvml.h
+	NVLINK_LOW_POWER_THRESHOLD_MAX = 8191
+	// NVLINK_LOW_POWER_THRESHOLD_RESET as defined in nvml/nvml.h
+	NVLINK_LOW_POWER_THRESHOLD_RESET = 4294967295
 )
 
 // BridgeChipType as declared in nvml/nvml.h
@@ -976,6 +1026,7 @@ const (
 	ERROR_INSUFFICIENT_RESOURCES    Return = 23
 	ERROR_FREQ_NOT_SUPPORTED        Return = 24
 	ERROR_ARGUMENT_VERSION_MISMATCH Return = 25
+	ERROR_DEPRECATED                Return = 26
 	ERROR_UNKNOWN                   Return = 999
 )
 
@@ -1060,9 +1111,32 @@ type VgpuCapability int32
 
 // VgpuCapability enumeration from nvml/nvml.h
 const (
-	VGPU_CAP_NVLINK_P2P VgpuCapability = iota
-	VGPU_CAP_GPUDIRECT  VgpuCapability = 1
-	VGPU_CAP_COUNT      VgpuCapability = 2
+	VGPU_CAP_NVLINK_P2P           VgpuCapability = iota
+	VGPU_CAP_GPUDIRECT            VgpuCapability = 1
+	VGPU_CAP_MULTI_VGPU_EXCLUSIVE VgpuCapability = 2
+	VGPU_CAP_EXCLUSIVE_TYPE       VgpuCapability = 3
+	VGPU_CAP_EXCLUSIVE_SIZE       VgpuCapability = 4
+	VGPU_CAP_COUNT                VgpuCapability = 5
+)
+
+// VgpuDriverCapability as declared in nvml/nvml.h
+type VgpuDriverCapability int32
+
+// VgpuDriverCapability enumeration from nvml/nvml.h
+const (
+	VGPU_DRIVER_CAP_HETEROGENEOUS_MULTI_VGPU VgpuDriverCapability = iota
+	VGPU_DRIVER_CAP_COUNT                    VgpuDriverCapability = 1
+)
+
+// DeviceVgpuCapability as declared in nvml/nvml.h
+type DeviceVgpuCapability int32
+
+// DeviceVgpuCapability enumeration from nvml/nvml.h
+const (
+	DEVICE_VGPU_CAP_FRACTIONAL_MULTI_VGPU            DeviceVgpuCapability = iota
+	DEVICE_VGPU_CAP_HETEROGENEOUS_TIMESLICE_PROFILES DeviceVgpuCapability = 1
+	DEVICE_VGPU_CAP_HETEROGENEOUS_TIMESLICE_SIZES    DeviceVgpuCapability = 2
+	DEVICE_VGPU_CAP_COUNT                            DeviceVgpuCapability = 3
 )
 
 // GpuUtilizationDomainId as declared in nvml/nvml.h

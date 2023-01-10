@@ -167,6 +167,73 @@ type VgpuProcessUtilizationSample struct {
 	DecUtil      uint32
 }
 
+type VgpuSchedulerParamsVgpuSchedDataWithARR struct {
+	AvgFactor uint32
+	Timeslice uint32
+}
+
+type VgpuSchedulerParamsVgpuSchedData struct {
+	Timeslice uint32
+}
+
+const sizeofVgpuSchedulerParams = unsafe.Sizeof([8]byte{})
+
+type VgpuSchedulerParams [sizeofVgpuSchedulerParams]byte
+
+type VgpuSchedulerLogEntry struct {
+	Timestamp                uint64
+	TimeRunTotal             uint64
+	TimeRun                  uint64
+	SwRunlistId              uint32
+	TargetTimeSlice          uint64
+	CumulativePreemptionTime uint64
+}
+
+type VgpuSchedulerLog struct {
+	EngineId        uint32
+	SchedulerPolicy uint32
+	IsEnabledARR    uint32
+	SchedulerParams [8]byte
+	EntriesCount    uint32
+	LogEntries      [200]VgpuSchedulerLogEntry
+}
+
+type VgpuSchedulerGetState struct {
+	SchedulerPolicy uint32
+	IsEnabledARR    uint32
+	SchedulerParams [8]byte
+}
+
+type VgpuSchedulerSetParamsVgpuSchedDataWithARR struct {
+	AvgFactor uint32
+	Frequency uint32
+}
+
+type VgpuSchedulerSetParamsVgpuSchedData struct {
+	Timeslice uint32
+}
+
+const sizeofVgpuSchedulerSetParams = unsafe.Sizeof([8]byte{})
+
+type VgpuSchedulerSetParams [sizeofVgpuSchedulerSetParams]byte
+
+type VgpuSchedulerSetState struct {
+	SchedulerPolicy uint32
+	EnableARRMode   uint32
+	SchedulerParams [8]byte
+}
+
+type VgpuSchedulerCapabilities struct {
+	SupportedSchedulers [3]uint32
+	MaxTimeslice        uint32
+	MinTimeslice        uint32
+	IsArrModeSupported  uint32
+	MaxFrequencyForARR  uint32
+	MinFrequencyForARR  uint32
+	MaxAvgFactorForARR  uint32
+	MinAvgFactorForARR  uint32
+}
+
 type VgpuLicenseExpiry struct {
 	Year      uint32
 	Month     uint16
@@ -222,6 +289,8 @@ type GridLicensableFeatures struct {
 type DeviceArchitecture uint32
 
 type BusType uint32
+
+type FanControlPolicy uint32
 
 type PowerSource uint32
 
@@ -337,6 +406,16 @@ type FBCSessionInfo struct {
 	VResolution    uint32
 	AverageFPS     uint32
 	AverageLatency uint32
+}
+
+type GpuFabricState byte
+
+type GpuFabricInfo struct {
+	ClusterUuid [16]int8
+	Status      uint32
+	PartitionId uint32
+	State       uint8
+	Pad_cgo_0   [3]byte
 }
 
 type AffinityScope uint32
@@ -497,4 +576,8 @@ type GpmMetricsGetType struct {
 type GpmSupport struct {
 	Version           uint32
 	IsSupportedDevice uint32
+}
+
+type NvLinkPowerThres struct {
+	LowPwrThreshold uint32
 }
