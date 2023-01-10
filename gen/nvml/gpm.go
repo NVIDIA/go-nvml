@@ -82,3 +82,12 @@ func GpmQueryDeviceSupport(Device Device) (GpmSupport, Return) {
 func (Device Device) GpmQueryDeviceSupport() (GpmSupport, Return) {
 	return GpmQueryDeviceSupport(Device)
 }
+
+// nvml.GpmMigSampleGet()
+func GpmMigSampleGet(Device Device, GpuInstanceId int, GpmSample GpmSample) Return {
+	return nvmlGpmMigSampleGet(Device, uint32(GpuInstanceId), GpmSample)
+}
+
+func (Device Device) GpmMigSampleGet(GpuInstanceId int, GpmSample GpmSample) Return {
+	return GpmMigSampleGet(Device, GpuInstanceId, GpmSample)
+}
