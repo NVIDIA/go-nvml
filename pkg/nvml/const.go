@@ -49,6 +49,8 @@ const (
 	TOPOLOGY_CPU = 0
 	// MAX_PHYSICAL_BRIDGE as defined in nvml/nvml.h
 	MAX_PHYSICAL_BRIDGE = 128
+	// MAX_THERMAL_SENSORS_PER_GPU as defined in nvml/nvml.h
+	MAX_THERMAL_SENSORS_PER_GPU = 3
 	// FlagDefault as defined in nvml/nvml.h
 	FlagDefault = 0
 	// FlagForce as defined in nvml/nvml.h
@@ -57,6 +59,8 @@ const (
 	SINGLE_BIT_ECC = 0
 	// DOUBLE_BIT_ECC as defined in nvml/nvml.h
 	DOUBLE_BIT_ECC = 0
+	// MAX_GPU_PERF_PSTATES as defined in nvml/nvml.h
+	MAX_GPU_PERF_PSTATES = 16
 	// GRID_LICENSE_EXPIRY_NOT_AVAILABLE as defined in nvml/nvml.h
 	GRID_LICENSE_EXPIRY_NOT_AVAILABLE = 0
 	// GRID_LICENSE_EXPIRY_INVALID as defined in nvml/nvml.h
@@ -85,6 +89,8 @@ const (
 	GRID_LICENSE_STATE_UNLICENSED = 4
 	// GRID_LICENSE_STATE_LICENSED as defined in nvml/nvml.h
 	GRID_LICENSE_STATE_LICENSED = 5
+	// GSP_FIRMWARE_VERSION_BUF_SIZE as defined in nvml/nvml.h
+	GSP_FIRMWARE_VERSION_BUF_SIZE = 64
 	// DEVICE_ARCH_KEPLER as defined in nvml/nvml.h
 	DEVICE_ARCH_KEPLER = 2
 	// DEVICE_ARCH_MAXWELL as defined in nvml/nvml.h
@@ -129,6 +135,8 @@ const (
 	ADAPTIVE_CLOCKING_INFO_STATUS_DISABLED = 0
 	// ADAPTIVE_CLOCKING_INFO_STATUS_ENABLED as defined in nvml/nvml.h
 	ADAPTIVE_CLOCKING_INFO_STATUS_ENABLED = 1
+	// MAX_GPU_UTILIZATIONS as defined in nvml/nvml.h
+	MAX_GPU_UTILIZATIONS = 8
 	// FI_DEV_ECC_CURRENT as defined in nvml/nvml.h
 	FI_DEV_ECC_CURRENT = 1
 	// FI_DEV_ECC_PENDING as defined in nvml/nvml.h
@@ -983,18 +991,6 @@ const (
 	RESTRICTED_API_COUNT                   RestrictedAPI = 2
 )
 
-// NvLinkEccLaneErrorCounter as declared in nvml/nvml.h
-type NvLinkEccLaneErrorCounter int32
-
-// NvLinkEccLaneErrorCounter enumeration from nvml/nvml.h
-const (
-	NVLINK_ERROR_DL_ECC_LANE0 NvLinkEccLaneErrorCounter = iota
-	NVLINK_ERROR_DL_ECC_LANE1 NvLinkEccLaneErrorCounter = 1
-	NVLINK_ERROR_DL_ECC_LANE2 NvLinkEccLaneErrorCounter = 2
-	NVLINK_ERROR_DL_ECC_LANE3 NvLinkEccLaneErrorCounter = 3
-	NVLINK_ERROR_DL_ECC_COUNT NvLinkEccLaneErrorCounter = 4
-)
-
 // GpuVirtualizationMode as declared in nvml/nvml.h
 type GpuVirtualizationMode int32
 
@@ -1032,6 +1028,27 @@ type VgpuGuestInfoState int32
 const (
 	VGPU_INSTANCE_GUEST_INFO_STATE_UNINITIALIZED VgpuGuestInfoState = iota
 	VGPU_INSTANCE_GUEST_INFO_STATE_INITIALIZED   VgpuGuestInfoState = 1
+)
+
+// VgpuCapability as declared in nvml/nvml.h
+type VgpuCapability int32
+
+// VgpuCapability enumeration from nvml/nvml.h
+const (
+	VGPU_CAP_NVLINK_P2P VgpuCapability = iota
+	VGPU_CAP_GPUDIRECT  VgpuCapability = 1
+	VGPU_CAP_COUNT      VgpuCapability = 2
+)
+
+// GpuUtilizationDomainId as declared in nvml/nvml.h
+type GpuUtilizationDomainId int32
+
+// GpuUtilizationDomainId enumeration from nvml/nvml.h
+const (
+	GPU_UTILIZATION_DOMAIN_GPU GpuUtilizationDomainId = iota
+	GPU_UTILIZATION_DOMAIN_FB  GpuUtilizationDomainId = 1
+	GPU_UTILIZATION_DOMAIN_VID GpuUtilizationDomainId = 2
+	GPU_UTILIZATION_DOMAIN_BUS GpuUtilizationDomainId = 3
 )
 
 // FanState as declared in nvml/nvml.h
@@ -1123,6 +1140,49 @@ const (
 	VGPU_COMPATIBILITY_LIMIT_GUEST_DRIVER VgpuPgpuCompatibilityLimitCode = 2
 	VGPU_COMPATIBILITY_LIMIT_GPU          VgpuPgpuCompatibilityLimitCode = 4
 	VGPU_COMPATIBILITY_LIMIT_OTHER        VgpuPgpuCompatibilityLimitCode = -2147483648
+)
+
+// ThermalTarget as declared in nvml/nvml.h
+type ThermalTarget int32
+
+// ThermalTarget enumeration from nvml/nvml.h
+const (
+	THERMAL_TARGET_NONE         ThermalTarget = iota
+	THERMAL_TARGET_GPU          ThermalTarget = 1
+	THERMAL_TARGET_MEMORY       ThermalTarget = 2
+	THERMAL_TARGET_POWER_SUPPLY ThermalTarget = 4
+	THERMAL_TARGET_BOARD        ThermalTarget = 8
+	THERMAL_TARGET_VCD_BOARD    ThermalTarget = 9
+	THERMAL_TARGET_VCD_INLET    ThermalTarget = 10
+	THERMAL_TARGET_VCD_OUTLET   ThermalTarget = 11
+	THERMAL_TARGET_ALL          ThermalTarget = 15
+	THERMAL_TARGET_UNKNOWN      ThermalTarget = -1
+)
+
+// ThermalController as declared in nvml/nvml.h
+type ThermalController int32
+
+// ThermalController enumeration from nvml/nvml.h
+const (
+	THERMAL_CONTROLLER_NONE            ThermalController = iota
+	THERMAL_CONTROLLER_GPU_INTERNAL    ThermalController = 1
+	THERMAL_CONTROLLER_ADM1032         ThermalController = 2
+	THERMAL_CONTROLLER_ADT7461         ThermalController = 3
+	THERMAL_CONTROLLER_MAX6649         ThermalController = 4
+	THERMAL_CONTROLLER_MAX1617         ThermalController = 5
+	THERMAL_CONTROLLER_LM99            ThermalController = 6
+	THERMAL_CONTROLLER_LM89            ThermalController = 7
+	THERMAL_CONTROLLER_LM64            ThermalController = 8
+	THERMAL_CONTROLLER_G781            ThermalController = 9
+	THERMAL_CONTROLLER_ADT7473         ThermalController = 10
+	THERMAL_CONTROLLER_SBMAX6649       ThermalController = 11
+	THERMAL_CONTROLLER_VBIOSEVT        ThermalController = 12
+	THERMAL_CONTROLLER_OS              ThermalController = 13
+	THERMAL_CONTROLLER_NVSYSCON_CANOAS ThermalController = 14
+	THERMAL_CONTROLLER_NVSYSCON_E551   ThermalController = 15
+	THERMAL_CONTROLLER_MAX6649R        ThermalController = 16
+	THERMAL_CONTROLLER_ADT7473S        ThermalController = 17
+	THERMAL_CONTROLLER_UNKNOWN         ThermalController = -1
 )
 
 // GridLicenseFeatureCode as declared in nvml/nvml.h

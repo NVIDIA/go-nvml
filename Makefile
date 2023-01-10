@@ -57,6 +57,7 @@ patch-nvml-h: $(PKG_BINDINGS_DIR)/nvml.h
 $(PKG_BINDINGS_DIR)/nvml.h: $(GEN_BINDINGS_DIR)/nvml.h | $(PKG_BINDINGS_DIR)
 	cp $(<) $(@)
 	$(SED) -i -E 's#(typedef\s+struct)\s+(nvml.*_st\*)\s+(nvml.*_t);#\1\n{\n    struct \2 handle;\n} \3;#g' $(@)
+	spatch --in-place --very-quiet --sp-file $(GEN_BINDINGS_DIR)/anonymous_structs.cocci $(@) > /dev/null
 
 bindings: .create-bindings .strip-autogen-comment .strip-nvml-h-linenumber
 
@@ -142,7 +143,7 @@ update-nvml-h:
 # Generate an image for containerized builds
 # Note: This image is local only
 .build-image: Dockerfile
-	$(DOCKER) build \
+	$(DOCKER) buildx build \
 		--progress=plain \
 		--build-arg GOLANG_VERSION="$(GOLANG_VERSION)" \
 		--build-arg C_FOR_GO_TAG="$(C_FOR_GO_TAG)" \

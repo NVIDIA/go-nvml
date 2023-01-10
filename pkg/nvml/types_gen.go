@@ -119,6 +119,19 @@ type ViolationTime struct {
 	ViolationTime uint64
 }
 
+type GpuThermalSettingsSensor struct {
+	Controller     int32
+	DefaultMinTemp uint32
+	DefaultMaxTemp uint32
+	CurrentTemp    uint32
+	Target         int32
+}
+
+type GpuThermalSettings struct {
+	Count  uint32
+	Sensor [3]GpuThermalSettingsSensor
+}
+
 type ClkMonFaultInfo struct {
 	ClkApiDomain       uint32
 	ClkDomainFaultMask uint32
@@ -211,6 +224,18 @@ type DeviceArchitecture uint32
 type BusType uint32
 
 type PowerSource uint32
+
+type GpuDynamicPstatesInfoUtilization struct {
+	BIsPresent   uint32
+	Percentage   uint32
+	IncThreshold uint32
+	DecThreshold uint32
+}
+
+type GpuDynamicPstatesInfo struct {
+	Flags       uint32
+	Utilization [8]GpuDynamicPstatesInfoUtilization
+}
 
 type FieldValue struct {
 	FieldId     uint32
