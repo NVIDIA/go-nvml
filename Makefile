@@ -55,18 +55,20 @@ $(PKG_BINDINGS_DIR):
 
 patch-nvml-h: $(PKG_BINDINGS_DIR)/nvml.h
 $(PKG_BINDINGS_DIR)/nvml.h: $(GEN_BINDINGS_DIR)/nvml.h | $(PKG_BINDINGS_DIR)
-	$(SED) -E 's#(typedef\s+struct)\s+(nvml.*_st\*)\s+(nvml.*_t);#\1\n{\n    struct \2 handle;\n} \3;#g' $(<) > $(@)
+	cp $(<) $(@)
+	$(SED) -i -E 's#(typedef\s+struct)\s+(nvml.*_st\*)\s+(nvml.*_t);#\1\n{\n    struct \2 handle;\n} \3;#g' $(@)
 
 bindings: .create-bindings .strip-autogen-comment .strip-nvml-h-linenumber
 
 .create-bindings: $(PKG_BINDINGS_DIR)/nvml.h $(SOURCES) | $(PKG_BINDINGS_DIR)
-	c-for-go -out $(PKG_DIR) $(GEN_BINDINGS_DIR)/nvml.yml
+	cp $(GEN_BINDINGS_DIR)/nvml.yml $(PKG_BINDINGS_DIR)
+	c-for-go -out $(PKG_DIR) $(PKG_BINDINGS_DIR)/nvml.yml
 	cp $(GEN_BINDINGS_DIR)/*.go $(PKG_BINDINGS_DIR)
 	cd $(PKG_BINDINGS_DIR); \
 		go tool cgo -godefs types.go > types_gen.go; \
 		go fmt types_gen.go; \
 	cd -> /dev/null
-	rm -rf $(PKG_BINDINGS_DIR)/types.go $(PKG_BINDINGS_DIR)/_obj
+	rm -rf $(PKG_BINDINGS_DIR)/nvml.yml $(PKG_BINDINGS_DIR)/types.go $(PKG_BINDINGS_DIR)/_obj
 
 .strip-autogen-comment: SED_SEARCH_STRING := // WARNING: This file has automatically been generated on
 .strip-autogen-comment: SED_REPLACE_STRING := // WARNING: THIS FILE WAS AUTOMATICALLY GENERATED.
@@ -87,9 +89,11 @@ test-bindings: bindings
 
 clean-bindings:
 	rm -rf $(PKG_BINDINGS_DIR)
+	git checkout $(PKG_BINDINGS_DIR)
+	rm -rf $(PKG_BINDINGS_DIR)/nvml.h
 
 # Update nvml.h from the Anaconda package repository
-update-nvml-h: JQ := $(DOCKER) run -i --rm -v "$(PWD):$(PWD)" -w "$(PWD)" stedolan/jq:latest
+update-nvml-h: JQ ?= $(DOCKER) run -i --rm -v "$(PWD):$(PWD)" -w "$(PWD)" stedolan/jq:latest
 update-nvml-h: NVML_DEV_PACKAGES_INFO := $(shell \
 		wget -qO - https://api.anaconda.org/package/nvidia/cuda-nvml-dev/files | \
 			$(JQ) '.[] | select(.attrs.subdir=="linux-64") | .version + "@" + .upload_time[:19] + "@" + .full_name' | \
@@ -150,6 +154,7 @@ $(DOCKER_TARGETS): docker-%: .build-image
 	@echo "Running 'make $(*)' in docker container $(BUILDIMAGE)"
 	$(DOCKER) run \
 		--rm \
+		-e JQ=jq \
 		-e GOCACHE=/tmp/.cache \
 		-v $(PWD):$(PWD) \
 		-w $(PWD) \
@@ -163,6 +168,7 @@ $(DOCKER_TARGETS): docker-%: .build-image
 	$(DOCKER) run \
 		-ti \
 		--rm \
+		-e JQ=jq \
 		-e GOCACHE=/tmp/.cache \
 		-v $(PWD):$(PWD) \
 		-w $(PWD) \
@@ -176,6 +182,7 @@ $(DOCKER_TARGETS): docker-%: .build-image
 	$(DOCKER) run \
 		-ti \
 		--rm \
+		-e JQ=jq \
 		-e GOCACHE=/tmp/.cache \
 		-v $(PWD):$(PWD) \
 		-w $(PWD) \
