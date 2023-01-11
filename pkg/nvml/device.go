@@ -2440,37 +2440,6 @@ func (Device Device) GetTargetFanSpeed(Fan int) (int, Return) {
 	return DeviceGetTargetFanSpeed(Device, Fan)
 }
 
-// nvml.DeviceGetPowerMode()
-func DeviceGetPowerMode(Device Device) (int, Return) {
-	var PowerModeId uint32
-	ret := nvmlDeviceGetPowerMode(Device, &PowerModeId)
-	return int(PowerModeId), ret
-}
-
-func (Device Device) GetPowerMode() (int, Return) {
-	return DeviceGetPowerMode(Device)
-}
-
-// nvml.DeviceGetSupportedPowerModes()
-func DeviceGetSupportedPowerModes(Device Device) (uint32, Return) {
-	var SupportedPowerModes uint32
-	ret := nvmlDeviceGetSupportedPowerModes(Device, &SupportedPowerModes)
-	return SupportedPowerModes, ret
-}
-
-func (Device Device) GetSupportedPowerModes() (uint32, Return) {
-	return DeviceGetSupportedPowerModes(Device)
-}
-
-// nvml.DeviceSetPowerMode()
-func DeviceSetPowerMode(Device Device, PowerModeId int) Return {
-	return nvmlDeviceSetPowerMode(Device, uint32(PowerModeId))
-}
-
-func (Device Device) SetPowerMode(PowerModeId int) Return {
-	return DeviceSetPowerMode(Device, PowerModeId)
-}
-
 // nvml.DeviceGetMemClkVfOffset()
 func DeviceGetMemClkVfOffset(Device Device) (int, Return) {
 	var Offset int32
@@ -2511,4 +2480,166 @@ func DeviceGetMemClkMinMaxVfOffset(Device Device) (int, int, Return) {
 
 func (Device Device) GetMemClkMinMaxVfOffset() (int, int, Return) {
 	return DeviceGetMemClkMinMaxVfOffset(Device)
+}
+
+// nvml.DeviceGetGpuMaxPcieLinkGeneration()
+func DeviceGetGpuMaxPcieLinkGeneration(Device Device) (int, Return) {
+	var MaxLinkGenDevice uint32
+	ret := nvmlDeviceGetGpuMaxPcieLinkGeneration(Device, &MaxLinkGenDevice)
+	return int(MaxLinkGenDevice), ret
+}
+
+func (Device Device) GetGpuMaxPcieLinkGeneration() (int, Return) {
+	return DeviceGetGpuMaxPcieLinkGeneration(Device)
+}
+
+// nvml.DeviceGetFanControlPolicy_v2()
+func DeviceGetFanControlPolicy_v2(Device Device, Fan int) (FanControlPolicy, Return) {
+	var Policy FanControlPolicy
+	ret := nvmlDeviceGetFanControlPolicy_v2(Device, uint32(Fan), &Policy)
+	return Policy, ret
+}
+
+func (Device Device) GetFanControlPolicy_v2(Fan int) (FanControlPolicy, Return) {
+	return DeviceGetFanControlPolicy_v2(Device, Fan)
+}
+
+// nvml.DeviceSetFanControlPolicy()
+func DeviceSetFanControlPolicy(Device Device, Fan int, Policy FanControlPolicy) Return {
+	return nvmlDeviceSetFanControlPolicy(Device, uint32(Fan), Policy)
+}
+
+func (Device Device) SetFanControlPolicy(Fan int, Policy FanControlPolicy) Return {
+	return DeviceSetFanControlPolicy(Device, Fan, Policy)
+}
+
+// nvml.DeviceClearFieldValues()
+func DeviceClearFieldValues(Device Device, Values []FieldValue) Return {
+	ValuesCount := len(Values)
+	return nvmlDeviceClearFieldValues(Device, int32(ValuesCount), &Values[0])
+}
+
+func (Device Device) ClearFieldValues(Values []FieldValue) Return {
+	return DeviceClearFieldValues(Device, Values)
+}
+
+// nvml.DeviceGetVgpuCapabilities()
+func DeviceGetVgpuCapabilities(Device Device, Capability DeviceVgpuCapability) (bool, Return) {
+	var CapResult uint32
+	ret := nvmlDeviceGetVgpuCapabilities(Device, Capability, &CapResult)
+	return (CapResult != 0), ret
+}
+
+func (Device Device) GetVgpuCapabilities(Capability DeviceVgpuCapability) (bool, Return) {
+	return DeviceGetVgpuCapabilities(Device, Capability)
+}
+
+// nvml.DeviceGetVgpuSchedulerLog()
+func DeviceGetVgpuSchedulerLog(Device Device) (VgpuSchedulerLog, Return) {
+	var PSchedulerLog VgpuSchedulerLog
+	ret := nvmlDeviceGetVgpuSchedulerLog(Device, &PSchedulerLog)
+	return PSchedulerLog, ret
+}
+
+func (Device Device) GetVgpuSchedulerLog() (VgpuSchedulerLog, Return) {
+	return DeviceGetVgpuSchedulerLog(Device)
+}
+
+// nvml.DeviceGetVgpuSchedulerState()
+func DeviceGetVgpuSchedulerState(Device Device) (VgpuSchedulerGetState, Return) {
+	var PSchedulerState VgpuSchedulerGetState
+	ret := nvmlDeviceGetVgpuSchedulerState(Device, &PSchedulerState)
+	return PSchedulerState, ret
+}
+
+func (Device Device) GetVgpuSchedulerState() (VgpuSchedulerGetState, Return) {
+	return DeviceGetVgpuSchedulerState(Device)
+}
+
+// nvml.DeviceSetVgpuSchedulerState()
+func DeviceSetVgpuSchedulerState(Device Device, PSchedulerState *VgpuSchedulerSetState) Return {
+	return nvmlDeviceSetVgpuSchedulerState(Device, PSchedulerState)
+}
+
+func (Device Device) SetVgpuSchedulerState(PSchedulerState *VgpuSchedulerSetState) Return {
+	return DeviceSetVgpuSchedulerState(Device, PSchedulerState)
+}
+
+// nvml.DeviceGetVgpuSchedulerCapabilities()
+func DeviceGetVgpuSchedulerCapabilities(Device Device) (VgpuSchedulerCapabilities, Return) {
+	var PCapabilities VgpuSchedulerCapabilities
+	ret := nvmlDeviceGetVgpuSchedulerCapabilities(Device, &PCapabilities)
+	return PCapabilities, ret
+}
+
+func (Device Device) GetVgpuSchedulerCapabilities() (VgpuSchedulerCapabilities, Return) {
+	return DeviceGetVgpuSchedulerCapabilities(Device)
+}
+
+// nvml.GpuInstanceGetComputeInstancePossiblePlacements()
+func GpuInstanceGetComputeInstancePossiblePlacements(GpuInstance GpuInstance, ProfileId int) ([]ComputeInstancePlacement, Return) {
+	var Count uint32
+	ret := nvmlGpuInstanceGetComputeInstancePossiblePlacements(GpuInstance, uint32(ProfileId), nil, &Count)
+	if ret != SUCCESS {
+		return nil, ret
+	}
+	if Count == 0 {
+		return []ComputeInstancePlacement{}, ret
+	}
+	PlacementArray := make([]ComputeInstancePlacement, Count)
+	ret = nvmlGpuInstanceGetComputeInstancePossiblePlacements(GpuInstance, uint32(ProfileId), &PlacementArray[0], &Count)
+	return PlacementArray, ret
+}
+
+func (GpuInstance GpuInstance) GetComputeInstancePossiblePlacements(ProfileId int) ([]ComputeInstancePlacement, Return) {
+	return GpuInstanceGetComputeInstancePossiblePlacements(GpuInstance, ProfileId)
+}
+
+// nvml.GpuInstanceCreateComputeInstanceWithPlacement()
+func GpuInstanceCreateComputeInstanceWithPlacement(GpuInstance GpuInstance, ProfileId int, Placement *ComputeInstancePlacement, ComputeInstance *ComputeInstance) Return {
+	return nvmlGpuInstanceCreateComputeInstanceWithPlacement(GpuInstance, uint32(ProfileId), Placement, ComputeInstance)
+}
+
+func (GpuInstance GpuInstance) CreateComputeInstanceWithPlacement(ProfileId int, Placement *ComputeInstancePlacement, ComputeInstance *ComputeInstance) Return {
+	return GpuInstanceCreateComputeInstanceWithPlacement(GpuInstance, ProfileId, Placement, ComputeInstance)
+}
+
+// nvml.DeviceGetGpuFabricInfo()
+func DeviceGetGpuFabricInfo(Device Device) (GpuFabricInfo, Return) {
+	var GpuFabricInfo GpuFabricInfo
+	ret := nvmlDeviceGetGpuFabricInfo(Device, &GpuFabricInfo)
+	return GpuFabricInfo, ret
+}
+
+func (Device Device) GetGpuFabricInfo() (GpuFabricInfo, Return) {
+	return DeviceGetGpuFabricInfo(Device)
+}
+
+// nvml.DeviceCcuGetStreamState()
+func DeviceCcuGetStreamState(Device Device) (int, Return) {
+	var State uint32
+	ret := nvmlDeviceCcuGetStreamState(Device, &State)
+	return int(State), ret
+}
+
+func (Device Device) CcuGetStreamState() (int, Return) {
+	return DeviceCcuGetStreamState(Device)
+}
+
+// nvml.DeviceCcuSetStreamState()
+func DeviceCcuSetStreamState(Device Device, State int) Return {
+	return nvmlDeviceCcuSetStreamState(Device, uint32(State))
+}
+
+func (Device Device) CcuSetStreamState(State int) Return {
+	return DeviceCcuSetStreamState(Device, State)
+}
+
+// nvml.DeviceSetNvLinkDeviceLowPowerThreshold()
+func DeviceSetNvLinkDeviceLowPowerThreshold(Device Device, Info *NvLinkPowerThres) Return {
+	return nvmlDeviceSetNvLinkDeviceLowPowerThreshold(Device, Info)
+}
+
+func (Device Device) SetNvLinkDeviceLowPowerThreshold(Info *NvLinkPowerThres) Return {
+	return DeviceSetNvLinkDeviceLowPowerThreshold(Device, Info)
 }

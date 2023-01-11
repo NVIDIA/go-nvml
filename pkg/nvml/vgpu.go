@@ -471,3 +471,10 @@ func VgpuTypeGetCapabilities(VgpuTypeId VgpuTypeId, Capability VgpuCapability) (
 func (VgpuTypeId VgpuTypeId) GetCapabilities(Capability VgpuCapability) (bool, Return) {
 	return VgpuTypeGetCapabilities(VgpuTypeId, Capability)
 }
+
+// nvml.GetVgpuDriverCapabilities()
+func GetVgpuDriverCapabilities(Capability VgpuDriverCapability) (bool, Return) {
+	var CapResult uint32
+	ret := nvmlGetVgpuDriverCapabilities(Capability, &CapResult)
+	return (CapResult != 0), ret
+}
