@@ -2001,9 +2001,16 @@ func DeviceGetGpuInstancePossiblePlacements(Device Device, Info *GpuInstanceProf
 	if Info == nil {
 		return nil, ERROR_INVALID_ARGUMENT
 	}
-	var Count uint32 = Info.InstanceCount
+	var Count uint32
+	ret := nvmlDeviceGetGpuInstancePossiblePlacements(Device, Info.Id, nil, &Count)
+	if ret != SUCCESS {
+		return nil, ret
+	}
+	if Count == 0 {
+		return []GpuInstancePlacement{}, ret
+	}
 	Placements := make([]GpuInstancePlacement, Count)
-	ret := nvmlDeviceGetGpuInstancePossiblePlacements(Device, Info.Id, &Placements[0], &Count)
+	ret = nvmlDeviceGetGpuInstancePossiblePlacements(Device, Info.Id, &Placements[0], &Count)
 	return Placements[:Count], ret
 }
 
