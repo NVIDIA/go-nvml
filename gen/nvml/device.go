@@ -2584,9 +2584,9 @@ func (Device Device) GetVgpuSchedulerCapabilities() (VgpuSchedulerCapabilities, 
 }
 
 // nvml.GpuInstanceGetComputeInstancePossiblePlacements()
-func GpuInstanceGetComputeInstancePossiblePlacements(GpuInstance GpuInstance, ProfileId int) ([]ComputeInstancePlacement, Return) {
+func GpuInstanceGetComputeInstancePossiblePlacements(GpuInstance GpuInstance, Info *ComputeInstanceProfileInfo) ([]ComputeInstancePlacement, Return) {
 	var Count uint32
-	ret := nvmlGpuInstanceGetComputeInstancePossiblePlacements(GpuInstance, uint32(ProfileId), nil, &Count)
+	ret := nvmlGpuInstanceGetComputeInstancePossiblePlacements(GpuInstance, Info.Id, nil, &Count)
 	if ret != SUCCESS {
 		return nil, ret
 	}
@@ -2594,21 +2594,21 @@ func GpuInstanceGetComputeInstancePossiblePlacements(GpuInstance GpuInstance, Pr
 		return []ComputeInstancePlacement{}, ret
 	}
 	PlacementArray := make([]ComputeInstancePlacement, Count)
-	ret = nvmlGpuInstanceGetComputeInstancePossiblePlacements(GpuInstance, uint32(ProfileId), &PlacementArray[0], &Count)
+	ret = nvmlGpuInstanceGetComputeInstancePossiblePlacements(GpuInstance, Info.Id, &PlacementArray[0], &Count)
 	return PlacementArray, ret
 }
 
-func (GpuInstance GpuInstance) GetComputeInstancePossiblePlacements(ProfileId int) ([]ComputeInstancePlacement, Return) {
-	return GpuInstanceGetComputeInstancePossiblePlacements(GpuInstance, ProfileId)
+func (GpuInstance GpuInstance) GetComputeInstancePossiblePlacements(Info *ComputeInstanceProfileInfo) ([]ComputeInstancePlacement, Return) {
+	return GpuInstanceGetComputeInstancePossiblePlacements(GpuInstance, Info)
 }
 
 // nvml.GpuInstanceCreateComputeInstanceWithPlacement()
-func GpuInstanceCreateComputeInstanceWithPlacement(GpuInstance GpuInstance, ProfileId int, Placement *ComputeInstancePlacement, ComputeInstance *ComputeInstance) Return {
-	return nvmlGpuInstanceCreateComputeInstanceWithPlacement(GpuInstance, uint32(ProfileId), Placement, ComputeInstance)
+func GpuInstanceCreateComputeInstanceWithPlacement(GpuInstance GpuInstance, Info *ComputeInstanceProfileInfo, Placement *ComputeInstancePlacement, ComputeInstance *ComputeInstance) Return {
+	return nvmlGpuInstanceCreateComputeInstanceWithPlacement(GpuInstance, Info.Id, Placement, ComputeInstance)
 }
 
-func (GpuInstance GpuInstance) CreateComputeInstanceWithPlacement(ProfileId int, Placement *ComputeInstancePlacement, ComputeInstance *ComputeInstance) Return {
-	return GpuInstanceCreateComputeInstanceWithPlacement(GpuInstance, ProfileId, Placement, ComputeInstance)
+func (GpuInstance GpuInstance) CreateComputeInstanceWithPlacement(Info *ComputeInstanceProfileInfo, Placement *ComputeInstancePlacement, ComputeInstance *ComputeInstance) Return {
+	return GpuInstanceCreateComputeInstanceWithPlacement(GpuInstance, Info, Placement, ComputeInstance)
 }
 
 // nvml.DeviceGetGpuFabricInfo()
