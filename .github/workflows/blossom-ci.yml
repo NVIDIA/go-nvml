@@ -34,7 +34,16 @@ jobs:
       
     # This job only runs for pull request comments
     if: |
-         contains( 'anstockatnv,rohitrajani2018,', format('{0},', github.actor)) && 
+                  contains( '\
+         anstockatnv,\
+         rohitrajani2018,\
+         cdesiniotis,\
+         shivamerla,\
+         ArangoGutierrez,\
+         elezar,\
+         klueska,\
+         zvonkok,\
+         ', format('{0},', github.actor)) && 
          github.event.comment.body == '/blossom-ci'  
     steps:
       - name: Check if comment is issued by authorized person
@@ -102,3 +111,4 @@ jobs:
           OPERATION: 'POST-PROCESSING'
           CI_SERVER: ${{ secrets.CI_SERVER }}
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
