@@ -13,7 +13,7 @@
 # limitations under the License.
 
 DOCKER ?= docker
-GOLANG_VERSION ?= 1.15
+GOLANG_VERSION ?= 1.20
 C_FOR_GO_TAG ?= 8eeee8c3b71f9c3c90c4a73db54ed08b0bba971d
 BUILDIMAGE ?= nvidia/go-nvml-devel:$(GOLANG_VERSION)-$(C_FOR_GO_TAG)
 
