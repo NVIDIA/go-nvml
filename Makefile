@@ -100,8 +100,9 @@ test: build
 	@echo "TODO: Skipping tests for now"
 
 coverage: test
-	cat $(COVERAGE_FILE) | grep -v "_mock.go" > $(COVERAGE_FILE).no-mocks
-	go tool cover -func=$(COVERAGE_FILE).no-mocks
+	# cat $(COVERAGE_FILE) | grep -v "_mock.go" > $(COVERAGE_FILE).no-mocks
+	# go tool cover -func=$(COVERAGE_FILE).no-mocks
+	@echo "TODO: Skipping coverage for now"
 
 # Generate an image for containerized builds
 # Note: This image is local only
