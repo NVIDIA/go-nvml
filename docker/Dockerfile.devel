@@ -26,6 +26,7 @@ RUN apt-get update && apt-get install -y \
 
 ARG	TARGETARCH
 ARG GOLANG_VERSION=0.0.0
+ENV GOLANG_VERSION=${GOLANG_VERSION}
 
 # Install golang
 ENV ARCH=${TARGETARCH}
