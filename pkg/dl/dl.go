@@ -25,27 +25,27 @@ import (
 import "C"
 
 const (
-	RTLD_LAZY = C.RTLD_LAZY
-	RTLD_NOW = C.RTLD_NOW
-	RTLD_GLOBAL = C.RTLD_GLOBAL
-	RTLD_LOCAL = C.RTLD_LOCAL
+	RTLD_LAZY     = C.RTLD_LAZY
+	RTLD_NOW      = C.RTLD_NOW
+	RTLD_GLOBAL   = C.RTLD_GLOBAL
+	RTLD_LOCAL    = C.RTLD_LOCAL
 	RTLD_NODELETE = C.RTLD_NODELETE
-	RTLD_NOLOAD = C.RTLD_NOLOAD
+	RTLD_NOLOAD   = C.RTLD_NOLOAD
 	RTLD_DEEPBIND = C.RTLD_DEEPBIND
 )
 
-type DynamicLibrary struct{
-	Name string
-	Flags int
+type DynamicLibrary struct {
+	Name   string
+	Flags  int
 	handle unsafe.Pointer
 }
 
 func New(name string, flags int) *DynamicLibrary {
 	return &DynamicLibrary{
-		Name: name,
-		Flags: flags,
+		Name:   name,
+		Flags:  flags,
 		handle: nil,
-    }
+	}
 }
 
 func (dl *DynamicLibrary) Open() error {
