@@ -45,3 +45,5 @@ RUN go install golang.org/x/lint/golint@latest
 # our user containers.
 RUN chmod -R a+rx /go/pkg/mod
 
+ENV JQ=jq
+
