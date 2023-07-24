@@ -15,6 +15,7 @@
 package dl
 
 import (
+	"errors"
 	"fmt"
 	"runtime"
 	"unsafe"
@@ -49,19 +50,11 @@ func New(name string, flags int) *DynamicLibrary {
 	}
 }
 
-func useLibDL(action func() error) error {
+func withOSLock(action func() error) error {
 	runtime.LockOSThread()
 	defer runtime.UnlockOSThread()
 
 	return action()
-}
-
-type DLError struct {
-	err string
-}
-
-func (e DLError) Error() string {
-	return e.err
 }
 
 func dlError() error {
@@ -69,27 +62,23 @@ func dlError() error {
 	if lastErr == nil {
 		return nil
 	}
-	return DLError{
-		err: C.GoString(lastErr),
-	}
+	return errors.New(C.GoString(lastErr))
 }
 
 func (dl *DynamicLibrary) Open() error {
 	name := C.CString(dl.Name)
 	defer C.free(unsafe.Pointer(name))
 
-	var handle unsafe.Pointer
-	if err := useLibDL(func() error {
-		handle = C.dlopen(name, C.int(dl.Flags))
+	if err := withOSLock(func() error {
+		handle := C.dlopen(name, C.int(dl.Flags))
 		if handle == nil {
 			return dlError()
 		}
+		dl.handle = handle
 		return nil
 	}); err != nil {
 		return err
 	}
-
-	dl.handle = handle
 	return nil
 }
 
@@ -97,15 +86,15 @@ func (dl *DynamicLibrary) Close() error {
 	if dl.handle == nil {
 		return nil
 	}
-	if err := useLibDL(func() error {
+	if err := withOSLock(func() error {
 		if C.dlclose(dl.handle) != 0 {
 			return dlError()
 		}
+		dl.handle = nil
 		return nil
 	}); err != nil {
 		return err
 	}
-	dl.handle = nil
 	return nil
 }
 
@@ -114,7 +103,7 @@ func (dl *DynamicLibrary) Lookup(symbol string) error {
 	defer C.free(unsafe.Pointer(sym))
 
 	var pointer unsafe.Pointer
-	if err := useLibDL(func() error {
+	if err := withOSLock(func() error {
 		pointer = C.dlsym(dl.handle, sym)
 		if pointer == nil {
 			return fmt.Errorf("symbol %q not found: %w", symbol, dlError())
@@ -123,6 +112,5 @@ func (dl *DynamicLibrary) Lookup(symbol string) error {
 	}); err != nil {
 		return err
 	}
-
 	return nil
 }
