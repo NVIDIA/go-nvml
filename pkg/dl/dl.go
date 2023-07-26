@@ -104,6 +104,7 @@ func (dl *DynamicLibrary) Lookup(symbol string) error {
 
 	var pointer unsafe.Pointer
 	if err := withOSLock(func() error {
+		dlError()
 		pointer = C.dlsym(dl.handle, sym)
 		if pointer == nil {
 			return fmt.Errorf("symbol %q not found: %w", symbol, dlError())
