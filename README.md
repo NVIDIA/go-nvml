@@ -60,14 +60,20 @@ import (
 )
 
 func main() {
-	ret := nvml.Init()
+	ret, err := nvml.Init()
+	if err != nil {
+		log.Fatalf("Unable to open NVML library: %v", err)
+	}
 	if ret != nvml.SUCCESS {
 		log.Fatalf("Unable to initialize NVML: %v", nvml.ErrorString(ret))
 	}
 	defer func() {
-		ret := nvml.Shutdown()
+		ret, err := nvml.Shutdown()
 		if ret != nvml.SUCCESS {
 			log.Fatalf("Unable to shutdown NVML: %v", nvml.ErrorString(ret))
+		}
+		if err != nil {
+			log.Fatalf("Unable to close NVML library: %v", err)
 		}
 	}()
 
