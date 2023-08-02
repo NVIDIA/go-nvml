@@ -15,7 +15,9 @@
 package dl
 
 import (
+	"errors"
 	"fmt"
+	"runtime"
 	"unsafe"
 )
 
@@ -48,22 +50,50 @@ func New(name string, flags int) *DynamicLibrary {
 	}
 }
 
+func withOSLock(action func() error) error {
+	runtime.LockOSThread()
+	defer runtime.UnlockOSThread()
+
+	return action()
+}
+
+func dlError() error {
+	lastErr := C.dlerror()
+	if lastErr == nil {
+		return nil
+	}
+	return errors.New(C.GoString(lastErr))
+}
+
 func (dl *DynamicLibrary) Open() error {
 	name := C.CString(dl.Name)
 	defer C.free(unsafe.Pointer(name))
 
-	handle := C.dlopen(name, C.int(dl.Flags))
-	if handle == C.NULL {
-		return fmt.Errorf("%s", C.GoString(C.dlerror()))
+	if err := withOSLock(func() error {
+		handle := C.dlopen(name, C.int(dl.Flags))
+		if handle == nil {
+			return dlError()
+		}
+		dl.handle = handle
+		return nil
+	}); err != nil {
+		return err
 	}
-	dl.handle = handle
 	return nil
 }
 
 func (dl *DynamicLibrary) Close() error {
-	err := C.dlclose(dl.handle)
-	if err != 0 {
-		return fmt.Errorf("%s", C.GoString(C.dlerror()))
+	if dl.handle == nil {
+		return nil
+	}
+	if err := withOSLock(func() error {
+		if C.dlclose(dl.handle) != 0 {
+			return dlError()
+		}
+		dl.handle = nil
+		return nil
+	}); err != nil {
+		return err
 	}
 	return nil
 }
@@ -72,11 +102,17 @@ func (dl *DynamicLibrary) Lookup(symbol string) error {
 	sym := C.CString(symbol)
 	defer C.free(unsafe.Pointer(sym))
 
-	C.dlerror() // Clear out any previous errors
-	C.dlsym(dl.handle, sym)
-	err := C.dlerror()
-	if unsafe.Pointer(err) == C.NULL {
+	var pointer unsafe.Pointer
+	if err := withOSLock(func() error {
+		// Call dlError() to clear out any previous errors.
+		dlError()
+		pointer = C.dlsym(dl.handle, sym)
+		if pointer == nil {
+			return fmt.Errorf("symbol %q not found: %w", symbol, dlError())
+		}
 		return nil
+	}); err != nil {
+		return err
 	}
-	return fmt.Errorf("%s", C.GoString(err))
+	return nil
 }

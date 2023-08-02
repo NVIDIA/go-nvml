@@ -19,6 +19,7 @@ import (
 )
 
 func TestNew(t *testing.T) {
+	t.Parallel()
 	dl := New("libc.so", RTLD_LAZY|RTLD_GLOBAL)
 
 	if dl == nil {
@@ -27,6 +28,7 @@ func TestNew(t *testing.T) {
 }
 
 func TestOpenSuccess(t *testing.T) {
+	t.Parallel()
 	dl := New("libdl.so", RTLD_LAZY|RTLD_GLOBAL)
 
 	err := dl.Open()
@@ -38,6 +40,7 @@ func TestOpenSuccess(t *testing.T) {
 }
 
 func TestOpenFailed(t *testing.T) {
+	t.Parallel()
 	dl := New("libbogusbadname.so", RTLD_LAZY|RTLD_GLOBAL)
 
 	err := dl.Open()
@@ -46,7 +49,38 @@ func TestOpenFailed(t *testing.T) {
 	}
 }
 
+func TestOpenTwice(t *testing.T) {
+	t.Parallel()
+	dl1 := New("libdl.so", RTLD_LAZY|RTLD_GLOBAL)
+	dl2 := New("libdl.so", RTLD_LAZY|RTLD_GLOBAL)
+
+	err := dl1.Open()
+	if err != nil {
+		t.Fatalf("First dlopen finished with error: %v", err)
+	}
+
+	err = dl2.Open()
+	if err != nil {
+		t.Fatalf("Second dlopen finished with error: %v", err)
+	}
+
+	if dl1.handle != dl2.handle {
+		t.Fatal("Two handles must be same")
+	}
+
+	err = dl1.Close()
+	if err != nil {
+		t.Fatalf("First dlclose finished with error: %v", err)
+	}
+
+	err = dl2.Close()
+	if err != nil {
+		t.Fatalf("Second dlclose finished with error: %v", err)
+	}
+}
+
 func TestClose(t *testing.T) {
+	t.Parallel()
 	dl := New("libdl.so", RTLD_LAZY|RTLD_GLOBAL)
 
 	dl.Open()
@@ -57,6 +91,7 @@ func TestClose(t *testing.T) {
 }
 
 func TestLookupSuccess(t *testing.T) {
+	t.Parallel()
 	dl := New("libdl.so", RTLD_LAZY|RTLD_GLOBAL)
 
 	dl.Open()
@@ -69,6 +104,7 @@ func TestLookupSuccess(t *testing.T) {
 }
 
 func TestLookupFailed(t *testing.T) {
+	t.Parallel()
 	dl := New("libdl.so", RTLD_LAZY|RTLD_GLOBAL)
 
 	dl.Open()
