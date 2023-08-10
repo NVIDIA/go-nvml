@@ -2,7 +2,7 @@ name: Run pre sanity
 
 # run this workflow for each commit
 on: [pull_request]
-
+# add dummy commit
 jobs:
   build:
     runs-on: ubuntu-latest
