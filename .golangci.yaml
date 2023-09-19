@@ -1,0 +1,17 @@
+# please keep this alphabetized
+linters:
+  enable: []
+  disable:
+    - asciicheck
+    - contextcheck
+    - forcetypeassert
+    - gocritic
+    - godot
+    - gofmt
+    - goimports
+    - misspell
+    - stylecheck
+
+run:
+  tests: true
+  timeout: 10m

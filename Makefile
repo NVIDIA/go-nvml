@@ -43,7 +43,7 @@ EXAMPLE_TARGETS := $(patsubst %,example-%, $(EXAMPLES))
 CMDS := $(patsubst ./cmd/%/,%,$(sort $(dir $(wildcard ./cmd/*/))))
 CMD_TARGETS := $(patsubst %,cmd-%, $(CMDS))
 
-CHECK_TARGETS := assert-fmt vet lint
+CHECK_TARGETS := golangci-lint
 
 MAKE_TARGETS := binary build all fmt generate test coverage check examples update-nvml-h
 
@@ -68,28 +68,11 @@ fmt:
 	go list -f '{{.Dir}}' $(MODULE)/... \
 		| xargs gofmt -s -l -w
 
-assert-fmt:
-	go list -f '{{.Dir}}' $(MODULE)/... \
-		| xargs gofmt -s -l > fmt.out
-	@if [ -s fmt.out ]; then \
-		echo "\nERROR: The following files are not formatted:\n"; \
-		cat fmt.out; \
-		rm fmt.out; \
-		exit 1; \
-	else \
-		rm fmt.out; \
-	fi
+golangci-lint:
+	golangci-lint run ./pkg/...
 
 generate:
 	go generate $(MODULE)/...
-
-lint:
-	# We use `go list -f '{{.Dir}}' $(MODULE)/...` to skip the `vendor` folder.
-	# One we have fixed the linting issues, we whould add -set_exit_status
-	go list -f '{{.Dir}}' $(MODULE)/... | grep -v pkg/nvml | xargs golint
-
-vet:
-	go vet $(MODULE)/...
 
 COVERAGE_FILE := coverage.out
 test: build
@@ -126,6 +109,7 @@ $(DOCKER_TARGETS): docker-%: .build-image
 		--rm \
 		-e GOCACHE=$(PWD)/.cache/go \
 		-e GOPATH=$(PWD)/.cache/gopath \
+		-e GOLANGCI_LINT_CACHE=/tmp/.cache \
 		-v $(PWD):$(PWD) \
 		-w $(PWD) \
 		--user $$(id -u):$$(id -g) \
@@ -140,6 +124,7 @@ PHONY: .shell
 		-ti \
 		-e GOCACHE=$(PWD)/.cache/go \
 		-e GOPATH=$(PWD)/.cache/gopath \
+		-e GOLANGCI_LINT_CACHE=/tmp/.cache \
 		-v $(PWD):$(PWD) \
 		-w $(PWD) \
 		--user $$(id -u):$$(id -g) \
