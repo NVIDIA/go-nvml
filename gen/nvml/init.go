@@ -14,10 +14,6 @@
 
 package nvml
 
-import (
-	"fmt"
-)
-
 import "C"
 
 // nvml.Init()
@@ -45,7 +41,7 @@ func Shutdown() Return {
 
 	err := libnvml.close()
 	if err != nil {
-		panic(fmt.Sprintf("error closing %s: %v", nvmlLibraryName, err))
+		panic(err)
 	}
 
 	return ret
