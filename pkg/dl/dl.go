@@ -35,16 +35,22 @@ const (
 	RTLD_NOLOAD   = C.RTLD_NOLOAD
 )
 
+type Config struct {
+	Name  string
+	Flags int
+}
+
 type DynamicLibrary struct {
-	Name   string
-	Flags  int
+	Config
 	handle unsafe.Pointer
 }
 
 func New(name string, flags int) *DynamicLibrary {
 	return &DynamicLibrary{
-		Name:   name,
-		Flags:  flags,
+		Config: Config{
+			Name:  name,
+			Flags: flags,
+		},
 		handle: nil,
 	}
 }
