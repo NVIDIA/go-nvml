@@ -18,6 +18,7 @@ PKG_DIR := $(PWD)/pkg
 GEN_BINDINGS_DIR := $(GEN_DIR)/nvml
 PKG_BINDINGS_DIR := $(PKG_DIR)/nvml
 
+DOCKER ?= docker
 ifeq ($(shell uname),Darwin)
 	SED := $(DOCKER) run -it --rm -v "$(PWD):$(PWD)" -w "$(PWD)" alpine:latest sed
 else
@@ -25,8 +26,6 @@ else
 endif
 
 MODULE := github.com/NVIDIA/go-nvml/pkg
-
-DOCKER ?= docker
 
 GOLANG_VERSION ?= 1.18.10
 C_FOR_GO_TAG ?= 8eeee8c3b71f9c3c90c4a73db54ed08b0bba971d
@@ -46,7 +45,7 @@ CMD_TARGETS := $(patsubst %,cmd-%, $(CMDS))
 
 CHECK_TARGETS := assert-fmt vet lint
 
-MAKE_TARGETS := binary build all fmt generate test coverage check examples
+MAKE_TARGETS := binary build all fmt generate test coverage check examples update-nvml-h
 
 GENERATE_TARGETS := clean bindings test-bindings clean-bindings patch-nvml-h
 
