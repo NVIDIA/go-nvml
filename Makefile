@@ -27,7 +27,7 @@ endif
 
 MODULE := github.com/NVIDIA/go-nvml/pkg
 
-GOLANG_VERSION ?= 1.18.10
+GOLANG_VERSION ?= 1.20.4
 C_FOR_GO_TAG ?= 8eeee8c3b71f9c3c90c4a73db54ed08b0bba971d
 
 ifeq ($(IMAGE),)
