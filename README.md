@@ -321,7 +321,7 @@ symbols include the following (as defined in `nvml.h`):
 The actual versions that these API calls are assigned to will depend on the
 version of the NVIDIA driver (and hence the version of `libnvidia-ml.so` that
 you have linked in). These updates happen in the `updateVersionedSymbols()`
-function of `gen/nvml/init.go` as seen below.
+function of `gen/nvml/lib.go` as seen below.
 
 ```go
 // Default all versioned APIs to v1 (to infer the types)
@@ -330,21 +330,24 @@ var nvmlDeviceGetPciInfo = nvmlDeviceGetPciInfo_v1
 var nvmlDeviceGetCount = nvmlDeviceGetCount_v1
 ...
 
-// updateVersionedSymbols()
-func updateVersionedSymbols() {
-	ret := nvml.Lookup("nvmlInit_v2")
+// updateVersionedSymbols checks for versioned symbols in the loaded dynamic library.
+// If newer versioned symbols exist, these replace the default `v1` symbols initialized above.
+// When new versioned symbols are added, these would have to be initialized above and have
+// corresponding checks and subsequent assignments added below.
+func (l *library) updateVersionedSymbols() {
+	ret := l.Lookup("nvmlInit_v2")
 	if ret == SUCCESS {
 		nvmlInit = nvmlInit_v2
 	}
-	ret = nvml.Lookup("nvmlDeviceGetPciInfo_v2")
+	ret = l.Lookup("nvmlDeviceGetPciInfo_v2")
 	if ret == SUCCESS {
 		nvmlDeviceGetPciInfo = nvmlDeviceGetPciInfo_v2
 	}
-	ret = nvml.Lookup("nvmlDeviceGetPciInfo_v3")
+	ret = l.Lookup("nvmlDeviceGetPciInfo_v3")
 	if ret == SUCCESS {
 		nvmlDeviceGetPciInfo = nvmlDeviceGetPciInfo_v3
 	}
-	ret = nvml.Lookup("nvmlDeviceGetCount_v2")
+	ret = l.Lookup("nvmlDeviceGetCount_v2")
 	if ret == SUCCESS {
 		nvmlDeviceGetCount = nvmlDeviceGetCount_v2
 	}
