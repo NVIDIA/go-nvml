@@ -29,7 +29,7 @@ func TestNew(t *testing.T) {
 
 func TestOpenSuccess(t *testing.T) {
 	t.Parallel()
-	dl := New("libdl.so", RTLD_LAZY|RTLD_GLOBAL)
+	dl := New("libdl.so.2", RTLD_LAZY|RTLD_GLOBAL)
 
 	err := dl.Open()
 	defer dl.Close()
@@ -51,8 +51,8 @@ func TestOpenFailed(t *testing.T) {
 
 func TestOpenTwice(t *testing.T) {
 	t.Parallel()
-	dl1 := New("libdl.so", RTLD_LAZY|RTLD_GLOBAL)
-	dl2 := New("libdl.so", RTLD_LAZY|RTLD_GLOBAL)
+	dl1 := New("libdl.so.2", RTLD_LAZY|RTLD_GLOBAL)
+	dl2 := New("libdl.so.2", RTLD_LAZY|RTLD_GLOBAL)
 
 	err := dl1.Open()
 	if err != nil {
@@ -81,7 +81,7 @@ func TestOpenTwice(t *testing.T) {
 
 func TestClose(t *testing.T) {
 	t.Parallel()
-	dl := New("libdl.so", RTLD_LAZY|RTLD_GLOBAL)
+	dl := New("libdl.so.2", RTLD_LAZY|RTLD_GLOBAL)
 
 	dl.Open()
 	err := dl.Close()
@@ -92,7 +92,7 @@ func TestClose(t *testing.T) {
 
 func TestLookupSuccess(t *testing.T) {
 	t.Parallel()
-	dl := New("libdl.so", RTLD_LAZY|RTLD_GLOBAL)
+	dl := New("libdl.so.2", RTLD_LAZY|RTLD_GLOBAL)
 
 	dl.Open()
 	defer dl.Close()
@@ -105,7 +105,7 @@ func TestLookupSuccess(t *testing.T) {
 
 func TestLookupFailed(t *testing.T) {
 	t.Parallel()
-	dl := New("libdl.so", RTLD_LAZY|RTLD_GLOBAL)
+	dl := New("libdl.so.2", RTLD_LAZY|RTLD_GLOBAL)
 
 	dl.Open()
 	defer dl.Close()
