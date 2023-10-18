@@ -93,13 +93,11 @@ vet:
 
 COVERAGE_FILE := coverage.out
 test: build
-	# go test -v -coverprofile=$(COVERAGE_FILE) $(MODULE)/...
-	@echo "TODO: Skipping tests for now"
+	go test -v -coverprofile=$(COVERAGE_FILE) $(MODULE)/...
 
 coverage: test
-	# cat $(COVERAGE_FILE) | grep -v "_mock.go" > $(COVERAGE_FILE).no-mocks
-	# go tool cover -func=$(COVERAGE_FILE).no-mocks
-	@echo "TODO: Skipping coverage for now"
+	cat $(COVERAGE_FILE) | grep -v "_mock.go" > $(COVERAGE_FILE).no-mocks
+	go tool cover -func=$(COVERAGE_FILE).no-mocks
 
 # Generate an image for containerized builds
 # Note: This image is local only
