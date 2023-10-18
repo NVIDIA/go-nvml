@@ -15,8 +15,6 @@
 package nvml
 
 import (
-	"fmt"
-
 	"github.com/NVIDIA/go-nvml/pkg/dl"
 )
 
@@ -30,45 +28,45 @@ const (
 var nvml *dl.DynamicLibrary
 
 // nvml.Init()
-func Init() Return {
+func Init() (Return, error) {
 	lib := dl.New(nvmlLibraryName, nvmlLibraryLoadFlags)
 	err := lib.Open()
 	if err != nil {
-		return ERROR_LIBRARY_NOT_FOUND
+		return ERROR_LIBRARY_NOT_FOUND, err
 	}
 
 	nvml = lib
 	updateVersionedSymbols()
 
-	return nvmlInit()
+	return nvmlInit(), nil
 }
 
 // nvml.InitWithFlags()
-func InitWithFlags(Flags uint32) Return {
+func InitWithFlags(Flags uint32) (Return, error) {
 	lib := dl.New(nvmlLibraryName, nvmlLibraryLoadFlags)
 	err := lib.Open()
 	if err != nil {
-		return ERROR_LIBRARY_NOT_FOUND
+		return ERROR_LIBRARY_NOT_FOUND, err
 	}
 
 	nvml = lib
 
-	return nvmlInitWithFlags(Flags)
+	return nvmlInitWithFlags(Flags), nil
 }
 
 // nvml.Shutdown()
-func Shutdown() Return {
+func Shutdown() (Return, error) {
 	ret := nvmlShutdown()
 	if ret != SUCCESS {
-		return ret
+		return ret, nil
 	}
 
 	err := nvml.Close()
 	if err != nil {
-		panic(fmt.Sprintf("error closing %s: %v", nvmlLibraryName, err))
+		return ret, err
 	}
 
-	return ret
+	return ret, nil
 }
 
 // Default all versioned APIs to v1 (to infer the types)

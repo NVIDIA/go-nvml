@@ -19,18 +19,24 @@ import (
 )
 
 func TestInit(t *testing.T) {
-	ret := Init()
+	ret, err := Init()
+	if err != nil {
+		t.Errorf("NVML open: %v", err)
+	}
 	if ret != SUCCESS {
 		t.Errorf("Init: %v", ret)
 	} else {
 		t.Logf("Init: %v", ret)
 	}
 
-	ret = Shutdown()
+	ret, err = Shutdown()
 	if ret != SUCCESS {
 		t.Errorf("Shutdown: %v", ret)
 	} else {
 		t.Logf("Shutdown: %v", ret)
+	}
+	if err != nil {
+		t.Errorf("NVML close: %v", err)
 	}
 }
 
