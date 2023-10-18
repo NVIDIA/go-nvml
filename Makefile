@@ -20,7 +20,7 @@ PKG_BINDINGS_DIR := $(PKG_DIR)/nvml
 
 DOCKER ?= docker
 ifeq ($(shell uname),Darwin)
-	SED := $(DOCKER) run -it --rm -v "$(PWD):$(PWD)" -w "$(PWD)" alpine:latest sed
+	SED := $(DOCKER) run -i --rm -v "$(PWD):$(PWD)" -w "$(PWD)" alpine:latest sed
 else
 	SED := sed
 endif
