@@ -54,14 +54,12 @@ TARGETS := $(MAKE_TARGETS) $(EXAMPLE_TARGETS) $(CMD_TARGETS) $(GENERATE_TARGETS)
 DOCKER_TARGETS := $(patsubst %,docker-%, $(TARGETS))
 .PHONY: $(TARGETS) $(DOCKER_TARGETS)
 
-GOOS := linux
-
 build:
-	GOOS=$(GOOS) go build $(MODULE)/...
+	go build $(MODULE)/...
 
 examples: $(EXAMPLE_TARGETS)
 $(EXAMPLE_TARGETS): example-%:
-	GOOS=$(GOOS) go build ./examples/$(*)
+	go build ./examples/$(*)
 
 check: $(CHECK_TARGETS)
 
