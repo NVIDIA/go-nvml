@@ -16,9 +16,21 @@ package nvml
 
 import (
 	"testing"
+
+	"github.com/NVIDIA/go-nvml/pkg/dl"
 )
 
+func requireLibNvidiaML(t *testing.T) {
+	lib := dl.New(nvmlLibraryName, nvmlLibraryLoadFlags)
+	if err := lib.Open(); err != nil {
+		t.Skipf("This test requires %v", nvmlLibraryName)
+	}
+	lib.Close()
+}
+
 func TestInit(t *testing.T) {
+	requireLibNvidiaML(t)
+
 	ret := Init()
 	if ret != SUCCESS {
 		t.Errorf("Init: %v", ret)
@@ -35,6 +47,8 @@ func TestInit(t *testing.T) {
 }
 
 func TestSystem(t *testing.T) {
+	requireLibNvidiaML(t)
+
 	Init()
 	defer Shutdown()
 
@@ -102,6 +116,8 @@ func TestSystem(t *testing.T) {
 }
 
 func TestUnit(t *testing.T) {
+	requireLibNvidiaML(t)
+
 	Init()
 	defer Shutdown()
 
@@ -243,6 +259,8 @@ func TestUnit(t *testing.T) {
 }
 
 func TestEventSet(t *testing.T) {
+	requireLibNvidiaML(t)
+
 	Init()
 	defer Shutdown()
 

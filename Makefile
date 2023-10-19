@@ -93,13 +93,11 @@ vet:
 
 COVERAGE_FILE := coverage.out
 test: build
-	# go test -v -coverprofile=$(COVERAGE_FILE) $(MODULE)/...
-	@echo "TODO: Skipping tests for now"
+	go test -v -coverprofile=$(COVERAGE_FILE) $(MODULE)/...
 
 coverage: test
-	# cat $(COVERAGE_FILE) | grep -v "_mock.go" > $(COVERAGE_FILE).no-mocks
-	# go tool cover -func=$(COVERAGE_FILE).no-mocks
-	@echo "TODO: Skipping coverage for now"
+	cat $(COVERAGE_FILE) | grep -v "_mock.go" > $(COVERAGE_FILE).no-mocks
+	go tool cover -func=$(COVERAGE_FILE).no-mocks
 
 # Generate an image for containerized builds
 # Note: This image is local only
@@ -126,7 +124,8 @@ $(DOCKER_TARGETS): docker-%: .build-image
 	@echo "Running 'make $(*)' in docker container $(BUILDIMAGE)"
 	$(DOCKER) run \
 		--rm \
-		-e GOCACHE=/tmp/.cache \
+		-e GOCACHE=$(PWD)/.cache/go \
+		-e GOPATH=$(PWD)/.cache/gopath \
 		-v $(PWD):$(PWD) \
 		-w $(PWD) \
 		--user $$(id -u):$$(id -g) \
@@ -139,7 +138,8 @@ PHONY: .shell
 	$(DOCKER) run \
 		--rm \
 		-ti \
-		-e GOCACHE=/tmp/.cache \
+		-e GOCACHE=$(PWD)/.cache/go \
+		-e GOPATH=$(PWD)/.cache/gopath \
 		-v $(PWD):$(PWD) \
 		-w $(PWD) \
 		--user $$(id -u):$$(id -g) \
