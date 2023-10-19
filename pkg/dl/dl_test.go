@@ -15,8 +15,15 @@
 package dl
 
 import (
+	"runtime"
 	"testing"
 )
+
+func skipOnMacOS(t *testing.T) {
+	if runtime.GOOS == "darwin" {
+		t.Skip("libdl.so is not available on macOS")
+	}
+}
 
 func TestNew(t *testing.T) {
 	t.Parallel()
@@ -28,6 +35,8 @@ func TestNew(t *testing.T) {
 }
 
 func TestOpenSuccess(t *testing.T) {
+	skipOnMacOS(t)
+
 	t.Parallel()
 	dl := New("libdl.so.2", RTLD_LAZY|RTLD_GLOBAL)
 
@@ -50,6 +59,8 @@ func TestOpenFailed(t *testing.T) {
 }
 
 func TestOpenTwice(t *testing.T) {
+	skipOnMacOS(t)
+
 	t.Parallel()
 	dl1 := New("libdl.so.2", RTLD_LAZY|RTLD_GLOBAL)
 	dl2 := New("libdl.so.2", RTLD_LAZY|RTLD_GLOBAL)
@@ -80,6 +91,8 @@ func TestOpenTwice(t *testing.T) {
 }
 
 func TestClose(t *testing.T) {
+	skipOnMacOS(t)
+
 	t.Parallel()
 	dl := New("libdl.so.2", RTLD_LAZY|RTLD_GLOBAL)
 
@@ -91,6 +104,8 @@ func TestClose(t *testing.T) {
 }
 
 func TestLookupSuccess(t *testing.T) {
+	skipOnMacOS(t)
+
 	t.Parallel()
 	dl := New("libdl.so.2", RTLD_LAZY|RTLD_GLOBAL)
 
@@ -104,6 +119,8 @@ func TestLookupSuccess(t *testing.T) {
 }
 
 func TestLookupFailed(t *testing.T) {
+	skipOnMacOS(t)
+
 	t.Parallel()
 	dl := New("libdl.so.2", RTLD_LAZY|RTLD_GLOBAL)
 
