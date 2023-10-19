@@ -27,8 +27,8 @@ import (
 import "C"
 
 const (
-	nvmlLibraryName      = "libnvidia-ml.so.1"
-	nvmlLibraryLoadFlags = dl.RTLD_LAZY | dl.RTLD_GLOBAL
+	defaultNvmlLibraryName      = "libnvidia-ml.so.1"
+	defaultNvmlLibraryLoadFlags = dl.RTLD_LAZY | dl.RTLD_GLOBAL
 )
 
 var errLibraryNotLoaded = errors.New("library not loaded")
@@ -37,11 +37,16 @@ var errLibraryNotLoaded = errors.New("library not loaded")
 // This includes a reference to the underlying DynamicLibrary
 type library struct {
 	sync.Mutex
-	dl dynamicLibrary
+	path  string
+	flags int
+	dl    dynamicLibrary
 }
 
 // lib is a global instance of the nvml library.
-var lib library
+var lib = library{
+	path:  defaultNvmlLibraryName,
+	flags: defaultNvmlLibraryLoadFlags,
+}
 
 var _ Interface = (*library)(nil)
 
@@ -66,8 +71,8 @@ func (l *library) Lookup(name string) error {
 }
 
 // newDynamicLibrary is a function variable that can be overridden for testing.
-var newDynamicLibrary = func(name string, flags int) dynamicLibrary {
-	return dl.New(name, flags)
+var newDynamicLibrary = func(path string, flags int) dynamicLibrary {
+	return dl.New(path, flags)
 }
 
 // load initializes the library and updates the versioned symbols.
@@ -78,19 +83,21 @@ func (l *library) load() error {
 		return nil
 	}
 
-	dl := newDynamicLibrary(nvmlLibraryName, nvmlLibraryLoadFlags)
+	dl := dl.New(l.path, l.flags)
 	err := dl.Open()
 	if err != nil {
-		return err
+		return fmt.Errorf("error opening %s: %v", l.path, err)
 	}
 
-	lib.dl = dl
+	l.dl = dl
 	l.updateVersionedSymbols()
 
 	return nil
 }
 
-// close the associated dynamic library if required.
+// close the underlying library and ensure that the global pointer to the
+// library is set to nil to ensure that subsequent calls to open will reinitialize it.
+// Multiple calls to an already closed nvml library will return without error.
 func (l *library) close() error {
 	l.Lock()
 	defer l.Unlock()
@@ -101,7 +108,7 @@ func (l *library) close() error {
 
 	err := l.dl.Close()
 	if err != nil {
-		return fmt.Errorf("error closing %s: %w", nvmlLibraryName, err)
+		return fmt.Errorf("error closing %s: %v", l.path, err)
 	}
 
 	l.dl = nil
@@ -129,7 +136,9 @@ var GetBlacklistDeviceInfoByIndex = GetExcludedDeviceInfoByIndex
 var nvmlDeviceGetGpuInstancePossiblePlacements = nvmlDeviceGetGpuInstancePossiblePlacements_v1
 var nvmlVgpuInstanceGetLicenseInfo = nvmlVgpuInstanceGetLicenseInfo_v1
 
+// BlacklistDeviceInfo was replaced by ExcludedDeviceInfo
 type BlacklistDeviceInfo = ExcludedDeviceInfo
+
 type ProcessInfo_v1Slice []ProcessInfo_v1
 type ProcessInfo_v2Slice []ProcessInfo_v2
 
@@ -161,7 +170,10 @@ func (pis ProcessInfo_v2Slice) ToProcessInfoSlice() []ProcessInfo {
 	return newInfos
 }
 
-// updateVersionedSymbols ensures that the global nvml* symbols are updated to their correct counterparts.
+// updateVersionedSymbols checks for versioned symbols in the loaded dynamic library.
+// If newer versioned symbols exist, these replace the default `v1` symbols initialized above.
+// When new versioned symbols are added, these would have to be initialized above and have
+// corresponding checks and subsequent assignments added below.
 func (l *library) updateVersionedSymbols() {
 	err := l.Lookup("nvmlInit_v2")
 	if err == nil {
@@ -252,5 +264,31 @@ func (l *library) updateVersionedSymbols() {
 	err = l.Lookup("nvmlVgpuInstanceGetLicenseInfo_v2")
 	if err == nil {
 		nvmlVgpuInstanceGetLicenseInfo = nvmlVgpuInstanceGetLicenseInfo_v2
+	}
+}
+
+// Option represents a functional option to configure the underlying NVML library
+type Option func(*library)
+
+// WithLibraryPath provides an option to set the library name to be used by the NVML library.
+func WithLibraryPath(path string) Option {
+	return func(l *library) {
+		l.path = path
+	}
+}
+
+// SetLibOptions applies the specified options to the NVML library.
+func SetLibOptions(opts ...Option) {
+	lib.Lock()
+	defer lib.Unlock()
+	for _, opt := range opts {
+		opt(&lib)
+	}
+
+	if lib.path == "" {
+		lib.path = defaultNvmlLibraryName
+	}
+	if lib.flags == 0 {
+		lib.flags = defaultNvmlLibraryLoadFlags
 	}
 }
