@@ -119,11 +119,11 @@ func TestLookupFromDefault(t *testing.T) {
 		t.Run(tc.description, func(t *testing.T) {
 			defer setNewDynamicLibraryDuringTest(tc.library)()
 			defer resetLibrary()
-			l := Default()
+			l := GetLibrary()
 			if !tc.skipLoadLibrary {
 				require.ErrorIs(t, libnvml.load(), tc.expectedLoadError)
 			}
-			require.ErrorIs(t, l.Library().Lookup("symbol"), tc.expectedLookupErrror)
+			require.ErrorIs(t, l.Lookup("symbol"), tc.expectedLookupErrror)
 			require.ErrorIs(t, libnvml.close(), tc.expectedCloseError)
 			if tc.expectedCloseError == nil {
 				require.Nil(t, libnvml.dl)
@@ -146,5 +146,8 @@ func setNewDynamicLibraryDuringTest(dl dynamicLibrary) func() {
 }
 
 func resetLibrary() {
-	libnvml = library{}
+	libnvml = library{
+		path:  defaultNvmlLibraryName,
+		flags: defaultNvmlLibraryLoadFlags,
+	}
 }

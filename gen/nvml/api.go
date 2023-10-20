@@ -33,5 +33,5 @@ type dynamicLibrary interface {
 
 // Interface represents the interace for the NVML library.
 type Interface interface {
-	Library() Library
+	GetLibrary() Library
 }

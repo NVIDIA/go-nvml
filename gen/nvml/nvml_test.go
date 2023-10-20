@@ -21,9 +21,9 @@ import (
 )
 
 func requireLibNvidiaML(t *testing.T) {
-	lib := dl.New(nvmlLibraryName, nvmlLibraryLoadFlags)
+	lib := dl.New(defaultNvmlLibraryName, defaultNvmlLibraryLoadFlags)
 	if err := lib.Open(); err != nil {
-		t.Skipf("This test requires %v", nvmlLibraryName)
+		t.Skipf("This test requires %v", defaultNvmlLibraryName)
 	}
 	lib.Close()
 }
