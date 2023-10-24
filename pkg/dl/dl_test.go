@@ -96,7 +96,7 @@ func TestClose(t *testing.T) {
 	t.Parallel()
 	dl := New("libdl.so.2", RTLD_LAZY|RTLD_GLOBAL)
 
-	dl.Open()
+	_ = dl.Open()
 	err := dl.Close()
 	if err != nil {
 		t.Errorf("Error closing shared lib: %v", err)
@@ -109,7 +109,7 @@ func TestLookupSuccess(t *testing.T) {
 	t.Parallel()
 	dl := New("libdl.so.2", RTLD_LAZY|RTLD_GLOBAL)
 
-	dl.Open()
+	_ = dl.Open()
 	defer dl.Close()
 
 	err := dl.Lookup("dlsym")
@@ -124,7 +124,7 @@ func TestLookupFailed(t *testing.T) {
 	t.Parallel()
 	dl := New("libdl.so.2", RTLD_LAZY|RTLD_GLOBAL)
 
-	dl.Open()
+	_ = dl.Open()
 	defer dl.Close()
 
 	err := dl.Lookup("bogus")
