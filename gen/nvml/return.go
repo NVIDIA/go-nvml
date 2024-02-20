@@ -21,9 +21,9 @@ import (
 // nvml.ErrorString()
 func ErrorString(r Return) string {
 	if err := GetLibrary().Lookup("nvmlErrorString"); err != nil {
-		return nvmlErrorString(r)
+		return fallbackErrorStringFunc(r)
 	}
-	return fallbackErrorStringFunc(r)
+	return nvmlErrorString(r)
 }
 
 // fallbackErrorStringFunc provides a basic nvmlErrorString implementation.
