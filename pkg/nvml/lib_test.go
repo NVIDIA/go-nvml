@@ -134,6 +134,117 @@ func TestLookupFromDefault(t *testing.T) {
 	}
 }
 
+func TestLoadAndCloseNesting(t *testing.T) {
+	dl := &dynamicLibraryMock{
+		OpenFunc: func() error {
+			return nil
+		},
+		CloseFunc: func() error {
+			return nil
+		},
+	}
+
+	defer setNewDynamicLibraryDuringTest(dl)()
+	defer resetLibrary()
+
+	// When calling close before opening the library nothing happens.
+	require.Equal(t, 0, len(dl.calls.Close))
+	require.Nil(t, libnvml.close())
+	require.Equal(t, 0, len(dl.calls.Close))
+
+	// When calling load twice, the library was only opened once
+	require.Equal(t, 0, len(dl.calls.Open))
+	require.Nil(t, libnvml.load())
+	require.Equal(t, 1, len(dl.calls.Open))
+	require.Nil(t, libnvml.load())
+	require.Equal(t, 1, len(dl.calls.Open))
+
+	// Only after calling close twice, was the library closed
+	require.Equal(t, 0, len(dl.calls.Close))
+	require.Nil(t, libnvml.close())
+	require.Equal(t, 0, len(dl.calls.Close))
+	require.Nil(t, libnvml.close())
+	require.Equal(t, 1, len(dl.calls.Close))
+
+	// Calling close again doesn't attempt to close the library again
+	require.Nil(t, libnvml.close())
+	require.Equal(t, 1, len(dl.calls.Close))
+}
+
+func TestLoadAndCloseWithErrors(t *testing.T) {
+	testCases := []struct {
+		description           string
+		dl                    dynamicLibrary
+		expectedLoadRefcount  refcount
+		expectedCloseRefcount refcount
+	}{
+		{
+			description: "regular flow",
+			dl: &dynamicLibraryMock{
+				OpenFunc: func() error {
+					return nil
+				},
+				CloseFunc: func() error {
+					return nil
+				},
+			},
+			expectedLoadRefcount:  1,
+			expectedCloseRefcount: 0,
+		},
+		{
+			description: "open error",
+			dl: &dynamicLibraryMock{
+				OpenFunc: func() error {
+					return errors.New("")
+				},
+				CloseFunc: func() error {
+					return nil
+				},
+			},
+			expectedLoadRefcount:  0,
+			expectedCloseRefcount: 0,
+		},
+		{
+			description: "close error",
+			dl: &dynamicLibraryMock{
+				OpenFunc: func() error {
+					return nil
+				},
+				CloseFunc: func() error {
+					return errors.New("")
+				},
+			},
+			expectedLoadRefcount:  1,
+			expectedCloseRefcount: 1,
+		},
+		{
+			description: "open and close error",
+			dl: &dynamicLibraryMock{
+				OpenFunc: func() error {
+					return errors.New("")
+				},
+				CloseFunc: func() error {
+					return errors.New("")
+				},
+			},
+			expectedLoadRefcount:  0,
+			expectedCloseRefcount: 0,
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.description, func(t *testing.T) {
+			defer setNewDynamicLibraryDuringTest(tc.dl)()
+			defer resetLibrary()
+
+			_ = libnvml.load()
+			require.Equal(t, tc.expectedLoadRefcount, libnvml.refcount)
+			_ = libnvml.close()
+			require.Equal(t, tc.expectedCloseRefcount, libnvml.refcount)
+		})
+	}
+}
+
 func setNewDynamicLibraryDuringTest(dl dynamicLibrary) func() {
 	original := newDynamicLibrary
 	newDynamicLibrary = func(string, int) dynamicLibrary {
