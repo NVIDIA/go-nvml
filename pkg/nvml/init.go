@@ -41,7 +41,7 @@ func Shutdown() Return {
 
 	err := libnvml.close()
 	if err != nil {
-		panic(err)
+		return ERROR_UNKNOWN
 	}
 
 	return ret
