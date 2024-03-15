@@ -124,11 +124,6 @@ PHONY: .shell
 SOURCES = $(shell find $(GEN_BINDINGS_DIR) -type f)
 
 .DEFAULT_GOAL = bindings
-
-# In order to build the packages we need to patch the nvml.h file
-build: bindings
-
-test: test-bindings
 clean: clean-bindings
 
 $(PKG_BINDINGS_DIR):
