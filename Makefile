@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+include $(CURDIR)/versions.mk
+
 PWD := $(shell pwd)
 GEN_DIR := $(PWD)/gen
 PKG_DIR := $(PWD)/pkg
@@ -24,18 +26,6 @@ ifeq ($(shell uname),Darwin)
 else
 	SED := sed
 endif
-
-MODULE := github.com/NVIDIA/go-nvml/pkg
-
-GOLANG_VERSION ?= 1.20.4
-C_FOR_GO_TAG ?= 8eeee8c3b71f9c3c90c4a73db54ed08b0bba971d
-
-ifeq ($(IMAGE),)
-REGISTRY ?= nvidia
-IMAGE=$(REGISTRY)/go-nvml
-endif
-IMAGE_TAG ?= $(GOLANG_VERSION)-$(C_FOR_GO_TAG)
-BUILDIMAGE ?= $(IMAGE):$(IMAGE_TAG)-devel
 
 EXAMPLES := $(patsubst ./examples/%/,%,$(sort $(dir $(wildcard ./examples/*/))))
 EXAMPLE_TARGETS := $(patsubst %,example-%, $(EXAMPLES))
@@ -55,7 +45,7 @@ DOCKER_TARGETS := $(patsubst %,docker-%, $(TARGETS))
 .PHONY: $(TARGETS) $(DOCKER_TARGETS)
 
 build:
-	go build $(MODULE)/...
+	go build $(MODULE)/pkg/...
 
 examples: $(EXAMPLE_TARGETS)
 $(EXAMPLE_TARGETS): example-%:
@@ -65,7 +55,7 @@ check: $(CHECK_TARGETS)
 
 # Apply go fmt to the codebase
 fmt:
-	go list -f '{{.Dir}}' $(MODULE)/... \
+	go list -f '{{.Dir}}' $(MODULE)/pkg/... \
 		| xargs gofmt -s -l -w
 
 golangci-lint:
@@ -76,7 +66,7 @@ generate:
 
 COVERAGE_FILE := coverage.out
 test: build
-	go test -v -coverprofile=$(COVERAGE_FILE) $(MODULE)/...
+	go test -v -coverprofile=$(COVERAGE_FILE) $(MODULE)/pkg/...
 
 coverage: test
 	cat $(COVERAGE_FILE) | grep -v "_mock.go" > $(COVERAGE_FILE).no-mocks
@@ -134,11 +124,6 @@ PHONY: .shell
 SOURCES = $(shell find $(GEN_BINDINGS_DIR) -type f)
 
 .DEFAULT_GOAL = bindings
-
-# In order to build the packages we need to patch the nvml.h file
-build: bindings
-
-test: test-bindings
 clean: clean-bindings
 
 $(PKG_BINDINGS_DIR):
@@ -231,4 +216,3 @@ update-nvml-h:
 markdownlint: MDL := $(DOCKER) run --rm -v "$(PWD):$(PWD)" -w "$(PWD)" markdownlint/markdownlint:latest
 markdownlint:
 	@$(MDL) --rules=~no-hard-tabs,~line-length README.md
-
