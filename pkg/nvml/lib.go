@@ -34,20 +34,27 @@ const (
 var errLibraryNotLoaded = errors.New("library not loaded")
 var errLibraryAlreadyLoaded = errors.New("library already loaded")
 
+// newDynamicLibraryFunc defines a function to create a new dynamicLibrary
+type newDynamicLibraryFunc func(path string, flags int) dynamicLibrary
+
 // library represents an nvml library.
 // This includes a reference to the underlying DynamicLibrary
 type library struct {
 	sync.Mutex
-	path     string
-	flags    int
-	refcount refcount
-	dl       dynamicLibrary
+	path              string
+	flags             int
+	refcount          refcount
+	dl                dynamicLibrary
+	newDynamicLibrary newDynamicLibraryFunc
 }
 
 // libnvml is a global instance of the nvml library.
 var libnvml = library{
 	path:  defaultNvmlLibraryName,
 	flags: defaultNvmlLibraryLoadFlags,
+	newDynamicLibrary: func(path string, flags int) dynamicLibrary {
+		return dl.New(path, flags)
+	},
 }
 
 var _ Interface = (*library)(nil)
@@ -71,11 +78,6 @@ func (l *library) Lookup(name string) error {
 	return l.dl.Lookup(name)
 }
 
-// newDynamicLibrary is a function variable that can be overridden for testing.
-var newDynamicLibrary = func(path string, flags int) dynamicLibrary {
-	return dl.New(path, flags)
-}
-
 // load initializes the library and updates the versioned symbols.
 // Multiple calls to an already loaded library will return without error.
 func (l *library) load() (rerr error) {
@@ -87,7 +89,7 @@ func (l *library) load() (rerr error) {
 		return nil
 	}
 
-	dl := newDynamicLibrary(l.path, l.flags)
+	dl := l.newDynamicLibrary(l.path, l.flags)
 	if err := dl.Open(); err != nil {
 		return fmt.Errorf("error opening %s: %w", l.path, err)
 	}
