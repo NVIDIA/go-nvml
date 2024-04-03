@@ -321,7 +321,7 @@ symbols include the following (as defined in `nvml.h`):
 The actual versions that these API calls are assigned to will depend on the
 version of the NVIDIA driver (and hence the version of `libnvidia-ml.so` that
 you have linked in). These updates happen in the `updateVersionedSymbols()`
-function of `gen/nvml/lib.go` as seen below.
+function of `pkg/nvml/lib.go` as seen below.
 
 ```go
 // Default all versioned APIs to v1 (to infer the types)
@@ -366,8 +366,8 @@ The files below define a set of "glue" code between the auto-generated bindings
 from `c-for-go` and the manual wrappers providing a more user-friendly API to
 the end user.
 
-- `gen/nvml/cgo_helpers.go`
-- `gen/nvml/return.go`
+- `pkg/nvml/cgo_helpers_atatic.go`
+- `pkg/nvml/return.go`
 
 The `cgo_helpers.go` file defines functions that help in dealing with the types
 coming out of the C API and turning them into more usable Go types. It is
@@ -391,12 +391,12 @@ bindings from `c-for-go`. Only these manual wrappers are expected as part of
 the API for the package -- the auto-generated bindings are only available for
 internal use.
 
-- `gen/nvml/init.go`
-- `gen/nvml/system.go`
-- `gen/nvml/event_set.go`
-- `gen/nvml/vgpu.go`
-- `gen/nvml/unit.go`
-- `gen/nvml/device.go`
+- `pkg/nvml/init.go`
+- `pkg/nvml/system.go`
+- `pkg/nvml/event_set.go`
+- `pkg/nvml/vgpu.go`
+- `pkg/nvml/unit.go`
+- `pkg/nvml/device.go`
 
 These wrappers add boiler-plate code around the auto-generated bindings so that
 the end-user doesn't have to do this themselves every time a call is made.
@@ -475,7 +475,7 @@ should be straightforward so long as we keep good pace with each new release.
 
 At present, all test code is under the following file:
 
-- `gen/nvml/nvml_test.go`
+- `pkg/nvml/nvml_test.go`
 
 The test coverage is fairly sparse and could be greatly improved.
 
