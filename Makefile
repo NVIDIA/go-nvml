@@ -165,7 +165,7 @@ clean-bindings:
 	rm -rf $(PKG_BINDINGS_DIR)/nvml.h
 
 # Update nvml.h from the Anaconda package repository
-update-nvml-h: JQ ?= $(DOCKER) run -i --rm -v "$(PWD):$(PWD)" -w "$(PWD)" stedolan/jq:latest
+update-nvml-h: JQ ?= $(DOCKER) run -i --rm -v "$(PWD):$(PWD)" -w "$(PWD)" backplane/jq:latest
 update-nvml-h: NVML_DEV_PACKAGES_INFO := $(shell \
 		wget -qO - https://api.anaconda.org/package/nvidia/cuda-nvml-dev/files | \
 			$(JQ) '.[] | select(.attrs.subdir=="linux-64") | .version + "@" + .upload_time[:19] + "@" + .full_name' | \
