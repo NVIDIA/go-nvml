@@ -25,11 +25,7 @@ import (
 )
 
 func newTestLibrary(dl dynamicLibrary) *library {
-	return &library{
-		newDynamicLibrary: func(string, int) dynamicLibrary {
-			return dl
-		},
-	}
+	return &library{dl: dl}
 }
 
 func TestLookupFromDefault(t *testing.T) {
@@ -132,9 +128,9 @@ func TestLookupFromDefault(t *testing.T) {
 			require.ErrorIs(t, l.Lookup("symbol"), tc.expectedLookupErrror)
 			require.ErrorIs(t, l.close(), tc.expectedCloseError)
 			if tc.expectedCloseError == nil {
-				require.Nil(t, l.dl)
+				require.Equal(t, 0, int(l.refcount))
 			} else {
-				require.Equal(t, tc.dl, l.dl)
+				require.Equal(t, 1, int(l.refcount))
 			}
 		})
 	}
