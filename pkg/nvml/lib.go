@@ -34,6 +34,16 @@ const (
 var errLibraryNotLoaded = errors.New("library not loaded")
 var errLibraryAlreadyLoaded = errors.New("library already loaded")
 
+// dynamicLibrary is an interface for abstacting the underlying library.
+// This also allows for mocking and testing.
+
+//go:generate moq -stub -out dynamicLibrary_mock.go . dynamicLibrary
+type dynamicLibrary interface {
+	Lookup(string) error
+	Open() error
+	Close() error
+}
+
 // library represents an nvml library.
 // This includes a reference to the underlying DynamicLibrary
 type library struct {
@@ -43,10 +53,10 @@ type library struct {
 	dl       dynamicLibrary
 }
 
+var _ Interface = (*library)(nil)
+
 // libnvml is a global instance of the nvml library.
 var libnvml = newLibrary()
-
-var _ Interface = (*library)(nil)
 
 func New(opts ...LibraryOption) Interface {
 	return newLibrary(opts...)
@@ -77,11 +87,6 @@ func (l *library) init(opts ...LibraryOption) {
 
 func (l *library) GetLibrary() Library {
 	return l
-}
-
-// GetLibrary returns a representation of the underlying library that implements the Library interface.
-func GetLibrary() Library {
-	return libnvml.GetLibrary()
 }
 
 // Lookup checks whether the specified library symbol exists in the library.
@@ -276,32 +281,4 @@ func (l *library) updateVersionedSymbols() {
 	if err == nil {
 		nvmlVgpuInstanceGetLicenseInfo = nvmlVgpuInstanceGetLicenseInfo_v2
 	}
-}
-
-// libraryOptions hold the paramaters than can be set by a LibraryOption
-type libraryOptions struct {
-	path  string
-	flags int
-}
-
-// LibraryOption represents a functional option to configure the underlying NVML library
-type LibraryOption func(*libraryOptions)
-
-// WithLibraryPath provides an option to set the library name to be used by the NVML library.
-func WithLibraryPath(path string) LibraryOption {
-	return func(o *libraryOptions) {
-		o.path = path
-	}
-}
-
-// SetLibraryOptions applies the specified options to the NVML library.
-// If this is called when a library is already loaded, and error is raised.
-func SetLibraryOptions(opts ...LibraryOption) error {
-	libnvml.Lock()
-	defer libnvml.Unlock()
-	if libnvml.refcount != 0 {
-		return errLibraryAlreadyLoaded
-	}
-	libnvml.init(opts...)
-	return nil
 }

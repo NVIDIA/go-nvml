@@ -16,19 +16,42 @@
 
 package nvml
 
+// libraryOptions hold the paramaters than can be set by a LibraryOption
+type libraryOptions struct {
+	path  string
+	flags int
+}
+
+// LibraryOption represents a functional option to configure the underlying NVML library
+type LibraryOption func(*libraryOptions)
+
 // Library defines a set of functions defined on the underlying dynamic library.
 type Library interface {
 	Lookup(string) error
 }
 
-// dynamicLibrary is an interface for abstacting the underlying library.
-// This also allows for mocking and testing.
+// GetLibrary returns a representation of the underlying library that implements the Library interface.
+func GetLibrary() Library {
+	return libnvml.GetLibrary()
+}
 
-//go:generate moq -stub -out dynamicLibrary_mock.go . dynamicLibrary
-type dynamicLibrary interface {
-	Lookup(string) error
-	Open() error
-	Close() error
+// WithLibraryPath provides an option to set the library name to be used by the NVML library.
+func WithLibraryPath(path string) LibraryOption {
+	return func(o *libraryOptions) {
+		o.path = path
+	}
+}
+
+// SetLibraryOptions applies the specified options to the NVML library.
+// If this is called when a library is already loaded, an error is raised.
+func SetLibraryOptions(opts ...LibraryOption) error {
+	libnvml.Lock()
+	defer libnvml.Unlock()
+	if libnvml.refcount != 0 {
+		return errLibraryAlreadyLoaded
+	}
+	libnvml.init(opts...)
+	return nil
 }
 
 // Interface represents the interface for the NVML library.
