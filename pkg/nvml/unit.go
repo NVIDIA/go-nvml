@@ -15,21 +15,21 @@
 package nvml
 
 // nvml.UnitGetCount()
-func UnitGetCount() (int, Return) {
+func (l *library) UnitGetCount() (int, Return) {
 	var UnitCount uint32
 	ret := nvmlUnitGetCount(&UnitCount)
 	return int(UnitCount), ret
 }
 
 // nvml.UnitGetHandleByIndex()
-func UnitGetHandleByIndex(Index int) (Unit, Return) {
+func (l *library) UnitGetHandleByIndex(Index int) (Unit, Return) {
 	var Unit Unit
 	ret := nvmlUnitGetHandleByIndex(uint32(Index), &Unit)
 	return Unit, ret
 }
 
 // nvml.UnitGetUnitInfo()
-func UnitGetUnitInfo(Unit Unit) (UnitInfo, Return) {
+func (l *library) UnitGetUnitInfo(Unit Unit) (UnitInfo, Return) {
 	var Info UnitInfo
 	ret := nvmlUnitGetUnitInfo(Unit, &Info)
 	return Info, ret
@@ -40,7 +40,7 @@ func (Unit Unit) GetUnitInfo() (UnitInfo, Return) {
 }
 
 // nvml.UnitGetLedState()
-func UnitGetLedState(Unit Unit) (LedState, Return) {
+func (l *library) UnitGetLedState(Unit Unit) (LedState, Return) {
 	var State LedState
 	ret := nvmlUnitGetLedState(Unit, &State)
 	return State, ret
@@ -51,7 +51,7 @@ func (Unit Unit) GetLedState() (LedState, Return) {
 }
 
 // nvml.UnitGetPsuInfo()
-func UnitGetPsuInfo(Unit Unit) (PSUInfo, Return) {
+func (l *library) UnitGetPsuInfo(Unit Unit) (PSUInfo, Return) {
 	var Psu PSUInfo
 	ret := nvmlUnitGetPsuInfo(Unit, &Psu)
 	return Psu, ret
@@ -62,7 +62,7 @@ func (Unit Unit) GetPsuInfo() (PSUInfo, Return) {
 }
 
 // nvml.UnitGetTemperature()
-func UnitGetTemperature(Unit Unit, Type int) (uint32, Return) {
+func (l *library) UnitGetTemperature(Unit Unit, Type int) (uint32, Return) {
 	var Temp uint32
 	ret := nvmlUnitGetTemperature(Unit, uint32(Type), &Temp)
 	return Temp, ret
@@ -73,7 +73,7 @@ func (Unit Unit) GetTemperature(Type int) (uint32, Return) {
 }
 
 // nvml.UnitGetFanSpeedInfo()
-func UnitGetFanSpeedInfo(Unit Unit) (UnitFanSpeeds, Return) {
+func (l *library) UnitGetFanSpeedInfo(Unit Unit) (UnitFanSpeeds, Return) {
 	var FanSpeeds UnitFanSpeeds
 	ret := nvmlUnitGetFanSpeedInfo(Unit, &FanSpeeds)
 	return FanSpeeds, ret
@@ -84,7 +84,7 @@ func (Unit Unit) GetFanSpeedInfo() (UnitFanSpeeds, Return) {
 }
 
 // nvml.UnitGetDevices()
-func UnitGetDevices(Unit Unit) ([]Device, Return) {
+func (l *library) UnitGetDevices(Unit Unit) ([]Device, Return) {
 	var DeviceCount uint32 = 1 // Will be reduced upon returning
 	for {
 		Devices := make([]Device, DeviceCount)
@@ -104,7 +104,7 @@ func (Unit Unit) GetDevices() ([]Device, Return) {
 }
 
 // nvml.UnitSetLedState()
-func UnitSetLedState(Unit Unit, Color LedColor) Return {
+func (l *library) UnitSetLedState(Unit Unit, Color LedColor) Return {
 	return nvmlUnitSetLedState(Unit, Color)
 }
 

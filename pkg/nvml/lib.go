@@ -149,9 +149,9 @@ var nvmlDeviceGetGridLicensableFeatures = nvmlDeviceGetGridLicensableFeatures_v1
 var nvmlEventSetWait = nvmlEventSetWait_v1
 var nvmlDeviceGetAttributes = nvmlDeviceGetAttributes_v1
 var nvmlComputeInstanceGetInfo = nvmlComputeInstanceGetInfo_v1
-var DeviceGetComputeRunningProcesses = deviceGetComputeRunningProcesses_v1
-var DeviceGetGraphicsRunningProcesses = deviceGetGraphicsRunningProcesses_v1
-var DeviceGetMPSComputeRunningProcesses = deviceGetMPSComputeRunningProcesses_v1
+var deviceGetComputeRunningProcesses = deviceGetComputeRunningProcesses_v1
+var deviceGetGraphicsRunningProcesses = deviceGetGraphicsRunningProcesses_v1
+var deviceGetMPSComputeRunningProcesses = deviceGetMPSComputeRunningProcesses_v1
 var GetBlacklistDeviceCount = GetExcludedDeviceCount
 var GetBlacklistDeviceInfoByIndex = GetExcludedDeviceInfoByIndex
 var nvmlDeviceGetGpuInstancePossiblePlacements = nvmlDeviceGetGpuInstancePossiblePlacements_v1
@@ -251,27 +251,27 @@ func (l *library) updateVersionedSymbols() {
 	}
 	err = l.Lookup("nvmlDeviceGetComputeRunningProcesses_v2")
 	if err == nil {
-		DeviceGetComputeRunningProcesses = deviceGetComputeRunningProcesses_v2
+		deviceGetComputeRunningProcesses = deviceGetComputeRunningProcesses_v2
 	}
 	err = l.Lookup("nvmlDeviceGetComputeRunningProcesses_v3")
 	if err == nil {
-		DeviceGetComputeRunningProcesses = deviceGetComputeRunningProcesses_v3
+		deviceGetComputeRunningProcesses = deviceGetComputeRunningProcesses_v3
 	}
 	err = l.Lookup("nvmlDeviceGetGraphicsRunningProcesses_v2")
 	if err == nil {
-		DeviceGetGraphicsRunningProcesses = deviceGetGraphicsRunningProcesses_v2
+		deviceGetGraphicsRunningProcesses = deviceGetGraphicsRunningProcesses_v2
 	}
 	err = l.Lookup("nvmlDeviceGetGraphicsRunningProcesses_v3")
 	if err == nil {
-		DeviceGetGraphicsRunningProcesses = deviceGetGraphicsRunningProcesses_v3
+		deviceGetGraphicsRunningProcesses = deviceGetGraphicsRunningProcesses_v3
 	}
 	err = l.Lookup("nvmlDeviceGetMPSComputeRunningProcesses_v2")
 	if err == nil {
-		DeviceGetMPSComputeRunningProcesses = deviceGetMPSComputeRunningProcesses_v2
+		deviceGetMPSComputeRunningProcesses = deviceGetMPSComputeRunningProcesses_v2
 	}
 	err = l.Lookup("nvmlDeviceGetMPSComputeRunningProcesses_v3")
 	if err == nil {
-		DeviceGetMPSComputeRunningProcesses = deviceGetMPSComputeRunningProcesses_v3
+		deviceGetMPSComputeRunningProcesses = deviceGetMPSComputeRunningProcesses_v3
 	}
 	err = l.Lookup("nvmlDeviceGetGpuInstancePossiblePlacements_v2")
 	if err == nil {

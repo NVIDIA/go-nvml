@@ -19,8 +19,8 @@ import (
 )
 
 // nvml.ErrorString()
-func ErrorString(r Return) string {
-	if err := GetLibrary().Lookup("nvmlErrorString"); err != nil {
+func (l *library) ErrorString(r Return) string {
+	if err := l.GetLibrary().Lookup("nvmlErrorString"); err != nil {
 		return fallbackErrorStringFunc(r)
 	}
 	return nvmlErrorString(r)

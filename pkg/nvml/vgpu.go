@@ -31,7 +31,7 @@ type VgpuPgpuMetadata struct {
 }
 
 // nvml.VgpuTypeGetClass()
-func VgpuTypeGetClass(VgpuTypeId VgpuTypeId) (string, Return) {
+func (l *library) VgpuTypeGetClass(VgpuTypeId VgpuTypeId) (string, Return) {
 	var Size uint32 = DEVICE_NAME_BUFFER_SIZE
 	VgpuTypeClass := make([]byte, DEVICE_NAME_BUFFER_SIZE)
 	ret := nvmlVgpuTypeGetClass(VgpuTypeId, &VgpuTypeClass[0], &Size)
@@ -43,7 +43,7 @@ func (VgpuTypeId VgpuTypeId) GetClass() (string, Return) {
 }
 
 // nvml.VgpuTypeGetName()
-func VgpuTypeGetName(VgpuTypeId VgpuTypeId) (string, Return) {
+func (l *library) VgpuTypeGetName(VgpuTypeId VgpuTypeId) (string, Return) {
 	var Size uint32 = DEVICE_NAME_BUFFER_SIZE
 	VgpuTypeName := make([]byte, DEVICE_NAME_BUFFER_SIZE)
 	ret := nvmlVgpuTypeGetName(VgpuTypeId, &VgpuTypeName[0], &Size)
@@ -55,7 +55,7 @@ func (VgpuTypeId VgpuTypeId) GetName() (string, Return) {
 }
 
 // nvml.VgpuTypeGetGpuInstanceProfileId()
-func VgpuTypeGetGpuInstanceProfileId(VgpuTypeId VgpuTypeId) (uint32, Return) {
+func (l *library) VgpuTypeGetGpuInstanceProfileId(VgpuTypeId VgpuTypeId) (uint32, Return) {
 	var Size uint32
 	ret := nvmlVgpuTypeGetGpuInstanceProfileId(VgpuTypeId, &Size)
 	return Size, ret
@@ -66,7 +66,7 @@ func (VgpuTypeId VgpuTypeId) GetGpuInstanceProfileId() (uint32, Return) {
 }
 
 // nvml.VgpuTypeGetDeviceID()
-func VgpuTypeGetDeviceID(VgpuTypeId VgpuTypeId) (uint64, uint64, Return) {
+func (l *library) VgpuTypeGetDeviceID(VgpuTypeId VgpuTypeId) (uint64, uint64, Return) {
 	var DeviceID, SubsystemID uint64
 	ret := nvmlVgpuTypeGetDeviceID(VgpuTypeId, &DeviceID, &SubsystemID)
 	return DeviceID, SubsystemID, ret
@@ -77,7 +77,7 @@ func (VgpuTypeId VgpuTypeId) GetDeviceID() (uint64, uint64, Return) {
 }
 
 // nvml.VgpuTypeGetFramebufferSize()
-func VgpuTypeGetFramebufferSize(VgpuTypeId VgpuTypeId) (uint64, Return) {
+func (l *library) VgpuTypeGetFramebufferSize(VgpuTypeId VgpuTypeId) (uint64, Return) {
 	var FbSize uint64
 	ret := nvmlVgpuTypeGetFramebufferSize(VgpuTypeId, &FbSize)
 	return FbSize, ret
@@ -88,7 +88,7 @@ func (VgpuTypeId VgpuTypeId) GetFramebufferSize() (uint64, Return) {
 }
 
 // nvml.VgpuTypeGetNumDisplayHeads()
-func VgpuTypeGetNumDisplayHeads(VgpuTypeId VgpuTypeId) (int, Return) {
+func (l *library) VgpuTypeGetNumDisplayHeads(VgpuTypeId VgpuTypeId) (int, Return) {
 	var NumDisplayHeads uint32
 	ret := nvmlVgpuTypeGetNumDisplayHeads(VgpuTypeId, &NumDisplayHeads)
 	return int(NumDisplayHeads), ret
@@ -99,7 +99,7 @@ func (VgpuTypeId VgpuTypeId) GetNumDisplayHeads() (int, Return) {
 }
 
 // nvml.VgpuTypeGetResolution()
-func VgpuTypeGetResolution(VgpuTypeId VgpuTypeId, DisplayIndex int) (uint32, uint32, Return) {
+func (l *library) VgpuTypeGetResolution(VgpuTypeId VgpuTypeId, DisplayIndex int) (uint32, uint32, Return) {
 	var Xdim, Ydim uint32
 	ret := nvmlVgpuTypeGetResolution(VgpuTypeId, uint32(DisplayIndex), &Xdim, &Ydim)
 	return Xdim, Ydim, ret
@@ -110,7 +110,7 @@ func (VgpuTypeId VgpuTypeId) GetResolution(DisplayIndex int) (uint32, uint32, Re
 }
 
 // nvml.VgpuTypeGetLicense()
-func VgpuTypeGetLicense(VgpuTypeId VgpuTypeId) (string, Return) {
+func (l *library) VgpuTypeGetLicense(VgpuTypeId VgpuTypeId) (string, Return) {
 	VgpuTypeLicenseString := make([]byte, GRID_LICENSE_BUFFER_SIZE)
 	ret := nvmlVgpuTypeGetLicense(VgpuTypeId, &VgpuTypeLicenseString[0], GRID_LICENSE_BUFFER_SIZE)
 	return string(VgpuTypeLicenseString[:clen(VgpuTypeLicenseString)]), ret
@@ -121,7 +121,7 @@ func (VgpuTypeId VgpuTypeId) GetLicense() (string, Return) {
 }
 
 // nvml.VgpuTypeGetFrameRateLimit()
-func VgpuTypeGetFrameRateLimit(VgpuTypeId VgpuTypeId) (uint32, Return) {
+func (l *library) VgpuTypeGetFrameRateLimit(VgpuTypeId VgpuTypeId) (uint32, Return) {
 	var FrameRateLimit uint32
 	ret := nvmlVgpuTypeGetFrameRateLimit(VgpuTypeId, &FrameRateLimit)
 	return FrameRateLimit, ret
@@ -132,7 +132,7 @@ func (VgpuTypeId VgpuTypeId) GetFrameRateLimit() (uint32, Return) {
 }
 
 // nvml.VgpuTypeGetMaxInstances()
-func VgpuTypeGetMaxInstances(Device Device, VgpuTypeId VgpuTypeId) (int, Return) {
+func (l *library) VgpuTypeGetMaxInstances(Device Device, VgpuTypeId VgpuTypeId) (int, Return) {
 	var VgpuInstanceCount uint32
 	ret := nvmlVgpuTypeGetMaxInstances(Device, VgpuTypeId, &VgpuInstanceCount)
 	return int(VgpuInstanceCount), ret
@@ -147,7 +147,7 @@ func (VgpuTypeId VgpuTypeId) GetMaxInstances(Device Device) (int, Return) {
 }
 
 // nvml.VgpuTypeGetMaxInstancesPerVm()
-func VgpuTypeGetMaxInstancesPerVm(VgpuTypeId VgpuTypeId) (int, Return) {
+func (l *library) VgpuTypeGetMaxInstancesPerVm(VgpuTypeId VgpuTypeId) (int, Return) {
 	var VgpuInstanceCountPerVm uint32
 	ret := nvmlVgpuTypeGetMaxInstancesPerVm(VgpuTypeId, &VgpuInstanceCountPerVm)
 	return int(VgpuInstanceCountPerVm), ret
@@ -158,7 +158,7 @@ func (VgpuTypeId VgpuTypeId) GetMaxInstancesPerVm() (int, Return) {
 }
 
 // nvml.VgpuInstanceGetVmID()
-func VgpuInstanceGetVmID(VgpuInstance VgpuInstance) (string, VgpuVmIdType, Return) {
+func (l *library) VgpuInstanceGetVmID(VgpuInstance VgpuInstance) (string, VgpuVmIdType, Return) {
 	var VmIdType VgpuVmIdType
 	VmId := make([]byte, DEVICE_UUID_BUFFER_SIZE)
 	ret := nvmlVgpuInstanceGetVmID(VgpuInstance, &VmId[0], DEVICE_UUID_BUFFER_SIZE, &VmIdType)
@@ -170,7 +170,7 @@ func (VgpuInstance VgpuInstance) GetVmID() (string, VgpuVmIdType, Return) {
 }
 
 // nvml.VgpuInstanceGetUUID()
-func VgpuInstanceGetUUID(VgpuInstance VgpuInstance) (string, Return) {
+func (l *library) VgpuInstanceGetUUID(VgpuInstance VgpuInstance) (string, Return) {
 	Uuid := make([]byte, DEVICE_UUID_BUFFER_SIZE)
 	ret := nvmlVgpuInstanceGetUUID(VgpuInstance, &Uuid[0], DEVICE_UUID_BUFFER_SIZE)
 	return string(Uuid[:clen(Uuid)]), ret
@@ -181,7 +181,7 @@ func (VgpuInstance VgpuInstance) GetUUID() (string, Return) {
 }
 
 // nvml.VgpuInstanceGetVmDriverVersion()
-func VgpuInstanceGetVmDriverVersion(VgpuInstance VgpuInstance) (string, Return) {
+func (l *library) VgpuInstanceGetVmDriverVersion(VgpuInstance VgpuInstance) (string, Return) {
 	Version := make([]byte, SYSTEM_DRIVER_VERSION_BUFFER_SIZE)
 	ret := nvmlVgpuInstanceGetVmDriverVersion(VgpuInstance, &Version[0], SYSTEM_DRIVER_VERSION_BUFFER_SIZE)
 	return string(Version[:clen(Version)]), ret
@@ -192,7 +192,7 @@ func (VgpuInstance VgpuInstance) GetVmDriverVersion() (string, Return) {
 }
 
 // nvml.VgpuInstanceGetFbUsage()
-func VgpuInstanceGetFbUsage(VgpuInstance VgpuInstance) (uint64, Return) {
+func (l *library) VgpuInstanceGetFbUsage(VgpuInstance VgpuInstance) (uint64, Return) {
 	var FbUsage uint64
 	ret := nvmlVgpuInstanceGetFbUsage(VgpuInstance, &FbUsage)
 	return FbUsage, ret
@@ -203,7 +203,7 @@ func (VgpuInstance VgpuInstance) GetFbUsage() (uint64, Return) {
 }
 
 // nvml.VgpuInstanceGetLicenseInfo()
-func VgpuInstanceGetLicenseInfo(VgpuInstance VgpuInstance) (VgpuLicenseInfo, Return) {
+func (l *library) VgpuInstanceGetLicenseInfo(VgpuInstance VgpuInstance) (VgpuLicenseInfo, Return) {
 	var LicenseInfo VgpuLicenseInfo
 	ret := nvmlVgpuInstanceGetLicenseInfo(VgpuInstance, &LicenseInfo)
 	return LicenseInfo, ret
@@ -214,7 +214,7 @@ func (VgpuInstance VgpuInstance) GetLicenseInfo() (VgpuLicenseInfo, Return) {
 }
 
 // nvml.VgpuInstanceGetLicenseStatus()
-func VgpuInstanceGetLicenseStatus(VgpuInstance VgpuInstance) (int, Return) {
+func (l *library) VgpuInstanceGetLicenseStatus(VgpuInstance VgpuInstance) (int, Return) {
 	var Licensed uint32
 	ret := nvmlVgpuInstanceGetLicenseStatus(VgpuInstance, &Licensed)
 	return int(Licensed), ret
@@ -225,7 +225,7 @@ func (VgpuInstance VgpuInstance) GetLicenseStatus() (int, Return) {
 }
 
 // nvml.VgpuInstanceGetType()
-func VgpuInstanceGetType(VgpuInstance VgpuInstance) (VgpuTypeId, Return) {
+func (l *library) VgpuInstanceGetType(VgpuInstance VgpuInstance) (VgpuTypeId, Return) {
 	var VgpuTypeId VgpuTypeId
 	ret := nvmlVgpuInstanceGetType(VgpuInstance, &VgpuTypeId)
 	return VgpuTypeId, ret
@@ -236,7 +236,7 @@ func (VgpuInstance VgpuInstance) GetType() (VgpuTypeId, Return) {
 }
 
 // nvml.VgpuInstanceGetFrameRateLimit()
-func VgpuInstanceGetFrameRateLimit(VgpuInstance VgpuInstance) (uint32, Return) {
+func (l *library) VgpuInstanceGetFrameRateLimit(VgpuInstance VgpuInstance) (uint32, Return) {
 	var FrameRateLimit uint32
 	ret := nvmlVgpuInstanceGetFrameRateLimit(VgpuInstance, &FrameRateLimit)
 	return FrameRateLimit, ret
@@ -247,7 +247,7 @@ func (VgpuInstance VgpuInstance) GetFrameRateLimit() (uint32, Return) {
 }
 
 // nvml.VgpuInstanceGetEccMode()
-func VgpuInstanceGetEccMode(VgpuInstance VgpuInstance) (EnableState, Return) {
+func (l *library) VgpuInstanceGetEccMode(VgpuInstance VgpuInstance) (EnableState, Return) {
 	var EccMode EnableState
 	ret := nvmlVgpuInstanceGetEccMode(VgpuInstance, &EccMode)
 	return EccMode, ret
@@ -258,7 +258,7 @@ func (VgpuInstance VgpuInstance) GetEccMode() (EnableState, Return) {
 }
 
 // nvml.VgpuInstanceGetEncoderCapacity()
-func VgpuInstanceGetEncoderCapacity(VgpuInstance VgpuInstance) (int, Return) {
+func (l *library) VgpuInstanceGetEncoderCapacity(VgpuInstance VgpuInstance) (int, Return) {
 	var EncoderCapacity uint32
 	ret := nvmlVgpuInstanceGetEncoderCapacity(VgpuInstance, &EncoderCapacity)
 	return int(EncoderCapacity), ret
@@ -269,7 +269,7 @@ func (VgpuInstance VgpuInstance) GetEncoderCapacity() (int, Return) {
 }
 
 // nvml.VgpuInstanceSetEncoderCapacity()
-func VgpuInstanceSetEncoderCapacity(VgpuInstance VgpuInstance, EncoderCapacity int) Return {
+func (l *library) VgpuInstanceSetEncoderCapacity(VgpuInstance VgpuInstance, EncoderCapacity int) Return {
 	return nvmlVgpuInstanceSetEncoderCapacity(VgpuInstance, uint32(EncoderCapacity))
 }
 
@@ -278,7 +278,7 @@ func (VgpuInstance VgpuInstance) SetEncoderCapacity(EncoderCapacity int) Return 
 }
 
 // nvml.VgpuInstanceGetEncoderStats()
-func VgpuInstanceGetEncoderStats(VgpuInstance VgpuInstance) (int, uint32, uint32, Return) {
+func (l *library) VgpuInstanceGetEncoderStats(VgpuInstance VgpuInstance) (int, uint32, uint32, Return) {
 	var SessionCount, AverageFps, AverageLatency uint32
 	ret := nvmlVgpuInstanceGetEncoderStats(VgpuInstance, &SessionCount, &AverageFps, &AverageLatency)
 	return int(SessionCount), AverageFps, AverageLatency, ret
@@ -289,7 +289,7 @@ func (VgpuInstance VgpuInstance) GetEncoderStats() (int, uint32, uint32, Return)
 }
 
 // nvml.VgpuInstanceGetEncoderSessions()
-func VgpuInstanceGetEncoderSessions(VgpuInstance VgpuInstance) (int, EncoderSessionInfo, Return) {
+func (l *library) VgpuInstanceGetEncoderSessions(VgpuInstance VgpuInstance) (int, EncoderSessionInfo, Return) {
 	var SessionCount uint32
 	var SessionInfo EncoderSessionInfo
 	ret := nvmlVgpuInstanceGetEncoderSessions(VgpuInstance, &SessionCount, &SessionInfo)
@@ -301,7 +301,7 @@ func (VgpuInstance VgpuInstance) GetEncoderSessions() (int, EncoderSessionInfo, 
 }
 
 // nvml.VgpuInstanceGetFBCStats()
-func VgpuInstanceGetFBCStats(VgpuInstance VgpuInstance) (FBCStats, Return) {
+func (l *library) VgpuInstanceGetFBCStats(VgpuInstance VgpuInstance) (FBCStats, Return) {
 	var FbcStats FBCStats
 	ret := nvmlVgpuInstanceGetFBCStats(VgpuInstance, &FbcStats)
 	return FbcStats, ret
@@ -312,7 +312,7 @@ func (VgpuInstance VgpuInstance) GetFBCStats() (FBCStats, Return) {
 }
 
 // nvml.VgpuInstanceGetFBCSessions()
-func VgpuInstanceGetFBCSessions(VgpuInstance VgpuInstance) (int, FBCSessionInfo, Return) {
+func (l *library) VgpuInstanceGetFBCSessions(VgpuInstance VgpuInstance) (int, FBCSessionInfo, Return) {
 	var SessionCount uint32
 	var SessionInfo FBCSessionInfo
 	ret := nvmlVgpuInstanceGetFBCSessions(VgpuInstance, &SessionCount, &SessionInfo)
@@ -324,7 +324,7 @@ func (VgpuInstance VgpuInstance) GetFBCSessions() (int, FBCSessionInfo, Return) 
 }
 
 // nvml.VgpuInstanceGetGpuInstanceId()
-func VgpuInstanceGetGpuInstanceId(VgpuInstance VgpuInstance) (int, Return) {
+func (l *library) VgpuInstanceGetGpuInstanceId(VgpuInstance VgpuInstance) (int, Return) {
 	var gpuInstanceId uint32
 	ret := nvmlVgpuInstanceGetGpuInstanceId(VgpuInstance, &gpuInstanceId)
 	return int(gpuInstanceId), ret
@@ -335,7 +335,7 @@ func (VgpuInstance VgpuInstance) GetGpuInstanceId() (int, Return) {
 }
 
 // nvml.VgpuInstanceGetGpuPciId()
-func VgpuInstanceGetGpuPciId(VgpuInstance VgpuInstance) (string, Return) {
+func (l *library) VgpuInstanceGetGpuPciId(VgpuInstance VgpuInstance) (string, Return) {
 	var Length uint32 = 1 // Will be reduced upon returning
 	for {
 		VgpuPciId := make([]byte, Length)
@@ -355,7 +355,7 @@ func (VgpuInstance VgpuInstance) GetGpuPciId() (string, Return) {
 }
 
 // nvml.VgpuInstanceGetMetadata()
-func VgpuInstanceGetMetadata(VgpuInstance VgpuInstance) (VgpuMetadata, Return) {
+func (l *library) VgpuInstanceGetMetadata(VgpuInstance VgpuInstance) (VgpuMetadata, Return) {
 	var VgpuMetadata VgpuMetadata
 	OpaqueDataSize := unsafe.Sizeof(VgpuMetadata.nvmlVgpuMetadata.OpaqueData)
 	VgpuMetadataSize := unsafe.Sizeof(VgpuMetadata.nvmlVgpuMetadata) - OpaqueDataSize
@@ -381,7 +381,7 @@ func (VgpuInstance VgpuInstance) GetMetadata() (VgpuMetadata, Return) {
 }
 
 // nvml.VgpuInstanceGetAccountingMode()
-func VgpuInstanceGetAccountingMode(VgpuInstance VgpuInstance) (EnableState, Return) {
+func (l *library) VgpuInstanceGetAccountingMode(VgpuInstance VgpuInstance) (EnableState, Return) {
 	var Mode EnableState
 	ret := nvmlVgpuInstanceGetAccountingMode(VgpuInstance, &Mode)
 	return Mode, ret
@@ -392,7 +392,7 @@ func (VgpuInstance VgpuInstance) GetAccountingMode() (EnableState, Return) {
 }
 
 // nvml.VgpuInstanceGetAccountingPids()
-func VgpuInstanceGetAccountingPids(VgpuInstance VgpuInstance) ([]int, Return) {
+func (l *library) VgpuInstanceGetAccountingPids(VgpuInstance VgpuInstance) ([]int, Return) {
 	var Count uint32 = 1 // Will be reduced upon returning
 	for {
 		Pids := make([]uint32, Count)
@@ -412,7 +412,7 @@ func (VgpuInstance VgpuInstance) GetAccountingPids() ([]int, Return) {
 }
 
 // nvml.VgpuInstanceGetAccountingStats()
-func VgpuInstanceGetAccountingStats(VgpuInstance VgpuInstance, Pid int) (AccountingStats, Return) {
+func (l *library) VgpuInstanceGetAccountingStats(VgpuInstance VgpuInstance, Pid int) (AccountingStats, Return) {
 	var Stats AccountingStats
 	ret := nvmlVgpuInstanceGetAccountingStats(VgpuInstance, uint32(Pid), &Stats)
 	return Stats, ret
@@ -423,26 +423,26 @@ func (VgpuInstance VgpuInstance) GetAccountingStats(Pid int) (AccountingStats, R
 }
 
 // nvml.GetVgpuCompatibility()
-func GetVgpuCompatibility(nvmlVgpuMetadata *nvmlVgpuMetadata, PgpuMetadata *nvmlVgpuPgpuMetadata) (VgpuPgpuCompatibility, Return) {
+func (l *library) GetVgpuCompatibility(nvmlVgpuMetadata *nvmlVgpuMetadata, PgpuMetadata *nvmlVgpuPgpuMetadata) (VgpuPgpuCompatibility, Return) {
 	var CompatibilityInfo VgpuPgpuCompatibility
 	ret := nvmlGetVgpuCompatibility(nvmlVgpuMetadata, PgpuMetadata, &CompatibilityInfo)
 	return CompatibilityInfo, ret
 }
 
 // nvml.GetVgpuVersion()
-func GetVgpuVersion() (VgpuVersion, VgpuVersion, Return) {
+func (l *library) GetVgpuVersion() (VgpuVersion, VgpuVersion, Return) {
 	var Supported, Current VgpuVersion
 	ret := nvmlGetVgpuVersion(&Supported, &Current)
 	return Supported, Current, ret
 }
 
 // nvml.SetVgpuVersion()
-func SetVgpuVersion(VgpuVersion *VgpuVersion) Return {
+func (l *library) SetVgpuVersion(VgpuVersion *VgpuVersion) Return {
 	return nvmlSetVgpuVersion(VgpuVersion)
 }
 
 // nvml.VgpuInstanceClearAccountingPids()
-func VgpuInstanceClearAccountingPids(VgpuInstance VgpuInstance) Return {
+func (l *library) VgpuInstanceClearAccountingPids(VgpuInstance VgpuInstance) Return {
 	return nvmlVgpuInstanceClearAccountingPids(VgpuInstance)
 }
 
@@ -451,7 +451,7 @@ func (VgpuInstance VgpuInstance) ClearAccountingPids() Return {
 }
 
 // nvml.VgpuInstanceGetMdevUUID()
-func VgpuInstanceGetMdevUUID(VgpuInstance VgpuInstance) (string, Return) {
+func (l *library) VgpuInstanceGetMdevUUID(VgpuInstance VgpuInstance) (string, Return) {
 	MdevUuid := make([]byte, DEVICE_UUID_BUFFER_SIZE)
 	ret := nvmlVgpuInstanceGetMdevUUID(VgpuInstance, &MdevUuid[0], DEVICE_UUID_BUFFER_SIZE)
 	return string(MdevUuid[:clen(MdevUuid)]), ret
@@ -462,7 +462,7 @@ func (VgpuInstance VgpuInstance) GetMdevUUID() (string, Return) {
 }
 
 // nvml.VgpuTypeGetCapabilities()
-func VgpuTypeGetCapabilities(VgpuTypeId VgpuTypeId, Capability VgpuCapability) (bool, Return) {
+func (l *library) VgpuTypeGetCapabilities(VgpuTypeId VgpuTypeId, Capability VgpuCapability) (bool, Return) {
 	var CapResult uint32
 	ret := nvmlVgpuTypeGetCapabilities(VgpuTypeId, Capability, &CapResult)
 	return (CapResult != 0), ret
@@ -473,7 +473,7 @@ func (VgpuTypeId VgpuTypeId) GetCapabilities(Capability VgpuCapability) (bool, R
 }
 
 // nvml.GetVgpuDriverCapabilities()
-func GetVgpuDriverCapabilities(Capability VgpuDriverCapability) (bool, Return) {
+func (l *library) GetVgpuDriverCapabilities(Capability VgpuDriverCapability) (bool, Return) {
 	var CapResult uint32
 	ret := nvmlGetVgpuDriverCapabilities(Capability, &CapResult)
 	return (CapResult != 0), ret
