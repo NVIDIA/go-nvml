@@ -44,14 +44,37 @@ type library struct {
 }
 
 // libnvml is a global instance of the nvml library.
-var libnvml = library{
-	path: defaultNvmlLibraryName,
-	dl:   dl.New(defaultNvmlLibraryName, defaultNvmlLibraryLoadFlags),
-}
+var libnvml = newLibrary()
 
 var _ Interface = (*library)(nil)
 
-// GetLibrary returns a the library as a Library interface.
+func New(opts ...LibraryOption) Interface {
+	return newLibrary(opts...)
+}
+
+func newLibrary(opts ...LibraryOption) *library {
+	l := &library{}
+	l.init(opts...)
+	return l
+}
+
+func (l *library) init(opts ...LibraryOption) {
+	o := libraryOptions{}
+	for _, opt := range opts {
+		opt(&o)
+	}
+
+	if o.path == "" {
+		o.path = defaultNvmlLibraryName
+	}
+	if o.flags == 0 {
+		o.flags = defaultNvmlLibraryLoadFlags
+	}
+
+	l.path = o.path
+	l.dl = dl.New(o.path, o.flags)
+}
+
 func (l *library) GetLibrary() Library {
 	return l
 }
@@ -279,21 +302,6 @@ func SetLibraryOptions(opts ...LibraryOption) error {
 	if libnvml.refcount != 0 {
 		return errLibraryAlreadyLoaded
 	}
-
-	o := libraryOptions{}
-	for _, opt := range opts {
-		opt(&o)
-	}
-
-	if o.path == "" {
-		o.path = defaultNvmlLibraryName
-	}
-	if o.flags == 0 {
-		o.flags = defaultNvmlLibraryLoadFlags
-	}
-
-	libnvml.path = o.path
-	libnvml.dl = dl.New(o.path, o.flags)
-
+	libnvml.init(opts...)
 	return nil
 }
