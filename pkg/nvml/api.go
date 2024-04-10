@@ -292,7 +292,7 @@ type Interface interface {
 	GpmMetricsGetV(MetricsGet *GpmMetricsGetType) GpmMetricsGetVType
 	GpmMetricsGet(MetricsGet *GpmMetricsGetType) Return
 	GpmSampleFree(GpmSample GpmSample) Return
-	GpmSampleAlloc(GpmSample *GpmSample) Return
+	GpmSampleAlloc() (GpmSample, Return)
 	GpmSampleGet(Device Device, GpmSample GpmSample) Return
 	GpmQueryDeviceSupportV(Device Device) GpmSupportV
 	GpmQueryDeviceSupport(Device Device) (GpmSupport, Return)

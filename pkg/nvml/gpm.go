@@ -37,18 +37,28 @@ func (l *library) GpmSampleFree(GpmSample GpmSample) Return {
 	return nvmlGpmSampleFree(GpmSample)
 }
 
+func (GpmSample GpmSample) Free() Return {
+	return GpmSampleFree(GpmSample)
+}
+
 // nvml.GpmSampleAlloc()
-func (l *library) GpmSampleAlloc(GpmSample *GpmSample) Return {
-	return nvmlGpmSampleAlloc(GpmSample)
+func (l *library) GpmSampleAlloc() (GpmSample, Return) {
+	var GpmSample GpmSample
+	ret := nvmlGpmSampleAlloc(&GpmSample)
+	return GpmSample, ret
 }
 
 // nvml.GpmSampleGet()
 func (l *library) GpmSampleGet(Device Device, GpmSample GpmSample) Return {
-	return Device.GpmSampleGet(GpmSample)
+	return GpmSample.Get(Device)
 }
 
 func (Device nvmlDevice) GpmSampleGet(GpmSample GpmSample) Return {
-	return nvmlGpmSampleGet(Device, GpmSample)
+	return GpmSample.Get(Device)
+}
+
+func (GpmSample GpmSample) Get(Device Device) Return {
+	return nvmlGpmSampleGet(Device.(nvmlDevice), GpmSample)
 }
 
 // nvml.GpmQueryDeviceSupport()
@@ -84,9 +94,13 @@ func (Device nvmlDevice) GpmQueryDeviceSupport() (GpmSupport, Return) {
 
 // nvml.GpmMigSampleGet()
 func (l *library) GpmMigSampleGet(Device Device, GpuInstanceId int, GpmSample GpmSample) Return {
-	return Device.GpmMigSampleGet(GpuInstanceId, GpmSample)
+	return GpmSample.MigGet(Device, GpuInstanceId)
 }
 
 func (Device nvmlDevice) GpmMigSampleGet(GpuInstanceId int, GpmSample GpmSample) Return {
-	return nvmlGpmMigSampleGet(Device, uint32(GpuInstanceId), GpmSample)
+	return GpmSample.MigGet(Device, GpuInstanceId)
+}
+
+func (GpmSample GpmSample) MigGet(Device Device, GpuInstanceId int) Return {
+	return nvmlGpmMigSampleGet(Device.(nvmlDevice), uint32(GpuInstanceId), GpmSample)
 }
