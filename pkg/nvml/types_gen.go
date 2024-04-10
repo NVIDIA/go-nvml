@@ -316,7 +316,7 @@ type FieldValue struct {
 	Value       [8]byte
 }
 
-type Unit struct {
+type nvmlUnit struct {
 	Handle *_Ctype_struct_nvmlUnit_st
 }
 

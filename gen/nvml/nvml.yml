@@ -65,6 +65,7 @@ TRANSLATOR:
       - {action: replace, from: "_t$"}
       - {transform: export}
       - {action: replace, from: "^Device$", to: "nvmlDevice"}
+      - {action: replace, from: "^Unit$", to: "nvmlUnit"}
       - {action: replace, from: "^VgpuMetadata", to: "nvmlVgpuMetadata"}
       - {action: replace, from: "^VgpuPgpuMetadata", to: "nvmlVgpuPgpuMetadata"}
       - {action: replace, from: "^GpmMetricsGet", to: "GpmMetricsGetType"}

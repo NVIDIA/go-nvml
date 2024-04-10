@@ -111,66 +111,66 @@ func nvmlUnitGetCount(UnitCount *uint32) Return {
 }
 
 // nvmlUnitGetHandleByIndex function as declared in nvml/nvml.h
-func nvmlUnitGetHandleByIndex(Index uint32, Unit *Unit) Return {
+func nvmlUnitGetHandleByIndex(Index uint32, nvmlUnit *nvmlUnit) Return {
 	cIndex, _ := (C.uint)(Index), cgoAllocsUnknown
-	cUnit, _ := (*C.nvmlUnit_t)(unsafe.Pointer(Unit)), cgoAllocsUnknown
-	__ret := C.nvmlUnitGetHandleByIndex(cIndex, cUnit)
+	cnvmlUnit, _ := (*C.nvmlUnit_t)(unsafe.Pointer(nvmlUnit)), cgoAllocsUnknown
+	__ret := C.nvmlUnitGetHandleByIndex(cIndex, cnvmlUnit)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlUnitGetUnitInfo function as declared in nvml/nvml.h
-func nvmlUnitGetUnitInfo(Unit Unit, Info *UnitInfo) Return {
-	cUnit, _ := *(*C.nvmlUnit_t)(unsafe.Pointer(&Unit)), cgoAllocsUnknown
+func nvmlUnitGetUnitInfo(nvmlUnit nvmlUnit, Info *UnitInfo) Return {
+	cnvmlUnit, _ := *(*C.nvmlUnit_t)(unsafe.Pointer(&nvmlUnit)), cgoAllocsUnknown
 	cInfo, _ := (*C.nvmlUnitInfo_t)(unsafe.Pointer(Info)), cgoAllocsUnknown
-	__ret := C.nvmlUnitGetUnitInfo(cUnit, cInfo)
+	__ret := C.nvmlUnitGetUnitInfo(cnvmlUnit, cInfo)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlUnitGetLedState function as declared in nvml/nvml.h
-func nvmlUnitGetLedState(Unit Unit, State *LedState) Return {
-	cUnit, _ := *(*C.nvmlUnit_t)(unsafe.Pointer(&Unit)), cgoAllocsUnknown
+func nvmlUnitGetLedState(nvmlUnit nvmlUnit, State *LedState) Return {
+	cnvmlUnit, _ := *(*C.nvmlUnit_t)(unsafe.Pointer(&nvmlUnit)), cgoAllocsUnknown
 	cState, _ := (*C.nvmlLedState_t)(unsafe.Pointer(State)), cgoAllocsUnknown
-	__ret := C.nvmlUnitGetLedState(cUnit, cState)
+	__ret := C.nvmlUnitGetLedState(cnvmlUnit, cState)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlUnitGetPsuInfo function as declared in nvml/nvml.h
-func nvmlUnitGetPsuInfo(Unit Unit, Psu *PSUInfo) Return {
-	cUnit, _ := *(*C.nvmlUnit_t)(unsafe.Pointer(&Unit)), cgoAllocsUnknown
+func nvmlUnitGetPsuInfo(nvmlUnit nvmlUnit, Psu *PSUInfo) Return {
+	cnvmlUnit, _ := *(*C.nvmlUnit_t)(unsafe.Pointer(&nvmlUnit)), cgoAllocsUnknown
 	cPsu, _ := (*C.nvmlPSUInfo_t)(unsafe.Pointer(Psu)), cgoAllocsUnknown
-	__ret := C.nvmlUnitGetPsuInfo(cUnit, cPsu)
+	__ret := C.nvmlUnitGetPsuInfo(cnvmlUnit, cPsu)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlUnitGetTemperature function as declared in nvml/nvml.h
-func nvmlUnitGetTemperature(Unit Unit, _type uint32, Temp *uint32) Return {
-	cUnit, _ := *(*C.nvmlUnit_t)(unsafe.Pointer(&Unit)), cgoAllocsUnknown
+func nvmlUnitGetTemperature(nvmlUnit nvmlUnit, _type uint32, Temp *uint32) Return {
+	cnvmlUnit, _ := *(*C.nvmlUnit_t)(unsafe.Pointer(&nvmlUnit)), cgoAllocsUnknown
 	c_type, _ := (C.uint)(_type), cgoAllocsUnknown
 	cTemp, _ := (*C.uint)(unsafe.Pointer(Temp)), cgoAllocsUnknown
-	__ret := C.nvmlUnitGetTemperature(cUnit, c_type, cTemp)
+	__ret := C.nvmlUnitGetTemperature(cnvmlUnit, c_type, cTemp)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlUnitGetFanSpeedInfo function as declared in nvml/nvml.h
-func nvmlUnitGetFanSpeedInfo(Unit Unit, FanSpeeds *UnitFanSpeeds) Return {
-	cUnit, _ := *(*C.nvmlUnit_t)(unsafe.Pointer(&Unit)), cgoAllocsUnknown
+func nvmlUnitGetFanSpeedInfo(nvmlUnit nvmlUnit, FanSpeeds *UnitFanSpeeds) Return {
+	cnvmlUnit, _ := *(*C.nvmlUnit_t)(unsafe.Pointer(&nvmlUnit)), cgoAllocsUnknown
 	cFanSpeeds, _ := (*C.nvmlUnitFanSpeeds_t)(unsafe.Pointer(FanSpeeds)), cgoAllocsUnknown
-	__ret := C.nvmlUnitGetFanSpeedInfo(cUnit, cFanSpeeds)
+	__ret := C.nvmlUnitGetFanSpeedInfo(cnvmlUnit, cFanSpeeds)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlUnitGetDevices function as declared in nvml/nvml.h
-func nvmlUnitGetDevices(Unit Unit, DeviceCount *uint32, Devices *nvmlDevice) Return {
-	cUnit, _ := *(*C.nvmlUnit_t)(unsafe.Pointer(&Unit)), cgoAllocsUnknown
+func nvmlUnitGetDevices(nvmlUnit nvmlUnit, DeviceCount *uint32, Devices *nvmlDevice) Return {
+	cnvmlUnit, _ := *(*C.nvmlUnit_t)(unsafe.Pointer(&nvmlUnit)), cgoAllocsUnknown
 	cDeviceCount, _ := (*C.uint)(unsafe.Pointer(DeviceCount)), cgoAllocsUnknown
 	cDevices, _ := (*C.nvmlDevice_t)(unsafe.Pointer(Devices)), cgoAllocsUnknown
-	__ret := C.nvmlUnitGetDevices(cUnit, cDeviceCount, cDevices)
+	__ret := C.nvmlUnitGetDevices(cnvmlUnit, cDeviceCount, cDevices)
 	__v := (Return)(__ret)
 	return __v
 }
@@ -1350,10 +1350,10 @@ func nvmlDeviceGetArchitecture(nvmlDevice nvmlDevice, Arch *DeviceArchitecture) 
 }
 
 // nvmlUnitSetLedState function as declared in nvml/nvml.h
-func nvmlUnitSetLedState(Unit Unit, Color LedColor) Return {
-	cUnit, _ := *(*C.nvmlUnit_t)(unsafe.Pointer(&Unit)), cgoAllocsUnknown
+func nvmlUnitSetLedState(nvmlUnit nvmlUnit, Color LedColor) Return {
+	cnvmlUnit, _ := *(*C.nvmlUnit_t)(unsafe.Pointer(&nvmlUnit)), cgoAllocsUnknown
 	cColor, _ := (C.nvmlLedColor_t)(Color), cgoAllocsUnknown
-	__ret := C.nvmlUnitSetLedState(cUnit, cColor)
+	__ret := C.nvmlUnitSetLedState(cnvmlUnit, cColor)
 	__v := (Return)(__ret)
 	return __v
 }

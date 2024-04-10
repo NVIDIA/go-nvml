@@ -553,6 +553,16 @@ type Device interface {
 	VgpuTypeGetMaxInstances(VgpuTypeId VgpuTypeId) (int, Return)
 }
 
+type Unit interface {
+	GetUnitInfo() (UnitInfo, Return)
+	GetLedState() (LedState, Return)
+	GetPsuInfo() (PSUInfo, Return)
+	GetTemperature(Type int) (uint32, Return)
+	GetFanSpeedInfo() (UnitFanSpeeds, Return)
+	GetDevices() ([]Device, Return)
+	SetLedState(Color LedColor) Return
+}
+
 // Define package level methods as aliases to Interface methods of libnvml
 var (
 	GetLibrary                                      = libnvml.GetLibrary
