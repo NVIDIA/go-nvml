@@ -1753,10 +1753,10 @@ func (l *library) DeviceGetSupportedVgpus(Device Device) ([]VgpuTypeId, Return) 
 func (Device nvmlDevice) GetSupportedVgpus() ([]VgpuTypeId, Return) {
 	var VgpuCount uint32 = 1 // Will be reduced upon returning
 	for {
-		VgpuTypeIds := make([]VgpuTypeId, VgpuCount)
+		VgpuTypeIds := make([]nvmlVgpuTypeId, VgpuCount)
 		ret := nvmlDeviceGetSupportedVgpus(Device, &VgpuCount, &VgpuTypeIds[0])
 		if ret == SUCCESS {
-			return VgpuTypeIds[:VgpuCount], ret
+			return convertSlice[nvmlVgpuTypeId, VgpuTypeId](VgpuTypeIds[:VgpuCount]), ret
 		}
 		if ret != ERROR_INSUFFICIENT_SIZE {
 			return nil, ret
@@ -1773,10 +1773,10 @@ func (l *library) DeviceGetCreatableVgpus(Device Device) ([]VgpuTypeId, Return) 
 func (Device nvmlDevice) GetCreatableVgpus() ([]VgpuTypeId, Return) {
 	var VgpuCount uint32 = 1 // Will be reduced upon returning
 	for {
-		VgpuTypeIds := make([]VgpuTypeId, VgpuCount)
+		VgpuTypeIds := make([]nvmlVgpuTypeId, VgpuCount)
 		ret := nvmlDeviceGetCreatableVgpus(Device, &VgpuCount, &VgpuTypeIds[0])
 		if ret == SUCCESS {
-			return VgpuTypeIds[:VgpuCount], ret
+			return convertSlice[nvmlVgpuTypeId, VgpuTypeId](VgpuTypeIds[:VgpuCount]), ret
 		}
 		if ret != ERROR_INSUFFICIENT_SIZE {
 			return nil, ret

@@ -143,7 +143,7 @@ type ClkMonStatus struct {
 	ClkMonList     [32]ClkMonFaultInfo
 }
 
-type VgpuTypeId uint32
+type nvmlVgpuTypeId uint32
 
 type nvmlVgpuInstance uint32
 

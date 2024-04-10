@@ -594,6 +594,21 @@ type VgpuInstance interface {
 	GetMdevUUID() (string, Return)
 }
 
+type VgpuTypeId interface {
+	GetClass() (string, Return)
+	GetName() (string, Return)
+	GetGpuInstanceProfileId() (uint32, Return)
+	GetDeviceID() (uint64, uint64, Return)
+	GetFramebufferSize() (uint64, Return)
+	GetNumDisplayHeads() (int, Return)
+	GetResolution(DisplayIndex int) (uint32, uint32, Return)
+	GetLicense() (string, Return)
+	GetFrameRateLimit() (uint32, Return)
+	GetMaxInstances(Device Device) (int, Return)
+	GetMaxInstancesPerVm() (int, Return)
+	GetCapabilities(Capability VgpuCapability) (bool, Return)
+}
+
 // Define package level methods as aliases to Interface methods of libnvml
 var (
 	GetLibrary                                      = libnvml.GetLibrary
