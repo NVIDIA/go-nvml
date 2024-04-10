@@ -133,13 +133,13 @@ func (VgpuTypeId VgpuTypeId) GetFrameRateLimit() (uint32, Return) {
 
 // nvml.VgpuTypeGetMaxInstances()
 func (l *library) VgpuTypeGetMaxInstances(Device Device, VgpuTypeId VgpuTypeId) (int, Return) {
+	return Device.VgpuTypeGetMaxInstances(VgpuTypeId)
+}
+
+func (Device nvmlDevice) VgpuTypeGetMaxInstances(VgpuTypeId VgpuTypeId) (int, Return) {
 	var VgpuInstanceCount uint32
 	ret := nvmlVgpuTypeGetMaxInstances(Device, VgpuTypeId, &VgpuInstanceCount)
 	return int(VgpuInstanceCount), ret
-}
-
-func (Device Device) VgpuTypeGetMaxInstances(VgpuTypeId VgpuTypeId) (int, Return) {
-	return VgpuTypeGetMaxInstances(Device, VgpuTypeId)
 }
 
 func (VgpuTypeId VgpuTypeId) GetMaxInstances(Device Device) (int, Return) {

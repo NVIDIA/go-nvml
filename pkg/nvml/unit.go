@@ -87,10 +87,10 @@ func (Unit Unit) GetFanSpeedInfo() (UnitFanSpeeds, Return) {
 func (l *library) UnitGetDevices(Unit Unit) ([]Device, Return) {
 	var DeviceCount uint32 = 1 // Will be reduced upon returning
 	for {
-		Devices := make([]Device, DeviceCount)
+		Devices := make([]nvmlDevice, DeviceCount)
 		ret := nvmlUnitGetDevices(Unit, &DeviceCount, &Devices[0])
 		if ret == SUCCESS {
-			return Devices[:DeviceCount], ret
+			return convertSlice[nvmlDevice, Device](Devices[:DeviceCount]), ret
 		}
 		if ret != ERROR_INSUFFICIENT_SIZE {
 			return nil, ret

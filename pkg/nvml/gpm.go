@@ -44,23 +44,23 @@ func (l *library) GpmSampleAlloc(GpmSample *GpmSample) Return {
 
 // nvml.GpmSampleGet()
 func (l *library) GpmSampleGet(Device Device, GpmSample GpmSample) Return {
-	return nvmlGpmSampleGet(Device, GpmSample)
+	return Device.GpmSampleGet(GpmSample)
 }
 
-func (Device Device) GpmSampleGet(GpmSample GpmSample) Return {
-	return GpmSampleGet(Device, GpmSample)
+func (Device nvmlDevice) GpmSampleGet(GpmSample GpmSample) Return {
+	return nvmlGpmSampleGet(Device, GpmSample)
 }
 
 // nvml.GpmQueryDeviceSupport()
 type GpmSupportV struct {
-	device Device
+	device nvmlDevice
 }
 
 func (l *library) GpmQueryDeviceSupportV(Device Device) GpmSupportV {
-	return GpmSupportV{Device}
+	return Device.GpmQueryDeviceSupportV()
 }
 
-func (Device Device) GpmQueryDeviceSupportV() GpmSupportV {
+func (Device nvmlDevice) GpmQueryDeviceSupportV() GpmSupportV {
 	return GpmSupportV{Device}
 }
 
@@ -72,21 +72,21 @@ func (GpmSupportV GpmSupportV) V1() (GpmSupport, Return) {
 }
 
 func (l *library) GpmQueryDeviceSupport(Device Device) (GpmSupport, Return) {
+	return Device.GpmQueryDeviceSupport()
+}
+
+func (Device nvmlDevice) GpmQueryDeviceSupport() (GpmSupport, Return) {
 	var GpmSupport GpmSupport
 	GpmSupport.Version = GPM_SUPPORT_VERSION
 	ret := nvmlGpmQueryDeviceSupport(Device, &GpmSupport)
 	return GpmSupport, ret
 }
 
-func (Device Device) GpmQueryDeviceSupport() (GpmSupport, Return) {
-	return GpmQueryDeviceSupport(Device)
-}
-
 // nvml.GpmMigSampleGet()
 func (l *library) GpmMigSampleGet(Device Device, GpuInstanceId int, GpmSample GpmSample) Return {
-	return nvmlGpmMigSampleGet(Device, uint32(GpuInstanceId), GpmSample)
+	return Device.GpmMigSampleGet(GpuInstanceId, GpmSample)
 }
 
-func (Device Device) GpmMigSampleGet(GpuInstanceId int, GpmSample GpmSample) Return {
-	return GpmMigSampleGet(Device, GpuInstanceId, GpmSample)
+func (Device nvmlDevice) GpmMigSampleGet(GpuInstanceId int, GpmSample GpmSample) Return {
+	return nvmlGpmMigSampleGet(Device, uint32(GpuInstanceId), GpmSample)
 }

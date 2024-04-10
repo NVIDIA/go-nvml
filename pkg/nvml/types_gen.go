@@ -5,7 +5,7 @@ package nvml
 
 import "unsafe"
 
-type Device struct {
+type nvmlDevice struct {
 	Handle *_Ctype_struct_nvmlDevice_st
 }
 
@@ -359,7 +359,7 @@ type EventSet struct {
 }
 
 type EventData struct {
-	Device            Device
+	Device            nvmlDevice
 	EventType         uint64
 	EventData         uint64
 	GpuInstanceId     uint32
@@ -495,7 +495,7 @@ type GpuInstanceProfileInfo_v2 struct {
 }
 
 type GpuInstanceInfo struct {
-	Device    Device
+	Device    nvmlDevice
 	Id        uint32
 	ProfileId uint32
 	Placement GpuInstancePlacement
@@ -537,7 +537,7 @@ type ComputeInstanceProfileInfo_v2 struct {
 }
 
 type ComputeInstanceInfo struct {
-	Device      Device
+	Device      nvmlDevice
 	GpuInstance GpuInstance
 	Id          uint32
 	ProfileId   uint32
