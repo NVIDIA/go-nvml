@@ -544,7 +544,7 @@ type ComputeInstanceInfo struct {
 	Placement   ComputeInstancePlacement
 }
 
-type ComputeInstance struct {
+type nvmlComputeInstance struct {
 	Handle *_Ctype_struct_nvmlComputeInstance_st
 }
 

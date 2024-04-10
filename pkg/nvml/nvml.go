@@ -2459,36 +2459,36 @@ func nvmlGpuInstanceGetComputeInstancePossiblePlacements(nvmlGpuInstance nvmlGpu
 }
 
 // nvmlGpuInstanceCreateComputeInstance function as declared in nvml/nvml.h
-func nvmlGpuInstanceCreateComputeInstance(nvmlGpuInstance nvmlGpuInstance, ProfileId uint32, ComputeInstance *ComputeInstance) Return {
+func nvmlGpuInstanceCreateComputeInstance(nvmlGpuInstance nvmlGpuInstance, ProfileId uint32, nvmlComputeInstance *nvmlComputeInstance) Return {
 	cnvmlGpuInstance, _ := *(*C.nvmlGpuInstance_t)(unsafe.Pointer(&nvmlGpuInstance)), cgoAllocsUnknown
 	cProfileId, _ := (C.uint)(ProfileId), cgoAllocsUnknown
-	cComputeInstance, _ := (*C.nvmlComputeInstance_t)(unsafe.Pointer(ComputeInstance)), cgoAllocsUnknown
-	__ret := C.nvmlGpuInstanceCreateComputeInstance(cnvmlGpuInstance, cProfileId, cComputeInstance)
+	cnvmlComputeInstance, _ := (*C.nvmlComputeInstance_t)(unsafe.Pointer(nvmlComputeInstance)), cgoAllocsUnknown
+	__ret := C.nvmlGpuInstanceCreateComputeInstance(cnvmlGpuInstance, cProfileId, cnvmlComputeInstance)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlGpuInstanceCreateComputeInstanceWithPlacement function as declared in nvml/nvml.h
-func nvmlGpuInstanceCreateComputeInstanceWithPlacement(nvmlGpuInstance nvmlGpuInstance, ProfileId uint32, Placement *ComputeInstancePlacement, ComputeInstance *ComputeInstance) Return {
+func nvmlGpuInstanceCreateComputeInstanceWithPlacement(nvmlGpuInstance nvmlGpuInstance, ProfileId uint32, Placement *ComputeInstancePlacement, nvmlComputeInstance *nvmlComputeInstance) Return {
 	cnvmlGpuInstance, _ := *(*C.nvmlGpuInstance_t)(unsafe.Pointer(&nvmlGpuInstance)), cgoAllocsUnknown
 	cProfileId, _ := (C.uint)(ProfileId), cgoAllocsUnknown
 	cPlacement, _ := (*C.nvmlComputeInstancePlacement_t)(unsafe.Pointer(Placement)), cgoAllocsUnknown
-	cComputeInstance, _ := (*C.nvmlComputeInstance_t)(unsafe.Pointer(ComputeInstance)), cgoAllocsUnknown
-	__ret := C.nvmlGpuInstanceCreateComputeInstanceWithPlacement(cnvmlGpuInstance, cProfileId, cPlacement, cComputeInstance)
+	cnvmlComputeInstance, _ := (*C.nvmlComputeInstance_t)(unsafe.Pointer(nvmlComputeInstance)), cgoAllocsUnknown
+	__ret := C.nvmlGpuInstanceCreateComputeInstanceWithPlacement(cnvmlGpuInstance, cProfileId, cPlacement, cnvmlComputeInstance)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlComputeInstanceDestroy function as declared in nvml/nvml.h
-func nvmlComputeInstanceDestroy(ComputeInstance ComputeInstance) Return {
-	cComputeInstance, _ := *(*C.nvmlComputeInstance_t)(unsafe.Pointer(&ComputeInstance)), cgoAllocsUnknown
-	__ret := C.nvmlComputeInstanceDestroy(cComputeInstance)
+func nvmlComputeInstanceDestroy(nvmlComputeInstance nvmlComputeInstance) Return {
+	cnvmlComputeInstance, _ := *(*C.nvmlComputeInstance_t)(unsafe.Pointer(&nvmlComputeInstance)), cgoAllocsUnknown
+	__ret := C.nvmlComputeInstanceDestroy(cnvmlComputeInstance)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlGpuInstanceGetComputeInstances function as declared in nvml/nvml.h
-func nvmlGpuInstanceGetComputeInstances(nvmlGpuInstance nvmlGpuInstance, ProfileId uint32, ComputeInstances *ComputeInstance, Count *uint32) Return {
+func nvmlGpuInstanceGetComputeInstances(nvmlGpuInstance nvmlGpuInstance, ProfileId uint32, ComputeInstances *nvmlComputeInstance, Count *uint32) Return {
 	cnvmlGpuInstance, _ := *(*C.nvmlGpuInstance_t)(unsafe.Pointer(&nvmlGpuInstance)), cgoAllocsUnknown
 	cProfileId, _ := (C.uint)(ProfileId), cgoAllocsUnknown
 	cComputeInstances, _ := (*C.nvmlComputeInstance_t)(unsafe.Pointer(ComputeInstances)), cgoAllocsUnknown
@@ -2499,20 +2499,20 @@ func nvmlGpuInstanceGetComputeInstances(nvmlGpuInstance nvmlGpuInstance, Profile
 }
 
 // nvmlGpuInstanceGetComputeInstanceById function as declared in nvml/nvml.h
-func nvmlGpuInstanceGetComputeInstanceById(nvmlGpuInstance nvmlGpuInstance, Id uint32, ComputeInstance *ComputeInstance) Return {
+func nvmlGpuInstanceGetComputeInstanceById(nvmlGpuInstance nvmlGpuInstance, Id uint32, nvmlComputeInstance *nvmlComputeInstance) Return {
 	cnvmlGpuInstance, _ := *(*C.nvmlGpuInstance_t)(unsafe.Pointer(&nvmlGpuInstance)), cgoAllocsUnknown
 	cId, _ := (C.uint)(Id), cgoAllocsUnknown
-	cComputeInstance, _ := (*C.nvmlComputeInstance_t)(unsafe.Pointer(ComputeInstance)), cgoAllocsUnknown
-	__ret := C.nvmlGpuInstanceGetComputeInstanceById(cnvmlGpuInstance, cId, cComputeInstance)
+	cnvmlComputeInstance, _ := (*C.nvmlComputeInstance_t)(unsafe.Pointer(nvmlComputeInstance)), cgoAllocsUnknown
+	__ret := C.nvmlGpuInstanceGetComputeInstanceById(cnvmlGpuInstance, cId, cnvmlComputeInstance)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlComputeInstanceGetInfo_v2 function as declared in nvml/nvml.h
-func nvmlComputeInstanceGetInfo_v2(ComputeInstance ComputeInstance, Info *ComputeInstanceInfo) Return {
-	cComputeInstance, _ := *(*C.nvmlComputeInstance_t)(unsafe.Pointer(&ComputeInstance)), cgoAllocsUnknown
+func nvmlComputeInstanceGetInfo_v2(nvmlComputeInstance nvmlComputeInstance, Info *ComputeInstanceInfo) Return {
+	cnvmlComputeInstance, _ := *(*C.nvmlComputeInstance_t)(unsafe.Pointer(&nvmlComputeInstance)), cgoAllocsUnknown
 	cInfo, _ := (*C.nvmlComputeInstanceInfo_t)(unsafe.Pointer(Info)), cgoAllocsUnknown
-	__ret := C.nvmlComputeInstanceGetInfo_v2(cComputeInstance, cInfo)
+	__ret := C.nvmlComputeInstanceGetInfo_v2(cnvmlComputeInstance, cInfo)
 	__v := (Return)(__ret)
 	return __v
 }
@@ -2882,10 +2882,10 @@ func nvmlDeviceGetAttributes_v1(nvmlDevice nvmlDevice, Attributes *DeviceAttribu
 }
 
 // nvmlComputeInstanceGetInfo_v1 function as declared in nvml/nvml.h
-func nvmlComputeInstanceGetInfo_v1(ComputeInstance ComputeInstance, Info *ComputeInstanceInfo) Return {
-	cComputeInstance, _ := *(*C.nvmlComputeInstance_t)(unsafe.Pointer(&ComputeInstance)), cgoAllocsUnknown
+func nvmlComputeInstanceGetInfo_v1(nvmlComputeInstance nvmlComputeInstance, Info *ComputeInstanceInfo) Return {
+	cnvmlComputeInstance, _ := *(*C.nvmlComputeInstance_t)(unsafe.Pointer(&nvmlComputeInstance)), cgoAllocsUnknown
 	cInfo, _ := (*C.nvmlComputeInstanceInfo_t)(unsafe.Pointer(Info)), cgoAllocsUnknown
-	__ret := C.nvmlComputeInstanceGetInfo(cComputeInstance, cInfo)
+	__ret := C.nvmlComputeInstanceGetInfo(cnvmlComputeInstance, cInfo)
 	__v := (Return)(__ret)
 	return __v
 }

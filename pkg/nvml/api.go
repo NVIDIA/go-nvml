@@ -566,6 +566,11 @@ type GpuInstance interface {
 	CreateComputeInstanceWithPlacement(Info *ComputeInstanceProfileInfo, Placement *ComputeInstancePlacement) (ComputeInstance, Return)
 }
 
+type ComputeInstance interface {
+	Destroy() Return
+	GetInfo() (ComputeInstanceInfo, Return)
+}
+
 type EventSet interface {
 	Wait(Timeoutms uint32) (EventData, Return)
 	Free() Return
