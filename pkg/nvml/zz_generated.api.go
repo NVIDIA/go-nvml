@@ -314,6 +314,8 @@ var (
 )
 
 // Interface represents the interface for the library type.
+//
+//go:generate moq -out mock/interface.go -pkg mock . Interface:Interface
 type Interface interface {
 	ComputeInstanceDestroy(ComputeInstance) Return
 	ComputeInstanceGetInfo(ComputeInstance) (ComputeInstanceInfo, Return)
@@ -609,6 +611,8 @@ type Interface interface {
 }
 
 // Device represents the interface for the nvmlDevice type.
+//
+//go:generate moq -out mock/device.go -pkg mock . Device:Device
 type Device interface {
 	CcuGetStreamState() (int, Return)
 	CcuSetStreamState(int) Return
@@ -814,6 +818,8 @@ type Device interface {
 }
 
 // GpuInstance represents the interface for the nvmlGpuInstance type.
+//
+//go:generate moq -out mock/gpuinstance.go -pkg mock . GpuInstance:GpuInstance
 type GpuInstance interface {
 	CreateComputeInstance(*ComputeInstanceProfileInfo) (ComputeInstance, Return)
 	CreateComputeInstanceWithPlacement(*ComputeInstanceProfileInfo, *ComputeInstancePlacement) (ComputeInstance, Return)
@@ -828,18 +834,24 @@ type GpuInstance interface {
 }
 
 // ComputeInstance represents the interface for the nvmlComputeInstance type.
+//
+//go:generate moq -out mock/computeinstance.go -pkg mock . ComputeInstance:ComputeInstance
 type ComputeInstance interface {
 	Destroy() Return
 	GetInfo() (ComputeInstanceInfo, Return)
 }
 
 // EventSet represents the interface for the nvmlEventSet type.
+//
+//go:generate moq -out mock/eventset.go -pkg mock . EventSet:EventSet
 type EventSet interface {
 	Free() Return
 	Wait(uint32) (EventData, Return)
 }
 
 // GpmSample represents the interface for the nvmlGpmSample type.
+//
+//go:generate moq -out mock/gpmsample.go -pkg mock . GpmSample:GpmSample
 type GpmSample interface {
 	Free() Return
 	Get(Device) Return
@@ -847,6 +859,8 @@ type GpmSample interface {
 }
 
 // Unit represents the interface for the nvmlUnit type.
+//
+//go:generate moq -out mock/unit.go -pkg mock . Unit:Unit
 type Unit interface {
 	GetDevices() ([]Device, Return)
 	GetFanSpeedInfo() (UnitFanSpeeds, Return)
@@ -858,6 +872,8 @@ type Unit interface {
 }
 
 // VgpuInstance represents the interface for the nvmlVgpuInstance type.
+//
+//go:generate moq -out mock/vgpuinstance.go -pkg mock . VgpuInstance:VgpuInstance
 type VgpuInstance interface {
 	ClearAccountingPids() Return
 	GetAccountingMode() (EnableState, Return)
@@ -885,6 +901,8 @@ type VgpuInstance interface {
 }
 
 // VgpuTypeId represents the interface for the nvmlVgpuTypeId type.
+//
+//go:generate moq -out mock/vgputypeid.go -pkg mock . VgpuTypeId:VgpuTypeId
 type VgpuTypeId interface {
 	GetCapabilities(VgpuCapability) (bool, Return)
 	GetClass() (string, Return)

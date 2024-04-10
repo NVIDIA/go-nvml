@@ -197,11 +197,13 @@ func generatePackageMethodsComment(input GeneratableInterfacePoperties) (string,
 func generateInterfaceComment(input GeneratableInterfacePoperties) (string, error) {
 	commentFmt := []string{
 		"// %s represents the interface for the %s type.",
+		"//",
+		"//go:generate moq -out mock/%s.go -pkg mock . %s:%s",
 	}
 
 	var signature strings.Builder
 	comment := strings.Join(commentFmt, "\n")
-	comment = fmt.Sprintf(comment, input.Interface, input.Type)
+	comment = fmt.Sprintf(comment, input.Interface, input.Type, strings.ToLower(input.Interface), input.Interface, input.Interface)
 	signature.WriteString(fmt.Sprintf("%s\n", comment))
 	return signature.String(), nil
 }
