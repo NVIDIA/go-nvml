@@ -501,7 +501,7 @@ type GpuInstanceInfo struct {
 	Placement GpuInstancePlacement
 }
 
-type GpuInstance struct {
+type nvmlGpuInstance struct {
 	Handle *_Ctype_struct_nvmlGpuInstance_st
 }
 
@@ -538,7 +538,7 @@ type ComputeInstanceProfileInfo_v2 struct {
 
 type ComputeInstanceInfo struct {
 	Device      nvmlDevice
-	GpuInstance GpuInstance
+	GpuInstance nvmlGpuInstance
 	Id          uint32
 	ProfileId   uint32
 	Placement   ComputeInstancePlacement

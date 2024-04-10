@@ -553,6 +553,19 @@ type Device interface {
 	VgpuTypeGetMaxInstances(VgpuTypeId VgpuTypeId) (int, Return)
 }
 
+type GpuInstance interface {
+	Destroy() Return
+	GetInfo() (GpuInstanceInfo, Return)
+	GetComputeInstanceProfileInfo(Profile int, EngProfile int) (ComputeInstanceProfileInfo, Return)
+	GetComputeInstanceProfileInfoV(Profile int, EngProfile int) ComputeInstanceProfileInfoV
+	GetComputeInstanceRemainingCapacity(Info *ComputeInstanceProfileInfo) (int, Return)
+	CreateComputeInstance(Info *ComputeInstanceProfileInfo) (ComputeInstance, Return)
+	GetComputeInstances(Info *ComputeInstanceProfileInfo) ([]ComputeInstance, Return)
+	GetComputeInstanceById(Id int) (ComputeInstance, Return)
+	GetComputeInstancePossiblePlacements(Info *ComputeInstanceProfileInfo) ([]ComputeInstancePlacement, Return)
+	CreateComputeInstanceWithPlacement(Info *ComputeInstanceProfileInfo, Placement *ComputeInstancePlacement, ComputeInstance *ComputeInstance) Return
+}
+
 type EventSet interface {
 	Wait(Timeoutms uint32) (EventData, Return)
 	Free() Return

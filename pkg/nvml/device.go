@@ -2051,9 +2051,9 @@ func (l *library) DeviceCreateGpuInstance(Device Device, Info *GpuInstanceProfil
 
 func (Device nvmlDevice) CreateGpuInstance(Info *GpuInstanceProfileInfo) (GpuInstance, Return) {
 	if Info == nil {
-		return GpuInstance{}, ERROR_INVALID_ARGUMENT
+		return nil, ERROR_INVALID_ARGUMENT
 	}
-	var GpuInstance GpuInstance
+	var GpuInstance nvmlGpuInstance
 	ret := nvmlDeviceCreateGpuInstance(Device, Info.Id, &GpuInstance)
 	return GpuInstance, ret
 }
@@ -2065,20 +2065,20 @@ func (l *library) DeviceCreateGpuInstanceWithPlacement(Device Device, Info *GpuI
 
 func (Device nvmlDevice) CreateGpuInstanceWithPlacement(Info *GpuInstanceProfileInfo, Placement *GpuInstancePlacement) (GpuInstance, Return) {
 	if Info == nil {
-		return GpuInstance{}, ERROR_INVALID_ARGUMENT
+		return nil, ERROR_INVALID_ARGUMENT
 	}
-	var GpuInstance GpuInstance
+	var GpuInstance nvmlGpuInstance
 	ret := nvmlDeviceCreateGpuInstanceWithPlacement(Device, Info.Id, Placement, &GpuInstance)
 	return GpuInstance, ret
 }
 
 // nvml.GpuInstanceDestroy()
 func (l *library) GpuInstanceDestroy(GpuInstance GpuInstance) Return {
-	return nvmlGpuInstanceDestroy(GpuInstance)
+	return GpuInstance.Destroy()
 }
 
-func (GpuInstance GpuInstance) Destroy() Return {
-	return GpuInstanceDestroy(GpuInstance)
+func (GpuInstance nvmlGpuInstance) Destroy() Return {
+	return nvmlGpuInstanceDestroy(GpuInstance)
 }
 
 // nvml.DeviceGetGpuInstances()
@@ -2091,9 +2091,9 @@ func (Device nvmlDevice) GetGpuInstances(Info *GpuInstanceProfileInfo) ([]GpuIns
 		return nil, ERROR_INVALID_ARGUMENT
 	}
 	var Count uint32 = Info.InstanceCount
-	GpuInstances := make([]GpuInstance, Count)
+	GpuInstances := make([]nvmlGpuInstance, Count)
 	ret := nvmlDeviceGetGpuInstances(Device, Info.Id, &GpuInstances[0], &Count)
-	return GpuInstances[:Count], ret
+	return convertSlice[nvmlGpuInstance, GpuInstance](GpuInstances[:Count]), ret
 }
 
 // nvml.DeviceGetGpuInstanceById()
@@ -2102,36 +2102,36 @@ func (l *library) DeviceGetGpuInstanceById(Device Device, Id int) (GpuInstance, 
 }
 
 func (Device nvmlDevice) GetGpuInstanceById(Id int) (GpuInstance, Return) {
-	var GpuInstance GpuInstance
+	var GpuInstance nvmlGpuInstance
 	ret := nvmlDeviceGetGpuInstanceById(Device, uint32(Id), &GpuInstance)
 	return GpuInstance, ret
 }
 
 // nvml.GpuInstanceGetInfo()
 func (l *library) GpuInstanceGetInfo(GpuInstance GpuInstance) (GpuInstanceInfo, Return) {
+	return GpuInstance.GetInfo()
+}
+
+func (GpuInstance nvmlGpuInstance) GetInfo() (GpuInstanceInfo, Return) {
 	var Info GpuInstanceInfo
 	ret := nvmlGpuInstanceGetInfo(GpuInstance, &Info)
 	return Info, ret
 }
 
-func (GpuInstance GpuInstance) GetInfo() (GpuInstanceInfo, Return) {
-	return GpuInstanceGetInfo(GpuInstance)
-}
-
 // nvml.GpuInstanceGetComputeInstanceProfileInfo()
 func (l *library) GpuInstanceGetComputeInstanceProfileInfo(GpuInstance GpuInstance, Profile int, EngProfile int) (ComputeInstanceProfileInfo, Return) {
+	return GpuInstance.GetComputeInstanceProfileInfo(Profile, EngProfile)
+}
+
+func (GpuInstance nvmlGpuInstance) GetComputeInstanceProfileInfo(Profile int, EngProfile int) (ComputeInstanceProfileInfo, Return) {
 	var Info ComputeInstanceProfileInfo
 	ret := nvmlGpuInstanceGetComputeInstanceProfileInfo(GpuInstance, uint32(Profile), uint32(EngProfile), &Info)
 	return Info, ret
 }
 
-func (GpuInstance GpuInstance) GetComputeInstanceProfileInfo(Profile int, EngProfile int) (ComputeInstanceProfileInfo, Return) {
-	return GpuInstanceGetComputeInstanceProfileInfo(GpuInstance, Profile, EngProfile)
-}
-
 // nvml.GpuInstanceGetComputeInstanceProfileInfoV()
 type ComputeInstanceProfileInfoV struct {
-	gpuInstance GpuInstance
+	gpuInstance nvmlGpuInstance
 	profile     int
 	engProfile  int
 }
@@ -2148,15 +2148,19 @@ func (InfoV ComputeInstanceProfileInfoV) V2() (ComputeInstanceProfileInfo_v2, Re
 }
 
 func (l *library) GpuInstanceGetComputeInstanceProfileInfoV(GpuInstance GpuInstance, Profile int, EngProfile int) ComputeInstanceProfileInfoV {
-	return ComputeInstanceProfileInfoV{GpuInstance, Profile, EngProfile}
+	return GpuInstance.GetComputeInstanceProfileInfoV(Profile, EngProfile)
 }
 
-func (GpuInstance GpuInstance) GetComputeInstanceProfileInfoV(Profile int, EngProfile int) ComputeInstanceProfileInfoV {
-	return GpuInstanceGetComputeInstanceProfileInfoV(GpuInstance, Profile, EngProfile)
+func (GpuInstance nvmlGpuInstance) GetComputeInstanceProfileInfoV(Profile int, EngProfile int) ComputeInstanceProfileInfoV {
+	return ComputeInstanceProfileInfoV{GpuInstance, Profile, EngProfile}
 }
 
 // nvml.GpuInstanceGetComputeInstanceRemainingCapacity()
 func (l *library) GpuInstanceGetComputeInstanceRemainingCapacity(GpuInstance GpuInstance, Info *ComputeInstanceProfileInfo) (int, Return) {
+	return GpuInstance.GetComputeInstanceRemainingCapacity(Info)
+}
+
+func (GpuInstance nvmlGpuInstance) GetComputeInstanceRemainingCapacity(Info *ComputeInstanceProfileInfo) (int, Return) {
 	if Info == nil {
 		return 0, ERROR_INVALID_ARGUMENT
 	}
@@ -2165,22 +2169,18 @@ func (l *library) GpuInstanceGetComputeInstanceRemainingCapacity(GpuInstance Gpu
 	return int(Count), ret
 }
 
-func (GpuInstance GpuInstance) GetComputeInstanceRemainingCapacity(Info *ComputeInstanceProfileInfo) (int, Return) {
-	return GpuInstanceGetComputeInstanceRemainingCapacity(GpuInstance, Info)
-}
-
 // nvml.GpuInstanceCreateComputeInstance()
 func (l *library) GpuInstanceCreateComputeInstance(GpuInstance GpuInstance, Info *ComputeInstanceProfileInfo) (ComputeInstance, Return) {
+	return GpuInstance.CreateComputeInstance(Info)
+}
+
+func (GpuInstance nvmlGpuInstance) CreateComputeInstance(Info *ComputeInstanceProfileInfo) (ComputeInstance, Return) {
 	if Info == nil {
 		return ComputeInstance{}, ERROR_INVALID_ARGUMENT
 	}
 	var ComputeInstance ComputeInstance
 	ret := nvmlGpuInstanceCreateComputeInstance(GpuInstance, Info.Id, &ComputeInstance)
 	return ComputeInstance, ret
-}
-
-func (GpuInstance GpuInstance) CreateComputeInstance(Info *ComputeInstanceProfileInfo) (ComputeInstance, Return) {
-	return GpuInstanceCreateComputeInstance(GpuInstance, Info)
 }
 
 // nvml.ComputeInstanceDestroy()
@@ -2194,6 +2194,10 @@ func (ComputeInstance ComputeInstance) Destroy() Return {
 
 // nvml.GpuInstanceGetComputeInstances()
 func (l *library) GpuInstanceGetComputeInstances(GpuInstance GpuInstance, Info *ComputeInstanceProfileInfo) ([]ComputeInstance, Return) {
+	return GpuInstance.GetComputeInstances(Info)
+}
+
+func (GpuInstance nvmlGpuInstance) GetComputeInstances(Info *ComputeInstanceProfileInfo) ([]ComputeInstance, Return) {
 	if Info == nil {
 		return nil, ERROR_INVALID_ARGUMENT
 	}
@@ -2203,19 +2207,15 @@ func (l *library) GpuInstanceGetComputeInstances(GpuInstance GpuInstance, Info *
 	return ComputeInstances[:Count], ret
 }
 
-func (GpuInstance GpuInstance) GetComputeInstances(Info *ComputeInstanceProfileInfo) ([]ComputeInstance, Return) {
-	return GpuInstanceGetComputeInstances(GpuInstance, Info)
-}
-
 // nvml.GpuInstanceGetComputeInstanceById()
 func (l *library) GpuInstanceGetComputeInstanceById(GpuInstance GpuInstance, Id int) (ComputeInstance, Return) {
+	return GpuInstance.GetComputeInstanceById(Id)
+}
+
+func (GpuInstance nvmlGpuInstance) GetComputeInstanceById(Id int) (ComputeInstance, Return) {
 	var ComputeInstance ComputeInstance
 	ret := nvmlGpuInstanceGetComputeInstanceById(GpuInstance, uint32(Id), &ComputeInstance)
 	return ComputeInstance, ret
-}
-
-func (GpuInstance GpuInstance) GetComputeInstanceById(Id int) (ComputeInstance, Return) {
-	return GpuInstanceGetComputeInstanceById(GpuInstance, Id)
 }
 
 // nvml.ComputeInstanceGetInfo()
@@ -2597,6 +2597,10 @@ func (Device nvmlDevice) GetVgpuSchedulerCapabilities() (VgpuSchedulerCapabiliti
 
 // nvml.GpuInstanceGetComputeInstancePossiblePlacements()
 func (l *library) GpuInstanceGetComputeInstancePossiblePlacements(GpuInstance GpuInstance, Info *ComputeInstanceProfileInfo) ([]ComputeInstancePlacement, Return) {
+	return GpuInstance.GetComputeInstancePossiblePlacements(Info)
+}
+
+func (GpuInstance nvmlGpuInstance) GetComputeInstancePossiblePlacements(Info *ComputeInstanceProfileInfo) ([]ComputeInstancePlacement, Return) {
 	var Count uint32
 	ret := nvmlGpuInstanceGetComputeInstancePossiblePlacements(GpuInstance, Info.Id, nil, &Count)
 	if ret != SUCCESS {
@@ -2610,17 +2614,13 @@ func (l *library) GpuInstanceGetComputeInstancePossiblePlacements(GpuInstance Gp
 	return PlacementArray, ret
 }
 
-func (GpuInstance GpuInstance) GetComputeInstancePossiblePlacements(Info *ComputeInstanceProfileInfo) ([]ComputeInstancePlacement, Return) {
-	return GpuInstanceGetComputeInstancePossiblePlacements(GpuInstance, Info)
-}
-
 // nvml.GpuInstanceCreateComputeInstanceWithPlacement()
 func (l *library) GpuInstanceCreateComputeInstanceWithPlacement(GpuInstance GpuInstance, Info *ComputeInstanceProfileInfo, Placement *ComputeInstancePlacement, ComputeInstance *ComputeInstance) Return {
-	return nvmlGpuInstanceCreateComputeInstanceWithPlacement(GpuInstance, Info.Id, Placement, ComputeInstance)
+	return GpuInstance.CreateComputeInstanceWithPlacement(Info, Placement, ComputeInstance)
 }
 
-func (GpuInstance GpuInstance) CreateComputeInstanceWithPlacement(Info *ComputeInstanceProfileInfo, Placement *ComputeInstancePlacement, ComputeInstance *ComputeInstance) Return {
-	return GpuInstanceCreateComputeInstanceWithPlacement(GpuInstance, Info, Placement, ComputeInstance)
+func (GpuInstance nvmlGpuInstance) CreateComputeInstanceWithPlacement(Info *ComputeInstanceProfileInfo, Placement *ComputeInstancePlacement, ComputeInstance *ComputeInstance) Return {
+	return nvmlGpuInstanceCreateComputeInstanceWithPlacement(GpuInstance, Info.Id, Placement, ComputeInstance)
 }
 
 // nvml.DeviceGetGpuFabricInfo()
