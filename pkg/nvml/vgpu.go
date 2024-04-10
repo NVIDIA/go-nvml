@@ -423,9 +423,9 @@ func (vgpuInstance nvmlVgpuInstance) GetAccountingStats(pid int) (AccountingStat
 }
 
 // nvml.GetVgpuCompatibility()
-func (l *library) GetVgpuCompatibility(nvmlVgpuMetadata *nvmlVgpuMetadata, pgpuMetadata *nvmlVgpuPgpuMetadata) (VgpuPgpuCompatibility, Return) {
+func (l *library) GetVgpuCompatibility(vgpuMetadata *VgpuMetadata, pgpuMetadata *VgpuPgpuMetadata) (VgpuPgpuCompatibility, Return) {
 	var compatibilityInfo VgpuPgpuCompatibility
-	ret := nvmlGetVgpuCompatibility(nvmlVgpuMetadata, pgpuMetadata, &compatibilityInfo)
+	ret := nvmlGetVgpuCompatibility(&vgpuMetadata.nvmlVgpuMetadata, &pgpuMetadata.nvmlVgpuPgpuMetadata, &compatibilityInfo)
 	return compatibilityInfo, ret
 }
 

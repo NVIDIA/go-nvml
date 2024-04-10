@@ -343,7 +343,7 @@ type Interface interface {
 	VgpuInstanceGetAccountingMode(vgpuInstance VgpuInstance) (EnableState, Return)
 	VgpuInstanceGetAccountingPids(vgpuInstance VgpuInstance) ([]int, Return)
 	VgpuInstanceGetAccountingStats(vgpuInstance VgpuInstance, pid int) (AccountingStats, Return)
-	GetVgpuCompatibility(nvmlVgpuMetadata *nvmlVgpuMetadata, pgpuMetadata *nvmlVgpuPgpuMetadata) (VgpuPgpuCompatibility, Return)
+	GetVgpuCompatibility(vgpuMetadata *VgpuMetadata, pgpuMetadata *VgpuPgpuMetadata) (VgpuPgpuCompatibility, Return)
 	GetVgpuVersion() (VgpuVersion, VgpuVersion, Return)
 	SetVgpuVersion(vgpuVersion *VgpuVersion) Return
 	VgpuInstanceClearAccountingPids(vgpuInstance VgpuInstance) Return
