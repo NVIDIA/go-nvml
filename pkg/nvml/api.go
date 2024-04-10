@@ -279,7 +279,7 @@ type Interface interface {
 	DeviceSetVgpuSchedulerState(Device Device, PSchedulerState *VgpuSchedulerSetState) Return
 	DeviceGetVgpuSchedulerCapabilities(Device Device) (VgpuSchedulerCapabilities, Return)
 	GpuInstanceGetComputeInstancePossiblePlacements(GpuInstance GpuInstance, Info *ComputeInstanceProfileInfo) ([]ComputeInstancePlacement, Return)
-	GpuInstanceCreateComputeInstanceWithPlacement(GpuInstance GpuInstance, Info *ComputeInstanceProfileInfo, Placement *ComputeInstancePlacement, ComputeInstance *ComputeInstance) Return
+	GpuInstanceCreateComputeInstanceWithPlacement(GpuInstance GpuInstance, Info *ComputeInstanceProfileInfo, Placement *ComputeInstancePlacement) (ComputeInstance, Return)
 	DeviceGetGpuFabricInfo(Device Device) (GpuFabricInfo, Return)
 	DeviceCcuGetStreamState(Device Device) (int, Return)
 	DeviceCcuSetStreamState(Device Device, State int) Return
@@ -563,7 +563,7 @@ type GpuInstance interface {
 	GetComputeInstances(Info *ComputeInstanceProfileInfo) ([]ComputeInstance, Return)
 	GetComputeInstanceById(Id int) (ComputeInstance, Return)
 	GetComputeInstancePossiblePlacements(Info *ComputeInstanceProfileInfo) ([]ComputeInstancePlacement, Return)
-	CreateComputeInstanceWithPlacement(Info *ComputeInstanceProfileInfo, Placement *ComputeInstancePlacement, ComputeInstance *ComputeInstance) Return
+	CreateComputeInstanceWithPlacement(Info *ComputeInstanceProfileInfo, Placement *ComputeInstancePlacement) (ComputeInstance, Return)
 }
 
 type EventSet interface {

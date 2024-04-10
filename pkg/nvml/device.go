@@ -2615,12 +2615,14 @@ func (GpuInstance nvmlGpuInstance) GetComputeInstancePossiblePlacements(Info *Co
 }
 
 // nvml.GpuInstanceCreateComputeInstanceWithPlacement()
-func (l *library) GpuInstanceCreateComputeInstanceWithPlacement(GpuInstance GpuInstance, Info *ComputeInstanceProfileInfo, Placement *ComputeInstancePlacement, ComputeInstance *ComputeInstance) Return {
-	return GpuInstance.CreateComputeInstanceWithPlacement(Info, Placement, ComputeInstance)
+func (l *library) GpuInstanceCreateComputeInstanceWithPlacement(GpuInstance GpuInstance, Info *ComputeInstanceProfileInfo, Placement *ComputeInstancePlacement) (ComputeInstance, Return) {
+	return GpuInstance.CreateComputeInstanceWithPlacement(Info, Placement)
 }
 
-func (GpuInstance nvmlGpuInstance) CreateComputeInstanceWithPlacement(Info *ComputeInstanceProfileInfo, Placement *ComputeInstancePlacement, ComputeInstance *ComputeInstance) Return {
-	return nvmlGpuInstanceCreateComputeInstanceWithPlacement(GpuInstance, Info.Id, Placement, ComputeInstance)
+func (GpuInstance nvmlGpuInstance) CreateComputeInstanceWithPlacement(Info *ComputeInstanceProfileInfo, Placement *ComputeInstancePlacement) (ComputeInstance, Return) {
+	var ComputeInstance ComputeInstance
+	ret := nvmlGpuInstanceCreateComputeInstanceWithPlacement(GpuInstance, Info.Id, Placement, &ComputeInstance)
+	return ComputeInstance, ret
 }
 
 // nvml.DeviceGetGpuFabricInfo()
