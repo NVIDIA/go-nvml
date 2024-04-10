@@ -548,7 +548,7 @@ type nvmlComputeInstance struct {
 	Handle *_Ctype_struct_nvmlComputeInstance_st
 }
 
-type GpmSample struct {
+type nvmlGpmSample struct {
 	Handle *_Ctype_struct_nvmlGpmSample_st
 }
 
@@ -568,8 +568,8 @@ type GpmMetric struct {
 type GpmMetricsGetType struct {
 	Version    uint32
 	NumMetrics uint32
-	Sample1    GpmSample
-	Sample2    GpmSample
+	Sample1    nvmlGpmSample
+	Sample2    nvmlGpmSample
 	Metrics    [98]GpmMetric
 }
 

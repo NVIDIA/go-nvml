@@ -576,6 +576,12 @@ type EventSet interface {
 	Free() Return
 }
 
+type GpmSample interface {
+	Free() Return
+	Get(Device Device) Return
+	MigGet(Device Device, GpuInstanceId int) Return
+}
+
 type Unit interface {
 	GetUnitInfo() (UnitInfo, Return)
 	GetLedState() (LedState, Return)

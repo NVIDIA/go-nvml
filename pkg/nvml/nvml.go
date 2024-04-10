@@ -2696,36 +2696,36 @@ func nvmlGpmMetricsGet(MetricsGet *GpmMetricsGetType) Return {
 }
 
 // nvmlGpmSampleFree function as declared in nvml/nvml.h
-func nvmlGpmSampleFree(GpmSample GpmSample) Return {
-	cGpmSample, _ := *(*C.nvmlGpmSample_t)(unsafe.Pointer(&GpmSample)), cgoAllocsUnknown
-	__ret := C.nvmlGpmSampleFree(cGpmSample)
+func nvmlGpmSampleFree(nvmlGpmSample nvmlGpmSample) Return {
+	cnvmlGpmSample, _ := *(*C.nvmlGpmSample_t)(unsafe.Pointer(&nvmlGpmSample)), cgoAllocsUnknown
+	__ret := C.nvmlGpmSampleFree(cnvmlGpmSample)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlGpmSampleAlloc function as declared in nvml/nvml.h
-func nvmlGpmSampleAlloc(GpmSample *GpmSample) Return {
-	cGpmSample, _ := (*C.nvmlGpmSample_t)(unsafe.Pointer(GpmSample)), cgoAllocsUnknown
-	__ret := C.nvmlGpmSampleAlloc(cGpmSample)
+func nvmlGpmSampleAlloc(nvmlGpmSample *nvmlGpmSample) Return {
+	cnvmlGpmSample, _ := (*C.nvmlGpmSample_t)(unsafe.Pointer(nvmlGpmSample)), cgoAllocsUnknown
+	__ret := C.nvmlGpmSampleAlloc(cnvmlGpmSample)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlGpmSampleGet function as declared in nvml/nvml.h
-func nvmlGpmSampleGet(nvmlDevice nvmlDevice, GpmSample GpmSample) Return {
+func nvmlGpmSampleGet(nvmlDevice nvmlDevice, nvmlGpmSample nvmlGpmSample) Return {
 	cnvmlDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&nvmlDevice)), cgoAllocsUnknown
-	cGpmSample, _ := *(*C.nvmlGpmSample_t)(unsafe.Pointer(&GpmSample)), cgoAllocsUnknown
-	__ret := C.nvmlGpmSampleGet(cnvmlDevice, cGpmSample)
+	cnvmlGpmSample, _ := *(*C.nvmlGpmSample_t)(unsafe.Pointer(&nvmlGpmSample)), cgoAllocsUnknown
+	__ret := C.nvmlGpmSampleGet(cnvmlDevice, cnvmlGpmSample)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlGpmMigSampleGet function as declared in nvml/nvml.h
-func nvmlGpmMigSampleGet(nvmlDevice nvmlDevice, GpuInstanceId uint32, GpmSample GpmSample) Return {
+func nvmlGpmMigSampleGet(nvmlDevice nvmlDevice, GpuInstanceId uint32, nvmlGpmSample nvmlGpmSample) Return {
 	cnvmlDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&nvmlDevice)), cgoAllocsUnknown
 	cGpuInstanceId, _ := (C.uint)(GpuInstanceId), cgoAllocsUnknown
-	cGpmSample, _ := *(*C.nvmlGpmSample_t)(unsafe.Pointer(&GpmSample)), cgoAllocsUnknown
-	__ret := C.nvmlGpmMigSampleGet(cnvmlDevice, cGpuInstanceId, cGpmSample)
+	cnvmlGpmSample, _ := *(*C.nvmlGpmSample_t)(unsafe.Pointer(&nvmlGpmSample)), cgoAllocsUnknown
+	__ret := C.nvmlGpmMigSampleGet(cnvmlDevice, cGpuInstanceId, cnvmlGpmSample)
 	__v := (Return)(__ret)
 	return __v
 }

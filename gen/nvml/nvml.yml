@@ -67,6 +67,7 @@ TRANSLATOR:
       - {action: replace, from: "^Device$", to: "nvmlDevice"}
       - {action: replace, from: "^Unit$", to: "nvmlUnit"}
       - {action: replace, from: "^EventSet$", to: "nvmlEventSet"}
+      - {action: replace, from: "^GpmSample$", to: "nvmlGpmSample"}
       - {action: replace, from: "^ComputeInstance$", to: "nvmlComputeInstance"}
       - {action: replace, from: "^GpuInstance$", to: "nvmlGpuInstance"}
       - {action: replace, from: "^VgpuInstance$", to: "nvmlVgpuInstance"}
