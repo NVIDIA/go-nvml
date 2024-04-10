@@ -568,6 +568,32 @@ type Unit interface {
 	SetLedState(Color LedColor) Return
 }
 
+type VgpuInstance interface {
+	GetVmID() (string, VgpuVmIdType, Return)
+	GetUUID() (string, Return)
+	GetVmDriverVersion() (string, Return)
+	GetFbUsage() (uint64, Return)
+	GetLicenseInfo() (VgpuLicenseInfo, Return)
+	GetLicenseStatus() (int, Return)
+	GetType() (VgpuTypeId, Return)
+	GetFrameRateLimit() (uint32, Return)
+	GetEccMode() (EnableState, Return)
+	GetEncoderCapacity() (int, Return)
+	SetEncoderCapacity(EncoderCapacity int) Return
+	GetEncoderStats() (int, uint32, uint32, Return)
+	GetEncoderSessions() (int, EncoderSessionInfo, Return)
+	GetFBCStats() (FBCStats, Return)
+	GetFBCSessions() (int, FBCSessionInfo, Return)
+	GetGpuInstanceId() (int, Return)
+	GetGpuPciId() (string, Return)
+	GetMetadata() (VgpuMetadata, Return)
+	GetAccountingMode() (EnableState, Return)
+	GetAccountingPids() ([]int, Return)
+	GetAccountingStats(Pid int) (AccountingStats, Return)
+	ClearAccountingPids() Return
+	GetMdevUUID() (string, Return)
+}
+
 // Define package level methods as aliases to Interface methods of libnvml
 var (
 	GetLibrary                                      = libnvml.GetLibrary

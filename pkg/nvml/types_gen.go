@@ -145,7 +145,7 @@ type ClkMonStatus struct {
 
 type VgpuTypeId uint32
 
-type VgpuInstance uint32
+type nvmlVgpuInstance uint32
 
 type VgpuInstanceUtilizationSample struct {
 	VgpuInstance uint32

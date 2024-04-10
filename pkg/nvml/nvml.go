@@ -376,11 +376,11 @@ func nvmlDeviceGetUUID(nvmlDevice nvmlDevice, Uuid *byte, Length uint32) Return 
 }
 
 // nvmlVgpuInstanceGetMdevUUID function as declared in nvml/nvml.h
-func nvmlVgpuInstanceGetMdevUUID(VgpuInstance VgpuInstance, MdevUuid *byte, Size uint32) Return {
-	cVgpuInstance, _ := (C.nvmlVgpuInstance_t)(VgpuInstance), cgoAllocsUnknown
+func nvmlVgpuInstanceGetMdevUUID(nvmlVgpuInstance nvmlVgpuInstance, MdevUuid *byte, Size uint32) Return {
+	cnvmlVgpuInstance, _ := (C.nvmlVgpuInstance_t)(nvmlVgpuInstance), cgoAllocsUnknown
 	cMdevUuid, _ := (*C.char)(unsafe.Pointer(MdevUuid)), cgoAllocsUnknown
 	cSize, _ := (C.uint)(Size), cgoAllocsUnknown
-	__ret := C.nvmlVgpuInstanceGetMdevUUID(cVgpuInstance, cMdevUuid, cSize)
+	__ret := C.nvmlVgpuInstanceGetMdevUUID(cnvmlVgpuInstance, cMdevUuid, cSize)
 	__v := (Return)(__ret)
 	return __v
 }
@@ -1944,7 +1944,7 @@ func nvmlVgpuTypeGetMaxInstancesPerVm(VgpuTypeId VgpuTypeId, VgpuInstanceCountPe
 }
 
 // nvmlDeviceGetActiveVgpus function as declared in nvml/nvml.h
-func nvmlDeviceGetActiveVgpus(nvmlDevice nvmlDevice, VgpuCount *uint32, VgpuInstances *VgpuInstance) Return {
+func nvmlDeviceGetActiveVgpus(nvmlDevice nvmlDevice, VgpuCount *uint32, VgpuInstances *nvmlVgpuInstance) Return {
 	cnvmlDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&nvmlDevice)), cgoAllocsUnknown
 	cVgpuCount, _ := (*C.uint)(unsafe.Pointer(VgpuCount)), cgoAllocsUnknown
 	cVgpuInstances, _ := (*C.nvmlVgpuInstance_t)(unsafe.Pointer(VgpuInstances)), cgoAllocsUnknown
@@ -1954,154 +1954,154 @@ func nvmlDeviceGetActiveVgpus(nvmlDevice nvmlDevice, VgpuCount *uint32, VgpuInst
 }
 
 // nvmlVgpuInstanceGetVmID function as declared in nvml/nvml.h
-func nvmlVgpuInstanceGetVmID(VgpuInstance VgpuInstance, VmId *byte, Size uint32, VmIdType *VgpuVmIdType) Return {
-	cVgpuInstance, _ := (C.nvmlVgpuInstance_t)(VgpuInstance), cgoAllocsUnknown
+func nvmlVgpuInstanceGetVmID(nvmlVgpuInstance nvmlVgpuInstance, VmId *byte, Size uint32, VmIdType *VgpuVmIdType) Return {
+	cnvmlVgpuInstance, _ := (C.nvmlVgpuInstance_t)(nvmlVgpuInstance), cgoAllocsUnknown
 	cVmId, _ := (*C.char)(unsafe.Pointer(VmId)), cgoAllocsUnknown
 	cSize, _ := (C.uint)(Size), cgoAllocsUnknown
 	cVmIdType, _ := (*C.nvmlVgpuVmIdType_t)(unsafe.Pointer(VmIdType)), cgoAllocsUnknown
-	__ret := C.nvmlVgpuInstanceGetVmID(cVgpuInstance, cVmId, cSize, cVmIdType)
+	__ret := C.nvmlVgpuInstanceGetVmID(cnvmlVgpuInstance, cVmId, cSize, cVmIdType)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlVgpuInstanceGetUUID function as declared in nvml/nvml.h
-func nvmlVgpuInstanceGetUUID(VgpuInstance VgpuInstance, Uuid *byte, Size uint32) Return {
-	cVgpuInstance, _ := (C.nvmlVgpuInstance_t)(VgpuInstance), cgoAllocsUnknown
+func nvmlVgpuInstanceGetUUID(nvmlVgpuInstance nvmlVgpuInstance, Uuid *byte, Size uint32) Return {
+	cnvmlVgpuInstance, _ := (C.nvmlVgpuInstance_t)(nvmlVgpuInstance), cgoAllocsUnknown
 	cUuid, _ := (*C.char)(unsafe.Pointer(Uuid)), cgoAllocsUnknown
 	cSize, _ := (C.uint)(Size), cgoAllocsUnknown
-	__ret := C.nvmlVgpuInstanceGetUUID(cVgpuInstance, cUuid, cSize)
+	__ret := C.nvmlVgpuInstanceGetUUID(cnvmlVgpuInstance, cUuid, cSize)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlVgpuInstanceGetVmDriverVersion function as declared in nvml/nvml.h
-func nvmlVgpuInstanceGetVmDriverVersion(VgpuInstance VgpuInstance, Version *byte, Length uint32) Return {
-	cVgpuInstance, _ := (C.nvmlVgpuInstance_t)(VgpuInstance), cgoAllocsUnknown
+func nvmlVgpuInstanceGetVmDriverVersion(nvmlVgpuInstance nvmlVgpuInstance, Version *byte, Length uint32) Return {
+	cnvmlVgpuInstance, _ := (C.nvmlVgpuInstance_t)(nvmlVgpuInstance), cgoAllocsUnknown
 	cVersion, _ := (*C.char)(unsafe.Pointer(Version)), cgoAllocsUnknown
 	cLength, _ := (C.uint)(Length), cgoAllocsUnknown
-	__ret := C.nvmlVgpuInstanceGetVmDriverVersion(cVgpuInstance, cVersion, cLength)
+	__ret := C.nvmlVgpuInstanceGetVmDriverVersion(cnvmlVgpuInstance, cVersion, cLength)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlVgpuInstanceGetFbUsage function as declared in nvml/nvml.h
-func nvmlVgpuInstanceGetFbUsage(VgpuInstance VgpuInstance, FbUsage *uint64) Return {
-	cVgpuInstance, _ := (C.nvmlVgpuInstance_t)(VgpuInstance), cgoAllocsUnknown
+func nvmlVgpuInstanceGetFbUsage(nvmlVgpuInstance nvmlVgpuInstance, FbUsage *uint64) Return {
+	cnvmlVgpuInstance, _ := (C.nvmlVgpuInstance_t)(nvmlVgpuInstance), cgoAllocsUnknown
 	cFbUsage, _ := (*C.ulonglong)(unsafe.Pointer(FbUsage)), cgoAllocsUnknown
-	__ret := C.nvmlVgpuInstanceGetFbUsage(cVgpuInstance, cFbUsage)
+	__ret := C.nvmlVgpuInstanceGetFbUsage(cnvmlVgpuInstance, cFbUsage)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlVgpuInstanceGetLicenseStatus function as declared in nvml/nvml.h
-func nvmlVgpuInstanceGetLicenseStatus(VgpuInstance VgpuInstance, Licensed *uint32) Return {
-	cVgpuInstance, _ := (C.nvmlVgpuInstance_t)(VgpuInstance), cgoAllocsUnknown
+func nvmlVgpuInstanceGetLicenseStatus(nvmlVgpuInstance nvmlVgpuInstance, Licensed *uint32) Return {
+	cnvmlVgpuInstance, _ := (C.nvmlVgpuInstance_t)(nvmlVgpuInstance), cgoAllocsUnknown
 	cLicensed, _ := (*C.uint)(unsafe.Pointer(Licensed)), cgoAllocsUnknown
-	__ret := C.nvmlVgpuInstanceGetLicenseStatus(cVgpuInstance, cLicensed)
+	__ret := C.nvmlVgpuInstanceGetLicenseStatus(cnvmlVgpuInstance, cLicensed)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlVgpuInstanceGetType function as declared in nvml/nvml.h
-func nvmlVgpuInstanceGetType(VgpuInstance VgpuInstance, VgpuTypeId *VgpuTypeId) Return {
-	cVgpuInstance, _ := (C.nvmlVgpuInstance_t)(VgpuInstance), cgoAllocsUnknown
+func nvmlVgpuInstanceGetType(nvmlVgpuInstance nvmlVgpuInstance, VgpuTypeId *VgpuTypeId) Return {
+	cnvmlVgpuInstance, _ := (C.nvmlVgpuInstance_t)(nvmlVgpuInstance), cgoAllocsUnknown
 	cVgpuTypeId, _ := (*C.nvmlVgpuTypeId_t)(unsafe.Pointer(VgpuTypeId)), cgoAllocsUnknown
-	__ret := C.nvmlVgpuInstanceGetType(cVgpuInstance, cVgpuTypeId)
+	__ret := C.nvmlVgpuInstanceGetType(cnvmlVgpuInstance, cVgpuTypeId)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlVgpuInstanceGetFrameRateLimit function as declared in nvml/nvml.h
-func nvmlVgpuInstanceGetFrameRateLimit(VgpuInstance VgpuInstance, FrameRateLimit *uint32) Return {
-	cVgpuInstance, _ := (C.nvmlVgpuInstance_t)(VgpuInstance), cgoAllocsUnknown
+func nvmlVgpuInstanceGetFrameRateLimit(nvmlVgpuInstance nvmlVgpuInstance, FrameRateLimit *uint32) Return {
+	cnvmlVgpuInstance, _ := (C.nvmlVgpuInstance_t)(nvmlVgpuInstance), cgoAllocsUnknown
 	cFrameRateLimit, _ := (*C.uint)(unsafe.Pointer(FrameRateLimit)), cgoAllocsUnknown
-	__ret := C.nvmlVgpuInstanceGetFrameRateLimit(cVgpuInstance, cFrameRateLimit)
+	__ret := C.nvmlVgpuInstanceGetFrameRateLimit(cnvmlVgpuInstance, cFrameRateLimit)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlVgpuInstanceGetEccMode function as declared in nvml/nvml.h
-func nvmlVgpuInstanceGetEccMode(VgpuInstance VgpuInstance, EccMode *EnableState) Return {
-	cVgpuInstance, _ := (C.nvmlVgpuInstance_t)(VgpuInstance), cgoAllocsUnknown
+func nvmlVgpuInstanceGetEccMode(nvmlVgpuInstance nvmlVgpuInstance, EccMode *EnableState) Return {
+	cnvmlVgpuInstance, _ := (C.nvmlVgpuInstance_t)(nvmlVgpuInstance), cgoAllocsUnknown
 	cEccMode, _ := (*C.nvmlEnableState_t)(unsafe.Pointer(EccMode)), cgoAllocsUnknown
-	__ret := C.nvmlVgpuInstanceGetEccMode(cVgpuInstance, cEccMode)
+	__ret := C.nvmlVgpuInstanceGetEccMode(cnvmlVgpuInstance, cEccMode)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlVgpuInstanceGetEncoderCapacity function as declared in nvml/nvml.h
-func nvmlVgpuInstanceGetEncoderCapacity(VgpuInstance VgpuInstance, EncoderCapacity *uint32) Return {
-	cVgpuInstance, _ := (C.nvmlVgpuInstance_t)(VgpuInstance), cgoAllocsUnknown
+func nvmlVgpuInstanceGetEncoderCapacity(nvmlVgpuInstance nvmlVgpuInstance, EncoderCapacity *uint32) Return {
+	cnvmlVgpuInstance, _ := (C.nvmlVgpuInstance_t)(nvmlVgpuInstance), cgoAllocsUnknown
 	cEncoderCapacity, _ := (*C.uint)(unsafe.Pointer(EncoderCapacity)), cgoAllocsUnknown
-	__ret := C.nvmlVgpuInstanceGetEncoderCapacity(cVgpuInstance, cEncoderCapacity)
+	__ret := C.nvmlVgpuInstanceGetEncoderCapacity(cnvmlVgpuInstance, cEncoderCapacity)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlVgpuInstanceSetEncoderCapacity function as declared in nvml/nvml.h
-func nvmlVgpuInstanceSetEncoderCapacity(VgpuInstance VgpuInstance, EncoderCapacity uint32) Return {
-	cVgpuInstance, _ := (C.nvmlVgpuInstance_t)(VgpuInstance), cgoAllocsUnknown
+func nvmlVgpuInstanceSetEncoderCapacity(nvmlVgpuInstance nvmlVgpuInstance, EncoderCapacity uint32) Return {
+	cnvmlVgpuInstance, _ := (C.nvmlVgpuInstance_t)(nvmlVgpuInstance), cgoAllocsUnknown
 	cEncoderCapacity, _ := (C.uint)(EncoderCapacity), cgoAllocsUnknown
-	__ret := C.nvmlVgpuInstanceSetEncoderCapacity(cVgpuInstance, cEncoderCapacity)
+	__ret := C.nvmlVgpuInstanceSetEncoderCapacity(cnvmlVgpuInstance, cEncoderCapacity)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlVgpuInstanceGetEncoderStats function as declared in nvml/nvml.h
-func nvmlVgpuInstanceGetEncoderStats(VgpuInstance VgpuInstance, SessionCount *uint32, AverageFps *uint32, AverageLatency *uint32) Return {
-	cVgpuInstance, _ := (C.nvmlVgpuInstance_t)(VgpuInstance), cgoAllocsUnknown
+func nvmlVgpuInstanceGetEncoderStats(nvmlVgpuInstance nvmlVgpuInstance, SessionCount *uint32, AverageFps *uint32, AverageLatency *uint32) Return {
+	cnvmlVgpuInstance, _ := (C.nvmlVgpuInstance_t)(nvmlVgpuInstance), cgoAllocsUnknown
 	cSessionCount, _ := (*C.uint)(unsafe.Pointer(SessionCount)), cgoAllocsUnknown
 	cAverageFps, _ := (*C.uint)(unsafe.Pointer(AverageFps)), cgoAllocsUnknown
 	cAverageLatency, _ := (*C.uint)(unsafe.Pointer(AverageLatency)), cgoAllocsUnknown
-	__ret := C.nvmlVgpuInstanceGetEncoderStats(cVgpuInstance, cSessionCount, cAverageFps, cAverageLatency)
+	__ret := C.nvmlVgpuInstanceGetEncoderStats(cnvmlVgpuInstance, cSessionCount, cAverageFps, cAverageLatency)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlVgpuInstanceGetEncoderSessions function as declared in nvml/nvml.h
-func nvmlVgpuInstanceGetEncoderSessions(VgpuInstance VgpuInstance, SessionCount *uint32, SessionInfo *EncoderSessionInfo) Return {
-	cVgpuInstance, _ := (C.nvmlVgpuInstance_t)(VgpuInstance), cgoAllocsUnknown
+func nvmlVgpuInstanceGetEncoderSessions(nvmlVgpuInstance nvmlVgpuInstance, SessionCount *uint32, SessionInfo *EncoderSessionInfo) Return {
+	cnvmlVgpuInstance, _ := (C.nvmlVgpuInstance_t)(nvmlVgpuInstance), cgoAllocsUnknown
 	cSessionCount, _ := (*C.uint)(unsafe.Pointer(SessionCount)), cgoAllocsUnknown
 	cSessionInfo, _ := (*C.nvmlEncoderSessionInfo_t)(unsafe.Pointer(SessionInfo)), cgoAllocsUnknown
-	__ret := C.nvmlVgpuInstanceGetEncoderSessions(cVgpuInstance, cSessionCount, cSessionInfo)
+	__ret := C.nvmlVgpuInstanceGetEncoderSessions(cnvmlVgpuInstance, cSessionCount, cSessionInfo)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlVgpuInstanceGetFBCStats function as declared in nvml/nvml.h
-func nvmlVgpuInstanceGetFBCStats(VgpuInstance VgpuInstance, FbcStats *FBCStats) Return {
-	cVgpuInstance, _ := (C.nvmlVgpuInstance_t)(VgpuInstance), cgoAllocsUnknown
+func nvmlVgpuInstanceGetFBCStats(nvmlVgpuInstance nvmlVgpuInstance, FbcStats *FBCStats) Return {
+	cnvmlVgpuInstance, _ := (C.nvmlVgpuInstance_t)(nvmlVgpuInstance), cgoAllocsUnknown
 	cFbcStats, _ := (*C.nvmlFBCStats_t)(unsafe.Pointer(FbcStats)), cgoAllocsUnknown
-	__ret := C.nvmlVgpuInstanceGetFBCStats(cVgpuInstance, cFbcStats)
+	__ret := C.nvmlVgpuInstanceGetFBCStats(cnvmlVgpuInstance, cFbcStats)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlVgpuInstanceGetFBCSessions function as declared in nvml/nvml.h
-func nvmlVgpuInstanceGetFBCSessions(VgpuInstance VgpuInstance, SessionCount *uint32, SessionInfo *FBCSessionInfo) Return {
-	cVgpuInstance, _ := (C.nvmlVgpuInstance_t)(VgpuInstance), cgoAllocsUnknown
+func nvmlVgpuInstanceGetFBCSessions(nvmlVgpuInstance nvmlVgpuInstance, SessionCount *uint32, SessionInfo *FBCSessionInfo) Return {
+	cnvmlVgpuInstance, _ := (C.nvmlVgpuInstance_t)(nvmlVgpuInstance), cgoAllocsUnknown
 	cSessionCount, _ := (*C.uint)(unsafe.Pointer(SessionCount)), cgoAllocsUnknown
 	cSessionInfo, _ := (*C.nvmlFBCSessionInfo_t)(unsafe.Pointer(SessionInfo)), cgoAllocsUnknown
-	__ret := C.nvmlVgpuInstanceGetFBCSessions(cVgpuInstance, cSessionCount, cSessionInfo)
+	__ret := C.nvmlVgpuInstanceGetFBCSessions(cnvmlVgpuInstance, cSessionCount, cSessionInfo)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlVgpuInstanceGetGpuInstanceId function as declared in nvml/nvml.h
-func nvmlVgpuInstanceGetGpuInstanceId(VgpuInstance VgpuInstance, GpuInstanceId *uint32) Return {
-	cVgpuInstance, _ := (C.nvmlVgpuInstance_t)(VgpuInstance), cgoAllocsUnknown
+func nvmlVgpuInstanceGetGpuInstanceId(nvmlVgpuInstance nvmlVgpuInstance, GpuInstanceId *uint32) Return {
+	cnvmlVgpuInstance, _ := (C.nvmlVgpuInstance_t)(nvmlVgpuInstance), cgoAllocsUnknown
 	cGpuInstanceId, _ := (*C.uint)(unsafe.Pointer(GpuInstanceId)), cgoAllocsUnknown
-	__ret := C.nvmlVgpuInstanceGetGpuInstanceId(cVgpuInstance, cGpuInstanceId)
+	__ret := C.nvmlVgpuInstanceGetGpuInstanceId(cnvmlVgpuInstance, cGpuInstanceId)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlVgpuInstanceGetGpuPciId function as declared in nvml/nvml.h
-func nvmlVgpuInstanceGetGpuPciId(VgpuInstance VgpuInstance, VgpuPciId *byte, Length *uint32) Return {
-	cVgpuInstance, _ := (C.nvmlVgpuInstance_t)(VgpuInstance), cgoAllocsUnknown
+func nvmlVgpuInstanceGetGpuPciId(nvmlVgpuInstance nvmlVgpuInstance, VgpuPciId *byte, Length *uint32) Return {
+	cnvmlVgpuInstance, _ := (C.nvmlVgpuInstance_t)(nvmlVgpuInstance), cgoAllocsUnknown
 	cVgpuPciId, _ := (*C.char)(unsafe.Pointer(VgpuPciId)), cgoAllocsUnknown
 	cLength, _ := (*C.uint)(unsafe.Pointer(Length)), cgoAllocsUnknown
-	__ret := C.nvmlVgpuInstanceGetGpuPciId(cVgpuInstance, cVgpuPciId, cLength)
+	__ret := C.nvmlVgpuInstanceGetGpuPciId(cnvmlVgpuInstance, cVgpuPciId, cLength)
 	__v := (Return)(__ret)
 	return __v
 }
@@ -2117,11 +2117,11 @@ func nvmlVgpuTypeGetCapabilities(VgpuTypeId VgpuTypeId, Capability VgpuCapabilit
 }
 
 // nvmlVgpuInstanceGetMetadata function as declared in nvml/nvml.h
-func nvmlVgpuInstanceGetMetadata(VgpuInstance VgpuInstance, nvmlVgpuMetadata *nvmlVgpuMetadata, BufferSize *uint32) Return {
-	cVgpuInstance, _ := (C.nvmlVgpuInstance_t)(VgpuInstance), cgoAllocsUnknown
+func nvmlVgpuInstanceGetMetadata(nvmlVgpuInstance nvmlVgpuInstance, nvmlVgpuMetadata *nvmlVgpuMetadata, BufferSize *uint32) Return {
+	cnvmlVgpuInstance, _ := (C.nvmlVgpuInstance_t)(nvmlVgpuInstance), cgoAllocsUnknown
 	cnvmlVgpuMetadata, _ := (*C.nvmlVgpuMetadata_t)(unsafe.Pointer(nvmlVgpuMetadata)), cgoAllocsUnknown
 	cBufferSize, _ := (*C.uint)(unsafe.Pointer(BufferSize)), cgoAllocsUnknown
-	__ret := C.nvmlVgpuInstanceGetMetadata(cVgpuInstance, cnvmlVgpuMetadata, cBufferSize)
+	__ret := C.nvmlVgpuInstanceGetMetadata(cnvmlVgpuInstance, cnvmlVgpuMetadata, cBufferSize)
 	__v := (Return)(__ret)
 	return __v
 }
@@ -2233,47 +2233,47 @@ func nvmlDeviceGetVgpuProcessUtilization(nvmlDevice nvmlDevice, LastSeenTimeStam
 }
 
 // nvmlVgpuInstanceGetAccountingMode function as declared in nvml/nvml.h
-func nvmlVgpuInstanceGetAccountingMode(VgpuInstance VgpuInstance, Mode *EnableState) Return {
-	cVgpuInstance, _ := (C.nvmlVgpuInstance_t)(VgpuInstance), cgoAllocsUnknown
+func nvmlVgpuInstanceGetAccountingMode(nvmlVgpuInstance nvmlVgpuInstance, Mode *EnableState) Return {
+	cnvmlVgpuInstance, _ := (C.nvmlVgpuInstance_t)(nvmlVgpuInstance), cgoAllocsUnknown
 	cMode, _ := (*C.nvmlEnableState_t)(unsafe.Pointer(Mode)), cgoAllocsUnknown
-	__ret := C.nvmlVgpuInstanceGetAccountingMode(cVgpuInstance, cMode)
+	__ret := C.nvmlVgpuInstanceGetAccountingMode(cnvmlVgpuInstance, cMode)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlVgpuInstanceGetAccountingPids function as declared in nvml/nvml.h
-func nvmlVgpuInstanceGetAccountingPids(VgpuInstance VgpuInstance, Count *uint32, Pids *uint32) Return {
-	cVgpuInstance, _ := (C.nvmlVgpuInstance_t)(VgpuInstance), cgoAllocsUnknown
+func nvmlVgpuInstanceGetAccountingPids(nvmlVgpuInstance nvmlVgpuInstance, Count *uint32, Pids *uint32) Return {
+	cnvmlVgpuInstance, _ := (C.nvmlVgpuInstance_t)(nvmlVgpuInstance), cgoAllocsUnknown
 	cCount, _ := (*C.uint)(unsafe.Pointer(Count)), cgoAllocsUnknown
 	cPids, _ := (*C.uint)(unsafe.Pointer(Pids)), cgoAllocsUnknown
-	__ret := C.nvmlVgpuInstanceGetAccountingPids(cVgpuInstance, cCount, cPids)
+	__ret := C.nvmlVgpuInstanceGetAccountingPids(cnvmlVgpuInstance, cCount, cPids)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlVgpuInstanceGetAccountingStats function as declared in nvml/nvml.h
-func nvmlVgpuInstanceGetAccountingStats(VgpuInstance VgpuInstance, Pid uint32, Stats *AccountingStats) Return {
-	cVgpuInstance, _ := (C.nvmlVgpuInstance_t)(VgpuInstance), cgoAllocsUnknown
+func nvmlVgpuInstanceGetAccountingStats(nvmlVgpuInstance nvmlVgpuInstance, Pid uint32, Stats *AccountingStats) Return {
+	cnvmlVgpuInstance, _ := (C.nvmlVgpuInstance_t)(nvmlVgpuInstance), cgoAllocsUnknown
 	cPid, _ := (C.uint)(Pid), cgoAllocsUnknown
 	cStats, _ := (*C.nvmlAccountingStats_t)(unsafe.Pointer(Stats)), cgoAllocsUnknown
-	__ret := C.nvmlVgpuInstanceGetAccountingStats(cVgpuInstance, cPid, cStats)
+	__ret := C.nvmlVgpuInstanceGetAccountingStats(cnvmlVgpuInstance, cPid, cStats)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlVgpuInstanceClearAccountingPids function as declared in nvml/nvml.h
-func nvmlVgpuInstanceClearAccountingPids(VgpuInstance VgpuInstance) Return {
-	cVgpuInstance, _ := (C.nvmlVgpuInstance_t)(VgpuInstance), cgoAllocsUnknown
-	__ret := C.nvmlVgpuInstanceClearAccountingPids(cVgpuInstance)
+func nvmlVgpuInstanceClearAccountingPids(nvmlVgpuInstance nvmlVgpuInstance) Return {
+	cnvmlVgpuInstance, _ := (C.nvmlVgpuInstance_t)(nvmlVgpuInstance), cgoAllocsUnknown
+	__ret := C.nvmlVgpuInstanceClearAccountingPids(cnvmlVgpuInstance)
 	__v := (Return)(__ret)
 	return __v
 }
 
 // nvmlVgpuInstanceGetLicenseInfo_v2 function as declared in nvml/nvml.h
-func nvmlVgpuInstanceGetLicenseInfo_v2(VgpuInstance VgpuInstance, LicenseInfo *VgpuLicenseInfo) Return {
-	cVgpuInstance, _ := (C.nvmlVgpuInstance_t)(VgpuInstance), cgoAllocsUnknown
+func nvmlVgpuInstanceGetLicenseInfo_v2(nvmlVgpuInstance nvmlVgpuInstance, LicenseInfo *VgpuLicenseInfo) Return {
+	cnvmlVgpuInstance, _ := (C.nvmlVgpuInstance_t)(nvmlVgpuInstance), cgoAllocsUnknown
 	cLicenseInfo, _ := (*C.nvmlVgpuLicenseInfo_t)(unsafe.Pointer(LicenseInfo)), cgoAllocsUnknown
-	__ret := C.nvmlVgpuInstanceGetLicenseInfo_v2(cVgpuInstance, cLicenseInfo)
+	__ret := C.nvmlVgpuInstanceGetLicenseInfo_v2(cnvmlVgpuInstance, cLicenseInfo)
 	__v := (Return)(__ret)
 	return __v
 }
@@ -2962,10 +2962,10 @@ func nvmlDeviceGetGpuInstancePossiblePlacements_v1(nvmlDevice nvmlDevice, Profil
 }
 
 // nvmlVgpuInstanceGetLicenseInfo_v1 function as declared in nvml/nvml.h
-func nvmlVgpuInstanceGetLicenseInfo_v1(VgpuInstance VgpuInstance, LicenseInfo *VgpuLicenseInfo) Return {
-	cVgpuInstance, _ := (C.nvmlVgpuInstance_t)(VgpuInstance), cgoAllocsUnknown
+func nvmlVgpuInstanceGetLicenseInfo_v1(nvmlVgpuInstance nvmlVgpuInstance, LicenseInfo *VgpuLicenseInfo) Return {
+	cnvmlVgpuInstance, _ := (C.nvmlVgpuInstance_t)(nvmlVgpuInstance), cgoAllocsUnknown
 	cLicenseInfo, _ := (*C.nvmlVgpuLicenseInfo_t)(unsafe.Pointer(LicenseInfo)), cgoAllocsUnknown
-	__ret := C.nvmlVgpuInstanceGetLicenseInfo(cVgpuInstance, cLicenseInfo)
+	__ret := C.nvmlVgpuInstanceGetLicenseInfo(cnvmlVgpuInstance, cLicenseInfo)
 	__v := (Return)(__ret)
 	return __v
 }

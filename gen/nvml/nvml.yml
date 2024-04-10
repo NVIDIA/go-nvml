@@ -67,6 +67,7 @@ TRANSLATOR:
       - {action: replace, from: "^Device$", to: "nvmlDevice"}
       - {action: replace, from: "^Unit$", to: "nvmlUnit"}
       - {action: replace, from: "^EventSet$", to: "nvmlEventSet"}
+      - {action: replace, from: "^VgpuInstance$", to: "nvmlVgpuInstance"}
       - {action: replace, from: "^VgpuMetadata", to: "nvmlVgpuMetadata"}
       - {action: replace, from: "^VgpuPgpuMetadata", to: "nvmlVgpuPgpuMetadata"}
       - {action: replace, from: "^GpmMetricsGet", to: "GpmMetricsGetType"}

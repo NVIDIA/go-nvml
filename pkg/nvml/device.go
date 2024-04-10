@@ -1793,10 +1793,10 @@ func (l *library) DeviceGetActiveVgpus(Device Device) ([]VgpuInstance, Return) {
 func (Device nvmlDevice) GetActiveVgpus() ([]VgpuInstance, Return) {
 	var VgpuCount uint32 = 1 // Will be reduced upon returning
 	for {
-		VgpuInstances := make([]VgpuInstance, VgpuCount)
+		VgpuInstances := make([]nvmlVgpuInstance, VgpuCount)
 		ret := nvmlDeviceGetActiveVgpus(Device, &VgpuCount, &VgpuInstances[0])
 		if ret == SUCCESS {
-			return VgpuInstances[:VgpuCount], ret
+			return convertSlice[nvmlVgpuInstance, VgpuInstance](VgpuInstances[:VgpuCount]), ret
 		}
 		if ret != ERROR_INSUFFICIENT_SIZE {
 			return nil, ret
