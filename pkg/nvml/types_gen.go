@@ -354,7 +354,7 @@ type UnitFanSpeeds struct {
 	Count uint32
 }
 
-type EventSet struct {
+type nvmlEventSet struct {
 	Handle *_Ctype_struct_nvmlEventSet_st
 }
 

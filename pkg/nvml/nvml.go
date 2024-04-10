@@ -1632,7 +1632,7 @@ func nvmlDeviceGetNvLinkRemoteDeviceType(nvmlDevice nvmlDevice, Link uint32, PNv
 }
 
 // nvmlEventSetCreate function as declared in nvml/nvml.h
-func nvmlEventSetCreate(Set *EventSet) Return {
+func nvmlEventSetCreate(Set *nvmlEventSet) Return {
 	cSet, _ := (*C.nvmlEventSet_t)(unsafe.Pointer(Set)), cgoAllocsUnknown
 	__ret := C.nvmlEventSetCreate(cSet)
 	__v := (Return)(__ret)
@@ -1640,7 +1640,7 @@ func nvmlEventSetCreate(Set *EventSet) Return {
 }
 
 // nvmlDeviceRegisterEvents function as declared in nvml/nvml.h
-func nvmlDeviceRegisterEvents(nvmlDevice nvmlDevice, EventTypes uint64, Set EventSet) Return {
+func nvmlDeviceRegisterEvents(nvmlDevice nvmlDevice, EventTypes uint64, Set nvmlEventSet) Return {
 	cnvmlDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&nvmlDevice)), cgoAllocsUnknown
 	cEventTypes, _ := (C.ulonglong)(EventTypes), cgoAllocsUnknown
 	cSet, _ := *(*C.nvmlEventSet_t)(unsafe.Pointer(&Set)), cgoAllocsUnknown
@@ -1659,7 +1659,7 @@ func nvmlDeviceGetSupportedEventTypes(nvmlDevice nvmlDevice, EventTypes *uint64)
 }
 
 // nvmlEventSetWait_v2 function as declared in nvml/nvml.h
-func nvmlEventSetWait_v2(Set EventSet, Data *EventData, Timeoutms uint32) Return {
+func nvmlEventSetWait_v2(Set nvmlEventSet, Data *EventData, Timeoutms uint32) Return {
 	cSet, _ := *(*C.nvmlEventSet_t)(unsafe.Pointer(&Set)), cgoAllocsUnknown
 	cData, _ := (*C.nvmlEventData_t)(unsafe.Pointer(Data)), cgoAllocsUnknown
 	cTimeoutms, _ := (C.uint)(Timeoutms), cgoAllocsUnknown
@@ -1669,7 +1669,7 @@ func nvmlEventSetWait_v2(Set EventSet, Data *EventData, Timeoutms uint32) Return
 }
 
 // nvmlEventSetFree function as declared in nvml/nvml.h
-func nvmlEventSetFree(Set EventSet) Return {
+func nvmlEventSetFree(Set nvmlEventSet) Return {
 	cSet, _ := *(*C.nvmlEventSet_t)(unsafe.Pointer(&Set)), cgoAllocsUnknown
 	__ret := C.nvmlEventSetFree(cSet)
 	__v := (Return)(__ret)
@@ -2863,7 +2863,7 @@ func nvmlDeviceRemoveGpu_v1(PciInfo *PciInfo) Return {
 }
 
 // nvmlEventSetWait_v1 function as declared in nvml/nvml.h
-func nvmlEventSetWait_v1(Set EventSet, Data *EventData, Timeoutms uint32) Return {
+func nvmlEventSetWait_v1(Set nvmlEventSet, Data *EventData, Timeoutms uint32) Return {
 	cSet, _ := *(*C.nvmlEventSet_t)(unsafe.Pointer(&Set)), cgoAllocsUnknown
 	cData, _ := (*C.nvmlEventData_t)(unsafe.Pointer(Data)), cgoAllocsUnknown
 	cTimeoutms, _ := (C.uint)(Timeoutms), cgoAllocsUnknown

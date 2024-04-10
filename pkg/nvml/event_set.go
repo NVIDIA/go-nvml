@@ -16,27 +16,27 @@ package nvml
 
 // nvml.EventSetCreate()
 func (l *library) EventSetCreate() (EventSet, Return) {
-	var Set EventSet
+	var Set nvmlEventSet
 	ret := nvmlEventSetCreate(&Set)
 	return Set, ret
 }
 
 // nvml.EventSetWait()
 func (l *library) EventSetWait(Set EventSet, Timeoutms uint32) (EventData, Return) {
+	return Set.Wait(Timeoutms)
+}
+
+func (Set nvmlEventSet) Wait(Timeoutms uint32) (EventData, Return) {
 	var Data EventData
 	ret := nvmlEventSetWait(Set, &Data, Timeoutms)
 	return Data, ret
 }
 
-func (Set EventSet) Wait(Timeoutms uint32) (EventData, Return) {
-	return EventSetWait(Set, Timeoutms)
-}
-
 // nvml.EventSetFree()
 func (l *library) EventSetFree(Set EventSet) Return {
-	return nvmlEventSetFree(Set)
+	return Set.Free()
 }
 
-func (Set EventSet) Free() Return {
-	return EventSetFree(Set)
+func (Set nvmlEventSet) Free() Return {
+	return nvmlEventSetFree(Set)
 }

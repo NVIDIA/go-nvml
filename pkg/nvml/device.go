@@ -1631,7 +1631,7 @@ func (l *library) DeviceRegisterEvents(Device Device, EventTypes uint64, Set Eve
 }
 
 func (Device nvmlDevice) RegisterEvents(EventTypes uint64, Set EventSet) Return {
-	return nvmlDeviceRegisterEvents(Device, EventTypes, Set)
+	return nvmlDeviceRegisterEvents(Device, EventTypes, Set.(nvmlEventSet))
 }
 
 // nvmlDeviceGetSupportedEventTypes()

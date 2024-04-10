@@ -553,6 +553,11 @@ type Device interface {
 	VgpuTypeGetMaxInstances(VgpuTypeId VgpuTypeId) (int, Return)
 }
 
+type EventSet interface {
+	Wait(Timeoutms uint32) (EventData, Return)
+	Free() Return
+}
+
 type Unit interface {
 	GetUnitInfo() (UnitInfo, Return)
 	GetLedState() (LedState, Return)
