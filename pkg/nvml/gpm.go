@@ -19,46 +19,46 @@ type GpmMetricsGetVType struct {
 	metricsGet *GpmMetricsGetType
 }
 
-func (l *library) GpmMetricsGetV(MetricsGet *GpmMetricsGetType) GpmMetricsGetVType {
-	return GpmMetricsGetVType{MetricsGet}
+func (l *library) GpmMetricsGetV(metricsGet *GpmMetricsGetType) GpmMetricsGetVType {
+	return GpmMetricsGetVType{metricsGet}
 }
-func (MetricsGetV GpmMetricsGetVType) V1() Return {
-	MetricsGetV.metricsGet.Version = 1
-	return nvmlGpmMetricsGet(MetricsGetV.metricsGet)
+func (metricsGetV GpmMetricsGetVType) V1() Return {
+	metricsGetV.metricsGet.Version = 1
+	return nvmlGpmMetricsGet(metricsGetV.metricsGet)
 }
 
-func (l *library) GpmMetricsGet(MetricsGet *GpmMetricsGetType) Return {
-	MetricsGet.Version = GPM_METRICS_GET_VERSION
-	return nvmlGpmMetricsGet(MetricsGet)
+func (l *library) GpmMetricsGet(metricsGet *GpmMetricsGetType) Return {
+	metricsGet.Version = GPM_METRICS_GET_VERSION
+	return nvmlGpmMetricsGet(metricsGet)
 }
 
 // nvml.GpmSampleFree()
-func (l *library) GpmSampleFree(GpmSample GpmSample) Return {
-	return GpmSample.Free()
+func (l *library) GpmSampleFree(gpmSample GpmSample) Return {
+	return gpmSample.Free()
 }
 
-func (GpmSample nvmlGpmSample) Free() Return {
-	return nvmlGpmSampleFree(GpmSample)
+func (gpmSample nvmlGpmSample) Free() Return {
+	return nvmlGpmSampleFree(gpmSample)
 }
 
 // nvml.GpmSampleAlloc()
 func (l *library) GpmSampleAlloc() (GpmSample, Return) {
-	var GpmSample nvmlGpmSample
-	ret := nvmlGpmSampleAlloc(&GpmSample)
-	return GpmSample, ret
+	var gpmSample nvmlGpmSample
+	ret := nvmlGpmSampleAlloc(&gpmSample)
+	return gpmSample, ret
 }
 
 // nvml.GpmSampleGet()
-func (l *library) GpmSampleGet(Device Device, GpmSample GpmSample) Return {
-	return GpmSample.Get(Device)
+func (l *library) GpmSampleGet(device Device, gpmSample GpmSample) Return {
+	return gpmSample.Get(device)
 }
 
-func (Device nvmlDevice) GpmSampleGet(GpmSample GpmSample) Return {
-	return GpmSample.Get(Device)
+func (device nvmlDevice) GpmSampleGet(gpmSample GpmSample) Return {
+	return gpmSample.Get(device)
 }
 
-func (GpmSample nvmlGpmSample) Get(Device Device) Return {
-	return nvmlGpmSampleGet(Device.(nvmlDevice), GpmSample)
+func (gpmSample nvmlGpmSample) Get(device Device) Return {
+	return nvmlGpmSampleGet(device.(nvmlDevice), gpmSample)
 }
 
 // nvml.GpmQueryDeviceSupport()
@@ -66,41 +66,41 @@ type GpmSupportV struct {
 	device nvmlDevice
 }
 
-func (l *library) GpmQueryDeviceSupportV(Device Device) GpmSupportV {
-	return Device.GpmQueryDeviceSupportV()
+func (l *library) GpmQueryDeviceSupportV(device Device) GpmSupportV {
+	return device.GpmQueryDeviceSupportV()
 }
 
-func (Device nvmlDevice) GpmQueryDeviceSupportV() GpmSupportV {
-	return GpmSupportV{Device}
+func (device nvmlDevice) GpmQueryDeviceSupportV() GpmSupportV {
+	return GpmSupportV{device}
 }
 
-func (GpmSupportV GpmSupportV) V1() (GpmSupport, Return) {
-	var GpmSupport GpmSupport
-	GpmSupport.Version = 1
-	ret := nvmlGpmQueryDeviceSupport(GpmSupportV.device, &GpmSupport)
-	return GpmSupport, ret
+func (gpmSupportV GpmSupportV) V1() (GpmSupport, Return) {
+	var gpmSupport GpmSupport
+	gpmSupport.Version = 1
+	ret := nvmlGpmQueryDeviceSupport(gpmSupportV.device, &gpmSupport)
+	return gpmSupport, ret
 }
 
-func (l *library) GpmQueryDeviceSupport(Device Device) (GpmSupport, Return) {
-	return Device.GpmQueryDeviceSupport()
+func (l *library) GpmQueryDeviceSupport(device Device) (GpmSupport, Return) {
+	return device.GpmQueryDeviceSupport()
 }
 
-func (Device nvmlDevice) GpmQueryDeviceSupport() (GpmSupport, Return) {
-	var GpmSupport GpmSupport
-	GpmSupport.Version = GPM_SUPPORT_VERSION
-	ret := nvmlGpmQueryDeviceSupport(Device, &GpmSupport)
-	return GpmSupport, ret
+func (device nvmlDevice) GpmQueryDeviceSupport() (GpmSupport, Return) {
+	var gpmSupport GpmSupport
+	gpmSupport.Version = GPM_SUPPORT_VERSION
+	ret := nvmlGpmQueryDeviceSupport(device, &gpmSupport)
+	return gpmSupport, ret
 }
 
 // nvml.GpmMigSampleGet()
-func (l *library) GpmMigSampleGet(Device Device, GpuInstanceId int, GpmSample GpmSample) Return {
-	return GpmSample.MigGet(Device, GpuInstanceId)
+func (l *library) GpmMigSampleGet(device Device, gpuInstanceId int, gpmSample GpmSample) Return {
+	return gpmSample.MigGet(device, gpuInstanceId)
 }
 
-func (Device nvmlDevice) GpmMigSampleGet(GpuInstanceId int, GpmSample GpmSample) Return {
-	return GpmSample.MigGet(Device, GpuInstanceId)
+func (device nvmlDevice) GpmMigSampleGet(gpuInstanceId int, gpmSample GpmSample) Return {
+	return gpmSample.MigGet(device, gpuInstanceId)
 }
 
-func (GpmSample nvmlGpmSample) MigGet(Device Device, GpuInstanceId int) Return {
-	return nvmlGpmMigSampleGet(Device.(nvmlDevice), uint32(GpuInstanceId), GpmSample)
+func (gpmSample nvmlGpmSample) MigGet(device Device, gpuInstanceId int) Return {
+	return nvmlGpmMigSampleGet(device.(nvmlDevice), uint32(gpuInstanceId), gpmSample)
 }

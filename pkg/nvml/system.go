@@ -43,39 +43,39 @@ func (l *library) SystemGetCudaDriverVersion_v2() (int, Return) {
 }
 
 // nvml.SystemGetProcessName()
-func (l *library) SystemGetProcessName(Pid int) (string, Return) {
-	Name := make([]byte, SYSTEM_PROCESS_NAME_BUFFER_SIZE)
-	ret := nvmlSystemGetProcessName(uint32(Pid), &Name[0], SYSTEM_PROCESS_NAME_BUFFER_SIZE)
-	return string(Name[:clen(Name)]), ret
+func (l *library) SystemGetProcessName(pid int) (string, Return) {
+	name := make([]byte, SYSTEM_PROCESS_NAME_BUFFER_SIZE)
+	ret := nvmlSystemGetProcessName(uint32(pid), &name[0], SYSTEM_PROCESS_NAME_BUFFER_SIZE)
+	return string(name[:clen(name)]), ret
 }
 
 // nvml.SystemGetHicVersion()
 func (l *library) SystemGetHicVersion() ([]HwbcEntry, Return) {
-	var HwbcCount uint32 = 1 // Will be reduced upon returning
+	var hwbcCount uint32 = 1 // Will be reduced upon returning
 	for {
-		HwbcEntries := make([]HwbcEntry, HwbcCount)
-		ret := nvmlSystemGetHicVersion(&HwbcCount, &HwbcEntries[0])
+		hwbcEntries := make([]HwbcEntry, hwbcCount)
+		ret := nvmlSystemGetHicVersion(&hwbcCount, &hwbcEntries[0])
 		if ret == SUCCESS {
-			return HwbcEntries[:HwbcCount], ret
+			return hwbcEntries[:hwbcCount], ret
 		}
 		if ret != ERROR_INSUFFICIENT_SIZE {
 			return nil, ret
 		}
-		HwbcCount *= 2
+		hwbcCount *= 2
 	}
 }
 
 // nvml.SystemGetTopologyGpuSet()
-func (l *library) SystemGetTopologyGpuSet(CpuNumber int) ([]Device, Return) {
-	var Count uint32
-	ret := nvmlSystemGetTopologyGpuSet(uint32(CpuNumber), &Count, nil)
+func (l *library) SystemGetTopologyGpuSet(cpuNumber int) ([]Device, Return) {
+	var count uint32
+	ret := nvmlSystemGetTopologyGpuSet(uint32(cpuNumber), &count, nil)
 	if ret != SUCCESS {
 		return nil, ret
 	}
-	if Count == 0 {
+	if count == 0 {
 		return []Device{}, ret
 	}
-	DeviceArray := make([]nvmlDevice, Count)
-	ret = nvmlSystemGetTopologyGpuSet(uint32(CpuNumber), &Count, &DeviceArray[0])
-	return convertSlice[nvmlDevice, Device](DeviceArray), ret
+	deviceArray := make([]nvmlDevice, count)
+	ret = nvmlSystemGetTopologyGpuSet(uint32(cpuNumber), &count, &deviceArray[0])
+	return convertSlice[nvmlDevice, Device](deviceArray), ret
 }

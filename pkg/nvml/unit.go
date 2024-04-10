@@ -22,92 +22,92 @@ func (l *library) UnitGetCount() (int, Return) {
 }
 
 // nvml.UnitGetHandleByIndex()
-func (l *library) UnitGetHandleByIndex(Index int) (Unit, Return) {
-	var Unit nvmlUnit
-	ret := nvmlUnitGetHandleByIndex(uint32(Index), &Unit)
-	return Unit, ret
+func (l *library) UnitGetHandleByIndex(index int) (Unit, Return) {
+	var unit nvmlUnit
+	ret := nvmlUnitGetHandleByIndex(uint32(index), &unit)
+	return unit, ret
 }
 
 // nvml.UnitGetUnitInfo()
-func (l *library) UnitGetUnitInfo(Unit Unit) (UnitInfo, Return) {
-	return Unit.GetUnitInfo()
+func (l *library) UnitGetUnitInfo(unit Unit) (UnitInfo, Return) {
+	return unit.GetUnitInfo()
 }
 
-func (Unit nvmlUnit) GetUnitInfo() (UnitInfo, Return) {
-	var Info UnitInfo
-	ret := nvmlUnitGetUnitInfo(Unit, &Info)
-	return Info, ret
+func (unit nvmlUnit) GetUnitInfo() (UnitInfo, Return) {
+	var info UnitInfo
+	ret := nvmlUnitGetUnitInfo(unit, &info)
+	return info, ret
 }
 
 // nvml.UnitGetLedState()
-func (l *library) UnitGetLedState(Unit Unit) (LedState, Return) {
-	return Unit.GetLedState()
+func (l *library) UnitGetLedState(unit Unit) (LedState, Return) {
+	return unit.GetLedState()
 }
 
-func (Unit nvmlUnit) GetLedState() (LedState, Return) {
-	var State LedState
-	ret := nvmlUnitGetLedState(Unit, &State)
-	return State, ret
+func (unit nvmlUnit) GetLedState() (LedState, Return) {
+	var state LedState
+	ret := nvmlUnitGetLedState(unit, &state)
+	return state, ret
 }
 
 // nvml.UnitGetPsuInfo()
-func (l *library) UnitGetPsuInfo(Unit Unit) (PSUInfo, Return) {
-	return Unit.GetPsuInfo()
+func (l *library) UnitGetPsuInfo(unit Unit) (PSUInfo, Return) {
+	return unit.GetPsuInfo()
 }
 
-func (Unit nvmlUnit) GetPsuInfo() (PSUInfo, Return) {
-	var Psu PSUInfo
-	ret := nvmlUnitGetPsuInfo(Unit, &Psu)
-	return Psu, ret
+func (unit nvmlUnit) GetPsuInfo() (PSUInfo, Return) {
+	var psu PSUInfo
+	ret := nvmlUnitGetPsuInfo(unit, &psu)
+	return psu, ret
 }
 
 // nvml.UnitGetTemperature()
-func (l *library) UnitGetTemperature(Unit Unit, Type int) (uint32, Return) {
-	return Unit.GetTemperature(Type)
+func (l *library) UnitGetTemperature(unit Unit, ttype int) (uint32, Return) {
+	return unit.GetTemperature(ttype)
 }
 
-func (Unit nvmlUnit) GetTemperature(Type int) (uint32, Return) {
-	var Temp uint32
-	ret := nvmlUnitGetTemperature(Unit, uint32(Type), &Temp)
-	return Temp, ret
+func (unit nvmlUnit) GetTemperature(ttype int) (uint32, Return) {
+	var temp uint32
+	ret := nvmlUnitGetTemperature(unit, uint32(ttype), &temp)
+	return temp, ret
 }
 
 // nvml.UnitGetFanSpeedInfo()
-func (l *library) UnitGetFanSpeedInfo(Unit Unit) (UnitFanSpeeds, Return) {
-	return Unit.GetFanSpeedInfo()
+func (l *library) UnitGetFanSpeedInfo(unit Unit) (UnitFanSpeeds, Return) {
+	return unit.GetFanSpeedInfo()
 }
 
-func (Unit nvmlUnit) GetFanSpeedInfo() (UnitFanSpeeds, Return) {
-	var FanSpeeds UnitFanSpeeds
-	ret := nvmlUnitGetFanSpeedInfo(Unit, &FanSpeeds)
-	return FanSpeeds, ret
+func (unit nvmlUnit) GetFanSpeedInfo() (UnitFanSpeeds, Return) {
+	var fanSpeeds UnitFanSpeeds
+	ret := nvmlUnitGetFanSpeedInfo(unit, &fanSpeeds)
+	return fanSpeeds, ret
 }
 
 // nvml.UnitGetDevices()
-func (l *library) UnitGetDevices(Unit Unit) ([]Device, Return) {
-	return Unit.GetDevices()
+func (l *library) UnitGetDevices(unit Unit) ([]Device, Return) {
+	return unit.GetDevices()
 }
 
-func (Unit nvmlUnit) GetDevices() ([]Device, Return) {
-	var DeviceCount uint32 = 1 // Will be reduced upon returning
+func (unit nvmlUnit) GetDevices() ([]Device, Return) {
+	var deviceCount uint32 = 1 // Will be reduced upon returning
 	for {
-		Devices := make([]nvmlDevice, DeviceCount)
-		ret := nvmlUnitGetDevices(Unit, &DeviceCount, &Devices[0])
+		devices := make([]nvmlDevice, deviceCount)
+		ret := nvmlUnitGetDevices(unit, &deviceCount, &devices[0])
 		if ret == SUCCESS {
-			return convertSlice[nvmlDevice, Device](Devices[:DeviceCount]), ret
+			return convertSlice[nvmlDevice, Device](devices[:deviceCount]), ret
 		}
 		if ret != ERROR_INSUFFICIENT_SIZE {
 			return nil, ret
 		}
-		DeviceCount *= 2
+		deviceCount *= 2
 	}
 }
 
 // nvml.UnitSetLedState()
-func (l *library) UnitSetLedState(Unit Unit, Color LedColor) Return {
-	return Unit.SetLedState(Color)
+func (l *library) UnitSetLedState(unit Unit, color LedColor) Return {
+	return unit.SetLedState(color)
 }
 
-func (Unit nvmlUnit) SetLedState(Color LedColor) Return {
-	return nvmlUnitSetLedState(Unit, Color)
+func (unit nvmlUnit) SetLedState(color LedColor) Return {
+	return nvmlUnitSetLedState(unit, color)
 }

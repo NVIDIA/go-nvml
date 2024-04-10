@@ -55,7 +55,7 @@ type Interface interface {
 	GetLibrary() Library
 	// Init API
 	Init() Return
-	InitWithFlags(Flags uint32) Return
+	InitWithFlags(flags uint32) Return
 	Shutdown() Return
 	ErrorString(r Return) string
 	// System API
@@ -63,290 +63,293 @@ type Interface interface {
 	SystemGetNVMLVersion() (string, Return)
 	SystemGetCudaDriverVersion() (int, Return)
 	SystemGetCudaDriverVersion_v2() (int, Return)
-	SystemGetProcessName(Pid int) (string, Return)
+	SystemGetProcessName(pid int) (string, Return)
 	SystemGetHicVersion() ([]HwbcEntry, Return)
-	SystemGetTopologyGpuSet(CpuNumber int) ([]Device, Return)
+	SystemGetTopologyGpuSet(cpuNumber int) ([]Device, Return)
 	// Device API
 	DeviceGetCount() (int, Return)
-	DeviceGetHandleByIndex(Index int) (Device, Return)
-	DeviceGetHandleBySerial(Serial string) (Device, Return)
-	DeviceGetHandleByUUID(Uuid string) (Device, Return)
-	DeviceGetHandleByPciBusId(PciBusId string) (Device, Return)
-	DeviceGetName(Device Device) (string, Return)
-	DeviceGetBrand(Device Device) (BrandType, Return)
-	DeviceGetIndex(Device Device) (int, Return)
-	DeviceGetSerial(Device Device) (string, Return)
-	DeviceGetCpuAffinity(Device Device, NumCPUs int) ([]uint, Return)
-	DeviceSetCpuAffinity(Device Device) Return
-	DeviceClearCpuAffinity(Device Device) Return
-	DeviceGetMemoryAffinity(Device Device, NumNodes int, Scope AffinityScope) ([]uint, Return)
-	DeviceGetCpuAffinityWithinScope(Device Device, NumCPUs int, Scope AffinityScope) ([]uint, Return)
-	DeviceGetTopologyCommonAncestor(Device1 Device, Device2 Device) (GpuTopologyLevel, Return)
-	DeviceGetTopologyNearestGpus(device Device, Level GpuTopologyLevel) ([]Device, Return)
-	DeviceGetP2PStatus(Device1 Device, Device2 Device, P2pIndex GpuP2PCapsIndex) (GpuP2PStatus, Return)
-	DeviceGetUUID(Device Device) (string, Return)
-	DeviceGetMinorNumber(Device Device) (int, Return)
-	DeviceGetBoardPartNumber(Device Device) (string, Return)
-	DeviceGetInforomVersion(Device Device, Object InforomObject) (string, Return)
-	DeviceGetInforomImageVersion(Device Device) (string, Return)
-	DeviceGetInforomConfigurationChecksum(Device Device) (uint32, Return)
-	DeviceValidateInforom(Device Device) Return
-	DeviceGetDisplayMode(Device Device) (EnableState, Return)
-	DeviceGetDisplayActive(Device Device) (EnableState, Return)
-	DeviceGetPersistenceMode(Device Device) (EnableState, Return)
-	DeviceGetPciInfo(Device Device) (PciInfo, Return)
-	DeviceGetMaxPcieLinkGeneration(Device Device) (int, Return)
-	DeviceGetMaxPcieLinkWidth(Device Device) (int, Return)
-	DeviceGetCurrPcieLinkGeneration(Device Device) (int, Return)
-	DeviceGetCurrPcieLinkWidth(Device Device) (int, Return)
-	DeviceGetPcieThroughput(Device Device, Counter PcieUtilCounter) (uint32, Return)
-	DeviceGetPcieReplayCounter(Device Device) (int, Return)
-	DeviceGetClockInfo(Device Device, _type ClockType) (uint32, Return)
-	DeviceGetMaxClockInfo(Device Device, _type ClockType) (uint32, Return)
-	DeviceGetApplicationsClock(Device Device, ClockType ClockType) (uint32, Return)
-	DeviceGetDefaultApplicationsClock(Device Device, ClockType ClockType) (uint32, Return)
-	DeviceResetApplicationsClocks(Device Device) Return
-	DeviceGetClock(Device Device, ClockType ClockType, ClockId ClockId) (uint32, Return)
-	DeviceGetMaxCustomerBoostClock(Device Device, ClockType ClockType) (uint32, Return)
-	DeviceGetSupportedMemoryClocks(Device Device) (int, uint32, Return)
-	DeviceGetSupportedGraphicsClocks(Device Device, MemoryClockMHz int) (int, uint32, Return)
-	DeviceGetAutoBoostedClocksEnabled(Device Device) (EnableState, EnableState, Return)
-	DeviceSetAutoBoostedClocksEnabled(Device Device, Enabled EnableState) Return
-	DeviceSetDefaultAutoBoostedClocksEnabled(Device Device, Enabled EnableState, Flags uint32) Return
-	DeviceGetFanSpeed(Device Device) (uint32, Return)
-	DeviceGetFanSpeed_v2(Device Device, Fan int) (uint32, Return)
-	DeviceGetNumFans(Device Device) (int, Return)
-	DeviceGetTemperature(Device Device, SensorType TemperatureSensors) (uint32, Return)
-	DeviceGetTemperatureThreshold(Device Device, ThresholdType TemperatureThresholds) (uint32, Return)
-	DeviceSetTemperatureThreshold(Device Device, ThresholdType TemperatureThresholds, Temp int) Return
-	DeviceGetPerformanceState(Device Device) (Pstates, Return)
-	DeviceGetCurrentClocksThrottleReasons(Device Device) (uint64, Return)
-	DeviceGetSupportedClocksThrottleReasons(Device Device) (uint64, Return)
-	DeviceGetPowerState(Device Device) (Pstates, Return)
-	DeviceGetPowerManagementMode(Device Device) (EnableState, Return)
-	DeviceGetPowerManagementLimit(Device Device) (uint32, Return)
-	DeviceGetPowerManagementLimitConstraints(Device Device) (uint32, uint32, Return)
-	DeviceGetPowerManagementDefaultLimit(Device Device) (uint32, Return)
-	DeviceGetPowerUsage(Device Device) (uint32, Return)
-	DeviceGetTotalEnergyConsumption(Device Device) (uint64, Return)
-	DeviceGetEnforcedPowerLimit(Device Device) (uint32, Return)
-	DeviceGetGpuOperationMode(Device Device) (GpuOperationMode, GpuOperationMode, Return)
-	DeviceGetMemoryInfo(Device Device) (Memory, Return)
-	DeviceGetMemoryInfo_v2(Device Device) (Memory_v2, Return)
-	DeviceGetComputeMode(Device Device) (ComputeMode, Return)
-	DeviceGetCudaComputeCapability(Device Device) (int, int, Return)
-	DeviceGetEccMode(Device Device) (EnableState, EnableState, Return)
-	DeviceGetBoardId(Device Device) (uint32, Return)
-	DeviceGetMultiGpuBoard(Device Device) (int, Return)
-	DeviceGetTotalEccErrors(Device Device, ErrorType MemoryErrorType, CounterType EccCounterType) (uint64, Return)
-	DeviceGetDetailedEccErrors(Device Device, ErrorType MemoryErrorType, CounterType EccCounterType) (EccErrorCounts, Return)
-	DeviceGetMemoryErrorCounter(Device Device, ErrorType MemoryErrorType, CounterType EccCounterType, LocationType MemoryLocation) (uint64, Return)
-	DeviceGetUtilizationRates(Device Device) (Utilization, Return)
-	DeviceGetEncoderUtilization(Device Device) (uint32, uint32, Return)
-	DeviceGetEncoderCapacity(Device Device, EncoderQueryType EncoderType) (int, Return)
-	DeviceGetEncoderStats(Device Device) (int, uint32, uint32, Return)
-	DeviceGetEncoderSessions(Device Device) ([]EncoderSessionInfo, Return)
-	DeviceGetDecoderUtilization(Device Device) (uint32, uint32, Return)
-	DeviceGetFBCStats(Device Device) (FBCStats, Return)
-	DeviceGetFBCSessions(Device Device) ([]FBCSessionInfo, Return)
-	DeviceGetDriverModel(Device Device) (DriverModel, DriverModel, Return)
-	DeviceGetVbiosVersion(Device Device) (string, Return)
-	DeviceGetBridgeChipInfo(Device Device) (BridgeChipHierarchy, Return)
-	DeviceOnSameBoard(Device1 Device, Device2 Device) (int, Return)
-	DeviceGetAPIRestriction(Device Device, ApiType RestrictedAPI) (EnableState, Return)
-	DeviceGetSamples(Device Device, _type SamplingType, LastSeenTimeStamp uint64) (ValueType, []Sample, Return)
-	DeviceGetBAR1MemoryInfo(Device Device) (BAR1Memory, Return)
-	DeviceGetViolationStatus(Device Device, PerfPolicyType PerfPolicyType) (ViolationTime, Return)
-	DeviceGetIrqNum(Device Device) (int, Return)
-	DeviceGetNumGpuCores(Device Device) (int, Return)
-	DeviceGetPowerSource(Device Device) (PowerSource, Return)
-	DeviceGetMemoryBusWidth(Device Device) (uint32, Return)
-	DeviceGetPcieLinkMaxSpeed(Device Device) (uint32, Return)
-	DeviceGetAdaptiveClockInfoStatus(Device Device) (uint32, Return)
-	DeviceGetAccountingMode(Device Device) (EnableState, Return)
-	DeviceGetAccountingStats(Device Device, Pid uint32) (AccountingStats, Return)
-	DeviceGetAccountingPids(Device Device) ([]int, Return)
-	DeviceGetAccountingBufferSize(Device Device) (int, Return)
-	DeviceGetRetiredPages(Device Device, Cause PageRetirementCause) ([]uint64, Return)
-	DeviceGetRetiredPages_v2(Device Device, Cause PageRetirementCause) ([]uint64, []uint64, Return)
-	DeviceGetRetiredPagesPendingStatus(Device Device) (EnableState, Return)
-	DeviceSetPersistenceMode(Device Device, Mode EnableState) Return
-	DeviceSetComputeMode(Device Device, Mode ComputeMode) Return
-	DeviceSetEccMode(Device Device, Ecc EnableState) Return
-	DeviceClearEccErrorCounts(Device Device, CounterType EccCounterType) Return
-	DeviceSetDriverModel(Device Device, DriverModel DriverModel, Flags uint32) Return
-	DeviceSetGpuLockedClocks(Device Device, MinGpuClockMHz uint32, MaxGpuClockMHz uint32) Return
-	DeviceResetGpuLockedClocks(Device Device) Return
-	DeviceSetMemoryLockedClocks(Device Device, MinMemClockMHz uint32, MaxMemClockMHz uint32) Return
-	DeviceResetMemoryLockedClocks(Device Device) Return
-	DeviceGetClkMonStatus(Device Device) (ClkMonStatus, Return)
-	DeviceSetApplicationsClocks(Device Device, MemClockMHz uint32, GraphicsClockMHz uint32) Return
-	DeviceSetPowerManagementLimit(Device Device, Limit uint32) Return
-	DeviceSetGpuOperationMode(Device Device, Mode GpuOperationMode) Return
-	DeviceSetAPIRestriction(Device Device, ApiType RestrictedAPI, IsRestricted EnableState) Return
-	DeviceSetAccountingMode(Device Device, Mode EnableState) Return
-	DeviceClearAccountingPids(Device Device) Return
-	DeviceGetNvLinkState(Device Device, Link int) (EnableState, Return)
-	DeviceGetNvLinkVersion(Device Device, Link int) (uint32, Return)
-	DeviceGetNvLinkCapability(Device Device, Link int, Capability NvLinkCapability) (uint32, Return)
-	DeviceGetNvLinkRemotePciInfo(Device Device, Link int) (PciInfo, Return)
-	DeviceGetNvLinkErrorCounter(Device Device, Link int, Counter NvLinkErrorCounter) (uint64, Return)
-	DeviceResetNvLinkErrorCounters(Device Device, Link int) Return
-	DeviceSetNvLinkUtilizationControl(Device Device, Link int, Counter int, Control *NvLinkUtilizationControl, Reset bool) Return
-	DeviceGetNvLinkUtilizationControl(Device Device, Link int, Counter int) (NvLinkUtilizationControl, Return)
-	DeviceGetNvLinkUtilizationCounter(Device Device, Link int, Counter int) (uint64, uint64, Return)
-	DeviceFreezeNvLinkUtilizationCounter(Device Device, Link int, Counter int, Freeze EnableState) Return
-	DeviceResetNvLinkUtilizationCounter(Device Device, Link int, Counter int) Return
-	DeviceGetNvLinkRemoteDeviceType(Device Device, Link int) (IntNvLinkDeviceType, Return)
-	DeviceRegisterEvents(Device Device, EventTypes uint64, Set EventSet) Return
-	DeviceGetSupportedEventTypes(Device Device) (uint64, Return)
-	DeviceModifyDrainState(PciInfo *PciInfo, NewState EnableState) Return
-	DeviceQueryDrainState(PciInfo *PciInfo) (EnableState, Return)
-	DeviceRemoveGpu(PciInfo *PciInfo) Return
-	DeviceRemoveGpu_v2(PciInfo *PciInfo, GpuState DetachGpuState, LinkState PcieLinkState) Return
+	DeviceGetHandleByIndex(index int) (Device, Return)
+	DeviceGetHandleBySerial(serial string) (Device, Return)
+	DeviceGetHandleByUUID(uuid string) (Device, Return)
+	DeviceGetHandleByPciBusId(pciBusId string) (Device, Return)
+	DeviceGetName(device Device) (string, Return)
+	DeviceGetBrand(device Device) (BrandType, Return)
+	DeviceGetIndex(device Device) (int, Return)
+	DeviceGetSerial(device Device) (string, Return)
+	DeviceGetCpuAffinity(device Device, numCPUs int) ([]uint, Return)
+	DeviceSetCpuAffinity(device Device) Return
+	DeviceClearCpuAffinity(device Device) Return
+	DeviceGetMemoryAffinity(device Device, numNodes int, scope AffinityScope) ([]uint, Return)
+	DeviceGetCpuAffinityWithinScope(device Device, numCPUs int, scope AffinityScope) ([]uint, Return)
+	DeviceGetTopologyCommonAncestor(device1 Device, device2 Device) (GpuTopologyLevel, Return)
+	DeviceGetTopologyNearestGpus(device Device, level GpuTopologyLevel) ([]Device, Return)
+	DeviceGetP2PStatus(device1 Device, device2 Device, p2pIndex GpuP2PCapsIndex) (GpuP2PStatus, Return)
+	DeviceGetUUID(device Device) (string, Return)
+	DeviceGetMinorNumber(device Device) (int, Return)
+	DeviceGetBoardPartNumber(device Device) (string, Return)
+	DeviceGetInforomVersion(device Device, object InforomObject) (string, Return)
+	DeviceGetInforomImageVersion(device Device) (string, Return)
+	DeviceGetInforomConfigurationChecksum(device Device) (uint32, Return)
+	DeviceValidateInforom(device Device) Return
+	DeviceGetDisplayMode(device Device) (EnableState, Return)
+	DeviceGetDisplayActive(device Device) (EnableState, Return)
+	DeviceGetPersistenceMode(device Device) (EnableState, Return)
+	DeviceGetPciInfo(device Device) (PciInfo, Return)
+	DeviceGetMaxPcieLinkGeneration(device Device) (int, Return)
+	DeviceGetMaxPcieLinkWidth(device Device) (int, Return)
+	DeviceGetCurrPcieLinkGeneration(device Device) (int, Return)
+	DeviceGetCurrPcieLinkWidth(device Device) (int, Return)
+	DeviceGetPcieThroughput(device Device, counter PcieUtilCounter) (uint32, Return)
+	DeviceGetPcieReplayCounter(device Device) (int, Return)
+	DeviceGetClockInfo(device Device, clockType ClockType) (uint32, Return)
+	DeviceGetMaxClockInfo(device Device, clockType ClockType) (uint32, Return)
+	DeviceGetApplicationsClock(device Device, clockType ClockType) (uint32, Return)
+	DeviceGetDefaultApplicationsClock(device Device, clockType ClockType) (uint32, Return)
+	DeviceResetApplicationsClocks(device Device) Return
+	DeviceGetClock(device Device, clockType ClockType, clockId ClockId) (uint32, Return)
+	DeviceGetMaxCustomerBoostClock(device Device, clockType ClockType) (uint32, Return)
+	DeviceGetSupportedMemoryClocks(device Device) (int, uint32, Return)
+	DeviceGetSupportedGraphicsClocks(device Device, memoryClockMHz int) (int, uint32, Return)
+	DeviceGetAutoBoostedClocksEnabled(device Device) (EnableState, EnableState, Return)
+	DeviceSetAutoBoostedClocksEnabled(device Device, enabled EnableState) Return
+	DeviceSetDefaultAutoBoostedClocksEnabled(device Device, enabled EnableState, flags uint32) Return
+	DeviceGetFanSpeed(device Device) (uint32, Return)
+	DeviceGetFanSpeed_v2(device Device, fan int) (uint32, Return)
+	DeviceGetNumFans(device Device) (int, Return)
+	DeviceGetTemperature(device Device, sensorType TemperatureSensors) (uint32, Return)
+	DeviceGetTemperatureThreshold(device Device, thresholdType TemperatureThresholds) (uint32, Return)
+	DeviceSetTemperatureThreshold(device Device, thresholdType TemperatureThresholds, temp int) Return
+	DeviceGetPerformanceState(device Device) (Pstates, Return)
+	DeviceGetCurrentClocksThrottleReasons(device Device) (uint64, Return)
+	DeviceGetSupportedClocksThrottleReasons(device Device) (uint64, Return)
+	DeviceGetPowerState(device Device) (Pstates, Return)
+	DeviceGetPowerManagementMode(device Device) (EnableState, Return)
+	DeviceGetPowerManagementLimit(device Device) (uint32, Return)
+	DeviceGetPowerManagementLimitConstraints(device Device) (uint32, uint32, Return)
+	DeviceGetPowerManagementDefaultLimit(device Device) (uint32, Return)
+	DeviceGetPowerUsage(device Device) (uint32, Return)
+	DeviceGetTotalEnergyConsumption(device Device) (uint64, Return)
+	DeviceGetEnforcedPowerLimit(device Device) (uint32, Return)
+	DeviceGetGpuOperationMode(device Device) (GpuOperationMode, GpuOperationMode, Return)
+	DeviceGetMemoryInfo(device Device) (Memory, Return)
+	DeviceGetMemoryInfo_v2(device Device) (Memory_v2, Return)
+	DeviceGetComputeMode(device Device) (ComputeMode, Return)
+	DeviceGetCudaComputeCapability(device Device) (int, int, Return)
+	DeviceGetEccMode(device Device) (EnableState, EnableState, Return)
+	DeviceGetBoardId(device Device) (uint32, Return)
+	DeviceGetMultiGpuBoard(device Device) (int, Return)
+	DeviceGetTotalEccErrors(device Device, errorType MemoryErrorType, counterType EccCounterType) (uint64, Return)
+	DeviceGetDetailedEccErrors(device Device, errorType MemoryErrorType, counterType EccCounterType) (EccErrorCounts, Return)
+	DeviceGetMemoryErrorCounter(device Device, errorType MemoryErrorType, counterType EccCounterType, locationType MemoryLocation) (uint64, Return)
+	DeviceGetUtilizationRates(device Device) (Utilization, Return)
+	DeviceGetEncoderUtilization(device Device) (uint32, uint32, Return)
+	DeviceGetEncoderCapacity(device Device, encoderQueryType EncoderType) (int, Return)
+	DeviceGetEncoderStats(device Device) (int, uint32, uint32, Return)
+	DeviceGetEncoderSessions(device Device) ([]EncoderSessionInfo, Return)
+	DeviceGetDecoderUtilization(device Device) (uint32, uint32, Return)
+	DeviceGetFBCStats(device Device) (FBCStats, Return)
+	DeviceGetFBCSessions(device Device) ([]FBCSessionInfo, Return)
+	DeviceGetDriverModel(device Device) (DriverModel, DriverModel, Return)
+	DeviceGetVbiosVersion(device Device) (string, Return)
+	DeviceGetBridgeChipInfo(device Device) (BridgeChipHierarchy, Return)
+	DeviceGetComputeRunningProcesses(device Device) ([]ProcessInfo, Return)
+	DeviceGetGraphicsRunningProcesses(device Device) ([]ProcessInfo, Return)
+	DeviceGetMPSComputeRunningProcesses(device Device) ([]ProcessInfo, Return)
+	DeviceOnSameBoard(device1 Device, device2 Device) (int, Return)
+	DeviceGetAPIRestriction(device Device, apiType RestrictedAPI) (EnableState, Return)
+	DeviceGetSamples(device Device, samplingType SamplingType, lastSeenTimestamp uint64) (ValueType, []Sample, Return)
+	DeviceGetBAR1MemoryInfo(device Device) (BAR1Memory, Return)
+	DeviceGetViolationStatus(device Device, perfPolicyType PerfPolicyType) (ViolationTime, Return)
+	DeviceGetIrqNum(device Device) (int, Return)
+	DeviceGetNumGpuCores(device Device) (int, Return)
+	DeviceGetPowerSource(device Device) (PowerSource, Return)
+	DeviceGetMemoryBusWidth(device Device) (uint32, Return)
+	DeviceGetPcieLinkMaxSpeed(device Device) (uint32, Return)
+	DeviceGetAdaptiveClockInfoStatus(device Device) (uint32, Return)
+	DeviceGetAccountingMode(device Device) (EnableState, Return)
+	DeviceGetAccountingStats(device Device, pid uint32) (AccountingStats, Return)
+	DeviceGetAccountingPids(device Device) ([]int, Return)
+	DeviceGetAccountingBufferSize(device Device) (int, Return)
+	DeviceGetRetiredPages(device Device, cause PageRetirementCause) ([]uint64, Return)
+	DeviceGetRetiredPages_v2(device Device, cause PageRetirementCause) ([]uint64, []uint64, Return)
+	DeviceGetRetiredPagesPendingStatus(device Device) (EnableState, Return)
+	DeviceSetPersistenceMode(device Device, mode EnableState) Return
+	DeviceSetComputeMode(device Device, mode ComputeMode) Return
+	DeviceSetEccMode(device Device, ecc EnableState) Return
+	DeviceClearEccErrorCounts(device Device, counterType EccCounterType) Return
+	DeviceSetDriverModel(device Device, driverModel DriverModel, flags uint32) Return
+	DeviceSetGpuLockedClocks(device Device, minGpuClockMHz uint32, maxGpuClockMHz uint32) Return
+	DeviceResetGpuLockedClocks(device Device) Return
+	DeviceSetMemoryLockedClocks(device Device, minMemClockMHz uint32, maxMemClockMHz uint32) Return
+	DeviceResetMemoryLockedClocks(device Device) Return
+	DeviceGetClkMonStatus(device Device) (ClkMonStatus, Return)
+	DeviceSetApplicationsClocks(device Device, memClockMHz uint32, graphicsClockMHz uint32) Return
+	DeviceSetPowerManagementLimit(device Device, limit uint32) Return
+	DeviceSetGpuOperationMode(device Device, mode GpuOperationMode) Return
+	DeviceSetAPIRestriction(device Device, apiType RestrictedAPI, isRestricted EnableState) Return
+	DeviceSetAccountingMode(device Device, mode EnableState) Return
+	DeviceClearAccountingPids(device Device) Return
+	DeviceGetNvLinkState(device Device, link int) (EnableState, Return)
+	DeviceGetNvLinkVersion(device Device, link int) (uint32, Return)
+	DeviceGetNvLinkCapability(device Device, link int, capability NvLinkCapability) (uint32, Return)
+	DeviceGetNvLinkRemotePciInfo(device Device, link int) (PciInfo, Return)
+	DeviceGetNvLinkErrorCounter(device Device, link int, counter NvLinkErrorCounter) (uint64, Return)
+	DeviceResetNvLinkErrorCounters(device Device, link int) Return
+	DeviceSetNvLinkUtilizationControl(device Device, link int, counter int, control *NvLinkUtilizationControl, reset bool) Return
+	DeviceGetNvLinkUtilizationControl(device Device, link int, counter int) (NvLinkUtilizationControl, Return)
+	DeviceGetNvLinkUtilizationCounter(device Device, link int, counter int) (uint64, uint64, Return)
+	DeviceFreezeNvLinkUtilizationCounter(device Device, link int, counter int, freeze EnableState) Return
+	DeviceResetNvLinkUtilizationCounter(device Device, link int, counter int) Return
+	DeviceGetNvLinkRemoteDeviceType(device Device, link int) (IntNvLinkDeviceType, Return)
+	DeviceRegisterEvents(device Device, eventTypes uint64, set EventSet) Return
+	DeviceGetSupportedEventTypes(device Device) (uint64, Return)
+	DeviceModifyDrainState(pciInfo *PciInfo, newState EnableState) Return
+	DeviceQueryDrainState(pciInfo *PciInfo) (EnableState, Return)
+	DeviceRemoveGpu(pciInfo *PciInfo) Return
+	DeviceRemoveGpu_v2(pciInfo *PciInfo, gpuState DetachGpuState, linkState PcieLinkState) Return
 	DeviceDiscoverGpus() (PciInfo, Return)
-	DeviceGetFieldValues(Device Device, Values []FieldValue) Return
-	DeviceGetVirtualizationMode(Device Device) (GpuVirtualizationMode, Return)
-	DeviceGetHostVgpuMode(Device Device) (HostVgpuMode, Return)
-	DeviceSetVirtualizationMode(Device Device, VirtualMode GpuVirtualizationMode) Return
-	DeviceGetGridLicensableFeatures(Device Device) (GridLicensableFeatures, Return)
-	DeviceGetProcessUtilization(Device Device, LastSeenTimeStamp uint64) ([]ProcessUtilizationSample, Return)
-	DeviceGetSupportedVgpus(Device Device) ([]VgpuTypeId, Return)
-	DeviceGetCreatableVgpus(Device Device) ([]VgpuTypeId, Return)
-	DeviceGetActiveVgpus(Device Device) ([]VgpuInstance, Return)
-	DeviceGetVgpuMetadata(Device Device) (VgpuPgpuMetadata, Return)
-	DeviceGetPgpuMetadataString(Device Device) (string, Return)
-	DeviceGetVgpuUtilization(Device Device, LastSeenTimeStamp uint64) (ValueType, []VgpuInstanceUtilizationSample, Return)
-	DeviceGetAttributes(Device Device) (DeviceAttributes, Return)
-	DeviceGetRemappedRows(Device Device) (int, int, bool, bool, Return)
-	DeviceGetRowRemapperHistogram(Device Device) (RowRemapperHistogramValues, Return)
-	DeviceGetArchitecture(Device Device) (DeviceArchitecture, Return)
-	DeviceGetVgpuProcessUtilization(Device Device, LastSeenTimeStamp uint64) ([]VgpuProcessUtilizationSample, Return)
+	DeviceGetFieldValues(device Device, values []FieldValue) Return
+	DeviceGetVirtualizationMode(device Device) (GpuVirtualizationMode, Return)
+	DeviceGetHostVgpuMode(device Device) (HostVgpuMode, Return)
+	DeviceSetVirtualizationMode(device Device, virtualMode GpuVirtualizationMode) Return
+	DeviceGetGridLicensableFeatures(device Device) (GridLicensableFeatures, Return)
+	DeviceGetProcessUtilization(device Device, lastSeenTimestamp uint64) ([]ProcessUtilizationSample, Return)
+	DeviceGetSupportedVgpus(device Device) ([]VgpuTypeId, Return)
+	DeviceGetCreatableVgpus(device Device) ([]VgpuTypeId, Return)
+	DeviceGetActiveVgpus(device Device) ([]VgpuInstance, Return)
+	DeviceGetVgpuMetadata(device Device) (VgpuPgpuMetadata, Return)
+	DeviceGetPgpuMetadataString(device Device) (string, Return)
+	DeviceGetVgpuUtilization(device Device, lastSeenTimestamp uint64) (ValueType, []VgpuInstanceUtilizationSample, Return)
+	DeviceGetAttributes(device Device) (DeviceAttributes, Return)
+	DeviceGetRemappedRows(device Device) (int, int, bool, bool, Return)
+	DeviceGetRowRemapperHistogram(device Device) (RowRemapperHistogramValues, Return)
+	DeviceGetArchitecture(device Device) (DeviceArchitecture, Return)
+	DeviceGetVgpuProcessUtilization(device Device, lastSeenTimestamp uint64) ([]VgpuProcessUtilizationSample, Return)
 	GetExcludedDeviceCount() (int, Return)
-	GetExcludedDeviceInfoByIndex(Index int) (ExcludedDeviceInfo, Return)
-	DeviceSetMigMode(Device Device, Mode int) (Return, Return)
-	DeviceGetMigMode(Device Device) (int, int, Return)
-	DeviceGetGpuInstanceProfileInfo(Device Device, Profile int) (GpuInstanceProfileInfo, Return)
-	DeviceGetGpuInstanceProfileInfoV(Device Device, Profile int) GpuInstanceProfileInfoV
-	DeviceGetGpuInstancePossiblePlacements(Device Device, Info *GpuInstanceProfileInfo) ([]GpuInstancePlacement, Return)
-	DeviceGetGpuInstanceRemainingCapacity(Device Device, Info *GpuInstanceProfileInfo) (int, Return)
-	DeviceCreateGpuInstance(Device Device, Info *GpuInstanceProfileInfo) (GpuInstance, Return)
-	DeviceCreateGpuInstanceWithPlacement(Device Device, Info *GpuInstanceProfileInfo, Placement *GpuInstancePlacement) (GpuInstance, Return)
-	GpuInstanceDestroy(GpuInstance GpuInstance) Return
-	DeviceGetGpuInstances(Device Device, Info *GpuInstanceProfileInfo) ([]GpuInstance, Return)
-	DeviceGetGpuInstanceById(Device Device, Id int) (GpuInstance, Return)
-	GpuInstanceGetInfo(GpuInstance GpuInstance) (GpuInstanceInfo, Return)
-	GpuInstanceGetComputeInstanceProfileInfo(GpuInstance GpuInstance, Profile int, EngProfile int) (ComputeInstanceProfileInfo, Return)
-	GpuInstanceGetComputeInstanceProfileInfoV(GpuInstance GpuInstance, Profile int, EngProfile int) ComputeInstanceProfileInfoV
-	GpuInstanceGetComputeInstanceRemainingCapacity(GpuInstance GpuInstance, Info *ComputeInstanceProfileInfo) (int, Return)
-	GpuInstanceCreateComputeInstance(GpuInstance GpuInstance, Info *ComputeInstanceProfileInfo) (ComputeInstance, Return)
-	ComputeInstanceDestroy(ComputeInstance ComputeInstance) Return
-	GpuInstanceGetComputeInstances(GpuInstance GpuInstance, Info *ComputeInstanceProfileInfo) ([]ComputeInstance, Return)
-	GpuInstanceGetComputeInstanceById(GpuInstance GpuInstance, Id int) (ComputeInstance, Return)
-	ComputeInstanceGetInfo(ComputeInstance ComputeInstance) (ComputeInstanceInfo, Return)
-	DeviceIsMigDeviceHandle(Device Device) (bool, Return)
-	DeviceGetGpuInstanceId(Device Device) (int, Return)
-	DeviceGetComputeInstanceId(Device Device) (int, Return)
-	DeviceGetMaxMigDeviceCount(Device Device) (int, Return)
-	DeviceGetMigDeviceHandleByIndex(device Device, Index int) (Device, Return)
-	DeviceGetDeviceHandleFromMigDeviceHandle(MigDevice Device) (Device, Return)
-	DeviceGetBusType(Device Device) (BusType, Return)
-	DeviceSetDefaultFanSpeed_v2(Device Device, Fan int) Return
-	DeviceGetMinMaxFanSpeed(Device Device) (int, int, Return)
-	DeviceGetThermalSettings(Device Device, SensorIndex uint32) (GpuThermalSettings, Return)
-	DeviceGetDefaultEccMode(Device Device) (EnableState, Return)
-	DeviceGetPcieSpeed(Device Device) (int, Return)
-	DeviceGetGspFirmwareVersion(Device Device) (string, Return)
-	DeviceGetGspFirmwareMode(Device Device) (bool, bool, Return)
-	DeviceGetDynamicPstatesInfo(Device Device) (GpuDynamicPstatesInfo, Return)
-	DeviceSetFanSpeed_v2(Device Device, Fan int, Speed int) Return
-	DeviceGetGpcClkVfOffset(Device Device) (int, Return)
-	DeviceSetGpcClkVfOffset(Device Device, Offset int) Return
-	DeviceGetMinMaxClockOfPState(Device Device, _type ClockType, Pstate Pstates) (uint32, uint32, Return)
-	DeviceGetSupportedPerformanceStates(Device Device) ([]Pstates, Return)
-	DeviceGetTargetFanSpeed(Device Device, Fan int) (int, Return)
-	DeviceGetMemClkVfOffset(Device Device) (int, Return)
-	DeviceSetMemClkVfOffset(Device Device, Offset int) Return
-	DeviceGetGpcClkMinMaxVfOffset(Device Device) (int, int, Return)
-	DeviceGetMemClkMinMaxVfOffset(Device Device) (int, int, Return)
-	DeviceGetGpuMaxPcieLinkGeneration(Device Device) (int, Return)
-	DeviceGetFanControlPolicy_v2(Device Device, Fan int) (FanControlPolicy, Return)
-	DeviceSetFanControlPolicy(Device Device, Fan int, Policy FanControlPolicy) Return
-	DeviceClearFieldValues(Device Device, Values []FieldValue) Return
-	DeviceGetVgpuCapabilities(Device Device, Capability DeviceVgpuCapability) (bool, Return)
-	DeviceGetVgpuSchedulerLog(Device Device) (VgpuSchedulerLog, Return)
-	DeviceGetVgpuSchedulerState(Device Device) (VgpuSchedulerGetState, Return)
-	DeviceSetVgpuSchedulerState(Device Device, PSchedulerState *VgpuSchedulerSetState) Return
-	DeviceGetVgpuSchedulerCapabilities(Device Device) (VgpuSchedulerCapabilities, Return)
-	GpuInstanceGetComputeInstancePossiblePlacements(GpuInstance GpuInstance, Info *ComputeInstanceProfileInfo) ([]ComputeInstancePlacement, Return)
-	GpuInstanceCreateComputeInstanceWithPlacement(GpuInstance GpuInstance, Info *ComputeInstanceProfileInfo, Placement *ComputeInstancePlacement) (ComputeInstance, Return)
-	DeviceGetGpuFabricInfo(Device Device) (GpuFabricInfo, Return)
-	DeviceCcuGetStreamState(Device Device) (int, Return)
-	DeviceCcuSetStreamState(Device Device, State int) Return
-	DeviceSetNvLinkDeviceLowPowerThreshold(Device Device, Info *NvLinkPowerThres) Return
+	GetExcludedDeviceInfoByIndex(index int) (ExcludedDeviceInfo, Return)
+	DeviceSetMigMode(device Device, mode int) (Return, Return)
+	DeviceGetMigMode(device Device) (int, int, Return)
+	DeviceGetGpuInstanceProfileInfo(device Device, profile int) (GpuInstanceProfileInfo, Return)
+	DeviceGetGpuInstanceProfileInfoV(device Device, profile int) GpuInstanceProfileInfoV
+	DeviceGetGpuInstancePossiblePlacements(device Device, info *GpuInstanceProfileInfo) ([]GpuInstancePlacement, Return)
+	DeviceGetGpuInstanceRemainingCapacity(device Device, info *GpuInstanceProfileInfo) (int, Return)
+	DeviceCreateGpuInstance(device Device, info *GpuInstanceProfileInfo) (GpuInstance, Return)
+	DeviceCreateGpuInstanceWithPlacement(device Device, info *GpuInstanceProfileInfo, placement *GpuInstancePlacement) (GpuInstance, Return)
+	GpuInstanceDestroy(gpuInstance GpuInstance) Return
+	DeviceGetGpuInstances(device Device, info *GpuInstanceProfileInfo) ([]GpuInstance, Return)
+	DeviceGetGpuInstanceById(device Device, id int) (GpuInstance, Return)
+	GpuInstanceGetInfo(gpuInstance GpuInstance) (GpuInstanceInfo, Return)
+	GpuInstanceGetComputeInstanceProfileInfo(gpuInstance GpuInstance, profile int, engProfile int) (ComputeInstanceProfileInfo, Return)
+	GpuInstanceGetComputeInstanceProfileInfoV(gpuInstance GpuInstance, profile int, engProfile int) ComputeInstanceProfileInfoV
+	GpuInstanceGetComputeInstanceRemainingCapacity(gpuInstance GpuInstance, info *ComputeInstanceProfileInfo) (int, Return)
+	GpuInstanceCreateComputeInstance(gpuInstance GpuInstance, info *ComputeInstanceProfileInfo) (ComputeInstance, Return)
+	ComputeInstanceDestroy(computeInstance ComputeInstance) Return
+	GpuInstanceGetComputeInstances(gpuInstance GpuInstance, info *ComputeInstanceProfileInfo) ([]ComputeInstance, Return)
+	GpuInstanceGetComputeInstanceById(gpuInstance GpuInstance, id int) (ComputeInstance, Return)
+	ComputeInstanceGetInfo(computeInstance ComputeInstance) (ComputeInstanceInfo, Return)
+	DeviceIsMigDeviceHandle(device Device) (bool, Return)
+	DeviceGetGpuInstanceId(device Device) (int, Return)
+	DeviceGetComputeInstanceId(device Device) (int, Return)
+	DeviceGetMaxMigDeviceCount(device Device) (int, Return)
+	DeviceGetMigDeviceHandleByIndex(device Device, index int) (Device, Return)
+	DeviceGetDeviceHandleFromMigDeviceHandle(migdevice Device) (Device, Return)
+	DeviceGetBusType(device Device) (BusType, Return)
+	DeviceSetDefaultFanSpeed_v2(device Device, fan int) Return
+	DeviceGetMinMaxFanSpeed(device Device) (int, int, Return)
+	DeviceGetThermalSettings(device Device, sensorIndex uint32) (GpuThermalSettings, Return)
+	DeviceGetDefaultEccMode(device Device) (EnableState, Return)
+	DeviceGetPcieSpeed(device Device) (int, Return)
+	DeviceGetGspFirmwareVersion(device Device) (string, Return)
+	DeviceGetGspFirmwareMode(device Device) (bool, bool, Return)
+	DeviceGetDynamicPstatesInfo(device Device) (GpuDynamicPstatesInfo, Return)
+	DeviceSetFanSpeed_v2(device Device, fan int, speed int) Return
+	DeviceGetGpcClkVfOffset(device Device) (int, Return)
+	DeviceSetGpcClkVfOffset(device Device, offset int) Return
+	DeviceGetMinMaxClockOfPState(device Device, clockType ClockType, pstate Pstates) (uint32, uint32, Return)
+	DeviceGetSupportedPerformanceStates(device Device) ([]Pstates, Return)
+	DeviceGetTargetFanSpeed(device Device, fan int) (int, Return)
+	DeviceGetMemClkVfOffset(device Device) (int, Return)
+	DeviceSetMemClkVfOffset(device Device, offset int) Return
+	DeviceGetGpcClkMinMaxVfOffset(device Device) (int, int, Return)
+	DeviceGetMemClkMinMaxVfOffset(device Device) (int, int, Return)
+	DeviceGetGpuMaxPcieLinkGeneration(device Device) (int, Return)
+	DeviceGetFanControlPolicy_v2(device Device, fan int) (FanControlPolicy, Return)
+	DeviceSetFanControlPolicy(device Device, fan int, policy FanControlPolicy) Return
+	DeviceClearFieldValues(device Device, values []FieldValue) Return
+	DeviceGetVgpuCapabilities(device Device, capability DeviceVgpuCapability) (bool, Return)
+	DeviceGetVgpuSchedulerLog(device Device) (VgpuSchedulerLog, Return)
+	DeviceGetVgpuSchedulerState(device Device) (VgpuSchedulerGetState, Return)
+	DeviceSetVgpuSchedulerState(device Device, pSchedulerState *VgpuSchedulerSetState) Return
+	DeviceGetVgpuSchedulerCapabilities(device Device) (VgpuSchedulerCapabilities, Return)
+	GpuInstanceGetComputeInstancePossiblePlacements(gpuInstance GpuInstance, info *ComputeInstanceProfileInfo) ([]ComputeInstancePlacement, Return)
+	GpuInstanceCreateComputeInstanceWithPlacement(gpuInstance GpuInstance, info *ComputeInstanceProfileInfo, placement *ComputeInstancePlacement) (ComputeInstance, Return)
+	DeviceGetGpuFabricInfo(device Device) (GpuFabricInfo, Return)
+	DeviceCcuGetStreamState(device Device) (int, Return)
+	DeviceCcuSetStreamState(device Device, state int) Return
+	DeviceSetNvLinkDeviceLowPowerThreshold(device Device, info *NvLinkPowerThres) Return
 	// Event API
 	EventSetCreate() (EventSet, Return)
-	EventSetWait(Set EventSet, Timeoutms uint32) (EventData, Return)
-	EventSetFree(Set EventSet) Return
+	EventSetWait(set EventSet, timeoutms uint32) (EventData, Return)
+	EventSetFree(set EventSet) Return
 	// GPM API
-	GpmMetricsGetV(MetricsGet *GpmMetricsGetType) GpmMetricsGetVType
-	GpmMetricsGet(MetricsGet *GpmMetricsGetType) Return
-	GpmSampleFree(GpmSample GpmSample) Return
+	GpmMetricsGetV(metricsGet *GpmMetricsGetType) GpmMetricsGetVType
+	GpmMetricsGet(metricsGet *GpmMetricsGetType) Return
+	GpmSampleFree(gpmSample GpmSample) Return
 	GpmSampleAlloc() (GpmSample, Return)
-	GpmSampleGet(Device Device, GpmSample GpmSample) Return
-	GpmQueryDeviceSupportV(Device Device) GpmSupportV
-	GpmQueryDeviceSupport(Device Device) (GpmSupport, Return)
-	GpmMigSampleGet(Device Device, GpuInstanceId int, GpmSample GpmSample) Return
+	GpmSampleGet(device Device, gpmSample GpmSample) Return
+	GpmQueryDeviceSupportV(device Device) GpmSupportV
+	GpmQueryDeviceSupport(device Device) (GpmSupport, Return)
+	GpmMigSampleGet(device Device, gpuInstanceId int, gpmSample GpmSample) Return
 	// Unit API
 	UnitGetCount() (int, Return)
-	UnitGetHandleByIndex(Index int) (Unit, Return)
-	UnitGetUnitInfo(Unit Unit) (UnitInfo, Return)
-	UnitGetLedState(Unit Unit) (LedState, Return)
-	UnitGetPsuInfo(Unit Unit) (PSUInfo, Return)
-	UnitGetTemperature(Unit Unit, Type int) (uint32, Return)
-	UnitGetFanSpeedInfo(Unit Unit) (UnitFanSpeeds, Return)
-	UnitGetDevices(Unit Unit) ([]Device, Return)
-	UnitSetLedState(Unit Unit, Color LedColor) Return
+	UnitGetHandleByIndex(index int) (Unit, Return)
+	UnitGetUnitInfo(unit Unit) (UnitInfo, Return)
+	UnitGetLedState(unit Unit) (LedState, Return)
+	UnitGetPsuInfo(unit Unit) (PSUInfo, Return)
+	UnitGetTemperature(unit Unit, ttype int) (uint32, Return)
+	UnitGetFanSpeedInfo(unit Unit) (UnitFanSpeeds, Return)
+	UnitGetDevices(unit Unit) ([]Device, Return)
+	UnitSetLedState(unit Unit, color LedColor) Return
 	// vGPU API
-	VgpuTypeGetClass(VgpuTypeId VgpuTypeId) (string, Return)
-	VgpuTypeGetName(VgpuTypeId VgpuTypeId) (string, Return)
-	VgpuTypeGetGpuInstanceProfileId(VgpuTypeId VgpuTypeId) (uint32, Return)
-	VgpuTypeGetDeviceID(VgpuTypeId VgpuTypeId) (uint64, uint64, Return)
-	VgpuTypeGetFramebufferSize(VgpuTypeId VgpuTypeId) (uint64, Return)
-	VgpuTypeGetNumDisplayHeads(VgpuTypeId VgpuTypeId) (int, Return)
-	VgpuTypeGetResolution(VgpuTypeId VgpuTypeId, DisplayIndex int) (uint32, uint32, Return)
-	VgpuTypeGetLicense(VgpuTypeId VgpuTypeId) (string, Return)
-	VgpuTypeGetFrameRateLimit(VgpuTypeId VgpuTypeId) (uint32, Return)
-	VgpuTypeGetMaxInstances(Device Device, VgpuTypeId VgpuTypeId) (int, Return)
-	VgpuTypeGetMaxInstancesPerVm(VgpuTypeId VgpuTypeId) (int, Return)
-	VgpuInstanceGetVmID(VgpuInstance VgpuInstance) (string, VgpuVmIdType, Return)
-	VgpuInstanceGetUUID(VgpuInstance VgpuInstance) (string, Return)
-	VgpuInstanceGetVmDriverVersion(VgpuInstance VgpuInstance) (string, Return)
-	VgpuInstanceGetFbUsage(VgpuInstance VgpuInstance) (uint64, Return)
-	VgpuInstanceGetLicenseInfo(VgpuInstance VgpuInstance) (VgpuLicenseInfo, Return)
-	VgpuInstanceGetLicenseStatus(VgpuInstance VgpuInstance) (int, Return)
-	VgpuInstanceGetType(VgpuInstance VgpuInstance) (VgpuTypeId, Return)
-	VgpuInstanceGetFrameRateLimit(VgpuInstance VgpuInstance) (uint32, Return)
-	VgpuInstanceGetEccMode(VgpuInstance VgpuInstance) (EnableState, Return)
-	VgpuInstanceGetEncoderCapacity(VgpuInstance VgpuInstance) (int, Return)
-	VgpuInstanceSetEncoderCapacity(VgpuInstance VgpuInstance, EncoderCapacity int) Return
-	VgpuInstanceGetEncoderStats(VgpuInstance VgpuInstance) (int, uint32, uint32, Return)
-	VgpuInstanceGetEncoderSessions(VgpuInstance VgpuInstance) (int, EncoderSessionInfo, Return)
-	VgpuInstanceGetFBCStats(VgpuInstance VgpuInstance) (FBCStats, Return)
-	VgpuInstanceGetFBCSessions(VgpuInstance VgpuInstance) (int, FBCSessionInfo, Return)
-	VgpuInstanceGetGpuInstanceId(VgpuInstance VgpuInstance) (int, Return)
-	VgpuInstanceGetGpuPciId(VgpuInstance VgpuInstance) (string, Return)
-	VgpuInstanceGetMetadata(VgpuInstance VgpuInstance) (VgpuMetadata, Return)
-	VgpuInstanceGetAccountingMode(VgpuInstance VgpuInstance) (EnableState, Return)
-	VgpuInstanceGetAccountingPids(VgpuInstance VgpuInstance) ([]int, Return)
-	VgpuInstanceGetAccountingStats(VgpuInstance VgpuInstance, Pid int) (AccountingStats, Return)
-	GetVgpuCompatibility(nvmlVgpuMetadata *nvmlVgpuMetadata, PgpuMetadata *nvmlVgpuPgpuMetadata) (VgpuPgpuCompatibility, Return)
+	VgpuTypeGetClass(vgpuTypeId VgpuTypeId) (string, Return)
+	VgpuTypeGetName(vgpuTypeId VgpuTypeId) (string, Return)
+	VgpuTypeGetGpuInstanceProfileId(vgpuTypeId VgpuTypeId) (uint32, Return)
+	VgpuTypeGetDeviceID(vgpuTypeId VgpuTypeId) (uint64, uint64, Return)
+	VgpuTypeGetFramebufferSize(vgpuTypeId VgpuTypeId) (uint64, Return)
+	VgpuTypeGetNumDisplayHeads(vgpuTypeId VgpuTypeId) (int, Return)
+	VgpuTypeGetResolution(vgpuTypeId VgpuTypeId, displayIndex int) (uint32, uint32, Return)
+	VgpuTypeGetLicense(vgpuTypeId VgpuTypeId) (string, Return)
+	VgpuTypeGetFrameRateLimit(vgpuTypeId VgpuTypeId) (uint32, Return)
+	VgpuTypeGetMaxInstances(device Device, vgpuTypeId VgpuTypeId) (int, Return)
+	VgpuTypeGetMaxInstancesPerVm(vgpuTypeId VgpuTypeId) (int, Return)
+	VgpuInstanceGetVmID(vgpuInstance VgpuInstance) (string, VgpuVmIdType, Return)
+	VgpuInstanceGetUUID(vgpuInstance VgpuInstance) (string, Return)
+	VgpuInstanceGetVmDriverVersion(vgpuInstance VgpuInstance) (string, Return)
+	VgpuInstanceGetFbUsage(vgpuInstance VgpuInstance) (uint64, Return)
+	VgpuInstanceGetLicenseInfo(vgpuInstance VgpuInstance) (VgpuLicenseInfo, Return)
+	VgpuInstanceGetLicenseStatus(vgpuInstance VgpuInstance) (int, Return)
+	VgpuInstanceGetType(vgpuInstance VgpuInstance) (VgpuTypeId, Return)
+	VgpuInstanceGetFrameRateLimit(vgpuInstance VgpuInstance) (uint32, Return)
+	VgpuInstanceGetEccMode(vgpuInstance VgpuInstance) (EnableState, Return)
+	VgpuInstanceGetEncoderCapacity(vgpuInstance VgpuInstance) (int, Return)
+	VgpuInstanceSetEncoderCapacity(vgpuInstance VgpuInstance, encoderCapacity int) Return
+	VgpuInstanceGetEncoderStats(vgpuInstance VgpuInstance) (int, uint32, uint32, Return)
+	VgpuInstanceGetEncoderSessions(vgpuInstance VgpuInstance) (int, EncoderSessionInfo, Return)
+	VgpuInstanceGetFBCStats(vgpuInstance VgpuInstance) (FBCStats, Return)
+	VgpuInstanceGetFBCSessions(vgpuInstance VgpuInstance) (int, FBCSessionInfo, Return)
+	VgpuInstanceGetGpuInstanceId(vgpuInstance VgpuInstance) (int, Return)
+	VgpuInstanceGetGpuPciId(vgpuInstance VgpuInstance) (string, Return)
+	VgpuInstanceGetMetadata(vgpuInstance VgpuInstance) (VgpuMetadata, Return)
+	VgpuInstanceGetAccountingMode(vgpuInstance VgpuInstance) (EnableState, Return)
+	VgpuInstanceGetAccountingPids(vgpuInstance VgpuInstance) ([]int, Return)
+	VgpuInstanceGetAccountingStats(vgpuInstance VgpuInstance, pid int) (AccountingStats, Return)
+	GetVgpuCompatibility(nvmlVgpuMetadata *nvmlVgpuMetadata, pgpuMetadata *nvmlVgpuPgpuMetadata) (VgpuPgpuCompatibility, Return)
 	GetVgpuVersion() (VgpuVersion, VgpuVersion, Return)
-	SetVgpuVersion(VgpuVersion *VgpuVersion) Return
-	VgpuInstanceClearAccountingPids(VgpuInstance VgpuInstance) Return
-	VgpuInstanceGetMdevUUID(VgpuInstance VgpuInstance) (string, Return)
-	VgpuTypeGetCapabilities(VgpuTypeId VgpuTypeId, Capability VgpuCapability) (bool, Return)
-	GetVgpuDriverCapabilities(Capability VgpuDriverCapability) (bool, Return)
+	SetVgpuVersion(vgpuVersion *VgpuVersion) Return
+	VgpuInstanceClearAccountingPids(vgpuInstance VgpuInstance) Return
+	VgpuInstanceGetMdevUUID(vgpuInstance VgpuInstance) (string, Return)
+	VgpuTypeGetCapabilities(vgpuTypeId VgpuTypeId, capability VgpuCapability) (bool, Return)
+	GetVgpuDriverCapabilities(capability VgpuDriverCapability) (bool, Return)
 }
 
 type Device interface {
@@ -354,18 +357,18 @@ type Device interface {
 	GetBrand() (BrandType, Return)
 	GetIndex() (int, Return)
 	GetSerial() (string, Return)
-	GetCpuAffinity(NumCPUs int) ([]uint, Return)
+	GetCpuAffinity(numCPUs int) ([]uint, Return)
 	SetCpuAffinity() Return
 	ClearCpuAffinity() Return
-	GetMemoryAffinity(NumNodes int, Scope AffinityScope) ([]uint, Return)
-	GetCpuAffinityWithinScope(NumCPUs int, Scope AffinityScope) ([]uint, Return)
-	GetTopologyCommonAncestor(Device2 Device) (GpuTopologyLevel, Return)
-	GetTopologyNearestGpus(Level GpuTopologyLevel) ([]Device, Return)
-	GetP2PStatus(Device2 Device, P2pIndex GpuP2PCapsIndex) (GpuP2PStatus, Return)
+	GetMemoryAffinity(numNodes int, scope AffinityScope) ([]uint, Return)
+	GetCpuAffinityWithinScope(numCPUs int, scope AffinityScope) ([]uint, Return)
+	GetTopologyCommonAncestor(device2 Device) (GpuTopologyLevel, Return)
+	GetTopologyNearestGpus(level GpuTopologyLevel) ([]Device, Return)
+	GetP2PStatus(device2 Device, p2pIndex GpuP2PCapsIndex) (GpuP2PStatus, Return)
 	GetUUID() (string, Return)
 	GetMinorNumber() (int, Return)
 	GetBoardPartNumber() (string, Return)
-	GetInforomVersion(Object InforomObject) (string, Return)
+	GetInforomVersion(object InforomObject) (string, Return)
 	GetInforomImageVersion() (string, Return)
 	GetInforomConfigurationChecksum() (uint32, Return)
 	ValidateInforom() Return
@@ -377,26 +380,26 @@ type Device interface {
 	GetMaxPcieLinkWidth() (int, Return)
 	GetCurrPcieLinkGeneration() (int, Return)
 	GetCurrPcieLinkWidth() (int, Return)
-	GetPcieThroughput(Counter PcieUtilCounter) (uint32, Return)
+	GetPcieThroughput(counter PcieUtilCounter) (uint32, Return)
 	GetPcieReplayCounter() (int, Return)
-	GetClockInfo(_type ClockType) (uint32, Return)
-	GetMaxClockInfo(_type ClockType) (uint32, Return)
-	GetApplicationsClock(ClockType ClockType) (uint32, Return)
-	GetDefaultApplicationsClock(ClockType ClockType) (uint32, Return)
+	GetClockInfo(clockType ClockType) (uint32, Return)
+	GetMaxClockInfo(clockType ClockType) (uint32, Return)
+	GetApplicationsClock(clockType ClockType) (uint32, Return)
+	GetDefaultApplicationsClock(clockType ClockType) (uint32, Return)
 	ResetApplicationsClocks() Return
-	GetClock(ClockType ClockType, ClockId ClockId) (uint32, Return)
-	GetMaxCustomerBoostClock(ClockType ClockType) (uint32, Return)
+	GetClock(clockType ClockType, clockId ClockId) (uint32, Return)
+	GetMaxCustomerBoostClock(clockType ClockType) (uint32, Return)
 	GetSupportedMemoryClocks() (int, uint32, Return)
-	GetSupportedGraphicsClocks(MemoryClockMHz int) (int, uint32, Return)
+	GetSupportedGraphicsClocks(memoryClockMHz int) (int, uint32, Return)
 	GetAutoBoostedClocksEnabled() (EnableState, EnableState, Return)
-	SetAutoBoostedClocksEnabled(Enabled EnableState) Return
-	SetDefaultAutoBoostedClocksEnabled(Enabled EnableState, Flags uint32) Return
+	SetAutoBoostedClocksEnabled(enabled EnableState) Return
+	SetDefaultAutoBoostedClocksEnabled(enabled EnableState, flags uint32) Return
 	GetFanSpeed() (uint32, Return)
-	GetFanSpeed_v2(Fan int) (uint32, Return)
+	GetFanSpeed_v2(fan int) (uint32, Return)
 	GetNumFans() (int, Return)
-	GetTemperature(SensorType TemperatureSensors) (uint32, Return)
-	GetTemperatureThreshold(ThresholdType TemperatureThresholds) (uint32, Return)
-	SetTemperatureThreshold(ThresholdType TemperatureThresholds, Temp int) Return
+	GetTemperature(sensorType TemperatureSensors) (uint32, Return)
+	GetTemperatureThreshold(thresholdType TemperatureThresholds) (uint32, Return)
+	SetTemperatureThreshold(thresholdType TemperatureThresholds, temp int) Return
 	GetPerformanceState() (Pstates, Return)
 	GetCurrentClocksThrottleReasons() (uint64, Return)
 	GetSupportedClocksThrottleReasons() (uint64, Return)
@@ -416,12 +419,12 @@ type Device interface {
 	GetEccMode() (EnableState, EnableState, Return)
 	GetBoardId() (uint32, Return)
 	GetMultiGpuBoard() (int, Return)
-	GetTotalEccErrors(ErrorType MemoryErrorType, CounterType EccCounterType) (uint64, Return)
-	GetDetailedEccErrors(ErrorType MemoryErrorType, CounterType EccCounterType) (EccErrorCounts, Return)
-	GetMemoryErrorCounter(ErrorType MemoryErrorType, CounterType EccCounterType, LocationType MemoryLocation) (uint64, Return)
+	GetTotalEccErrors(errorType MemoryErrorType, counterType EccCounterType) (uint64, Return)
+	GetDetailedEccErrors(errorType MemoryErrorType, counterType EccCounterType) (EccErrorCounts, Return)
+	GetMemoryErrorCounter(errorType MemoryErrorType, counterType EccCounterType, locationType MemoryLocation) (uint64, Return)
 	GetUtilizationRates() (Utilization, Return)
 	GetEncoderUtilization() (uint32, uint32, Return)
-	GetEncoderCapacity(EncoderQueryType EncoderType) (int, Return)
+	GetEncoderCapacity(encoderQueryType EncoderType) (int, Return)
 	GetEncoderStats() (int, uint32, uint32, Return)
 	GetEncoderSessions() ([]EncoderSessionInfo, Return)
 	GetDecoderUtilization() (uint32, uint32, Return)
@@ -433,11 +436,11 @@ type Device interface {
 	GetComputeRunningProcesses() ([]ProcessInfo, Return)
 	GetGraphicsRunningProcesses() ([]ProcessInfo, Return)
 	GetMPSComputeRunningProcesses() ([]ProcessInfo, Return)
-	OnSameBoard(Device2 Device) (int, Return)
-	GetAPIRestriction(ApiType RestrictedAPI) (EnableState, Return)
-	GetSamples(_type SamplingType, LastSeenTimeStamp uint64) (ValueType, []Sample, Return)
+	OnSameBoard(device2 Device) (int, Return)
+	GetAPIRestriction(apiType RestrictedAPI) (EnableState, Return)
+	GetSamples(samplingType SamplingType, lastSeenTimestamp uint64) (ValueType, []Sample, Return)
 	GetBAR1MemoryInfo() (BAR1Memory, Return)
-	GetViolationStatus(PerfPolicyType PerfPolicyType) (ViolationTime, Return)
+	GetViolationStatus(perfPolicyType PerfPolicyType) (ViolationTime, Return)
 	GetIrqNum() (int, Return)
 	GetNumGpuCores() (int, Return)
 	GetPowerSource() (PowerSource, Return)
@@ -445,125 +448,125 @@ type Device interface {
 	GetPcieLinkMaxSpeed() (uint32, Return)
 	GetAdaptiveClockInfoStatus() (uint32, Return)
 	GetAccountingMode() (EnableState, Return)
-	GetAccountingStats(Pid uint32) (AccountingStats, Return)
+	GetAccountingStats(pid uint32) (AccountingStats, Return)
 	GetAccountingPids() ([]int, Return)
 	GetAccountingBufferSize() (int, Return)
-	GetRetiredPages(Cause PageRetirementCause) ([]uint64, Return)
-	GetRetiredPages_v2(Cause PageRetirementCause) ([]uint64, []uint64, Return)
+	GetRetiredPages(cause PageRetirementCause) ([]uint64, Return)
+	GetRetiredPages_v2(cause PageRetirementCause) ([]uint64, []uint64, Return)
 	GetRetiredPagesPendingStatus() (EnableState, Return)
-	SetPersistenceMode(Mode EnableState) Return
-	SetComputeMode(Mode ComputeMode) Return
-	SetEccMode(Ecc EnableState) Return
-	ClearEccErrorCounts(CounterType EccCounterType) Return
-	SetDriverModel(DriverModel DriverModel, Flags uint32) Return
-	SetGpuLockedClocks(MinGpuClockMHz uint32, MaxGpuClockMHz uint32) Return
+	SetPersistenceMode(mode EnableState) Return
+	SetComputeMode(mode ComputeMode) Return
+	SetEccMode(ecc EnableState) Return
+	ClearEccErrorCounts(counterType EccCounterType) Return
+	SetDriverModel(driverModel DriverModel, flags uint32) Return
+	SetGpuLockedClocks(minGpuClockMHz uint32, maxGpuClockMHz uint32) Return
 	ResetGpuLockedClocks() Return
-	SetMemoryLockedClocks(NinMemClockMHz uint32, MaxMemClockMHz uint32) Return
+	SetMemoryLockedClocks(minMemClockMHz uint32, maxMemClockMHz uint32) Return
 	ResetMemoryLockedClocks() Return
 	GetClkMonStatus() (ClkMonStatus, Return)
-	SetApplicationsClocks(MemClockMHz uint32, GraphicsClockMHz uint32) Return
-	SetPowerManagementLimit(Limit uint32) Return
-	SetGpuOperationMode(Mode GpuOperationMode) Return
-	SetAPIRestriction(ApiType RestrictedAPI, IsRestricted EnableState) Return
-	SetAccountingMode(Mode EnableState) Return
+	SetApplicationsClocks(memClockMHz uint32, graphicsClockMHz uint32) Return
+	SetPowerManagementLimit(limit uint32) Return
+	SetGpuOperationMode(mode GpuOperationMode) Return
+	SetAPIRestriction(apiType RestrictedAPI, isRestricted EnableState) Return
+	SetAccountingMode(mode EnableState) Return
 	ClearAccountingPids() Return
-	GetNvLinkState(Link int) (EnableState, Return)
-	GetNvLinkVersion(Link int) (uint32, Return)
-	GetNvLinkCapability(Link int, Capability NvLinkCapability) (uint32, Return)
-	GetNvLinkRemotePciInfo(Link int) (PciInfo, Return)
-	GetNvLinkErrorCounter(Link int, Counter NvLinkErrorCounter) (uint64, Return)
-	ResetNvLinkErrorCounters(Link int) Return
-	SetNvLinkUtilizationControl(Link int, Counter int, Control *NvLinkUtilizationControl, Reset bool) Return
-	GetNvLinkUtilizationControl(Link int, Counter int) (NvLinkUtilizationControl, Return)
-	GetNvLinkUtilizationCounter(Link int, Counter int) (uint64, uint64, Return)
-	FreezeNvLinkUtilizationCounter(Link int, Counter int, Freeze EnableState) Return
-	ResetNvLinkUtilizationCounter(Link int, Counter int) Return
-	GetNvLinkRemoteDeviceType(Link int) (IntNvLinkDeviceType, Return)
-	RegisterEvents(EventTypes uint64, Set EventSet) Return
+	GetNvLinkState(link int) (EnableState, Return)
+	GetNvLinkVersion(link int) (uint32, Return)
+	GetNvLinkCapability(link int, capability NvLinkCapability) (uint32, Return)
+	GetNvLinkRemotePciInfo(link int) (PciInfo, Return)
+	GetNvLinkErrorCounter(link int, counter NvLinkErrorCounter) (uint64, Return)
+	ResetNvLinkErrorCounters(link int) Return
+	SetNvLinkUtilizationControl(link int, counter int, control *NvLinkUtilizationControl, reset bool) Return
+	GetNvLinkUtilizationControl(link int, counter int) (NvLinkUtilizationControl, Return)
+	GetNvLinkUtilizationCounter(link int, counter int) (uint64, uint64, Return)
+	FreezeNvLinkUtilizationCounter(link int, counter int, freeze EnableState) Return
+	ResetNvLinkUtilizationCounter(link int, counter int) Return
+	GetNvLinkRemoteDeviceType(link int) (IntNvLinkDeviceType, Return)
+	RegisterEvents(eventTypes uint64, set EventSet) Return
 	GetSupportedEventTypes() (uint64, Return)
-	GetFieldValues(Values []FieldValue) Return
+	GetFieldValues(values []FieldValue) Return
 	GetVirtualizationMode() (GpuVirtualizationMode, Return)
 	GetHostVgpuMode() (HostVgpuMode, Return)
-	SetVirtualizationMode(VirtualMode GpuVirtualizationMode) Return
+	SetVirtualizationMode(virtualMode GpuVirtualizationMode) Return
 	GetGridLicensableFeatures() (GridLicensableFeatures, Return)
-	GetProcessUtilization(LastSeenTimeStamp uint64) ([]ProcessUtilizationSample, Return)
+	GetProcessUtilization(lastSeenTimestamp uint64) ([]ProcessUtilizationSample, Return)
 	GetSupportedVgpus() ([]VgpuTypeId, Return)
 	GetCreatableVgpus() ([]VgpuTypeId, Return)
 	GetActiveVgpus() ([]VgpuInstance, Return)
 	GetVgpuMetadata() (VgpuPgpuMetadata, Return)
 	GetPgpuMetadataString() (string, Return)
-	GetVgpuUtilization(LastSeenTimeStamp uint64) (ValueType, []VgpuInstanceUtilizationSample, Return)
+	GetVgpuUtilization(lastSeenTimestamp uint64) (ValueType, []VgpuInstanceUtilizationSample, Return)
 	GetAttributes() (DeviceAttributes, Return)
 	GetRemappedRows() (int, int, bool, bool, Return)
 	GetRowRemapperHistogram() (RowRemapperHistogramValues, Return)
 	GetArchitecture() (DeviceArchitecture, Return)
-	GetVgpuProcessUtilization(LastSeenTimeStamp uint64) ([]VgpuProcessUtilizationSample, Return)
-	SetMigMode(Mode int) (Return, Return)
+	GetVgpuProcessUtilization(lastSeenTimestamp uint64) ([]VgpuProcessUtilizationSample, Return)
+	SetMigMode(mode int) (Return, Return)
 	GetMigMode() (int, int, Return)
-	GetGpuInstanceProfileInfo(Profile int) (GpuInstanceProfileInfo, Return)
-	GetGpuInstanceProfileInfoV(Profile int) GpuInstanceProfileInfoV
-	GetGpuInstancePossiblePlacements(Info *GpuInstanceProfileInfo) ([]GpuInstancePlacement, Return)
-	GetGpuInstanceRemainingCapacity(Info *GpuInstanceProfileInfo) (int, Return)
-	CreateGpuInstance(Info *GpuInstanceProfileInfo) (GpuInstance, Return)
-	CreateGpuInstanceWithPlacement(Info *GpuInstanceProfileInfo, Placement *GpuInstancePlacement) (GpuInstance, Return)
-	GetGpuInstances(Info *GpuInstanceProfileInfo) ([]GpuInstance, Return)
-	GetGpuInstanceById(Id int) (GpuInstance, Return)
+	GetGpuInstanceProfileInfo(profile int) (GpuInstanceProfileInfo, Return)
+	GetGpuInstanceProfileInfoV(profile int) GpuInstanceProfileInfoV
+	GetGpuInstancePossiblePlacements(info *GpuInstanceProfileInfo) ([]GpuInstancePlacement, Return)
+	GetGpuInstanceRemainingCapacity(info *GpuInstanceProfileInfo) (int, Return)
+	CreateGpuInstance(info *GpuInstanceProfileInfo) (GpuInstance, Return)
+	CreateGpuInstanceWithPlacement(info *GpuInstanceProfileInfo, placement *GpuInstancePlacement) (GpuInstance, Return)
+	GetGpuInstances(info *GpuInstanceProfileInfo) ([]GpuInstance, Return)
+	GetGpuInstanceById(id int) (GpuInstance, Return)
 	IsMigDeviceHandle() (bool, Return)
 	GetGpuInstanceId() (int, Return)
 	GetComputeInstanceId() (int, Return)
 	GetMaxMigDeviceCount() (int, Return)
-	GetMigDeviceHandleByIndex(Index int) (Device, Return)
+	GetMigDeviceHandleByIndex(index int) (Device, Return)
 	GetDeviceHandleFromMigDeviceHandle() (Device, Return)
 	GetBusType() (BusType, Return)
-	SetDefaultFanSpeed_v2(Fan int) Return
+	SetDefaultFanSpeed_v2(fan int) Return
 	GetMinMaxFanSpeed() (int, int, Return)
-	GetThermalSettings(SensorIndex uint32) (GpuThermalSettings, Return)
+	GetThermalSettings(sensorIndex uint32) (GpuThermalSettings, Return)
 	GetDefaultEccMode() (EnableState, Return)
 	GetPcieSpeed() (int, Return)
 	GetGspFirmwareVersion() (string, Return)
 	GetGspFirmwareMode() (bool, bool, Return)
 	GetDynamicPstatesInfo() (GpuDynamicPstatesInfo, Return)
-	SetFanSpeed_v2(Fan int, Speed int) Return
+	SetFanSpeed_v2(fan int, speed int) Return
 	GetGpcClkVfOffset() (int, Return)
-	SetGpcClkVfOffset(Offset int) Return
-	GetMinMaxClockOfPState(_type ClockType, Pstate Pstates) (uint32, uint32, Return)
+	SetGpcClkVfOffset(offset int) Return
+	GetMinMaxClockOfPState(clockType ClockType, pstate Pstates) (uint32, uint32, Return)
 	GetSupportedPerformanceStates() ([]Pstates, Return)
-	GetTargetFanSpeed(Fan int) (int, Return)
+	GetTargetFanSpeed(fan int) (int, Return)
 	GetMemClkVfOffset() (int, Return)
-	SetMemClkVfOffset(Offset int) Return
+	SetMemClkVfOffset(offset int) Return
 	GetGpcClkMinMaxVfOffset() (int, int, Return)
 	GetMemClkMinMaxVfOffset() (int, int, Return)
 	GetGpuMaxPcieLinkGeneration() (int, Return)
-	GetFanControlPolicy_v2(Fan int) (FanControlPolicy, Return)
-	SetFanControlPolicy(Fan int, Policy FanControlPolicy) Return
-	ClearFieldValues(Values []FieldValue) Return
-	GetVgpuCapabilities(Capability DeviceVgpuCapability) (bool, Return)
+	GetFanControlPolicy_v2(fan int) (FanControlPolicy, Return)
+	SetFanControlPolicy(fan int, policy FanControlPolicy) Return
+	ClearFieldValues(values []FieldValue) Return
+	GetVgpuCapabilities(capability DeviceVgpuCapability) (bool, Return)
 	GetVgpuSchedulerLog() (VgpuSchedulerLog, Return)
 	GetVgpuSchedulerState() (VgpuSchedulerGetState, Return)
-	SetVgpuSchedulerState(PSchedulerState *VgpuSchedulerSetState) Return
+	SetVgpuSchedulerState(pSchedulerState *VgpuSchedulerSetState) Return
 	GetVgpuSchedulerCapabilities() (VgpuSchedulerCapabilities, Return)
 	GetGpuFabricInfo() (GpuFabricInfo, Return)
 	CcuGetStreamState() (int, Return)
-	CcuSetStreamState(State int) Return
-	SetNvLinkDeviceLowPowerThreshold(Info *NvLinkPowerThres) Return
-	GpmSampleGet(GpmSample GpmSample) Return
+	CcuSetStreamState(state int) Return
+	SetNvLinkDeviceLowPowerThreshold(info *NvLinkPowerThres) Return
+	GpmSampleGet(gpmSample GpmSample) Return
 	GpmQueryDeviceSupportV() GpmSupportV
 	GpmQueryDeviceSupport() (GpmSupport, Return)
-	GpmMigSampleGet(GpuInstanceId int, GpmSample GpmSample) Return
-	VgpuTypeGetMaxInstances(VgpuTypeId VgpuTypeId) (int, Return)
+	GpmMigSampleGet(gpuInstanceId int, gpmSample GpmSample) Return
+	VgpuTypeGetMaxInstances(vgpuTypeId VgpuTypeId) (int, Return)
 }
 
 type GpuInstance interface {
 	Destroy() Return
 	GetInfo() (GpuInstanceInfo, Return)
-	GetComputeInstanceProfileInfo(Profile int, EngProfile int) (ComputeInstanceProfileInfo, Return)
-	GetComputeInstanceProfileInfoV(Profile int, EngProfile int) ComputeInstanceProfileInfoV
-	GetComputeInstanceRemainingCapacity(Info *ComputeInstanceProfileInfo) (int, Return)
-	CreateComputeInstance(Info *ComputeInstanceProfileInfo) (ComputeInstance, Return)
-	GetComputeInstances(Info *ComputeInstanceProfileInfo) ([]ComputeInstance, Return)
-	GetComputeInstanceById(Id int) (ComputeInstance, Return)
-	GetComputeInstancePossiblePlacements(Info *ComputeInstanceProfileInfo) ([]ComputeInstancePlacement, Return)
-	CreateComputeInstanceWithPlacement(Info *ComputeInstanceProfileInfo, Placement *ComputeInstancePlacement) (ComputeInstance, Return)
+	GetComputeInstanceProfileInfo(profile int, engProfile int) (ComputeInstanceProfileInfo, Return)
+	GetComputeInstanceProfileInfoV(profile int, engProfile int) ComputeInstanceProfileInfoV
+	GetComputeInstanceRemainingCapacity(info *ComputeInstanceProfileInfo) (int, Return)
+	CreateComputeInstance(info *ComputeInstanceProfileInfo) (ComputeInstance, Return)
+	GetComputeInstances(info *ComputeInstanceProfileInfo) ([]ComputeInstance, Return)
+	GetComputeInstanceById(id int) (ComputeInstance, Return)
+	GetComputeInstancePossiblePlacements(info *ComputeInstanceProfileInfo) ([]ComputeInstancePlacement, Return)
+	CreateComputeInstanceWithPlacement(info *ComputeInstanceProfileInfo, placement *ComputeInstancePlacement) (ComputeInstance, Return)
 }
 
 type ComputeInstance interface {
@@ -572,24 +575,24 @@ type ComputeInstance interface {
 }
 
 type EventSet interface {
-	Wait(Timeoutms uint32) (EventData, Return)
+	Wait(timeoutms uint32) (EventData, Return)
 	Free() Return
 }
 
 type GpmSample interface {
 	Free() Return
-	Get(Device Device) Return
-	MigGet(Device Device, GpuInstanceId int) Return
+	Get(device Device) Return
+	MigGet(device Device, gpuInstanceId int) Return
 }
 
 type Unit interface {
 	GetUnitInfo() (UnitInfo, Return)
 	GetLedState() (LedState, Return)
 	GetPsuInfo() (PSUInfo, Return)
-	GetTemperature(Type int) (uint32, Return)
+	GetTemperature(ttype int) (uint32, Return)
 	GetFanSpeedInfo() (UnitFanSpeeds, Return)
 	GetDevices() ([]Device, Return)
-	SetLedState(Color LedColor) Return
+	SetLedState(color LedColor) Return
 }
 
 type VgpuInstance interface {
@@ -603,7 +606,7 @@ type VgpuInstance interface {
 	GetFrameRateLimit() (uint32, Return)
 	GetEccMode() (EnableState, Return)
 	GetEncoderCapacity() (int, Return)
-	SetEncoderCapacity(EncoderCapacity int) Return
+	SetEncoderCapacity(encoderCapacity int) Return
 	GetEncoderStats() (int, uint32, uint32, Return)
 	GetEncoderSessions() (int, EncoderSessionInfo, Return)
 	GetFBCStats() (FBCStats, Return)
@@ -613,7 +616,7 @@ type VgpuInstance interface {
 	GetMetadata() (VgpuMetadata, Return)
 	GetAccountingMode() (EnableState, Return)
 	GetAccountingPids() ([]int, Return)
-	GetAccountingStats(Pid int) (AccountingStats, Return)
+	GetAccountingStats(pid int) (AccountingStats, Return)
 	ClearAccountingPids() Return
 	GetMdevUUID() (string, Return)
 }
@@ -625,12 +628,12 @@ type VgpuTypeId interface {
 	GetDeviceID() (uint64, uint64, Return)
 	GetFramebufferSize() (uint64, Return)
 	GetNumDisplayHeads() (int, Return)
-	GetResolution(DisplayIndex int) (uint32, uint32, Return)
+	GetResolution(displayIndex int) (uint32, uint32, Return)
 	GetLicense() (string, Return)
 	GetFrameRateLimit() (uint32, Return)
-	GetMaxInstances(Device Device) (int, Return)
+	GetMaxInstances(device Device) (int, Return)
 	GetMaxInstancesPerVm() (int, Return)
-	GetCapabilities(Capability VgpuCapability) (bool, Return)
+	GetCapabilities(capability VgpuCapability) (bool, Return)
 }
 
 // Define package level methods as aliases to Interface methods of libnvml

@@ -25,11 +25,11 @@ func (l *library) Init() Return {
 }
 
 // nvml.InitWithFlags()
-func (l *library) InitWithFlags(Flags uint32) Return {
+func (l *library) InitWithFlags(flags uint32) Return {
 	if err := libnvml.load(); err != nil {
 		return ERROR_LIBRARY_NOT_FOUND
 	}
-	return nvmlInitWithFlags(Flags)
+	return nvmlInitWithFlags(flags)
 }
 
 // nvml.Shutdown()
