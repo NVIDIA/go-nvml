@@ -358,7 +358,7 @@ type nvmlEventSet struct {
 	Handle *_Ctype_struct_nvmlEventSet_st
 }
 
-type EventData struct {
+type nvmlEventData struct {
 	Device            nvmlDevice
 	EventType         uint64
 	EventData         uint64
@@ -494,7 +494,7 @@ type GpuInstanceProfileInfo_v2 struct {
 	Name                [96]int8
 }
 
-type GpuInstanceInfo struct {
+type nvmlGpuInstanceInfo struct {
 	Device    nvmlDevice
 	Id        uint32
 	ProfileId uint32
@@ -536,7 +536,7 @@ type ComputeInstanceProfileInfo_v2 struct {
 	Name                  [96]int8
 }
 
-type ComputeInstanceInfo struct {
+type nvmlComputeInstanceInfo struct {
 	Device      nvmlDevice
 	GpuInstance nvmlGpuInstance
 	Id          uint32
@@ -565,7 +565,7 @@ type GpmMetric struct {
 	MetricInfo GpmMetricMetricInfo
 }
 
-type GpmMetricsGetType struct {
+type nvmlGpmMetricsGetType struct {
 	Version    uint32
 	NumMetrics uint32
 	Sample1    nvmlGpmSample

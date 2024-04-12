@@ -14,6 +14,37 @@
 
 package nvml
 
+// EventData includes an interface type for Device instead of nvmlDevice
+type EventData struct {
+	Device            Device
+	EventType         uint64
+	EventData         uint64
+	GpuInstanceId     uint32
+	ComputeInstanceId uint32
+}
+
+func (e EventData) convert() nvmlEventData {
+	out := nvmlEventData{
+		Device:            e.Device.(nvmlDevice),
+		EventType:         e.EventType,
+		EventData:         e.EventData,
+		GpuInstanceId:     e.GpuInstanceId,
+		ComputeInstanceId: e.ComputeInstanceId,
+	}
+	return out
+}
+
+func (e nvmlEventData) convert() EventData {
+	out := EventData{
+		Device:            e.Device,
+		EventType:         e.EventType,
+		EventData:         e.EventData,
+		GpuInstanceId:     e.GpuInstanceId,
+		ComputeInstanceId: e.ComputeInstanceId,
+	}
+	return out
+}
+
 // nvml.EventSetCreate()
 func (l *library) EventSetCreate() (EventSet, Return) {
 	var Set nvmlEventSet
@@ -27,9 +58,9 @@ func (l *library) EventSetWait(set EventSet, timeoutms uint32) (EventData, Retur
 }
 
 func (set nvmlEventSet) Wait(timeoutms uint32) (EventData, Return) {
-	var data EventData
+	var data nvmlEventData
 	ret := nvmlEventSetWait(set, &data, timeoutms)
-	return data, ret
+	return data.convert(), ret
 }
 
 // nvml.EventSetFree()

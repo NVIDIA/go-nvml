@@ -21,6 +21,65 @@ import (
 // EccBitType
 type EccBitType = MemoryErrorType
 
+// GpuInstanceInfo includes an interface type for Device instead of nvmlDevice
+type GpuInstanceInfo struct {
+	Device    Device
+	Id        uint32
+	ProfileId uint32
+	Placement GpuInstancePlacement
+}
+
+func (g GpuInstanceInfo) convert() nvmlGpuInstanceInfo {
+	out := nvmlGpuInstanceInfo{
+		Device:    g.Device.(nvmlDevice),
+		Id:        g.Id,
+		ProfileId: g.ProfileId,
+		Placement: g.Placement,
+	}
+	return out
+}
+
+func (g nvmlGpuInstanceInfo) convert() GpuInstanceInfo {
+	out := GpuInstanceInfo{
+		Device:    g.Device,
+		Id:        g.Id,
+		ProfileId: g.ProfileId,
+		Placement: g.Placement,
+	}
+	return out
+}
+
+// ComputeInstanceInfo includes an interface type for Device instead of nvmlDevice
+type ComputeInstanceInfo struct {
+	Device      Device
+	GpuInstance GpuInstance
+	Id          uint32
+	ProfileId   uint32
+	Placement   ComputeInstancePlacement
+}
+
+func (c ComputeInstanceInfo) convert() nvmlComputeInstanceInfo {
+	out := nvmlComputeInstanceInfo{
+		Device:      c.Device.(nvmlDevice),
+		GpuInstance: c.GpuInstance.(nvmlGpuInstance),
+		Id:          c.Id,
+		ProfileId:   c.ProfileId,
+		Placement:   c.Placement,
+	}
+	return out
+}
+
+func (c nvmlComputeInstanceInfo) convert() ComputeInstanceInfo {
+	out := ComputeInstanceInfo{
+		Device:      c.Device,
+		GpuInstance: c.GpuInstance,
+		Id:          c.Id,
+		ProfileId:   c.ProfileId,
+		Placement:   c.Placement,
+	}
+	return out
+}
+
 // nvml.DeviceGetCount()
 func (l *library) DeviceGetCount() (int, Return) {
 	var deviceCount uint32
@@ -2113,9 +2172,9 @@ func (l *library) GpuInstanceGetInfo(gpuInstance GpuInstance) (GpuInstanceInfo, 
 }
 
 func (gpuInstance nvmlGpuInstance) GetInfo() (GpuInstanceInfo, Return) {
-	var info GpuInstanceInfo
+	var info nvmlGpuInstanceInfo
 	ret := nvmlGpuInstanceGetInfo(gpuInstance, &info)
-	return info, ret
+	return info.convert(), ret
 }
 
 // nvml.GpuInstanceGetComputeInstanceProfileInfo()
@@ -2224,9 +2283,9 @@ func (l *library) ComputeInstanceGetInfo(computeInstance ComputeInstance) (Compu
 }
 
 func (computeInstance nvmlComputeInstance) GetInfo() (ComputeInstanceInfo, Return) {
-	var info ComputeInstanceInfo
+	var info nvmlComputeInstanceInfo
 	ret := nvmlComputeInstanceGetInfo(computeInstance, &info)
-	return info, ret
+	return info.convert(), ret
 }
 
 // nvml.DeviceIsMigDeviceHandle()

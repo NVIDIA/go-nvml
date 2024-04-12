@@ -1659,7 +1659,7 @@ func nvmlDeviceGetSupportedEventTypes(nvmlDevice nvmlDevice, EventTypes *uint64)
 }
 
 // nvmlEventSetWait_v2 function as declared in nvml/nvml.h
-func nvmlEventSetWait_v2(Set nvmlEventSet, Data *EventData, Timeoutms uint32) Return {
+func nvmlEventSetWait_v2(Set nvmlEventSet, Data *nvmlEventData, Timeoutms uint32) Return {
 	cSet, _ := *(*C.nvmlEventSet_t)(unsafe.Pointer(&Set)), cgoAllocsUnknown
 	cData, _ := (*C.nvmlEventData_t)(unsafe.Pointer(Data)), cgoAllocsUnknown
 	cTimeoutms, _ := (C.uint)(Timeoutms), cgoAllocsUnknown
@@ -2407,7 +2407,7 @@ func nvmlDeviceGetGpuInstanceById(nvmlDevice nvmlDevice, Id uint32, nvmlGpuInsta
 }
 
 // nvmlGpuInstanceGetInfo function as declared in nvml/nvml.h
-func nvmlGpuInstanceGetInfo(nvmlGpuInstance nvmlGpuInstance, Info *GpuInstanceInfo) Return {
+func nvmlGpuInstanceGetInfo(nvmlGpuInstance nvmlGpuInstance, Info *nvmlGpuInstanceInfo) Return {
 	cnvmlGpuInstance, _ := *(*C.nvmlGpuInstance_t)(unsafe.Pointer(&nvmlGpuInstance)), cgoAllocsUnknown
 	cInfo, _ := (*C.nvmlGpuInstanceInfo_t)(unsafe.Pointer(Info)), cgoAllocsUnknown
 	__ret := C.nvmlGpuInstanceGetInfo(cnvmlGpuInstance, cInfo)
@@ -2509,7 +2509,7 @@ func nvmlGpuInstanceGetComputeInstanceById(nvmlGpuInstance nvmlGpuInstance, Id u
 }
 
 // nvmlComputeInstanceGetInfo_v2 function as declared in nvml/nvml.h
-func nvmlComputeInstanceGetInfo_v2(nvmlComputeInstance nvmlComputeInstance, Info *ComputeInstanceInfo) Return {
+func nvmlComputeInstanceGetInfo_v2(nvmlComputeInstance nvmlComputeInstance, Info *nvmlComputeInstanceInfo) Return {
 	cnvmlComputeInstance, _ := *(*C.nvmlComputeInstance_t)(unsafe.Pointer(&nvmlComputeInstance)), cgoAllocsUnknown
 	cInfo, _ := (*C.nvmlComputeInstanceInfo_t)(unsafe.Pointer(Info)), cgoAllocsUnknown
 	__ret := C.nvmlComputeInstanceGetInfo_v2(cnvmlComputeInstance, cInfo)
@@ -2688,7 +2688,7 @@ func nvmlDeviceGetGpuFabricInfo(nvmlDevice nvmlDevice, GpuFabricInfo *GpuFabricI
 }
 
 // nvmlGpmMetricsGet function as declared in nvml/nvml.h
-func nvmlGpmMetricsGet(MetricsGet *GpmMetricsGetType) Return {
+func nvmlGpmMetricsGet(MetricsGet *nvmlGpmMetricsGetType) Return {
 	cMetricsGet, _ := (*C.nvmlGpmMetricsGet_t)(unsafe.Pointer(MetricsGet)), cgoAllocsUnknown
 	__ret := C.nvmlGpmMetricsGet(cMetricsGet)
 	__v := (Return)(__ret)
@@ -2863,7 +2863,7 @@ func nvmlDeviceRemoveGpu_v1(PciInfo *PciInfo) Return {
 }
 
 // nvmlEventSetWait_v1 function as declared in nvml/nvml.h
-func nvmlEventSetWait_v1(Set nvmlEventSet, Data *EventData, Timeoutms uint32) Return {
+func nvmlEventSetWait_v1(Set nvmlEventSet, Data *nvmlEventData, Timeoutms uint32) Return {
 	cSet, _ := *(*C.nvmlEventSet_t)(unsafe.Pointer(&Set)), cgoAllocsUnknown
 	cData, _ := (*C.nvmlEventData_t)(unsafe.Pointer(Data)), cgoAllocsUnknown
 	cTimeoutms, _ := (C.uint)(Timeoutms), cgoAllocsUnknown
@@ -2882,7 +2882,7 @@ func nvmlDeviceGetAttributes_v1(nvmlDevice nvmlDevice, Attributes *DeviceAttribu
 }
 
 // nvmlComputeInstanceGetInfo_v1 function as declared in nvml/nvml.h
-func nvmlComputeInstanceGetInfo_v1(nvmlComputeInstance nvmlComputeInstance, Info *ComputeInstanceInfo) Return {
+func nvmlComputeInstanceGetInfo_v1(nvmlComputeInstance nvmlComputeInstance, Info *nvmlComputeInstanceInfo) Return {
 	cnvmlComputeInstance, _ := *(*C.nvmlComputeInstance_t)(unsafe.Pointer(&nvmlComputeInstance)), cgoAllocsUnknown
 	cInfo, _ := (*C.nvmlComputeInstanceInfo_t)(unsafe.Pointer(Info)), cgoAllocsUnknown
 	__ret := C.nvmlComputeInstanceGetInfo(cnvmlComputeInstance, cInfo)

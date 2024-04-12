@@ -67,14 +67,17 @@ TRANSLATOR:
       - {action: replace, from: "^Device$", to: "nvmlDevice"}
       - {action: replace, from: "^Unit$", to: "nvmlUnit"}
       - {action: replace, from: "^EventSet$", to: "nvmlEventSet"}
+      - {action: replace, from: "^EventData$", to: "nvmlEventData"}
       - {action: replace, from: "^GpmSample$", to: "nvmlGpmSample"}
       - {action: replace, from: "^ComputeInstance$", to: "nvmlComputeInstance"}
+      - {action: replace, from: "^ComputeInstanceInfo$", to: "nvmlComputeInstanceInfo"}
       - {action: replace, from: "^GpuInstance$", to: "nvmlGpuInstance"}
+      - {action: replace, from: "^GpuInstanceInfo$", to: "nvmlGpuInstanceInfo"}
       - {action: replace, from: "^VgpuInstance$", to: "nvmlVgpuInstance"}
       - {action: replace, from: "^VgpuTypeId$", to: "nvmlVgpuTypeId"}
       - {action: replace, from: "^VgpuMetadata", to: "nvmlVgpuMetadata"}
       - {action: replace, from: "^VgpuPgpuMetadata", to: "nvmlVgpuPgpuMetadata"}
-      - {action: replace, from: "^GpmMetricsGet", to: "GpmMetricsGetType"}
+      - {action: replace, from: "^GpmMetricsGet", to: "nvmlGpmMetricsGetType"}
     function:
       - {action: accept, from: "^nvml"}
       - {action: replace, from: "^nvmlInit$", to: "nvmlInit_v1"}
