@@ -85,13 +85,13 @@ func (l *library) init(opts ...LibraryOption) {
 	l.dl = dl.New(o.path, o.flags)
 }
 
-func (l *library) GetLibrary() Library {
+func (l *library) Extensions() ExtendedInterface {
 	return l
 }
 
-// Lookup checks whether the specified library symbol exists in the library.
+// LookupSymbol checks whether the specified library symbol exists in the library.
 // Note that this requires that the library be loaded.
-func (l *library) Lookup(name string) error {
+func (l *library) LookupSymbol(name string) error {
 	if l == nil || l.refcount == 0 {
 		return fmt.Errorf("error looking up %s: %w", name, errLibraryNotLoaded)
 	}
@@ -198,93 +198,93 @@ func (pis ProcessInfo_v2Slice) ToProcessInfoSlice() []ProcessInfo {
 // When new versioned symbols are added, these would have to be initialized above and have
 // corresponding checks and subsequent assignments added below.
 func (l *library) updateVersionedSymbols() {
-	err := l.Lookup("nvmlInit_v2")
+	err := l.LookupSymbol("nvmlInit_v2")
 	if err == nil {
 		nvmlInit = nvmlInit_v2
 	}
-	err = l.Lookup("nvmlDeviceGetPciInfo_v2")
+	err = l.LookupSymbol("nvmlDeviceGetPciInfo_v2")
 	if err == nil {
 		nvmlDeviceGetPciInfo = nvmlDeviceGetPciInfo_v2
 	}
-	err = l.Lookup("nvmlDeviceGetPciInfo_v3")
+	err = l.LookupSymbol("nvmlDeviceGetPciInfo_v3")
 	if err == nil {
 		nvmlDeviceGetPciInfo = nvmlDeviceGetPciInfo_v3
 	}
-	err = l.Lookup("nvmlDeviceGetCount_v2")
+	err = l.LookupSymbol("nvmlDeviceGetCount_v2")
 	if err == nil {
 		nvmlDeviceGetCount = nvmlDeviceGetCount_v2
 	}
-	err = l.Lookup("nvmlDeviceGetHandleByIndex_v2")
+	err = l.LookupSymbol("nvmlDeviceGetHandleByIndex_v2")
 	if err == nil {
 		nvmlDeviceGetHandleByIndex = nvmlDeviceGetHandleByIndex_v2
 	}
-	err = l.Lookup("nvmlDeviceGetHandleByPciBusId_v2")
+	err = l.LookupSymbol("nvmlDeviceGetHandleByPciBusId_v2")
 	if err == nil {
 		nvmlDeviceGetHandleByPciBusId = nvmlDeviceGetHandleByPciBusId_v2
 	}
-	err = l.Lookup("nvmlDeviceGetNvLinkRemotePciInfo_v2")
+	err = l.LookupSymbol("nvmlDeviceGetNvLinkRemotePciInfo_v2")
 	if err == nil {
 		nvmlDeviceGetNvLinkRemotePciInfo = nvmlDeviceGetNvLinkRemotePciInfo_v2
 	}
 	// Unable to overwrite nvmlDeviceRemoveGpu() because the v2 function takes
 	// a different set of parameters than the v1 function.
-	//err = l.Lookup("nvmlDeviceRemoveGpu_v2")
+	//err = l.LookupSymbol("nvmlDeviceRemoveGpu_v2")
 	//if err == nil {
 	//    nvmlDeviceRemoveGpu = nvmlDeviceRemoveGpu_v2
 	//}
-	err = l.Lookup("nvmlDeviceGetGridLicensableFeatures_v2")
+	err = l.LookupSymbol("nvmlDeviceGetGridLicensableFeatures_v2")
 	if err == nil {
 		nvmlDeviceGetGridLicensableFeatures = nvmlDeviceGetGridLicensableFeatures_v2
 	}
-	err = l.Lookup("nvmlDeviceGetGridLicensableFeatures_v3")
+	err = l.LookupSymbol("nvmlDeviceGetGridLicensableFeatures_v3")
 	if err == nil {
 		nvmlDeviceGetGridLicensableFeatures = nvmlDeviceGetGridLicensableFeatures_v3
 	}
-	err = l.Lookup("nvmlDeviceGetGridLicensableFeatures_v4")
+	err = l.LookupSymbol("nvmlDeviceGetGridLicensableFeatures_v4")
 	if err == nil {
 		nvmlDeviceGetGridLicensableFeatures = nvmlDeviceGetGridLicensableFeatures_v4
 	}
-	err = l.Lookup("nvmlEventSetWait_v2")
+	err = l.LookupSymbol("nvmlEventSetWait_v2")
 	if err == nil {
 		nvmlEventSetWait = nvmlEventSetWait_v2
 	}
-	err = l.Lookup("nvmlDeviceGetAttributes_v2")
+	err = l.LookupSymbol("nvmlDeviceGetAttributes_v2")
 	if err == nil {
 		nvmlDeviceGetAttributes = nvmlDeviceGetAttributes_v2
 	}
-	err = l.Lookup("nvmlComputeInstanceGetInfo_v2")
+	err = l.LookupSymbol("nvmlComputeInstanceGetInfo_v2")
 	if err == nil {
 		nvmlComputeInstanceGetInfo = nvmlComputeInstanceGetInfo_v2
 	}
-	err = l.Lookup("nvmlDeviceGetComputeRunningProcesses_v2")
+	err = l.LookupSymbol("nvmlDeviceGetComputeRunningProcesses_v2")
 	if err == nil {
 		deviceGetComputeRunningProcesses = deviceGetComputeRunningProcesses_v2
 	}
-	err = l.Lookup("nvmlDeviceGetComputeRunningProcesses_v3")
+	err = l.LookupSymbol("nvmlDeviceGetComputeRunningProcesses_v3")
 	if err == nil {
 		deviceGetComputeRunningProcesses = deviceGetComputeRunningProcesses_v3
 	}
-	err = l.Lookup("nvmlDeviceGetGraphicsRunningProcesses_v2")
+	err = l.LookupSymbol("nvmlDeviceGetGraphicsRunningProcesses_v2")
 	if err == nil {
 		deviceGetGraphicsRunningProcesses = deviceGetGraphicsRunningProcesses_v2
 	}
-	err = l.Lookup("nvmlDeviceGetGraphicsRunningProcesses_v3")
+	err = l.LookupSymbol("nvmlDeviceGetGraphicsRunningProcesses_v3")
 	if err == nil {
 		deviceGetGraphicsRunningProcesses = deviceGetGraphicsRunningProcesses_v3
 	}
-	err = l.Lookup("nvmlDeviceGetMPSComputeRunningProcesses_v2")
+	err = l.LookupSymbol("nvmlDeviceGetMPSComputeRunningProcesses_v2")
 	if err == nil {
 		deviceGetMPSComputeRunningProcesses = deviceGetMPSComputeRunningProcesses_v2
 	}
-	err = l.Lookup("nvmlDeviceGetMPSComputeRunningProcesses_v3")
+	err = l.LookupSymbol("nvmlDeviceGetMPSComputeRunningProcesses_v3")
 	if err == nil {
 		deviceGetMPSComputeRunningProcesses = deviceGetMPSComputeRunningProcesses_v3
 	}
-	err = l.Lookup("nvmlDeviceGetGpuInstancePossiblePlacements_v2")
+	err = l.LookupSymbol("nvmlDeviceGetGpuInstancePossiblePlacements_v2")
 	if err == nil {
 		nvmlDeviceGetGpuInstancePossiblePlacements = nvmlDeviceGetGpuInstancePossiblePlacements_v2
 	}
-	err = l.Lookup("nvmlVgpuInstanceGetLicenseInfo_v2")
+	err = l.LookupSymbol("nvmlVgpuInstanceGetLicenseInfo_v2")
 	if err == nil {
 		nvmlVgpuInstanceGetLicenseInfo = nvmlVgpuInstanceGetLicenseInfo_v2
 	}

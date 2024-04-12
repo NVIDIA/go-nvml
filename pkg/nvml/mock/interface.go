@@ -654,14 +654,14 @@ var _ nvml.Interface = &Interface{}
 //			EventSetWaitFunc: func(eventSet nvml.EventSet, v uint32) (nvml.EventData, nvml.Return) {
 //				panic("mock out the EventSetWait method")
 //			},
+//			ExtensionsFunc: func() nvml.ExtendedInterface {
+//				panic("mock out the Extensions method")
+//			},
 //			GetExcludedDeviceCountFunc: func() (int, nvml.Return) {
 //				panic("mock out the GetExcludedDeviceCount method")
 //			},
 //			GetExcludedDeviceInfoByIndexFunc: func(n int) (nvml.ExcludedDeviceInfo, nvml.Return) {
 //				panic("mock out the GetExcludedDeviceInfoByIndex method")
-//			},
-//			GetLibraryFunc: func() nvml.Library {
-//				panic("mock out the GetLibrary method")
 //			},
 //			GetVgpuCompatibilityFunc: func(vgpuMetadata *nvml.VgpuMetadata, vgpuPgpuMetadata *nvml.VgpuPgpuMetadata) (nvml.VgpuPgpuCompatibility, nvml.Return) {
 //				panic("mock out the GetVgpuCompatibility method")
@@ -1534,14 +1534,14 @@ type Interface struct {
 	// EventSetWaitFunc mocks the EventSetWait method.
 	EventSetWaitFunc func(eventSet nvml.EventSet, v uint32) (nvml.EventData, nvml.Return)
 
+	// ExtensionsFunc mocks the Extensions method.
+	ExtensionsFunc func() nvml.ExtendedInterface
+
 	// GetExcludedDeviceCountFunc mocks the GetExcludedDeviceCount method.
 	GetExcludedDeviceCountFunc func() (int, nvml.Return)
 
 	// GetExcludedDeviceInfoByIndexFunc mocks the GetExcludedDeviceInfoByIndex method.
 	GetExcludedDeviceInfoByIndexFunc func(n int) (nvml.ExcludedDeviceInfo, nvml.Return)
-
-	// GetLibraryFunc mocks the GetLibrary method.
-	GetLibraryFunc func() nvml.Library
 
 	// GetVgpuCompatibilityFunc mocks the GetVgpuCompatibility method.
 	GetVgpuCompatibilityFunc func(vgpuMetadata *nvml.VgpuMetadata, vgpuPgpuMetadata *nvml.VgpuPgpuMetadata) (nvml.VgpuPgpuCompatibility, nvml.Return)
@@ -3069,6 +3069,9 @@ type Interface struct {
 			// V is the v argument value.
 			V uint32
 		}
+		// Extensions holds details about calls to the Extensions method.
+		Extensions []struct {
+		}
 		// GetExcludedDeviceCount holds details about calls to the GetExcludedDeviceCount method.
 		GetExcludedDeviceCount []struct {
 		}
@@ -3076,9 +3079,6 @@ type Interface struct {
 		GetExcludedDeviceInfoByIndex []struct {
 			// N is the n argument value.
 			N int
-		}
-		// GetLibrary holds details about calls to the GetLibrary method.
-		GetLibrary []struct {
 		}
 		// GetVgpuCompatibility holds details about calls to the GetVgpuCompatibility method.
 		GetVgpuCompatibility []struct {
@@ -3697,9 +3697,9 @@ type Interface struct {
 	lockEventSetCreate                                  sync.RWMutex
 	lockEventSetFree                                    sync.RWMutex
 	lockEventSetWait                                    sync.RWMutex
+	lockExtensions                                      sync.RWMutex
 	lockGetExcludedDeviceCount                          sync.RWMutex
 	lockGetExcludedDeviceInfoByIndex                    sync.RWMutex
-	lockGetLibrary                                      sync.RWMutex
 	lockGetVgpuCompatibility                            sync.RWMutex
 	lockGetVgpuDriverCapabilities                       sync.RWMutex
 	lockGetVgpuVersion                                  sync.RWMutex
@@ -11031,6 +11031,33 @@ func (mock *Interface) EventSetWaitCalls() []struct {
 	return calls
 }
 
+// Extensions calls ExtensionsFunc.
+func (mock *Interface) Extensions() nvml.ExtendedInterface {
+	if mock.ExtensionsFunc == nil {
+		panic("Interface.ExtensionsFunc: method is nil but Interface.Extensions was just called")
+	}
+	callInfo := struct {
+	}{}
+	mock.lockExtensions.Lock()
+	mock.calls.Extensions = append(mock.calls.Extensions, callInfo)
+	mock.lockExtensions.Unlock()
+	return mock.ExtensionsFunc()
+}
+
+// ExtensionsCalls gets all the calls that were made to Extensions.
+// Check the length with:
+//
+//	len(mockedInterface.ExtensionsCalls())
+func (mock *Interface) ExtensionsCalls() []struct {
+} {
+	var calls []struct {
+	}
+	mock.lockExtensions.RLock()
+	calls = mock.calls.Extensions
+	mock.lockExtensions.RUnlock()
+	return calls
+}
+
 // GetExcludedDeviceCount calls GetExcludedDeviceCountFunc.
 func (mock *Interface) GetExcludedDeviceCount() (int, nvml.Return) {
 	if mock.GetExcludedDeviceCountFunc == nil {
@@ -11087,33 +11114,6 @@ func (mock *Interface) GetExcludedDeviceInfoByIndexCalls() []struct {
 	mock.lockGetExcludedDeviceInfoByIndex.RLock()
 	calls = mock.calls.GetExcludedDeviceInfoByIndex
 	mock.lockGetExcludedDeviceInfoByIndex.RUnlock()
-	return calls
-}
-
-// GetLibrary calls GetLibraryFunc.
-func (mock *Interface) GetLibrary() nvml.Library {
-	if mock.GetLibraryFunc == nil {
-		panic("Interface.GetLibraryFunc: method is nil but Interface.GetLibrary was just called")
-	}
-	callInfo := struct {
-	}{}
-	mock.lockGetLibrary.Lock()
-	mock.calls.GetLibrary = append(mock.calls.GetLibrary, callInfo)
-	mock.lockGetLibrary.Unlock()
-	return mock.GetLibraryFunc()
-}
-
-// GetLibraryCalls gets all the calls that were made to GetLibrary.
-// Check the length with:
-//
-//	len(mockedInterface.GetLibraryCalls())
-func (mock *Interface) GetLibraryCalls() []struct {
-} {
-	var calls []struct {
-	}
-	mock.lockGetLibrary.RLock()
-	calls = mock.calls.GetLibrary
-	mock.lockGetLibrary.RUnlock()
 	return calls
 }
 

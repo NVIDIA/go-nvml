@@ -232,9 +232,9 @@ var (
 	EventSetCreate                                  = libnvml.EventSetCreate
 	EventSetFree                                    = libnvml.EventSetFree
 	EventSetWait                                    = libnvml.EventSetWait
+	Extensions                                      = libnvml.Extensions
 	GetExcludedDeviceCount                          = libnvml.GetExcludedDeviceCount
 	GetExcludedDeviceInfoByIndex                    = libnvml.GetExcludedDeviceInfoByIndex
-	GetLibrary                                      = libnvml.GetLibrary
 	GetVgpuCompatibility                            = libnvml.GetVgpuCompatibility
 	GetVgpuDriverCapabilities                       = libnvml.GetVgpuDriverCapabilities
 	GetVgpuVersion                                  = libnvml.GetVgpuVersion
@@ -529,9 +529,9 @@ type Interface interface {
 	EventSetCreate() (EventSet, Return)
 	EventSetFree(EventSet) Return
 	EventSetWait(EventSet, uint32) (EventData, Return)
+	Extensions() ExtendedInterface
 	GetExcludedDeviceCount() (int, Return)
 	GetExcludedDeviceInfoByIndex(int) (ExcludedDeviceInfo, Return)
-	GetLibrary() Library
 	GetVgpuCompatibility(*VgpuMetadata, *VgpuPgpuMetadata) (VgpuPgpuCompatibility, Return)
 	GetVgpuDriverCapabilities(VgpuDriverCapability) (bool, Return)
 	GetVgpuVersion() (VgpuVersion, VgpuVersion, Return)

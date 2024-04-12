@@ -16,6 +16,17 @@
 
 package nvml
 
+// ExtendedInterface defines a set of extensions to the core NVML API.
+//
+// TODO: For now the list of methods in this interface need to be kept in sync
+// with the list of excluded methods for the Interface type in
+// gen/nvml/generateapi.go. In the future we should automate this.
+//
+//go:generate moq -out mock/extendedinterface.go -pkg mock . ExtendedInterface:ExtendedInterface
+type ExtendedInterface interface {
+	LookupSymbol(string) error
+}
+
 // libraryOptions hold the paramaters than can be set by a LibraryOption
 type libraryOptions struct {
 	path  string
@@ -24,11 +35,6 @@ type libraryOptions struct {
 
 // LibraryOption represents a functional option to configure the underlying NVML library
 type LibraryOption func(*libraryOptions)
-
-// Library defines a set of functions defined on the underlying dynamic library.
-type Library interface {
-	Lookup(string) error
-}
 
 // WithLibraryPath provides an option to set the library name to be used by the NVML library.
 func WithLibraryPath(path string) LibraryOption {

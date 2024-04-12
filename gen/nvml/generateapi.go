@@ -43,7 +43,7 @@ var GeneratableInterfaces = []GeneratableInterfacePoperties{
 	{
 		Type:                      "library",
 		Interface:                 "Interface",
-		Exclude:                   []string{"Lookup"},
+		Exclude:                   []string{"LookupSymbol"},
 		PackageMethodsAliasedFrom: "libnvml",
 	},
 	{
