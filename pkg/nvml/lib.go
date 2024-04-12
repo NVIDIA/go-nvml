@@ -113,6 +113,10 @@ func (l *library) load() (rerr error) {
 		return fmt.Errorf("error opening %s: %w", l.path, err)
 	}
 
+	// Update the errorStringFunc to point to nvml.ErrorString
+	errorStringFunc = nvmlErrorString
+
+	// Update all versioned symbols
 	l.updateVersionedSymbols()
 
 	return nil
@@ -133,6 +137,9 @@ func (l *library) close() (rerr error) {
 	if err := l.dl.Close(); err != nil {
 		return fmt.Errorf("error closing %s: %w", l.path, err)
 	}
+
+	// Update the errorStringFunc to point to defaultErrorStringFunc
+	errorStringFunc = defaultErrorStringFunc
 
 	return nil
 }
