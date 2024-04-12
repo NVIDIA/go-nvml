@@ -55,7 +55,7 @@ check: $(CHECK_TARGETS)
 
 # Apply go fmt to the codebase
 fmt:
-	go list -f '{{.Dir}}' $(MODULE)/pkg/... \
+	go list -f '{{.Dir}}' $(MODULE)/pkg/... $(MODULE)/gen/... \
 		| xargs gofmt -s -l -w
 
 golangci-lint:
@@ -144,6 +144,10 @@ bindings: .create-bindings .strip-autogen-comment .strip-nvml-h-linenumber
 		go fmt types_gen.go; \
 	cd -> /dev/null
 	rm -rf $(PKG_BINDINGS_DIR)/nvml.yml $(PKG_BINDINGS_DIR)/cgo_helpers.go $(PKG_BINDINGS_DIR)/types.go $(PKG_BINDINGS_DIR)/_obj
+	go run $(GEN_BINDINGS_DIR)/generateapi.go \
+		--sourceDir $(PKG_BINDINGS_DIR) \
+		--output $(PKG_BINDINGS_DIR)/zz_generated.api.go
+	make fmt
 
 .strip-autogen-comment: SED_SEARCH_STRING := // WARNING: This file has automatically been generated on
 .strip-autogen-comment: SED_REPLACE_STRING := // WARNING: THIS FILE WAS AUTOMATICALLY GENERATED.
@@ -166,6 +170,7 @@ clean-bindings:
 	rm -f $(PKG_BINDINGS_DIR)/nvml.go
 	rm -f $(PKG_BINDINGS_DIR)/nvml.h
 	rm -f $(PKG_BINDINGS_DIR)/types_gen.go
+	rm -f $(PKG_BINDINGS_DIR)/zz_generated.api.go
 
 # Update nvml.h from the Anaconda package repository
 update-nvml-h: JQ ?= $(DOCKER) run -i --rm -v "$(PWD):$(PWD)" -w "$(PWD)" backplane/jq:latest

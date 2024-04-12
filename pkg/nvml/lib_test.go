@@ -125,7 +125,7 @@ func TestLookupFromDefault(t *testing.T) {
 			if !tc.skipLoadLibrary {
 				require.ErrorIs(t, l.load(), tc.expectedLoadError)
 			}
-			require.ErrorIs(t, l.Lookup("symbol"), tc.expectedLookupErrror)
+			require.ErrorIs(t, l.LookupSymbol("symbol"), tc.expectedLookupErrror)
 			require.ErrorIs(t, l.close(), tc.expectedCloseError)
 			if tc.expectedCloseError == nil {
 				require.Equal(t, 0, int(l.refcount))
