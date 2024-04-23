@@ -345,6 +345,161 @@ var MIGProfiles = struct {
 	},
 }
 
+var MIGPlacements = struct {
+	GpuInstancePossiblePlacements     map[int][]nvml.GpuInstancePlacement
+	ComputeInstancePossiblePlacements map[int]map[int][]nvml.ComputeInstancePlacement
+}{
+	GpuInstancePossiblePlacements: map[int][]nvml.GpuInstancePlacement{
+		nvml.GPU_INSTANCE_PROFILE_1_SLICE: {
+			{
+				Start: 0,
+				Size:  1,
+			},
+			{
+				Start: 1,
+				Size:  1,
+			},
+			{
+				Start: 2,
+				Size:  1,
+			},
+			{
+				Start: 3,
+				Size:  1,
+			},
+			{
+				Start: 4,
+				Size:  1,
+			},
+			{
+				Start: 5,
+				Size:  1,
+			},
+			{
+				Start: 6,
+				Size:  1,
+			},
+		},
+		nvml.GPU_INSTANCE_PROFILE_1_SLICE_REV1: {
+			{
+				Start: 0,
+				Size:  1,
+			},
+			{
+				Start: 1,
+				Size:  1,
+			},
+			{
+				Start: 2,
+				Size:  1,
+			},
+			{
+				Start: 3,
+				Size:  1,
+			},
+			{
+				Start: 4,
+				Size:  1,
+			},
+			{
+				Start: 5,
+				Size:  1,
+			},
+			{
+				Start: 6,
+				Size:  1,
+			},
+		},
+		nvml.GPU_INSTANCE_PROFILE_1_SLICE_REV2: {
+			{
+				Start: 0,
+				Size:  2,
+			},
+			{
+				Start: 2,
+				Size:  2,
+			},
+			{
+				Start: 4,
+				Size:  2,
+			},
+			{
+				Start: 6,
+				Size:  2,
+			},
+		},
+		nvml.GPU_INSTANCE_PROFILE_2_SLICE: {
+			{
+				Start: 0,
+				Size:  2,
+			},
+			{
+				Start: 2,
+				Size:  2,
+			},
+			{
+				Start: 4,
+				Size:  2,
+			},
+		},
+		nvml.GPU_INSTANCE_PROFILE_3_SLICE: {
+			{
+				Start: 0,
+				Size:  4,
+			},
+			{
+				Start: 4,
+				Size:  4,
+			},
+		},
+		nvml.GPU_INSTANCE_PROFILE_4_SLICE: {
+			{
+				Start: 0,
+				Size:  4,
+			},
+		},
+		nvml.GPU_INSTANCE_PROFILE_7_SLICE: {
+			{
+				Start: 0,
+				Size:  8,
+			},
+		},
+	},
+	// TODO: Fill out ComputeInstancePossiblePlacements
+	ComputeInstancePossiblePlacements: map[int]map[int][]nvml.ComputeInstancePlacement{
+		nvml.GPU_INSTANCE_PROFILE_1_SLICE: {
+			nvml.COMPUTE_INSTANCE_PROFILE_1_SLICE: {},
+		},
+		nvml.GPU_INSTANCE_PROFILE_1_SLICE_REV1: {
+			nvml.COMPUTE_INSTANCE_PROFILE_1_SLICE: {},
+		},
+		nvml.GPU_INSTANCE_PROFILE_1_SLICE_REV2: {
+			nvml.COMPUTE_INSTANCE_PROFILE_1_SLICE: {},
+		},
+		nvml.GPU_INSTANCE_PROFILE_2_SLICE: {
+			nvml.COMPUTE_INSTANCE_PROFILE_1_SLICE: {},
+			nvml.COMPUTE_INSTANCE_PROFILE_2_SLICE: {},
+		},
+		nvml.GPU_INSTANCE_PROFILE_3_SLICE: {
+			nvml.COMPUTE_INSTANCE_PROFILE_1_SLICE: {},
+			nvml.COMPUTE_INSTANCE_PROFILE_2_SLICE: {},
+			nvml.COMPUTE_INSTANCE_PROFILE_3_SLICE: {},
+		},
+		nvml.GPU_INSTANCE_PROFILE_4_SLICE: {
+			nvml.COMPUTE_INSTANCE_PROFILE_1_SLICE: {},
+			nvml.COMPUTE_INSTANCE_PROFILE_2_SLICE: {},
+			nvml.COMPUTE_INSTANCE_PROFILE_4_SLICE: {},
+		},
+		nvml.GPU_INSTANCE_PROFILE_7_SLICE: {
+			nvml.COMPUTE_INSTANCE_PROFILE_1_SLICE: {},
+			nvml.COMPUTE_INSTANCE_PROFILE_2_SLICE: {},
+			nvml.COMPUTE_INSTANCE_PROFILE_3_SLICE: {},
+			nvml.COMPUTE_INSTANCE_PROFILE_4_SLICE: {},
+			nvml.COMPUTE_INSTANCE_PROFILE_7_SLICE: {},
+		},
+	},
+}
+
 func New() nvml.Interface {
 	return &Server{
 		Devices: [8]nvml.Device{
