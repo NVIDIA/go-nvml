@@ -18,6 +18,7 @@ package dgxa100
 
 import (
 	"fmt"
+	"sync"
 
 	"github.com/NVIDIA/go-nvml/pkg/nvml"
 	"github.com/NVIDIA/go-nvml/pkg/nvml/mock"
@@ -34,6 +35,7 @@ type Server struct {
 }
 type Device struct {
 	mock.Device
+	sync.RWMutex
 	UUID                  string
 	Name                  string
 	Brand                 nvml.BrandType
@@ -50,6 +52,7 @@ type Device struct {
 
 type GpuInstance struct {
 	mock.GpuInstance
+	sync.RWMutex
 	Info                   nvml.GpuInstanceInfo
 	ComputeInstances       map[*ComputeInstance]struct{}
 	ComputeInstanceCounter uint32
@@ -254,6 +257,8 @@ func (d *Device) setMockFuncs() {
 	}
 
 	d.CreateGpuInstanceFunc = func(info *nvml.GpuInstanceProfileInfo) (nvml.GpuInstance, nvml.Return) {
+		d.Lock()
+		defer d.Unlock()
 		giInfo := nvml.GpuInstanceInfo{
 			Device:    d,
 			Id:        d.GpuInstanceCounter,
@@ -266,6 +271,8 @@ func (d *Device) setMockFuncs() {
 	}
 
 	d.CreateGpuInstanceWithPlacementFunc = func(info *nvml.GpuInstanceProfileInfo, placement *nvml.GpuInstancePlacement) (nvml.GpuInstance, nvml.Return) {
+		d.Lock()
+		defer d.Unlock()
 		giInfo := nvml.GpuInstanceInfo{
 			Device:    d,
 			Id:        d.GpuInstanceCounter,
@@ -279,6 +286,8 @@ func (d *Device) setMockFuncs() {
 	}
 
 	d.GetGpuInstancesFunc = func(info *nvml.GpuInstanceProfileInfo) ([]nvml.GpuInstance, nvml.Return) {
+		d.RLock()
+		defer d.RUnlock()
 		var gis []nvml.GpuInstance
 		for gi := range d.GpuInstances {
 			if gi.Info.ProfileId == info.Id {
@@ -321,6 +330,8 @@ func (gi *GpuInstance) setMockFuncs() {
 	}
 
 	gi.CreateComputeInstanceFunc = func(info *nvml.ComputeInstanceProfileInfo) (nvml.ComputeInstance, nvml.Return) {
+		gi.Lock()
+		defer gi.Unlock()
 		ciInfo := nvml.ComputeInstanceInfo{
 			Device:      gi.Info.Device,
 			GpuInstance: gi,
@@ -334,6 +345,8 @@ func (gi *GpuInstance) setMockFuncs() {
 	}
 
 	gi.GetComputeInstancesFunc = func(info *nvml.ComputeInstanceProfileInfo) ([]nvml.ComputeInstance, nvml.Return) {
+		gi.RLock()
+		defer gi.RUnlock()
 		var cis []nvml.ComputeInstance
 		for ci := range gi.ComputeInstances {
 			if ci.Info.ProfileId == info.Id {
@@ -344,7 +357,10 @@ func (gi *GpuInstance) setMockFuncs() {
 	}
 
 	gi.DestroyFunc = func() nvml.Return {
-		delete(gi.Info.Device.(*Device).GpuInstances, gi)
+		d := gi.Info.Device.(*Device)
+		d.Lock()
+		defer d.Unlock()
+		delete(d.GpuInstances, gi)
 		return nvml.SUCCESS
 	}
 }
@@ -355,7 +371,10 @@ func (ci *ComputeInstance) setMockFuncs() {
 	}
 
 	ci.DestroyFunc = func() nvml.Return {
-		delete(ci.Info.GpuInstance.(*GpuInstance).ComputeInstances, ci)
+		gi := ci.Info.GpuInstance.(*GpuInstance)
+		gi.Lock()
+		defer gi.Unlock()
+		delete(gi.ComputeInstances, ci)
 		return nvml.SUCCESS
 	}
 }
