@@ -26,27 +26,42 @@ import (
 
 type Server struct {
 	mock.Interface
-	Devices [8]nvml.Device
+	Devices           [8]nvml.Device
+	DriverVersion     string
+	NvmlVersion       string
+	CudaDriverVersion int
 }
 type Device struct {
 	mock.Device
-	UUID               string
-	PciBusID           string
-	Index              int
-	MigMode            int
-	GpuInstances       map[*GpuInstance]struct{}
-	GpuInstanceCounter uint32
-	MemoryInfo         nvml.Memory
+	UUID                  string
+	Name                  string
+	Brand                 nvml.BrandType
+	Architecture          nvml.DeviceArchitecture
+	PciBusID              string
+	Minor                 int
+	Index                 int
+	CudaComputeCapability CudaComputeCapability
+	MigMode               int
+	GpuInstances          map[*GpuInstance]struct{}
+	GpuInstanceCounter    uint32
+	MemoryInfo            nvml.Memory
 }
+
 type GpuInstance struct {
 	mock.GpuInstance
 	Info                   nvml.GpuInstanceInfo
 	ComputeInstances       map[*ComputeInstance]struct{}
 	ComputeInstanceCounter uint32
 }
+
 type ComputeInstance struct {
 	mock.ComputeInstance
 	Info nvml.ComputeInstanceInfo
+}
+
+type CudaComputeCapability struct {
+	Major int
+	Minor int
 }
 
 var _ nvml.Interface = (*Server)(nil)
@@ -66,14 +81,25 @@ func New() nvml.Interface {
 			NewDevice(6),
 			NewDevice(7),
 		},
+		DriverVersion:     "550.54.15",
+		NvmlVersion:       "12.550.54.15",
+		CudaDriverVersion: 12040,
 	}
 }
 
 func NewDevice(index int) nvml.Device {
 	return &Device{
-		UUID:               "GPU-" + uuid.New().String(),
-		PciBusID:           fmt.Sprintf("0000:%02x:00.0", index),
-		Index:              index,
+		UUID:         "GPU-" + uuid.New().String(),
+		Name:         "Mock NVIDIA A100-SXM4-40GB",
+		Brand:        nvml.BRAND_NVIDIA,
+		Architecture: nvml.DEVICE_ARCH_AMPERE,
+		PciBusID:     fmt.Sprintf("0000:%02x:00.0", index),
+		Minor:        index,
+		Index:        index,
+		CudaComputeCapability: CudaComputeCapability{
+			Major: 8,
+			Minor: 0,
+		},
 		GpuInstances:       make(map[*GpuInstance]struct{}),
 		GpuInstanceCounter: 0,
 		MemoryInfo:         nvml.Memory{42949672960, 0, 0},
@@ -94,6 +120,14 @@ func NewComputeInstance(info nvml.ComputeInstanceInfo) nvml.ComputeInstance {
 	}
 }
 
+func (n *Server) Extensions() nvml.ExtendedInterface {
+	return n
+}
+
+func (n *Server) LookupSymbol(symbol string) error {
+	return nil
+}
+
 func (n *Server) Init() nvml.Return {
 	return nvml.SUCCESS
 }
@@ -102,8 +136,16 @@ func (n *Server) Shutdown() nvml.Return {
 	return nvml.SUCCESS
 }
 
+func (n *Server) SystemGetDriverVersion() (string, nvml.Return) {
+	return n.DriverVersion, nvml.SUCCESS
+}
+
 func (n *Server) SystemGetNVMLVersion() (string, nvml.Return) {
-	return "11.450.51", nvml.SUCCESS
+	return n.NvmlVersion, nvml.SUCCESS
+}
+
+func (n *Server) SystemGetCudaDriverVersion() (int, nvml.Return) {
+	return n.CudaDriverVersion, nvml.SUCCESS
 }
 
 func (n *Server) DeviceGetCount() (int, nvml.Return) {
@@ -135,12 +177,32 @@ func (n *Server) DeviceGetHandleByPciBusId(busID string) (nvml.Device, nvml.Retu
 	return nil, nvml.ERROR_INVALID_ARGUMENT
 }
 
+func (d *Device) GetMinorNumber() (int, nvml.Return) {
+	return d.Minor, nvml.SUCCESS
+}
+
 func (d *Device) GetIndex() (int, nvml.Return) {
 	return d.Index, nvml.SUCCESS
 }
 
+func (d *Device) GetCudaComputeCapability() (int, int, nvml.Return) {
+	return d.CudaComputeCapability.Major, d.CudaComputeCapability.Minor, nvml.SUCCESS
+}
+
 func (d *Device) GetUUID() (string, nvml.Return) {
 	return d.UUID, nvml.SUCCESS
+}
+
+func (d *Device) GetName() (string, nvml.Return) {
+	return d.Name, nvml.SUCCESS
+}
+
+func (d *Device) GetBrand() (nvml.BrandType, nvml.Return) {
+	return d.Brand, nvml.SUCCESS
+}
+
+func (d *Device) GetArchitecture() (nvml.DeviceArchitecture, nvml.Return) {
+	return d.Architecture, nvml.SUCCESS
 }
 
 func (d *Device) GetMemoryInfo() (nvml.Memory, nvml.Return) {
@@ -173,6 +235,10 @@ func (d *Device) GetGpuInstanceProfileInfo(giProfileId int) (nvml.GpuInstancePro
 	}
 
 	return MIGProfiles.GpuInstanceProfiles[giProfileId], nvml.SUCCESS
+}
+
+func (d *Device) GetGpuInstancePossiblePlacements(info *nvml.GpuInstanceProfileInfo) ([]nvml.GpuInstancePlacement, nvml.Return) {
+	return MIGPlacements.GpuInstancePossiblePlacements[int(info.Id)], nvml.SUCCESS
 }
 
 func (d *Device) CreateGpuInstance(info *nvml.GpuInstanceProfileInfo) (nvml.GpuInstance, nvml.Return) {
@@ -234,6 +300,10 @@ func (gi *GpuInstance) GetComputeInstanceProfileInfo(ciProfileId int, ciEngProfi
 	}
 
 	return MIGProfiles.ComputeInstanceProfiles[giProfileId][ciProfileId], nvml.SUCCESS
+}
+
+func (gi *GpuInstance) GetComputeInstancePossiblePlacements(info *nvml.ComputeInstanceProfileInfo) ([]nvml.ComputeInstancePlacement, nvml.Return) {
+	return MIGPlacements.ComputeInstancePossiblePlacements[int(gi.Info.Id)][int(info.Id)], nvml.SUCCESS
 }
 
 func (gi *GpuInstance) CreateComputeInstance(info *nvml.ComputeInstanceProfileInfo) (nvml.ComputeInstance, nvml.Return) {
