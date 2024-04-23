@@ -70,7 +70,7 @@ var _ nvml.Device = (*Device)(nil)
 var _ nvml.GpuInstance = (*GpuInstance)(nil)
 var _ nvml.ComputeInstance = (*ComputeInstance)(nil)
 
-func New() nvml.Interface {
+func New() *Server {
 	server := &Server{
 		Devices: [8]nvml.Device{
 			NewDevice(0),
@@ -90,7 +90,7 @@ func New() nvml.Interface {
 	return server
 }
 
-func NewDevice(index int) nvml.Device {
+func NewDevice(index int) *Device {
 	device := &Device{
 		UUID:         "GPU-" + uuid.New().String(),
 		Name:         "Mock NVIDIA A100-SXM4-40GB",
@@ -111,7 +111,7 @@ func NewDevice(index int) nvml.Device {
 	return device
 }
 
-func NewGpuInstance(info nvml.GpuInstanceInfo) nvml.GpuInstance {
+func NewGpuInstance(info nvml.GpuInstanceInfo) *GpuInstance {
 	gi := &GpuInstance{
 		Info:                   info,
 		ComputeInstances:       make(map[*ComputeInstance]struct{}),
@@ -121,7 +121,7 @@ func NewGpuInstance(info nvml.GpuInstanceInfo) nvml.GpuInstance {
 	return gi
 }
 
-func NewComputeInstance(info nvml.ComputeInstanceInfo) nvml.ComputeInstance {
+func NewComputeInstance(info nvml.ComputeInstanceInfo) *ComputeInstance {
 	ci := &ComputeInstance{
 		Info: info,
 	}
@@ -261,7 +261,7 @@ func (d *Device) setMockFuncs() {
 		}
 		d.GpuInstanceCounter++
 		gi := NewGpuInstance(giInfo)
-		d.GpuInstances[gi.(*GpuInstance)] = struct{}{}
+		d.GpuInstances[gi] = struct{}{}
 		return gi, nvml.SUCCESS
 	}
 
@@ -274,7 +274,7 @@ func (d *Device) setMockFuncs() {
 		}
 		d.GpuInstanceCounter++
 		gi := NewGpuInstance(giInfo)
-		d.GpuInstances[gi.(*GpuInstance)] = struct{}{}
+		d.GpuInstances[gi] = struct{}{}
 		return gi, nvml.SUCCESS
 	}
 
@@ -329,7 +329,7 @@ func (gi *GpuInstance) setMockFuncs() {
 		}
 		gi.ComputeInstanceCounter++
 		ci := NewComputeInstance(ciInfo)
-		gi.ComputeInstances[ci.(*ComputeInstance)] = struct{}{}
+		gi.ComputeInstances[ci] = struct{}{}
 		return ci, nvml.SUCCESS
 	}
 
