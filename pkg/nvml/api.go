@@ -25,6 +25,7 @@ package nvml
 //go:generate moq -out mock/extendedinterface.go -pkg mock . ExtendedInterface:ExtendedInterface
 type ExtendedInterface interface {
 	LookupSymbol(string) error
+	GetErrors() []error
 }
 
 // libraryOptions hold the paramaters than can be set by a LibraryOption
