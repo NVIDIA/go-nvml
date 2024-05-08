@@ -220,9 +220,12 @@ func (l *library) DeviceGetTopologyCommonAncestor(device1 Device, device2 Device
 
 func (device1 nvmlDevice) GetTopologyCommonAncestor(device2 Device) (GpuTopologyLevel, Return) {
 	var pathInfo GpuTopologyLevel
-	ret := nvmlDeviceGetTopologyCommonAncestor(device1, device2.(nvmlDevice), &pathInfo)
+	ret := nvmlDeviceGetTopologyCommonAncestorStub(device1, device2.(nvmlDevice), &pathInfo)
 	return pathInfo, ret
 }
+
+// nvmlDeviceGetTopologyCommonAncestorStub allows us to override this for testing.
+var nvmlDeviceGetTopologyCommonAncestorStub = nvmlDeviceGetTopologyCommonAncestor
 
 // nvml.DeviceGetTopologyNearestGpus()
 func (l *library) DeviceGetTopologyNearestGpus(device Device, level GpuTopologyLevel) ([]Device, Return) {
