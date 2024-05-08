@@ -27,18 +27,64 @@ func TestGetTopologyCommonAncestor(t *testing.T) {
 		Device
 	}
 
-	d1 := wrappedDevice{
-		Device: nvmlDevice{},
+	type wrappedWrappedDevice struct {
+		wrappedDevice
 	}
 
-	d2 := wrappedDevice{
-		Device: nvmlDevice{},
+	testCases := []struct {
+		description string
+		device      Device
+	}{
+		{
+			description: "nvmlDevice",
+			device:      nvmlDevice{},
+		},
+		{
+			description: "pointer to nvmlDevice",
+			device:      &nvmlDevice{},
+		},
+		{
+			description: "wrapped device",
+			device: wrappedDevice{
+				Device: nvmlDevice{},
+			},
+		},
+		{
+			description: "pointer to wrapped device",
+			device: &wrappedDevice{
+				Device: nvmlDevice{},
+			},
+		},
+		{
+			description: "nested wrapped device",
+			device: wrappedWrappedDevice{
+				wrappedDevice: wrappedDevice{
+					Device: nvmlDevice{},
+				},
+			},
+		},
+		{
+			description: "non-device fields included",
+			device: struct {
+				name string
+				Name string
+				Device
+			}{
+				Device: wrappedDevice{
+					Device: nvmlDevice{},
+				},
+			},
+		},
 	}
 
-	defer setNvmlDeviceGetTopologyCommonAncestorStubForTest(SUCCESS)()
+	for _, tc := range testCases {
+		t.Run(tc.description, func(t *testing.T) {
+			defer setNvmlDeviceGetTopologyCommonAncestorStubForTest(SUCCESS)()
 
-	_, ret := d1.GetTopologyCommonAncestor(d2)
-	require.Equal(t, SUCCESS, ret)
+			_, ret := nvmlDevice{}.GetTopologyCommonAncestor(tc.device)
+			require.Equal(t, SUCCESS, ret)
+		})
+	}
 }
 
 func setNvmlDeviceGetTopologyCommonAncestorStubForTest(ret Return) func() {
