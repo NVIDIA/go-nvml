@@ -2654,6 +2654,48 @@ func (device nvmlDevice) GetVgpuCapabilities(capability DeviceVgpuCapability) (b
 	return (capResult != 0), ret
 }
 
+// nvml.DeviceGetVgpuSchedulerLog()
+func (l *library) DeviceGetVgpuSchedulerLog(device Device) (VgpuSchedulerLog, Return) {
+	return device.GetVgpuSchedulerLog()
+}
+
+func (device nvmlDevice) GetVgpuSchedulerLog() (VgpuSchedulerLog, Return) {
+	var pSchedulerLog VgpuSchedulerLog
+	ret := nvmlDeviceGetVgpuSchedulerLog(device, &pSchedulerLog)
+	return pSchedulerLog, ret
+}
+
+// nvml.DeviceGetVgpuSchedulerState()
+func (l *library) DeviceGetVgpuSchedulerState(device Device) (VgpuSchedulerGetState, Return) {
+	return device.GetVgpuSchedulerState()
+}
+
+func (device nvmlDevice) GetVgpuSchedulerState() (VgpuSchedulerGetState, Return) {
+	var pSchedulerState VgpuSchedulerGetState
+	ret := nvmlDeviceGetVgpuSchedulerState(device, &pSchedulerState)
+	return pSchedulerState, ret
+}
+
+// nvml.DeviceSetVgpuSchedulerState()
+func (l *library) DeviceSetVgpuSchedulerState(device Device, pSchedulerState *VgpuSchedulerSetState) Return {
+	return device.SetVgpuSchedulerState(pSchedulerState)
+}
+
+func (device nvmlDevice) SetVgpuSchedulerState(pSchedulerState *VgpuSchedulerSetState) Return {
+	return nvmlDeviceSetVgpuSchedulerState(device, pSchedulerState)
+}
+
+// nvml.DeviceGetVgpuSchedulerCapabilities()
+func (l *library) DeviceGetVgpuSchedulerCapabilities(device Device) (VgpuSchedulerCapabilities, Return) {
+	return device.GetVgpuSchedulerCapabilities()
+}
+
+func (device nvmlDevice) GetVgpuSchedulerCapabilities() (VgpuSchedulerCapabilities, Return) {
+	var pCapabilities VgpuSchedulerCapabilities
+	ret := nvmlDeviceGetVgpuSchedulerCapabilities(device, &pCapabilities)
+	return pCapabilities, ret
+}
+
 // nvml.GpuInstanceGetComputeInstancePossiblePlacements()
 func (l *library) GpuInstanceGetComputeInstancePossiblePlacements(gpuInstance GpuInstance, info *ComputeInstanceProfileInfo) ([]ComputeInstancePlacement, Return) {
 	return gpuInstance.GetComputeInstancePossiblePlacements(info)
@@ -2695,26 +2737,6 @@ func (device nvmlDevice) GetGpuFabricInfo() (GpuFabricInfo, Return) {
 	return gpuFabricInfo, ret
 }
 
-// nvml.DeviceCcuGetStreamState()
-func (l *library) DeviceCcuGetStreamState(device Device) (int, Return) {
-	return device.CcuGetStreamState()
-}
-
-func (device nvmlDevice) CcuGetStreamState() (int, Return) {
-	var state uint32
-	ret := nvmlDeviceCcuGetStreamState(device, &state)
-	return int(state), ret
-}
-
-// nvml.DeviceCcuSetStreamState()
-func (l *library) DeviceCcuSetStreamState(device Device, state int) Return {
-	return device.CcuSetStreamState(state)
-}
-
-func (device nvmlDevice) CcuSetStreamState(state int) Return {
-	return nvmlDeviceCcuSetStreamState(device, uint32(state))
-}
-
 // nvml.DeviceSetNvLinkDeviceLowPowerThreshold()
 func (l *library) DeviceSetNvLinkDeviceLowPowerThreshold(device Device, info *NvLinkPowerThres) Return {
 	return device.SetNvLinkDeviceLowPowerThreshold(info)
@@ -2722,4 +2744,132 @@ func (l *library) DeviceSetNvLinkDeviceLowPowerThreshold(device Device, info *Nv
 
 func (device nvmlDevice) SetNvLinkDeviceLowPowerThreshold(info *NvLinkPowerThres) Return {
 	return nvmlDeviceSetNvLinkDeviceLowPowerThreshold(device, info)
+}
+
+// nvml.DeviceGetModuleId()
+func (l *library) DeviceGetModuleId(device Device) (int, Return) {
+	return device.GetModuleId()
+}
+
+func (device nvmlDevice) GetModuleId() (int, Return) {
+	var moduleID uint32
+	ret := nvmlDeviceGetModuleId(device, &moduleID)
+	return int(moduleID), ret
+}
+
+// nvml.DeviceGetCurrentClocksEventReasons()
+func (l *library) DeviceGetCurrentClocksEventReasons(device Device) (uint64, Return) {
+	return device.GetCurrentClocksEventReasons()
+}
+
+func (device nvmlDevice) GetCurrentClocksEventReasons() (uint64, Return) {
+	var clocksEventReasons uint64
+	ret := nvmlDeviceGetCurrentClocksEventReasons(device, &clocksEventReasons)
+	return clocksEventReasons, ret
+}
+
+// nvml.DeviceGetSupportedClocksEventReasons()
+func (l *library) DeviceGetSupportedClocksEventReasons(device Device) (uint64, Return) {
+	return device.GetSupportedClocksEventReasons()
+}
+
+func (device nvmlDevice) GetSupportedClocksEventReasons() (uint64, Return) {
+	var supportedClocksEventReasons uint64
+	ret := nvmlDeviceGetSupportedClocksEventReasons(device, &supportedClocksEventReasons)
+	return supportedClocksEventReasons, ret
+}
+
+// nvml.DeviceGetJpgUtilization()
+func (l *library) DeviceGetJpgUtilization(device Device) (uint32, uint32, Return) {
+	return device.GetJpgUtilization()
+}
+
+func (device nvmlDevice) GetJpgUtilization() (uint32, uint32, Return) {
+	var utilization, samplingPeriodUs uint32
+	ret := nvmlDeviceGetJpgUtilization(device, &utilization, &samplingPeriodUs)
+	return utilization, samplingPeriodUs, ret
+}
+
+// nvml.DeviceGetOfaUtilization()
+func (l *library) DeviceGetOfaUtilization(device Device) (uint32, uint32, Return) {
+	return device.GetOfaUtilization()
+}
+
+func (device nvmlDevice) GetOfaUtilization() (uint32, uint32, Return) {
+	var utilization, samplingPeriodUs uint32
+	ret := nvmlDeviceGetOfaUtilization(device, &utilization, &samplingPeriodUs)
+	return utilization, samplingPeriodUs, ret
+}
+
+// nvml.DeviceGetRunningProcessDetailList()
+func (l *library) DeviceGetRunningProcessDetailList(device Device) (ProcessDetailList, Return) {
+	return device.GetRunningProcessDetailList()
+}
+
+func (device nvmlDevice) GetRunningProcessDetailList() (ProcessDetailList, Return) {
+	var plist ProcessDetailList
+	ret := nvmlDeviceGetRunningProcessDetailList(device, &plist)
+	return plist, ret
+}
+
+// nvml.DeviceGetConfComputeMemSizeInfo()
+func (l *library) DeviceGetConfComputeMemSizeInfo(device Device) (ConfComputeMemSizeInfo, Return) {
+	return device.GetConfComputeMemSizeInfo()
+}
+
+func (device nvmlDevice) GetConfComputeMemSizeInfo() (ConfComputeMemSizeInfo, Return) {
+	var memInfo ConfComputeMemSizeInfo
+	ret := nvmlDeviceGetConfComputeMemSizeInfo(device, &memInfo)
+	return memInfo, ret
+}
+
+// nvml.DeviceGetConfComputeProtectedMemoryUsage()
+func (l *library) DeviceGetConfComputeProtectedMemoryUsage(device Device) (Memory, Return) {
+	return device.GetConfComputeProtectedMemoryUsage()
+}
+
+func (device nvmlDevice) GetConfComputeProtectedMemoryUsage() (Memory, Return) {
+	var memory Memory
+	ret := nvmlDeviceGetConfComputeProtectedMemoryUsage(device, &memory)
+	return memory, ret
+}
+
+// nvml.DeviceGetConfComputeGpuCertificate()
+func (l *library) DeviceGetConfComputeGpuCertificate(device Device) (ConfComputeGpuCertificate, Return) {
+	return device.GetConfComputeGpuCertificate()
+}
+
+func (device nvmlDevice) GetConfComputeGpuCertificate() (ConfComputeGpuCertificate, Return) {
+	var gpuCert ConfComputeGpuCertificate
+	ret := nvmlDeviceGetConfComputeGpuCertificate(device, &gpuCert)
+	return gpuCert, ret
+}
+
+// nvml.DeviceGetConfComputeGpuAttestationReport()
+func (l *library) DeviceGetConfComputeGpuAttestationReport(device Device) (ConfComputeGpuAttestationReport, Return) {
+	return device.GetConfComputeGpuAttestationReport()
+}
+
+func (device nvmlDevice) GetConfComputeGpuAttestationReport() (ConfComputeGpuAttestationReport, Return) {
+	var gpuAtstReport ConfComputeGpuAttestationReport
+	ret := nvmlDeviceGetConfComputeGpuAttestationReport(device, &gpuAtstReport)
+	return gpuAtstReport, ret
+}
+
+// nvml.DeviceSetConfComputeUnprotectedMemSize()
+func (l *library) DeviceSetConfComputeUnprotectedMemSize(device Device, sizeKiB uint64) Return {
+	return device.SetConfComputeUnprotectedMemSize(sizeKiB)
+}
+
+func (device nvmlDevice) SetConfComputeUnprotectedMemSize(sizeKiB uint64) Return {
+	return nvmlDeviceSetConfComputeUnprotectedMemSize(device, sizeKiB)
+}
+
+// nvml.DeviceSetPowerManagementLimit_v2()
+func (l *library) DeviceSetPowerManagementLimit_v2(device Device, powerValue *PowerValue_v2) Return {
+	return device.SetPowerManagementLimit_v2(powerValue)
+}
+
+func (device nvmlDevice) SetPowerManagementLimit_v2(powerValue *PowerValue_v2) Return {
+	return nvmlDeviceSetPowerManagementLimit_v2(device, powerValue)
 }

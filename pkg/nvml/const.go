@@ -78,6 +78,24 @@ const (
 	VGPU_NAME_BUFFER_SIZE = 64
 	// GRID_LICENSE_FEATURE_MAX_COUNT as defined in nvml/nvml.h
 	GRID_LICENSE_FEATURE_MAX_COUNT = 3
+	// VGPU_SCHEDULER_POLICY_UNKNOWN as defined in nvml/nvml.h
+	VGPU_SCHEDULER_POLICY_UNKNOWN = 0
+	// VGPU_SCHEDULER_POLICY_BEST_EFFORT as defined in nvml/nvml.h
+	VGPU_SCHEDULER_POLICY_BEST_EFFORT = 1
+	// VGPU_SCHEDULER_POLICY_EQUAL_SHARE as defined in nvml/nvml.h
+	VGPU_SCHEDULER_POLICY_EQUAL_SHARE = 2
+	// VGPU_SCHEDULER_POLICY_FIXED_SHARE as defined in nvml/nvml.h
+	VGPU_SCHEDULER_POLICY_FIXED_SHARE = 3
+	// SUPPORTED_VGPU_SCHEDULER_POLICY_COUNT as defined in nvml/nvml.h
+	SUPPORTED_VGPU_SCHEDULER_POLICY_COUNT = 3
+	// SCHEDULER_SW_MAX_LOG_ENTRIES as defined in nvml/nvml.h
+	SCHEDULER_SW_MAX_LOG_ENTRIES = 200
+	// VGPU_SCHEDULER_ARR_DEFAULT as defined in nvml/nvml.h
+	VGPU_SCHEDULER_ARR_DEFAULT = 0
+	// VGPU_SCHEDULER_ARR_DISABLE as defined in nvml/nvml.h
+	VGPU_SCHEDULER_ARR_DISABLE = 1
+	// VGPU_SCHEDULER_ARR_ENABLE as defined in nvml/nvml.h
+	VGPU_SCHEDULER_ARR_ENABLE = 2
 	// GRID_LICENSE_STATE_UNKNOWN as defined in nvml/nvml.h
 	GRID_LICENSE_STATE_UNKNOWN = 0
 	// GRID_LICENSE_STATE_UNINITIALIZED as defined in nvml/nvml.h
@@ -128,6 +146,8 @@ const (
 	POWER_SOURCE_AC = 0
 	// POWER_SOURCE_BATTERY as defined in nvml/nvml.h
 	POWER_SOURCE_BATTERY = 1
+	// POWER_SOURCE_UNDERSIZED as defined in nvml/nvml.h
+	POWER_SOURCE_UNDERSIZED = 2
 	// PCIE_LINK_MAX_SPEED_INVALID as defined in nvml/nvml.h
 	PCIE_LINK_MAX_SPEED_INVALID = 0
 	// PCIE_LINK_MAX_SPEED_2500MBPS as defined in nvml/nvml.h
@@ -486,8 +506,62 @@ const (
 	FI_DEV_NVLINK_GET_POWER_THRESHOLD = 168
 	// FI_DEV_PCIE_L0_TO_RECOVERY_COUNTER as defined in nvml/nvml.h
 	FI_DEV_PCIE_L0_TO_RECOVERY_COUNTER = 169
+	// FI_DEV_C2C_LINK_COUNT as defined in nvml/nvml.h
+	FI_DEV_C2C_LINK_COUNT = 170
+	// FI_DEV_C2C_LINK_GET_STATUS as defined in nvml/nvml.h
+	FI_DEV_C2C_LINK_GET_STATUS = 171
+	// FI_DEV_C2C_LINK_GET_MAX_BW as defined in nvml/nvml.h
+	FI_DEV_C2C_LINK_GET_MAX_BW = 172
+	// FI_DEV_PCIE_COUNT_CORRECTABLE_ERRORS as defined in nvml/nvml.h
+	FI_DEV_PCIE_COUNT_CORRECTABLE_ERRORS = 173
+	// FI_DEV_PCIE_COUNT_NAKS_RECEIVED as defined in nvml/nvml.h
+	FI_DEV_PCIE_COUNT_NAKS_RECEIVED = 174
+	// FI_DEV_PCIE_COUNT_RECEIVER_ERROR as defined in nvml/nvml.h
+	FI_DEV_PCIE_COUNT_RECEIVER_ERROR = 175
+	// FI_DEV_PCIE_COUNT_BAD_TLP as defined in nvml/nvml.h
+	FI_DEV_PCIE_COUNT_BAD_TLP = 176
+	// FI_DEV_PCIE_COUNT_NAKS_SENT as defined in nvml/nvml.h
+	FI_DEV_PCIE_COUNT_NAKS_SENT = 177
+	// FI_DEV_PCIE_COUNT_BAD_DLLP as defined in nvml/nvml.h
+	FI_DEV_PCIE_COUNT_BAD_DLLP = 178
+	// FI_DEV_PCIE_COUNT_NON_FATAL_ERROR as defined in nvml/nvml.h
+	FI_DEV_PCIE_COUNT_NON_FATAL_ERROR = 179
+	// FI_DEV_PCIE_COUNT_FATAL_ERROR as defined in nvml/nvml.h
+	FI_DEV_PCIE_COUNT_FATAL_ERROR = 180
+	// FI_DEV_PCIE_COUNT_UNSUPPORTED_REQ as defined in nvml/nvml.h
+	FI_DEV_PCIE_COUNT_UNSUPPORTED_REQ = 181
+	// FI_DEV_PCIE_COUNT_LCRC_ERROR as defined in nvml/nvml.h
+	FI_DEV_PCIE_COUNT_LCRC_ERROR = 182
+	// FI_DEV_PCIE_COUNT_LANE_ERROR as defined in nvml/nvml.h
+	FI_DEV_PCIE_COUNT_LANE_ERROR = 183
+	// FI_DEV_IS_RESETLESS_MIG_SUPPORTED as defined in nvml/nvml.h
+	FI_DEV_IS_RESETLESS_MIG_SUPPORTED = 184
+	// FI_DEV_POWER_AVERAGE as defined in nvml/nvml.h
+	FI_DEV_POWER_AVERAGE = 185
+	// FI_DEV_POWER_INSTANT as defined in nvml/nvml.h
+	FI_DEV_POWER_INSTANT = 186
+	// FI_DEV_POWER_MIN_LIMIT as defined in nvml/nvml.h
+	FI_DEV_POWER_MIN_LIMIT = 187
+	// FI_DEV_POWER_MAX_LIMIT as defined in nvml/nvml.h
+	FI_DEV_POWER_MAX_LIMIT = 188
+	// FI_DEV_POWER_DEFAULT_LIMIT as defined in nvml/nvml.h
+	FI_DEV_POWER_DEFAULT_LIMIT = 189
+	// FI_DEV_POWER_CURRENT_LIMIT as defined in nvml/nvml.h
+	FI_DEV_POWER_CURRENT_LIMIT = 190
+	// FI_DEV_ENERGY as defined in nvml/nvml.h
+	FI_DEV_ENERGY = 191
+	// FI_DEV_POWER_REQUESTED_LIMIT as defined in nvml/nvml.h
+	FI_DEV_POWER_REQUESTED_LIMIT = 192
+	// FI_DEV_TEMPERATURE_SHUTDOWN_TLIMIT as defined in nvml/nvml.h
+	FI_DEV_TEMPERATURE_SHUTDOWN_TLIMIT = 193
+	// FI_DEV_TEMPERATURE_SLOWDOWN_TLIMIT as defined in nvml/nvml.h
+	FI_DEV_TEMPERATURE_SLOWDOWN_TLIMIT = 194
+	// FI_DEV_TEMPERATURE_MEM_MAX_TLIMIT as defined in nvml/nvml.h
+	FI_DEV_TEMPERATURE_MEM_MAX_TLIMIT = 195
+	// FI_DEV_TEMPERATURE_GPU_MAX_TLIMIT as defined in nvml/nvml.h
+	FI_DEV_TEMPERATURE_GPU_MAX_TLIMIT = 196
 	// FI_MAX as defined in nvml/nvml.h
-	FI_MAX = 173
+	FI_MAX = 197
 	// EventTypeSingleBitEccError as defined in nvml/nvml.h
 	EventTypeSingleBitEccError = 1
 	// EventTypeDoubleBitEccError as defined in nvml/nvml.h
@@ -506,24 +580,40 @@ const (
 	EventTypeNone = 0
 	// EventTypeAll as defined in nvml/nvml.h
 	EventTypeAll = 415
-	// ClocksThrottleReasonGpuIdle as defined in nvml/nvml.h
-	ClocksThrottleReasonGpuIdle = 1
-	// ClocksThrottleReasonApplicationsClocksSetting as defined in nvml/nvml.h
-	ClocksThrottleReasonApplicationsClocksSetting = 2
+	// ClocksEventReasonGpuIdle as defined in nvml/nvml.h
+	ClocksEventReasonGpuIdle = 1
+	// ClocksEventReasonApplicationsClocksSetting as defined in nvml/nvml.h
+	ClocksEventReasonApplicationsClocksSetting = 2
 	// ClocksThrottleReasonUserDefinedClocks as defined in nvml/nvml.h
 	ClocksThrottleReasonUserDefinedClocks = 2
-	// ClocksThrottleReasonSwPowerCap as defined in nvml/nvml.h
-	ClocksThrottleReasonSwPowerCap = 4
+	// ClocksEventReasonSwPowerCap as defined in nvml/nvml.h
+	ClocksEventReasonSwPowerCap = 4
 	// ClocksThrottleReasonHwSlowdown as defined in nvml/nvml.h
 	ClocksThrottleReasonHwSlowdown = 8
-	// ClocksThrottleReasonSyncBoost as defined in nvml/nvml.h
-	ClocksThrottleReasonSyncBoost = 16
-	// ClocksThrottleReasonSwThermalSlowdown as defined in nvml/nvml.h
-	ClocksThrottleReasonSwThermalSlowdown = 32
+	// ClocksEventReasonSyncBoost as defined in nvml/nvml.h
+	ClocksEventReasonSyncBoost = 16
+	// ClocksEventReasonSwThermalSlowdown as defined in nvml/nvml.h
+	ClocksEventReasonSwThermalSlowdown = 32
 	// ClocksThrottleReasonHwThermalSlowdown as defined in nvml/nvml.h
 	ClocksThrottleReasonHwThermalSlowdown = 64
 	// ClocksThrottleReasonHwPowerBrakeSlowdown as defined in nvml/nvml.h
 	ClocksThrottleReasonHwPowerBrakeSlowdown = 128
+	// ClocksEventReasonDisplayClockSetting as defined in nvml/nvml.h
+	ClocksEventReasonDisplayClockSetting = 256
+	// ClocksEventReasonNone as defined in nvml/nvml.h
+	ClocksEventReasonNone = 0
+	// ClocksEventReasonAll as defined in nvml/nvml.h
+	ClocksEventReasonAll = 511
+	// ClocksThrottleReasonGpuIdle as defined in nvml/nvml.h
+	ClocksThrottleReasonGpuIdle = 1
+	// ClocksThrottleReasonApplicationsClocksSetting as defined in nvml/nvml.h
+	ClocksThrottleReasonApplicationsClocksSetting = 2
+	// ClocksThrottleReasonSyncBoost as defined in nvml/nvml.h
+	ClocksThrottleReasonSyncBoost = 16
+	// ClocksThrottleReasonSwPowerCap as defined in nvml/nvml.h
+	ClocksThrottleReasonSwPowerCap = 4
+	// ClocksThrottleReasonSwThermalSlowdown as defined in nvml/nvml.h
+	ClocksThrottleReasonSwThermalSlowdown = 32
 	// ClocksThrottleReasonDisplayClockSetting as defined in nvml/nvml.h
 	ClocksThrottleReasonDisplayClockSetting = 256
 	// ClocksThrottleReasonNone as defined in nvml/nvml.h
@@ -540,6 +630,48 @@ const (
 	NVFBC_SESSION_FLAG_CAPTURE_WITH_WAIT_INFINITE = 8
 	// NVFBC_SESSION_FLAG_CAPTURE_WITH_WAIT_TIMEOUT as defined in nvml/nvml.h
 	NVFBC_SESSION_FLAG_CAPTURE_WITH_WAIT_TIMEOUT = 16
+	// CC_SYSTEM_CPU_CAPS_NONE as defined in nvml/nvml.h
+	CC_SYSTEM_CPU_CAPS_NONE = 0
+	// CC_SYSTEM_CPU_CAPS_AMD_SEV as defined in nvml/nvml.h
+	CC_SYSTEM_CPU_CAPS_AMD_SEV = 1
+	// CC_SYSTEM_CPU_CAPS_INTEL_TDX as defined in nvml/nvml.h
+	CC_SYSTEM_CPU_CAPS_INTEL_TDX = 2
+	// CC_SYSTEM_GPUS_CC_NOT_CAPABLE as defined in nvml/nvml.h
+	CC_SYSTEM_GPUS_CC_NOT_CAPABLE = 0
+	// CC_SYSTEM_GPUS_CC_CAPABLE as defined in nvml/nvml.h
+	CC_SYSTEM_GPUS_CC_CAPABLE = 1
+	// CC_SYSTEM_DEVTOOLS_MODE_OFF as defined in nvml/nvml.h
+	CC_SYSTEM_DEVTOOLS_MODE_OFF = 0
+	// CC_SYSTEM_DEVTOOLS_MODE_ON as defined in nvml/nvml.h
+	CC_SYSTEM_DEVTOOLS_MODE_ON = 1
+	// CC_SYSTEM_ENVIRONMENT_UNAVAILABLE as defined in nvml/nvml.h
+	CC_SYSTEM_ENVIRONMENT_UNAVAILABLE = 0
+	// CC_SYSTEM_ENVIRONMENT_SIM as defined in nvml/nvml.h
+	CC_SYSTEM_ENVIRONMENT_SIM = 1
+	// CC_SYSTEM_ENVIRONMENT_PROD as defined in nvml/nvml.h
+	CC_SYSTEM_ENVIRONMENT_PROD = 2
+	// CC_SYSTEM_FEATURE_DISABLED as defined in nvml/nvml.h
+	CC_SYSTEM_FEATURE_DISABLED = 0
+	// CC_SYSTEM_FEATURE_ENABLED as defined in nvml/nvml.h
+	CC_SYSTEM_FEATURE_ENABLED = 1
+	// CC_ACCEPTING_CLIENT_REQUESTS_FALSE as defined in nvml/nvml.h
+	CC_ACCEPTING_CLIENT_REQUESTS_FALSE = 0
+	// CC_ACCEPTING_CLIENT_REQUESTS_TRUE as defined in nvml/nvml.h
+	CC_ACCEPTING_CLIENT_REQUESTS_TRUE = 1
+	// GPU_CERT_CHAIN_SIZE as defined in nvml/nvml.h
+	GPU_CERT_CHAIN_SIZE = 4096
+	// GPU_ATTESTATION_CERT_CHAIN_SIZE as defined in nvml/nvml.h
+	GPU_ATTESTATION_CERT_CHAIN_SIZE = 5120
+	// CC_GPU_CEC_NONCE_SIZE as defined in nvml/nvml.h
+	CC_GPU_CEC_NONCE_SIZE = 32
+	// CC_GPU_ATTESTATION_REPORT_SIZE as defined in nvml/nvml.h
+	CC_GPU_ATTESTATION_REPORT_SIZE = 8192
+	// CC_GPU_CEC_ATTESTATION_REPORT_SIZE as defined in nvml/nvml.h
+	CC_GPU_CEC_ATTESTATION_REPORT_SIZE = 4096
+	// CC_CEC_ATTESTATION_REPORT_NOT_PRESENT as defined in nvml/nvml.h
+	CC_CEC_ATTESTATION_REPORT_NOT_PRESENT = 0
+	// CC_CEC_ATTESTATION_REPORT_PRESENT as defined in nvml/nvml.h
+	CC_CEC_ATTESTATION_REPORT_PRESENT = 1
 	// GPU_FABRIC_UUID_LEN as defined in nvml/nvml.h
 	GPU_FABRIC_UUID_LEN = 16
 	// GPU_FABRIC_STATE_NOT_SUPPORTED as defined in nvml/nvml.h
@@ -550,6 +682,10 @@ const (
 	GPU_FABRIC_STATE_IN_PROGRESS = 2
 	// GPU_FABRIC_STATE_COMPLETED as defined in nvml/nvml.h
 	GPU_FABRIC_STATE_COMPLETED = 3
+	// POWER_SCOPE_GPU as defined in nvml/nvml.h
+	POWER_SCOPE_GPU = 0
+	// POWER_SCOPE_MODULE as defined in nvml/nvml.h
+	POWER_SCOPE_MODULE = 1
 	// INIT_FLAG_NO_GPUS as defined in nvml/nvml.h
 	INIT_FLAG_NO_GPUS = 1
 	// INIT_FLAG_NO_ATTACH as defined in nvml/nvml.h
@@ -630,10 +766,6 @@ const (
 	GPM_METRICS_GET_VERSION = 1
 	// GPM_SUPPORT_VERSION as defined in nvml/nvml.h
 	GPM_SUPPORT_VERSION = 1
-	// COUNTER_COLLECTION_UNIT_STREAM_STATE_DISABLE as defined in nvml/nvml.h
-	COUNTER_COLLECTION_UNIT_STREAM_STATE_DISABLE = 0
-	// COUNTER_COLLECTION_UNIT_STREAM_STATE_ENABLE as defined in nvml/nvml.h
-	COUNTER_COLLECTION_UNIT_STREAM_STATE_ENABLE = 1
 	// NVLINK_POWER_STATE_HIGH_SPEED as defined in nvml/nvml.h
 	NVLINK_POWER_STATE_HIGH_SPEED = 0
 	// NVLINK_POWER_STATE_LOW as defined in nvml/nvml.h
@@ -774,7 +906,8 @@ const (
 	DEC_UTILIZATION_SAMPLES    SamplingType = 4
 	PROCESSOR_CLK_SAMPLES      SamplingType = 5
 	MEMORY_CLK_SAMPLES         SamplingType = 6
-	SAMPLINGTYPE_COUNT         SamplingType = 7
+	MODULE_POWER_SAMPLES       SamplingType = 7
+	SAMPLINGTYPE_COUNT         SamplingType = 8
 )
 
 // PcieUtilCounter as declared in nvml/nvml.h
@@ -797,7 +930,8 @@ const (
 	VALUE_TYPE_UNSIGNED_LONG      ValueType = 2
 	VALUE_TYPE_UNSIGNED_LONG_LONG ValueType = 3
 	VALUE_TYPE_SIGNED_LONG_LONG   ValueType = 4
-	VALUE_TYPE_COUNT              ValueType = 5
+	VALUE_TYPE_SIGNED_INT         ValueType = 5
+	VALUE_TYPE_COUNT              ValueType = 6
 )
 
 // PerfPolicyType as declared in nvml/nvml.h
@@ -1017,6 +1151,7 @@ const (
 	ERROR_FREQ_NOT_SUPPORTED        Return = 24
 	ERROR_ARGUMENT_VERSION_MISMATCH Return = 25
 	ERROR_DEPRECATED                Return = 26
+	ERROR_NOT_READY                 Return = 27
 	ERROR_UNKNOWN                   Return = 999
 )
 

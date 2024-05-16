@@ -70,6 +70,28 @@ type ProcessInfo struct {
 	ComputeInstanceId uint32
 }
 
+type ProcessDetail_v1 struct {
+	Pid                      uint32
+	UsedGpuMemory            uint64
+	GpuInstanceId            uint32
+	ComputeInstanceId        uint32
+	UsedGpuCcProtectedMemory uint64
+}
+
+type ProcessDetailList_v1 struct {
+	Version             uint32
+	Mode                uint32
+	NumProcArrayEntries uint32
+	ProcArray           *ProcessDetail_v1
+}
+
+type ProcessDetailList struct {
+	Version             uint32
+	Mode                uint32
+	NumProcArrayEntries uint32
+	ProcArray           *ProcessDetail_v1
+}
+
 type DeviceAttributes struct {
 	MultiprocessorCount       uint32
 	SharedCopyEngineCount     uint32
@@ -165,6 +187,73 @@ type VgpuProcessUtilizationSample struct {
 	MemUtil      uint32
 	EncUtil      uint32
 	DecUtil      uint32
+}
+
+type VgpuSchedulerParamsVgpuSchedDataWithARR struct {
+	AvgFactor uint32
+	Timeslice uint32
+}
+
+type VgpuSchedulerParamsVgpuSchedData struct {
+	Timeslice uint32
+}
+
+const sizeofVgpuSchedulerParams = unsafe.Sizeof([8]byte{})
+
+type VgpuSchedulerParams [sizeofVgpuSchedulerParams]byte
+
+type VgpuSchedulerLogEntry struct {
+	Timestamp                uint64
+	TimeRunTotal             uint64
+	TimeRun                  uint64
+	SwRunlistId              uint32
+	TargetTimeSlice          uint64
+	CumulativePreemptionTime uint64
+}
+
+type VgpuSchedulerLog struct {
+	EngineId        uint32
+	SchedulerPolicy uint32
+	ArrMode         uint32
+	SchedulerParams [8]byte
+	EntriesCount    uint32
+	LogEntries      [200]VgpuSchedulerLogEntry
+}
+
+type VgpuSchedulerGetState struct {
+	SchedulerPolicy uint32
+	ArrMode         uint32
+	SchedulerParams [8]byte
+}
+
+type VgpuSchedulerSetParamsVgpuSchedDataWithARR struct {
+	AvgFactor uint32
+	Frequency uint32
+}
+
+type VgpuSchedulerSetParamsVgpuSchedData struct {
+	Timeslice uint32
+}
+
+const sizeofVgpuSchedulerSetParams = unsafe.Sizeof([8]byte{})
+
+type VgpuSchedulerSetParams [sizeofVgpuSchedulerSetParams]byte
+
+type VgpuSchedulerSetState struct {
+	SchedulerPolicy uint32
+	EnableARRMode   uint32
+	SchedulerParams [8]byte
+}
+
+type VgpuSchedulerCapabilities struct {
+	SupportedSchedulers [3]uint32
+	MaxTimeslice        uint32
+	MinTimeslice        uint32
+	IsArrModeSupported  uint32
+	MaxFrequencyForARR  uint32
+	MinFrequencyForARR  uint32
+	MaxAvgFactorForARR  uint32
+	MinAvgFactorForARR  uint32
 }
 
 type VgpuLicenseExpiry struct {
@@ -341,6 +430,38 @@ type FBCSessionInfo struct {
 	AverageLatency uint32
 }
 
+type ConfComputeSystemCaps struct {
+	CpuCaps  uint32
+	GpusCaps uint32
+}
+
+type ConfComputeSystemState struct {
+	Environment  uint32
+	CcFeature    uint32
+	DevToolsMode uint32
+}
+
+type ConfComputeMemSizeInfo struct {
+	ProtectedMemSizeKib   uint64
+	UnprotectedMemSizeKib uint64
+}
+
+type ConfComputeGpuCertificate struct {
+	CertChainSize            uint32
+	AttestationCertChainSize uint32
+	CertChain                [4096]uint8
+	AttestationCertChain     [5120]uint8
+}
+
+type ConfComputeGpuAttestationReport struct {
+	IsCecAttestationReportPresent uint32
+	AttestationReportSize         uint32
+	CecAttestationReportSize      uint32
+	Nonce                         [32]uint8
+	AttestationReport             [8192]uint8
+	CecAttestationReport          [4096]uint8
+}
+
 type GpuFabricState byte
 
 type GpuFabricInfo struct {
@@ -349,6 +470,14 @@ type GpuFabricInfo struct {
 	PartitionId uint32
 	State       uint8
 	Pad_cgo_0   [3]byte
+}
+
+type PowerScopeType byte
+
+type PowerValue_v2 struct {
+	Version      uint32
+	PowerScope   uint8
+	PowerValueMw uint32
 }
 
 type AffinityScope uint32
