@@ -231,7 +231,7 @@ var _ nvml.Interface = &Interface{}
 //			DeviceGetGpuInstanceProfileInfoFunc: func(device nvml.Device, n int) (nvml.GpuInstanceProfileInfo, nvml.Return) {
 //				panic("mock out the DeviceGetGpuInstanceProfileInfo method")
 //			},
-//			DeviceGetGpuInstanceProfileInfoVFunc: func(device nvml.Device, n int) nvml.GpuInstanceProfileInfoV {
+//			DeviceGetGpuInstanceProfileInfoVFunc: func(device nvml.Device, n int) nvml.GpuInstanceProfileInfoHandler {
 //				panic("mock out the DeviceGetGpuInstanceProfileInfoV method")
 //			},
 //			DeviceGetGpuInstanceRemainingCapacityFunc: func(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo) (int, nvml.Return) {
@@ -714,7 +714,7 @@ var _ nvml.Interface = &Interface{}
 //			GpuInstanceGetComputeInstanceProfileInfoFunc: func(gpuInstance nvml.GpuInstance, n1 int, n2 int) (nvml.ComputeInstanceProfileInfo, nvml.Return) {
 //				panic("mock out the GpuInstanceGetComputeInstanceProfileInfo method")
 //			},
-//			GpuInstanceGetComputeInstanceProfileInfoVFunc: func(gpuInstance nvml.GpuInstance, n1 int, n2 int) nvml.ComputeInstanceProfileInfoV {
+//			GpuInstanceGetComputeInstanceProfileInfoVFunc: func(gpuInstance nvml.GpuInstance, n1 int, n2 int) nvml.ComputeInstanceProfileInfoHandler {
 //				panic("mock out the GpuInstanceGetComputeInstanceProfileInfoV method")
 //			},
 //			GpuInstanceGetComputeInstanceRemainingCapacityFunc: func(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) (int, nvml.Return) {
@@ -1112,7 +1112,7 @@ type Interface struct {
 	DeviceGetGpuInstanceProfileInfoFunc func(device nvml.Device, n int) (nvml.GpuInstanceProfileInfo, nvml.Return)
 
 	// DeviceGetGpuInstanceProfileInfoVFunc mocks the DeviceGetGpuInstanceProfileInfoV method.
-	DeviceGetGpuInstanceProfileInfoVFunc func(device nvml.Device, n int) nvml.GpuInstanceProfileInfoV
+	DeviceGetGpuInstanceProfileInfoVFunc func(device nvml.Device, n int) nvml.GpuInstanceProfileInfoHandler
 
 	// DeviceGetGpuInstanceRemainingCapacityFunc mocks the DeviceGetGpuInstanceRemainingCapacity method.
 	DeviceGetGpuInstanceRemainingCapacityFunc func(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo) (int, nvml.Return)
@@ -1595,7 +1595,7 @@ type Interface struct {
 	GpuInstanceGetComputeInstanceProfileInfoFunc func(gpuInstance nvml.GpuInstance, n1 int, n2 int) (nvml.ComputeInstanceProfileInfo, nvml.Return)
 
 	// GpuInstanceGetComputeInstanceProfileInfoVFunc mocks the GpuInstanceGetComputeInstanceProfileInfoV method.
-	GpuInstanceGetComputeInstanceProfileInfoVFunc func(gpuInstance nvml.GpuInstance, n1 int, n2 int) nvml.ComputeInstanceProfileInfoV
+	GpuInstanceGetComputeInstanceProfileInfoVFunc func(gpuInstance nvml.GpuInstance, n1 int, n2 int) nvml.ComputeInstanceProfileInfoHandler
 
 	// GpuInstanceGetComputeInstanceRemainingCapacityFunc mocks the GpuInstanceGetComputeInstanceRemainingCapacity method.
 	GpuInstanceGetComputeInstanceRemainingCapacityFunc func(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) (int, nvml.Return)
@@ -6153,7 +6153,7 @@ func (mock *Interface) DeviceGetGpuInstanceProfileInfoCalls() []struct {
 }
 
 // DeviceGetGpuInstanceProfileInfoV calls DeviceGetGpuInstanceProfileInfoVFunc.
-func (mock *Interface) DeviceGetGpuInstanceProfileInfoV(device nvml.Device, n int) nvml.GpuInstanceProfileInfoV {
+func (mock *Interface) DeviceGetGpuInstanceProfileInfoV(device nvml.Device, n int) nvml.GpuInstanceProfileInfoHandler {
 	if mock.DeviceGetGpuInstanceProfileInfoVFunc == nil {
 		panic("Interface.DeviceGetGpuInstanceProfileInfoVFunc: method is nil but Interface.DeviceGetGpuInstanceProfileInfoV was just called")
 	}
@@ -11696,7 +11696,7 @@ func (mock *Interface) GpuInstanceGetComputeInstanceProfileInfoCalls() []struct 
 }
 
 // GpuInstanceGetComputeInstanceProfileInfoV calls GpuInstanceGetComputeInstanceProfileInfoVFunc.
-func (mock *Interface) GpuInstanceGetComputeInstanceProfileInfoV(gpuInstance nvml.GpuInstance, n1 int, n2 int) nvml.ComputeInstanceProfileInfoV {
+func (mock *Interface) GpuInstanceGetComputeInstanceProfileInfoV(gpuInstance nvml.GpuInstance, n1 int, n2 int) nvml.ComputeInstanceProfileInfoHandler {
 	if mock.GpuInstanceGetComputeInstanceProfileInfoVFunc == nil {
 		panic("Interface.GpuInstanceGetComputeInstanceProfileInfoVFunc: method is nil but Interface.GpuInstanceGetComputeInstanceProfileInfoV was just called")
 	}

@@ -388,7 +388,7 @@ type Interface interface {
 	DeviceGetGpuInstanceId(Device) (int, Return)
 	DeviceGetGpuInstancePossiblePlacements(Device, *GpuInstanceProfileInfo) ([]GpuInstancePlacement, Return)
 	DeviceGetGpuInstanceProfileInfo(Device, int) (GpuInstanceProfileInfo, Return)
-	DeviceGetGpuInstanceProfileInfoV(Device, int) GpuInstanceProfileInfoV
+	DeviceGetGpuInstanceProfileInfoV(Device, int) GpuInstanceProfileInfoHandler
 	DeviceGetGpuInstanceRemainingCapacity(Device, *GpuInstanceProfileInfo) (int, Return)
 	DeviceGetGpuInstances(Device, *GpuInstanceProfileInfo) ([]GpuInstance, Return)
 	DeviceGetGpuMaxPcieLinkGeneration(Device) (int, Return)
@@ -549,7 +549,7 @@ type Interface interface {
 	GpuInstanceGetComputeInstanceById(GpuInstance, int) (ComputeInstance, Return)
 	GpuInstanceGetComputeInstancePossiblePlacements(GpuInstance, *ComputeInstanceProfileInfo) ([]ComputeInstancePlacement, Return)
 	GpuInstanceGetComputeInstanceProfileInfo(GpuInstance, int, int) (ComputeInstanceProfileInfo, Return)
-	GpuInstanceGetComputeInstanceProfileInfoV(GpuInstance, int, int) ComputeInstanceProfileInfoV
+	GpuInstanceGetComputeInstanceProfileInfoV(GpuInstance, int, int) ComputeInstanceProfileInfoHandler
 	GpuInstanceGetComputeInstanceRemainingCapacity(GpuInstance, *ComputeInstanceProfileInfo) (int, Return)
 	GpuInstanceGetComputeInstances(GpuInstance, *ComputeInstanceProfileInfo) ([]ComputeInstance, Return)
 	GpuInstanceGetInfo(GpuInstance) (GpuInstanceInfo, Return)
@@ -681,7 +681,7 @@ type Device interface {
 	GetGpuInstanceId() (int, Return)
 	GetGpuInstancePossiblePlacements(*GpuInstanceProfileInfo) ([]GpuInstancePlacement, Return)
 	GetGpuInstanceProfileInfo(int) (GpuInstanceProfileInfo, Return)
-	GetGpuInstanceProfileInfoV(int) GpuInstanceProfileInfoV
+	GetGpuInstanceProfileInfoV(int) GpuInstanceProfileInfoHandler
 	GetGpuInstanceRemainingCapacity(*GpuInstanceProfileInfo) (int, Return)
 	GetGpuInstances(*GpuInstanceProfileInfo) ([]GpuInstance, Return)
 	GetGpuMaxPcieLinkGeneration() (int, Return)
@@ -827,7 +827,7 @@ type GpuInstance interface {
 	GetComputeInstanceById(int) (ComputeInstance, Return)
 	GetComputeInstancePossiblePlacements(*ComputeInstanceProfileInfo) ([]ComputeInstancePlacement, Return)
 	GetComputeInstanceProfileInfo(int, int) (ComputeInstanceProfileInfo, Return)
-	GetComputeInstanceProfileInfoV(int, int) ComputeInstanceProfileInfoV
+	GetComputeInstanceProfileInfoV(int, int) ComputeInstanceProfileInfoHandler
 	GetComputeInstanceRemainingCapacity(*ComputeInstanceProfileInfo) (int, Return)
 	GetComputeInstances(*ComputeInstanceProfileInfo) ([]ComputeInstance, Return)
 	GetInfo() (GpuInstanceInfo, Return)

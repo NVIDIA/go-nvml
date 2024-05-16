@@ -2085,28 +2085,28 @@ func (device nvmlDevice) GetGpuInstanceProfileInfo(profile int) (GpuInstanceProf
 }
 
 // nvml.DeviceGetGpuInstanceProfileInfoV()
-type GpuInstanceProfileInfoV struct {
+type GpuInstanceProfileInfoHandler struct {
 	device  nvmlDevice
 	profile int
 }
 
-func (infoV GpuInstanceProfileInfoV) V1() (GpuInstanceProfileInfo, Return) {
-	return DeviceGetGpuInstanceProfileInfo(infoV.device, infoV.profile)
+func (handler GpuInstanceProfileInfoHandler) V1() (GpuInstanceProfileInfo, Return) {
+	return DeviceGetGpuInstanceProfileInfo(handler.device, handler.profile)
 }
 
-func (infoV GpuInstanceProfileInfoV) V2() (GpuInstanceProfileInfo_v2, Return) {
+func (handler GpuInstanceProfileInfoHandler) V2() (GpuInstanceProfileInfo_v2, Return) {
 	var info GpuInstanceProfileInfo_v2
 	info.Version = STRUCT_VERSION(info, 2)
-	ret := nvmlDeviceGetGpuInstanceProfileInfoV(infoV.device, uint32(infoV.profile), &info)
+	ret := nvmlDeviceGetGpuInstanceProfileInfoV(handler.device, uint32(handler.profile), &info)
 	return info, ret
 }
 
-func (l *library) DeviceGetGpuInstanceProfileInfoV(device Device, profile int) GpuInstanceProfileInfoV {
+func (l *library) DeviceGetGpuInstanceProfileInfoV(device Device, profile int) GpuInstanceProfileInfoHandler {
 	return device.GetGpuInstanceProfileInfoV(profile)
 }
 
-func (device nvmlDevice) GetGpuInstanceProfileInfoV(profile int) GpuInstanceProfileInfoV {
-	return GpuInstanceProfileInfoV{device, profile}
+func (device nvmlDevice) GetGpuInstanceProfileInfoV(profile int) GpuInstanceProfileInfoHandler {
+	return GpuInstanceProfileInfoHandler{device, profile}
 }
 
 // nvml.DeviceGetGpuInstancePossiblePlacements()
@@ -2231,29 +2231,29 @@ func (gpuInstance nvmlGpuInstance) GetComputeInstanceProfileInfo(profile int, en
 }
 
 // nvml.GpuInstanceGetComputeInstanceProfileInfoV()
-type ComputeInstanceProfileInfoV struct {
+type ComputeInstanceProfileInfoHandler struct {
 	gpuInstance nvmlGpuInstance
 	profile     int
 	engProfile  int
 }
 
-func (infoV ComputeInstanceProfileInfoV) V1() (ComputeInstanceProfileInfo, Return) {
-	return GpuInstanceGetComputeInstanceProfileInfo(infoV.gpuInstance, infoV.profile, infoV.engProfile)
+func (handler ComputeInstanceProfileInfoHandler) V1() (ComputeInstanceProfileInfo, Return) {
+	return GpuInstanceGetComputeInstanceProfileInfo(handler.gpuInstance, handler.profile, handler.engProfile)
 }
 
-func (infoV ComputeInstanceProfileInfoV) V2() (ComputeInstanceProfileInfo_v2, Return) {
+func (handler ComputeInstanceProfileInfoHandler) V2() (ComputeInstanceProfileInfo_v2, Return) {
 	var info ComputeInstanceProfileInfo_v2
 	info.Version = STRUCT_VERSION(info, 2)
-	ret := nvmlGpuInstanceGetComputeInstanceProfileInfoV(infoV.gpuInstance, uint32(infoV.profile), uint32(infoV.engProfile), &info)
+	ret := nvmlGpuInstanceGetComputeInstanceProfileInfoV(handler.gpuInstance, uint32(handler.profile), uint32(handler.engProfile), &info)
 	return info, ret
 }
 
-func (l *library) GpuInstanceGetComputeInstanceProfileInfoV(gpuInstance GpuInstance, profile int, engProfile int) ComputeInstanceProfileInfoV {
+func (l *library) GpuInstanceGetComputeInstanceProfileInfoV(gpuInstance GpuInstance, profile int, engProfile int) ComputeInstanceProfileInfoHandler {
 	return gpuInstance.GetComputeInstanceProfileInfoV(profile, engProfile)
 }
 
-func (gpuInstance nvmlGpuInstance) GetComputeInstanceProfileInfoV(profile int, engProfile int) ComputeInstanceProfileInfoV {
-	return ComputeInstanceProfileInfoV{gpuInstance, profile, engProfile}
+func (gpuInstance nvmlGpuInstance) GetComputeInstanceProfileInfoV(profile int, engProfile int) ComputeInstanceProfileInfoHandler {
+	return ComputeInstanceProfileInfoHandler{gpuInstance, profile, engProfile}
 }
 
 // nvml.GpuInstanceGetComputeInstanceRemainingCapacity()
