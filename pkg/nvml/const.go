@@ -686,6 +686,8 @@ const (
 	POWER_SCOPE_GPU = 0
 	// POWER_SCOPE_MODULE as defined in nvml/nvml.h
 	POWER_SCOPE_MODULE = 1
+	// POWER_SCOPE_MEMORY as defined in nvml/nvml.h
+	POWER_SCOPE_MEMORY = 2
 	// INIT_FLAG_NO_GPUS as defined in nvml/nvml.h
 	INIT_FLAG_NO_GPUS = 1
 	// INIT_FLAG_NO_ATTACH as defined in nvml/nvml.h
@@ -740,6 +742,8 @@ const (
 	GPU_INSTANCE_PROFILE_1_SLICE_REV2 = 9
 	// GPU_INSTANCE_PROFILE_COUNT as defined in nvml/nvml.h
 	GPU_INSTANCE_PROFILE_COUNT = 10
+	// GPU_INTSTANCE_PROFILE_CAPS_P2P as defined in nvml/nvml.h
+	GPU_INTSTANCE_PROFILE_CAPS_P2P = 1
 	// COMPUTE_INSTANCE_PROFILE_1_SLICE as defined in nvml/nvml.h
 	COMPUTE_INSTANCE_PROFILE_1_SLICE = 0
 	// COMPUTE_INSTANCE_PROFILE_2_SLICE as defined in nvml/nvml.h
@@ -1152,6 +1156,7 @@ const (
 	ERROR_ARGUMENT_VERSION_MISMATCH Return = 25
 	ERROR_DEPRECATED                Return = 26
 	ERROR_NOT_READY                 Return = 27
+	ERROR_GPU_NOT_FOUND             Return = 28
 	ERROR_UNKNOWN                   Return = 999
 )
 
@@ -1302,6 +1307,7 @@ type EncoderType int32
 const (
 	ENCODER_QUERY_H264 EncoderType = iota
 	ENCODER_QUERY_HEVC EncoderType = 1
+	ENCODER_QUERY_AV1  EncoderType = 2
 )
 
 // FBCSessionType as declared in nvml/nvml.h

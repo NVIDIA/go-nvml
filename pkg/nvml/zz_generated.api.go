@@ -47,6 +47,7 @@ var (
 	DeviceGetBrand                                  = libnvml.DeviceGetBrand
 	DeviceGetBridgeChipInfo                         = libnvml.DeviceGetBridgeChipInfo
 	DeviceGetBusType                                = libnvml.DeviceGetBusType
+	DeviceGetC2cModeInfoV                           = libnvml.DeviceGetC2cModeInfoV
 	DeviceGetClkMonStatus                           = libnvml.DeviceGetClkMonStatus
 	DeviceGetClock                                  = libnvml.DeviceGetClock
 	DeviceGetClockInfo                              = libnvml.DeviceGetClockInfo
@@ -114,6 +115,7 @@ var (
 	DeviceGetInforomVersion                         = libnvml.DeviceGetInforomVersion
 	DeviceGetIrqNum                                 = libnvml.DeviceGetIrqNum
 	DeviceGetJpgUtilization                         = libnvml.DeviceGetJpgUtilization
+	DeviceGetLastBBXFlushTime                       = libnvml.DeviceGetLastBBXFlushTime
 	DeviceGetMPSComputeRunningProcesses             = libnvml.DeviceGetMPSComputeRunningProcesses
 	DeviceGetMaxClockInfo                           = libnvml.DeviceGetMaxClockInfo
 	DeviceGetMaxCustomerBoostClock                  = libnvml.DeviceGetMaxCustomerBoostClock
@@ -357,6 +359,7 @@ type Interface interface {
 	DeviceGetBrand(Device) (BrandType, Return)
 	DeviceGetBridgeChipInfo(Device) (BridgeChipHierarchy, Return)
 	DeviceGetBusType(Device) (BusType, Return)
+	DeviceGetC2cModeInfoV(Device) C2cModeInfoHandler
 	DeviceGetClkMonStatus(Device) (ClkMonStatus, Return)
 	DeviceGetClock(Device, ClockType, ClockId) (uint32, Return)
 	DeviceGetClockInfo(Device, ClockType) (uint32, Return)
@@ -424,6 +427,7 @@ type Interface interface {
 	DeviceGetInforomVersion(Device, InforomObject) (string, Return)
 	DeviceGetIrqNum(Device) (int, Return)
 	DeviceGetJpgUtilization(Device) (uint32, uint32, Return)
+	DeviceGetLastBBXFlushTime(Device) (uint64, uint, Return)
 	DeviceGetMPSComputeRunningProcesses(Device) ([]ProcessInfo, Return)
 	DeviceGetMaxClockInfo(Device, ClockType) (uint32, Return)
 	DeviceGetMaxCustomerBoostClock(Device, ClockType) (uint32, Return)
@@ -664,6 +668,7 @@ type Device interface {
 	GetBrand() (BrandType, Return)
 	GetBridgeChipInfo() (BridgeChipHierarchy, Return)
 	GetBusType() (BusType, Return)
+	GetC2cModeInfoV() C2cModeInfoHandler
 	GetClkMonStatus() (ClkMonStatus, Return)
 	GetClock(ClockType, ClockId) (uint32, Return)
 	GetClockInfo(ClockType) (uint32, Return)
@@ -726,6 +731,7 @@ type Device interface {
 	GetInforomVersion(InforomObject) (string, Return)
 	GetIrqNum() (int, Return)
 	GetJpgUtilization() (uint32, uint32, Return)
+	GetLastBBXFlushTime() (uint64, uint, Return)
 	GetMPSComputeRunningProcesses() ([]ProcessInfo, Return)
 	GetMaxClockInfo(ClockType) (uint32, Return)
 	GetMaxCustomerBoostClock(ClockType) (uint32, Return)

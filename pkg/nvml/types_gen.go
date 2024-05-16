@@ -104,6 +104,10 @@ type DeviceAttributes struct {
 	MemorySizeMB              uint64
 }
 
+type C2cModeInfo_v1 struct {
+	IsC2cEnabled uint32
+}
+
 type RowRemapperHistogramValues struct {
 	Max     uint32
 	High    uint32
@@ -465,9 +469,9 @@ type ConfComputeGpuAttestationReport struct {
 type GpuFabricState byte
 
 type GpuFabricInfo struct {
-	ClusterUuid [16]int8
+	ClusterUuid [16]uint8
 	Status      uint32
-	PartitionId uint32
+	CliqueId    uint32
 	State       uint8
 	Pad_cgo_0   [3]byte
 }
@@ -556,6 +560,23 @@ type GpuInstanceProfileInfo_v2 struct {
 	Name                [96]int8
 }
 
+type GpuInstanceProfileInfo_v3 struct {
+	Version             uint32
+	Id                  uint32
+	SliceCount          uint32
+	InstanceCount       uint32
+	MultiprocessorCount uint32
+	CopyEngineCount     uint32
+	DecoderCount        uint32
+	EncoderCount        uint32
+	JpegCount           uint32
+	OfaCount            uint32
+	MemorySizeMB        uint64
+	Name                [96]int8
+	Capabilities        uint32
+	Pad_cgo_0           [4]byte
+}
+
 type nvmlGpuInstanceInfo struct {
 	Device    nvmlDevice
 	Id        uint32
@@ -596,6 +617,21 @@ type ComputeInstanceProfileInfo_v2 struct {
 	SharedJpegCount       uint32
 	SharedOfaCount        uint32
 	Name                  [96]int8
+}
+
+type ComputeInstanceProfileInfo_v3 struct {
+	Version               uint32
+	Id                    uint32
+	SliceCount            uint32
+	InstanceCount         uint32
+	MultiprocessorCount   uint32
+	SharedCopyEngineCount uint32
+	SharedDecoderCount    uint32
+	SharedEncoderCount    uint32
+	SharedJpegCount       uint32
+	SharedOfaCount        uint32
+	Name                  [96]int8
+	Capabilities          uint32
 }
 
 type nvmlComputeInstanceInfo struct {

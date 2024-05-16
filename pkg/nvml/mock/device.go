@@ -90,6 +90,9 @@ var _ nvml.Device = &Device{}
 //			GetBusTypeFunc: func() (nvml.BusType, nvml.Return) {
 //				panic("mock out the GetBusType method")
 //			},
+//			GetC2cModeInfoVFunc: func() nvml.C2cModeInfoHandler {
+//				panic("mock out the GetC2cModeInfoV method")
+//			},
 //			GetClkMonStatusFunc: func() (nvml.ClkMonStatus, nvml.Return) {
 //				panic("mock out the GetClkMonStatus method")
 //			},
@@ -275,6 +278,9 @@ var _ nvml.Device = &Device{}
 //			},
 //			GetJpgUtilizationFunc: func() (uint32, uint32, nvml.Return) {
 //				panic("mock out the GetJpgUtilization method")
+//			},
+//			GetLastBBXFlushTimeFunc: func() (uint64, uint, nvml.Return) {
+//				panic("mock out the GetLastBBXFlushTime method")
 //			},
 //			GetMPSComputeRunningProcessesFunc: func() ([]nvml.ProcessInfo, nvml.Return) {
 //				panic("mock out the GetMPSComputeRunningProcesses method")
@@ -736,6 +742,9 @@ type Device struct {
 	// GetBusTypeFunc mocks the GetBusType method.
 	GetBusTypeFunc func() (nvml.BusType, nvml.Return)
 
+	// GetC2cModeInfoVFunc mocks the GetC2cModeInfoV method.
+	GetC2cModeInfoVFunc func() nvml.C2cModeInfoHandler
+
 	// GetClkMonStatusFunc mocks the GetClkMonStatus method.
 	GetClkMonStatusFunc func() (nvml.ClkMonStatus, nvml.Return)
 
@@ -921,6 +930,9 @@ type Device struct {
 
 	// GetJpgUtilizationFunc mocks the GetJpgUtilization method.
 	GetJpgUtilizationFunc func() (uint32, uint32, nvml.Return)
+
+	// GetLastBBXFlushTimeFunc mocks the GetLastBBXFlushTime method.
+	GetLastBBXFlushTimeFunc func() (uint64, uint, nvml.Return)
 
 	// GetMPSComputeRunningProcessesFunc mocks the GetMPSComputeRunningProcesses method.
 	GetMPSComputeRunningProcessesFunc func() ([]nvml.ProcessInfo, nvml.Return)
@@ -1399,6 +1411,9 @@ type Device struct {
 		// GetBusType holds details about calls to the GetBusType method.
 		GetBusType []struct {
 		}
+		// GetC2cModeInfoV holds details about calls to the GetC2cModeInfoV method.
+		GetC2cModeInfoV []struct {
+		}
 		// GetClkMonStatus holds details about calls to the GetClkMonStatus method.
 		GetClkMonStatus []struct {
 		}
@@ -1624,6 +1639,9 @@ type Device struct {
 		}
 		// GetJpgUtilization holds details about calls to the GetJpgUtilization method.
 		GetJpgUtilization []struct {
+		}
+		// GetLastBBXFlushTime holds details about calls to the GetLastBBXFlushTime method.
+		GetLastBBXFlushTime []struct {
 		}
 		// GetMPSComputeRunningProcesses holds details about calls to the GetMPSComputeRunningProcesses method.
 		GetMPSComputeRunningProcesses []struct {
@@ -2215,6 +2233,7 @@ type Device struct {
 	lockGetBrand                           sync.RWMutex
 	lockGetBridgeChipInfo                  sync.RWMutex
 	lockGetBusType                         sync.RWMutex
+	lockGetC2cModeInfoV                    sync.RWMutex
 	lockGetClkMonStatus                    sync.RWMutex
 	lockGetClock                           sync.RWMutex
 	lockGetClockInfo                       sync.RWMutex
@@ -2277,6 +2296,7 @@ type Device struct {
 	lockGetInforomVersion                  sync.RWMutex
 	lockGetIrqNum                          sync.RWMutex
 	lockGetJpgUtilization                  sync.RWMutex
+	lockGetLastBBXFlushTime                sync.RWMutex
 	lockGetMPSComputeRunningProcesses      sync.RWMutex
 	lockGetMaxClockInfo                    sync.RWMutex
 	lockGetMaxCustomerBoostClock           sync.RWMutex
@@ -3103,6 +3123,33 @@ func (mock *Device) GetBusTypeCalls() []struct {
 	mock.lockGetBusType.RLock()
 	calls = mock.calls.GetBusType
 	mock.lockGetBusType.RUnlock()
+	return calls
+}
+
+// GetC2cModeInfoV calls GetC2cModeInfoVFunc.
+func (mock *Device) GetC2cModeInfoV() nvml.C2cModeInfoHandler {
+	if mock.GetC2cModeInfoVFunc == nil {
+		panic("Device.GetC2cModeInfoVFunc: method is nil but Device.GetC2cModeInfoV was just called")
+	}
+	callInfo := struct {
+	}{}
+	mock.lockGetC2cModeInfoV.Lock()
+	mock.calls.GetC2cModeInfoV = append(mock.calls.GetC2cModeInfoV, callInfo)
+	mock.lockGetC2cModeInfoV.Unlock()
+	return mock.GetC2cModeInfoVFunc()
+}
+
+// GetC2cModeInfoVCalls gets all the calls that were made to GetC2cModeInfoV.
+// Check the length with:
+//
+//	len(mockedDevice.GetC2cModeInfoVCalls())
+func (mock *Device) GetC2cModeInfoVCalls() []struct {
+} {
+	var calls []struct {
+	}
+	mock.lockGetC2cModeInfoV.RLock()
+	calls = mock.calls.GetC2cModeInfoV
+	mock.lockGetC2cModeInfoV.RUnlock()
 	return calls
 }
 
@@ -4874,6 +4921,33 @@ func (mock *Device) GetJpgUtilizationCalls() []struct {
 	mock.lockGetJpgUtilization.RLock()
 	calls = mock.calls.GetJpgUtilization
 	mock.lockGetJpgUtilization.RUnlock()
+	return calls
+}
+
+// GetLastBBXFlushTime calls GetLastBBXFlushTimeFunc.
+func (mock *Device) GetLastBBXFlushTime() (uint64, uint, nvml.Return) {
+	if mock.GetLastBBXFlushTimeFunc == nil {
+		panic("Device.GetLastBBXFlushTimeFunc: method is nil but Device.GetLastBBXFlushTime was just called")
+	}
+	callInfo := struct {
+	}{}
+	mock.lockGetLastBBXFlushTime.Lock()
+	mock.calls.GetLastBBXFlushTime = append(mock.calls.GetLastBBXFlushTime, callInfo)
+	mock.lockGetLastBBXFlushTime.Unlock()
+	return mock.GetLastBBXFlushTimeFunc()
+}
+
+// GetLastBBXFlushTimeCalls gets all the calls that were made to GetLastBBXFlushTime.
+// Check the length with:
+//
+//	len(mockedDevice.GetLastBBXFlushTimeCalls())
+func (mock *Device) GetLastBBXFlushTimeCalls() []struct {
+} {
+	var calls []struct {
+	}
+	mock.lockGetLastBBXFlushTime.RLock()
+	calls = mock.calls.GetLastBBXFlushTime
+	mock.lockGetLastBBXFlushTime.RUnlock()
 	return calls
 }
 

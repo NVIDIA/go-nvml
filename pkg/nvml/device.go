@@ -2873,3 +2873,34 @@ func (l *library) DeviceSetPowerManagementLimit_v2(device Device, powerValue *Po
 func (device nvmlDevice) SetPowerManagementLimit_v2(powerValue *PowerValue_v2) Return {
 	return nvmlDeviceSetPowerManagementLimit_v2(device, powerValue)
 }
+
+// nvml.DeviceGetC2cModeInfoV()
+type C2cModeInfoHandler struct {
+	device nvmlDevice
+}
+
+func (handler C2cModeInfoHandler) V1() (C2cModeInfo_v1, Return) {
+	var c2cModeInfo C2cModeInfo_v1
+	ret := nvmlDeviceGetC2cModeInfoV(handler.device, &c2cModeInfo)
+	return c2cModeInfo, ret
+}
+
+func (l *library) DeviceGetC2cModeInfoV(device Device) C2cModeInfoHandler {
+	return device.GetC2cModeInfoV()
+}
+
+func (device nvmlDevice) GetC2cModeInfoV() C2cModeInfoHandler {
+	return C2cModeInfoHandler{device}
+}
+
+// nvml.DeviceGetLastBBXFlushTime()
+func (l *library) DeviceGetLastBBXFlushTime(device Device) (uint64, uint, Return) {
+	return device.GetLastBBXFlushTime()
+}
+
+func (device nvmlDevice) GetLastBBXFlushTime() (uint64, uint, Return) {
+	var timestamp uint64
+	var durationUs uint
+	ret := nvmlDeviceGetLastBBXFlushTime(device, &timestamp, &durationUs)
+	return timestamp, durationUs, ret
+}

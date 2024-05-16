@@ -99,6 +99,9 @@ var _ nvml.Interface = &Interface{}
 //			DeviceGetBusTypeFunc: func(device nvml.Device) (nvml.BusType, nvml.Return) {
 //				panic("mock out the DeviceGetBusType method")
 //			},
+//			DeviceGetC2cModeInfoVFunc: func(device nvml.Device) nvml.C2cModeInfoHandler {
+//				panic("mock out the DeviceGetC2cModeInfoV method")
+//			},
 //			DeviceGetClkMonStatusFunc: func(device nvml.Device) (nvml.ClkMonStatus, nvml.Return) {
 //				panic("mock out the DeviceGetClkMonStatus method")
 //			},
@@ -299,6 +302,9 @@ var _ nvml.Interface = &Interface{}
 //			},
 //			DeviceGetJpgUtilizationFunc: func(device nvml.Device) (uint32, uint32, nvml.Return) {
 //				panic("mock out the DeviceGetJpgUtilization method")
+//			},
+//			DeviceGetLastBBXFlushTimeFunc: func(device nvml.Device) (uint64, uint, nvml.Return) {
+//				panic("mock out the DeviceGetLastBBXFlushTime method")
 //			},
 //			DeviceGetMPSComputeRunningProcessesFunc: func(device nvml.Device) ([]nvml.ProcessInfo, nvml.Return) {
 //				panic("mock out the DeviceGetMPSComputeRunningProcesses method")
@@ -1018,6 +1024,9 @@ type Interface struct {
 	// DeviceGetBusTypeFunc mocks the DeviceGetBusType method.
 	DeviceGetBusTypeFunc func(device nvml.Device) (nvml.BusType, nvml.Return)
 
+	// DeviceGetC2cModeInfoVFunc mocks the DeviceGetC2cModeInfoV method.
+	DeviceGetC2cModeInfoVFunc func(device nvml.Device) nvml.C2cModeInfoHandler
+
 	// DeviceGetClkMonStatusFunc mocks the DeviceGetClkMonStatus method.
 	DeviceGetClkMonStatusFunc func(device nvml.Device) (nvml.ClkMonStatus, nvml.Return)
 
@@ -1218,6 +1227,9 @@ type Interface struct {
 
 	// DeviceGetJpgUtilizationFunc mocks the DeviceGetJpgUtilization method.
 	DeviceGetJpgUtilizationFunc func(device nvml.Device) (uint32, uint32, nvml.Return)
+
+	// DeviceGetLastBBXFlushTimeFunc mocks the DeviceGetLastBBXFlushTime method.
+	DeviceGetLastBBXFlushTimeFunc func(device nvml.Device) (uint64, uint, nvml.Return)
 
 	// DeviceGetMPSComputeRunningProcessesFunc mocks the DeviceGetMPSComputeRunningProcesses method.
 	DeviceGetMPSComputeRunningProcessesFunc func(device nvml.Device) ([]nvml.ProcessInfo, nvml.Return)
@@ -2006,6 +2018,11 @@ type Interface struct {
 			// Device is the device argument value.
 			Device nvml.Device
 		}
+		// DeviceGetC2cModeInfoV holds details about calls to the DeviceGetC2cModeInfoV method.
+		DeviceGetC2cModeInfoV []struct {
+			// Device is the device argument value.
+			Device nvml.Device
+		}
 		// DeviceGetClkMonStatus holds details about calls to the DeviceGetClkMonStatus method.
 		DeviceGetClkMonStatus []struct {
 			// Device is the device argument value.
@@ -2376,6 +2393,11 @@ type Interface struct {
 		}
 		// DeviceGetJpgUtilization holds details about calls to the DeviceGetJpgUtilization method.
 		DeviceGetJpgUtilization []struct {
+			// Device is the device argument value.
+			Device nvml.Device
+		}
+		// DeviceGetLastBBXFlushTime holds details about calls to the DeviceGetLastBBXFlushTime method.
+		DeviceGetLastBBXFlushTime []struct {
 			// Device is the device argument value.
 			Device nvml.Device
 		}
@@ -3657,6 +3679,7 @@ type Interface struct {
 	lockDeviceGetBrand                                  sync.RWMutex
 	lockDeviceGetBridgeChipInfo                         sync.RWMutex
 	lockDeviceGetBusType                                sync.RWMutex
+	lockDeviceGetC2cModeInfoV                           sync.RWMutex
 	lockDeviceGetClkMonStatus                           sync.RWMutex
 	lockDeviceGetClock                                  sync.RWMutex
 	lockDeviceGetClockInfo                              sync.RWMutex
@@ -3724,6 +3747,7 @@ type Interface struct {
 	lockDeviceGetInforomVersion                         sync.RWMutex
 	lockDeviceGetIrqNum                                 sync.RWMutex
 	lockDeviceGetJpgUtilization                         sync.RWMutex
+	lockDeviceGetLastBBXFlushTime                       sync.RWMutex
 	lockDeviceGetMPSComputeRunningProcesses             sync.RWMutex
 	lockDeviceGetMaxClockInfo                           sync.RWMutex
 	lockDeviceGetMaxCustomerBoostClock                  sync.RWMutex
@@ -4836,6 +4860,38 @@ func (mock *Interface) DeviceGetBusTypeCalls() []struct {
 	mock.lockDeviceGetBusType.RLock()
 	calls = mock.calls.DeviceGetBusType
 	mock.lockDeviceGetBusType.RUnlock()
+	return calls
+}
+
+// DeviceGetC2cModeInfoV calls DeviceGetC2cModeInfoVFunc.
+func (mock *Interface) DeviceGetC2cModeInfoV(device nvml.Device) nvml.C2cModeInfoHandler {
+	if mock.DeviceGetC2cModeInfoVFunc == nil {
+		panic("Interface.DeviceGetC2cModeInfoVFunc: method is nil but Interface.DeviceGetC2cModeInfoV was just called")
+	}
+	callInfo := struct {
+		Device nvml.Device
+	}{
+		Device: device,
+	}
+	mock.lockDeviceGetC2cModeInfoV.Lock()
+	mock.calls.DeviceGetC2cModeInfoV = append(mock.calls.DeviceGetC2cModeInfoV, callInfo)
+	mock.lockDeviceGetC2cModeInfoV.Unlock()
+	return mock.DeviceGetC2cModeInfoVFunc(device)
+}
+
+// DeviceGetC2cModeInfoVCalls gets all the calls that were made to DeviceGetC2cModeInfoV.
+// Check the length with:
+//
+//	len(mockedInterface.DeviceGetC2cModeInfoVCalls())
+func (mock *Interface) DeviceGetC2cModeInfoVCalls() []struct {
+	Device nvml.Device
+} {
+	var calls []struct {
+		Device nvml.Device
+	}
+	mock.lockDeviceGetC2cModeInfoV.RLock()
+	calls = mock.calls.DeviceGetC2cModeInfoV
+	mock.lockDeviceGetC2cModeInfoV.RUnlock()
 	return calls
 }
 
@@ -7055,6 +7111,38 @@ func (mock *Interface) DeviceGetJpgUtilizationCalls() []struct {
 	mock.lockDeviceGetJpgUtilization.RLock()
 	calls = mock.calls.DeviceGetJpgUtilization
 	mock.lockDeviceGetJpgUtilization.RUnlock()
+	return calls
+}
+
+// DeviceGetLastBBXFlushTime calls DeviceGetLastBBXFlushTimeFunc.
+func (mock *Interface) DeviceGetLastBBXFlushTime(device nvml.Device) (uint64, uint, nvml.Return) {
+	if mock.DeviceGetLastBBXFlushTimeFunc == nil {
+		panic("Interface.DeviceGetLastBBXFlushTimeFunc: method is nil but Interface.DeviceGetLastBBXFlushTime was just called")
+	}
+	callInfo := struct {
+		Device nvml.Device
+	}{
+		Device: device,
+	}
+	mock.lockDeviceGetLastBBXFlushTime.Lock()
+	mock.calls.DeviceGetLastBBXFlushTime = append(mock.calls.DeviceGetLastBBXFlushTime, callInfo)
+	mock.lockDeviceGetLastBBXFlushTime.Unlock()
+	return mock.DeviceGetLastBBXFlushTimeFunc(device)
+}
+
+// DeviceGetLastBBXFlushTimeCalls gets all the calls that were made to DeviceGetLastBBXFlushTime.
+// Check the length with:
+//
+//	len(mockedInterface.DeviceGetLastBBXFlushTimeCalls())
+func (mock *Interface) DeviceGetLastBBXFlushTimeCalls() []struct {
+	Device nvml.Device
+} {
+	var calls []struct {
+		Device nvml.Device
+	}
+	mock.lockDeviceGetLastBBXFlushTime.RLock()
+	calls = mock.calls.DeviceGetLastBBXFlushTime
+	mock.lockDeviceGetLastBBXFlushTime.RUnlock()
 	return calls
 }
 
