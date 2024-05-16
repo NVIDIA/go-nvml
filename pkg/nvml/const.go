@@ -78,6 +78,8 @@ const (
 	VGPU_NAME_BUFFER_SIZE = 64
 	// GRID_LICENSE_FEATURE_MAX_COUNT as defined in nvml/nvml.h
 	GRID_LICENSE_FEATURE_MAX_COUNT = 3
+	// INVALID_VGPU_PLACEMENT_ID as defined in nvml/nvml.h
+	INVALID_VGPU_PLACEMENT_ID = 65535
 	// VGPU_SCHEDULER_POLICY_UNKNOWN as defined in nvml/nvml.h
 	VGPU_SCHEDULER_POLICY_UNKNOWN = 0
 	// VGPU_SCHEDULER_POLICY_BEST_EFFORT as defined in nvml/nvml.h
@@ -560,8 +562,10 @@ const (
 	FI_DEV_TEMPERATURE_MEM_MAX_TLIMIT = 195
 	// FI_DEV_TEMPERATURE_GPU_MAX_TLIMIT as defined in nvml/nvml.h
 	FI_DEV_TEMPERATURE_GPU_MAX_TLIMIT = 196
+	// FI_DEV_IS_MIG_MODE_INDEPENDENT_MIG_QUERY_CAPABLE as defined in nvml/nvml.h
+	FI_DEV_IS_MIG_MODE_INDEPENDENT_MIG_QUERY_CAPABLE = 199
 	// FI_MAX as defined in nvml/nvml.h
-	FI_MAX = 197
+	FI_MAX = 200
 	// EventTypeSingleBitEccError as defined in nvml/nvml.h
 	EventTypeSingleBitEccError = 1
 	// EventTypeDoubleBitEccError as defined in nvml/nvml.h
@@ -654,6 +658,10 @@ const (
 	CC_SYSTEM_FEATURE_DISABLED = 0
 	// CC_SYSTEM_FEATURE_ENABLED as defined in nvml/nvml.h
 	CC_SYSTEM_FEATURE_ENABLED = 1
+	// CC_SYSTEM_MULTIGPU_NONE as defined in nvml/nvml.h
+	CC_SYSTEM_MULTIGPU_NONE = 0
+	// CC_SYSTEM_MULTIGPU_PROTECTED_PCIE as defined in nvml/nvml.h
+	CC_SYSTEM_MULTIGPU_PROTECTED_PCIE = 1
 	// CC_ACCEPTING_CLIENT_REQUESTS_FALSE as defined in nvml/nvml.h
 	CC_ACCEPTING_CLIENT_REQUESTS_FALSE = 0
 	// CC_ACCEPTING_CLIENT_REQUESTS_TRUE as defined in nvml/nvml.h
@@ -672,6 +680,10 @@ const (
 	CC_CEC_ATTESTATION_REPORT_NOT_PRESENT = 0
 	// CC_CEC_ATTESTATION_REPORT_PRESENT as defined in nvml/nvml.h
 	CC_CEC_ATTESTATION_REPORT_PRESENT = 1
+	// CC_KEY_ROTATION_THRESHOLD_ATTACKER_ADVANTAGE_MIN as defined in nvml/nvml.h
+	CC_KEY_ROTATION_THRESHOLD_ATTACKER_ADVANTAGE_MIN = 50
+	// CC_KEY_ROTATION_THRESHOLD_ATTACKER_ADVANTAGE_MAX as defined in nvml/nvml.h
+	CC_KEY_ROTATION_THRESHOLD_ATTACKER_ADVANTAGE_MAX = 75
 	// GPU_FABRIC_UUID_LEN as defined in nvml/nvml.h
 	GPU_FABRIC_UUID_LEN = 16
 	// GPU_FABRIC_STATE_NOT_SUPPORTED as defined in nvml/nvml.h
@@ -682,6 +694,16 @@ const (
 	GPU_FABRIC_STATE_IN_PROGRESS = 2
 	// GPU_FABRIC_STATE_COMPLETED as defined in nvml/nvml.h
 	GPU_FABRIC_STATE_COMPLETED = 3
+	// GPU_FABRIC_HEALTH_MASK_DEGRADED_BW_NOT_SUPPORTED as defined in nvml/nvml.h
+	GPU_FABRIC_HEALTH_MASK_DEGRADED_BW_NOT_SUPPORTED = 0
+	// GPU_FABRIC_HEALTH_MASK_DEGRADED_BW_TRUE as defined in nvml/nvml.h
+	GPU_FABRIC_HEALTH_MASK_DEGRADED_BW_TRUE = 1
+	// GPU_FABRIC_HEALTH_MASK_DEGRADED_BW_FALSE as defined in nvml/nvml.h
+	GPU_FABRIC_HEALTH_MASK_DEGRADED_BW_FALSE = 2
+	// GPU_FABRIC_HEALTH_MASK_SHIFT_DEGRADED_BW as defined in nvml/nvml.h
+	GPU_FABRIC_HEALTH_MASK_SHIFT_DEGRADED_BW = 0
+	// GPU_FABRIC_HEALTH_MASK_WIDTH_DEGRADED_BW as defined in nvml/nvml.h
+	GPU_FABRIC_HEALTH_MASK_WIDTH_DEGRADED_BW = 17
 	// POWER_SCOPE_GPU as defined in nvml/nvml.h
 	POWER_SCOPE_GPU = 0
 	// POWER_SCOPE_MODULE as defined in nvml/nvml.h
@@ -894,6 +916,7 @@ const (
 	P2P_CAPS_INDEX_WRITE   GpuP2PCapsIndex = 1
 	P2P_CAPS_INDEX_NVLINK  GpuP2PCapsIndex = 2
 	P2P_CAPS_INDEX_ATOMICS GpuP2PCapsIndex = 3
+	P2P_CAPS_INDEX_PCI     GpuP2PCapsIndex = 4
 	P2P_CAPS_INDEX_PROP    GpuP2PCapsIndex = 4
 	P2P_CAPS_INDEX_UNKNOWN GpuP2PCapsIndex = 5
 )
@@ -911,7 +934,9 @@ const (
 	PROCESSOR_CLK_SAMPLES      SamplingType = 5
 	MEMORY_CLK_SAMPLES         SamplingType = 6
 	MODULE_POWER_SAMPLES       SamplingType = 7
-	SAMPLINGTYPE_COUNT         SamplingType = 8
+	JPG_UTILIZATION_SAMPLES    SamplingType = 8
+	OFA_UTILIZATION_SAMPLES    SamplingType = 9
+	SAMPLINGTYPE_COUNT         SamplingType = 10
 )
 
 // PcieUtilCounter as declared in nvml/nvml.h
@@ -1157,6 +1182,7 @@ const (
 	ERROR_DEPRECATED                Return = 26
 	ERROR_NOT_READY                 Return = 27
 	ERROR_GPU_NOT_FOUND             Return = 28
+	ERROR_INVALID_STATE             Return = 29
 	ERROR_UNKNOWN                   Return = 999
 )
 
@@ -1268,7 +1294,10 @@ const (
 	DEVICE_VGPU_CAP_HETEROGENEOUS_TIMESLICE_SIZES    DeviceVgpuCapability = 2
 	DEVICE_VGPU_CAP_READ_DEVICE_BUFFER_BW            DeviceVgpuCapability = 3
 	DEVICE_VGPU_CAP_WRITE_DEVICE_BUFFER_BW           DeviceVgpuCapability = 4
-	DEVICE_VGPU_CAP_COUNT                            DeviceVgpuCapability = 5
+	DEVICE_VGPU_CAP_DEVICE_STREAMING                 DeviceVgpuCapability = 5
+	DEVICE_VGPU_CAP_MINI_QUARTER_GPU                 DeviceVgpuCapability = 6
+	DEVICE_VGPU_CAP_COMPUTE_MEDIA_ENGINE_GPU         DeviceVgpuCapability = 7
+	DEVICE_VGPU_CAP_COUNT                            DeviceVgpuCapability = 8
 )
 
 // GpuUtilizationDomainId as declared in nvml/nvml.h
@@ -1305,9 +1334,10 @@ type EncoderType int32
 
 // EncoderType enumeration from nvml/nvml.h
 const (
-	ENCODER_QUERY_H264 EncoderType = iota
-	ENCODER_QUERY_HEVC EncoderType = 1
-	ENCODER_QUERY_AV1  EncoderType = 2
+	ENCODER_QUERY_H264    EncoderType = iota
+	ENCODER_QUERY_HEVC    EncoderType = 1
+	ENCODER_QUERY_AV1     EncoderType = 2
+	ENCODER_QUERY_UNKNOWN EncoderType = 255
 )
 
 // FBCSessionType as declared in nvml/nvml.h

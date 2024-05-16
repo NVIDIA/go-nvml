@@ -117,3 +117,22 @@ func SystemGetNvlinkBwMode() (uint32, Return) {
 	ret := nvmlSystemGetNvlinkBwMode(&nvlinkBwMode)
 	return nvlinkBwMode, ret
 }
+
+// nvml.SystemGetConfComputeKeyRotationThresholdInfo()
+func (l *library) SystemGetConfComputeKeyRotationThresholdInfo() (ConfComputeGetKeyRotationThresholdInfo, Return) {
+	var keyRotationThresholdInfo ConfComputeGetKeyRotationThresholdInfo
+	ret := nvmlSystemGetConfComputeKeyRotationThresholdInfo(&keyRotationThresholdInfo)
+	return keyRotationThresholdInfo, ret
+}
+
+// nvml.SystemGetConfComputeSettings()
+func (l *library) SystemGetConfComputeSettings() (SystemConfComputeSettings, Return) {
+	var settings SystemConfComputeSettings
+	ret := nvmlSystemGetConfComputeSettings(&settings)
+	return settings, ret
+}
+
+// nvml.SystemSetConfComputeKeyRotationThresholdInfo()
+func (l *library) SystemSetConfComputeKeyRotationThresholdInfo(keyRotationThresholdInfo ConfComputeSetKeyRotationThresholdInfo) Return {
+	return nvmlSystemSetConfComputeKeyRotationThresholdInfo(&keyRotationThresholdInfo)
+}

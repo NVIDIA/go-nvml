@@ -2904,3 +2904,154 @@ func (device nvmlDevice) GetLastBBXFlushTime() (uint64, uint, Return) {
 	ret := nvmlDeviceGetLastBBXFlushTime(device, &timestamp, &durationUs)
 	return timestamp, durationUs, ret
 }
+
+// nvml.DeviceGetNumaNodeId()
+func (l *library) DeviceGetNumaNodeId(device Device) (int, Return) {
+	return device.GetNumaNodeId()
+}
+
+func (device nvmlDevice) GetNumaNodeId() (int, Return) {
+	var node uint32
+	ret := nvmlDeviceGetNumaNodeId(device, &node)
+	return int(node), ret
+}
+
+// nvml.DeviceGetPciInfoExt()
+func (l *library) DeviceGetPciInfoExt(device Device) (PciInfoExt, Return) {
+	return device.GetPciInfoExt()
+}
+
+func (device nvmlDevice) GetPciInfoExt() (PciInfoExt, Return) {
+	var pciInfo PciInfoExt
+	ret := nvmlDeviceGetPciInfoExt(device, &pciInfo)
+	return pciInfo, ret
+}
+
+// nvml.DeviceGetGpuFabricInfoV()
+type GpuFabricInfoHandler struct {
+	device nvmlDevice
+}
+
+func (handler GpuFabricInfoHandler) V1() (GpuFabricInfo, Return) {
+	return handler.device.GetGpuFabricInfo()
+}
+
+func (handler GpuFabricInfoHandler) V2() (GpuFabricInfo_v2, Return) {
+	var info GpuFabricInfoV
+	info.Version = STRUCT_VERSION(info, 2)
+	ret := nvmlDeviceGetGpuFabricInfoV(handler.device, &info)
+	return GpuFabricInfo_v2(info), ret
+}
+
+func (l *library) DeviceGetGpuFabricInfoV(device Device) GpuFabricInfoHandler {
+	return device.GetGpuFabricInfoV()
+}
+
+func (device nvmlDevice) GetGpuFabricInfoV() GpuFabricInfoHandler {
+	return GpuFabricInfoHandler{device}
+}
+
+// nvml.DeviceGetProcessesUtilizationInfo()
+func (l *library) DeviceGetProcessesUtilizationInfo(device Device) (ProcessesUtilizationInfo, Return) {
+	return device.GetProcessesUtilizationInfo()
+}
+
+func (device nvmlDevice) GetProcessesUtilizationInfo() (ProcessesUtilizationInfo, Return) {
+	var processesUtilInfo ProcessesUtilizationInfo
+	ret := nvmlDeviceGetProcessesUtilizationInfo(device, &processesUtilInfo)
+	return processesUtilInfo, ret
+}
+
+// nvml.DeviceGetVgpuHeterogeneousMode()
+func (l *library) DeviceGetVgpuHeterogeneousMode(device Device) (VgpuHeterogeneousMode, Return) {
+	return device.GetVgpuHeterogeneousMode()
+}
+
+func (device nvmlDevice) GetVgpuHeterogeneousMode() (VgpuHeterogeneousMode, Return) {
+	var heterogeneousMode VgpuHeterogeneousMode
+	ret := nvmlDeviceGetVgpuHeterogeneousMode(device, &heterogeneousMode)
+	return heterogeneousMode, ret
+}
+
+// nvml.DeviceSetVgpuHeterogeneousMode()
+func (l *library) DeviceSetVgpuHeterogeneousMode(device Device, heterogeneousMode VgpuHeterogeneousMode) Return {
+	return device.SetVgpuHeterogeneousMode(heterogeneousMode)
+}
+
+func (device nvmlDevice) SetVgpuHeterogeneousMode(heterogeneousMode VgpuHeterogeneousMode) Return {
+	ret := nvmlDeviceSetVgpuHeterogeneousMode(device, &heterogeneousMode)
+	return ret
+}
+
+// nvml.DeviceGetVgpuTypeSupportedPlacements()
+func (l *library) DeviceGetVgpuTypeSupportedPlacements(device Device, vgpuTypeId VgpuTypeId) (VgpuPlacementList, Return) {
+	return device.GetVgpuTypeSupportedPlacements(vgpuTypeId)
+}
+
+func (device nvmlDevice) GetVgpuTypeSupportedPlacements(vgpuTypeId VgpuTypeId) (VgpuPlacementList, Return) {
+	return vgpuTypeId.GetSupportedPlacements(device)
+}
+
+func (vgpuTypeId nvmlVgpuTypeId) GetSupportedPlacements(device Device) (VgpuPlacementList, Return) {
+	var placementList VgpuPlacementList
+	ret := nvmlDeviceGetVgpuTypeSupportedPlacements(nvmlDeviceHandle(device), vgpuTypeId, &placementList)
+	return placementList, ret
+}
+
+// nvml.DeviceGetVgpuTypeCreatablePlacements()
+func (l *library) DeviceGetVgpuTypeCreatablePlacements(device Device, vgpuTypeId VgpuTypeId) (VgpuPlacementList, Return) {
+	return device.GetVgpuTypeCreatablePlacements(vgpuTypeId)
+}
+
+func (device nvmlDevice) GetVgpuTypeCreatablePlacements(vgpuTypeId VgpuTypeId) (VgpuPlacementList, Return) {
+	return vgpuTypeId.GetCreatablePlacements(device)
+}
+
+func (vgpuTypeId nvmlVgpuTypeId) GetCreatablePlacements(device Device) (VgpuPlacementList, Return) {
+	var placementList VgpuPlacementList
+	ret := nvmlDeviceGetVgpuTypeCreatablePlacements(nvmlDeviceHandle(device), vgpuTypeId, &placementList)
+	return placementList, ret
+}
+
+// nvml.DeviceSetVgpuCapabilities()
+func (l *library) DeviceSetVgpuCapabilities(device Device, capability DeviceVgpuCapability, state EnableState) Return {
+	return device.SetVgpuCapabilities(capability, state)
+}
+
+func (device nvmlDevice) SetVgpuCapabilities(capability DeviceVgpuCapability, state EnableState) Return {
+	ret := nvmlDeviceSetVgpuCapabilities(device, capability, state)
+	return ret
+}
+
+// nvml.DeviceGetVgpuInstancesUtilizationInfo()
+func (l *library) DeviceGetVgpuInstancesUtilizationInfo(device Device) (VgpuInstancesUtilizationInfo, Return) {
+	return device.GetVgpuInstancesUtilizationInfo()
+}
+
+func (device nvmlDevice) GetVgpuInstancesUtilizationInfo() (VgpuInstancesUtilizationInfo, Return) {
+	var vgpuUtilInfo VgpuInstancesUtilizationInfo
+	ret := nvmlDeviceGetVgpuInstancesUtilizationInfo(device, &vgpuUtilInfo)
+	return vgpuUtilInfo, ret
+}
+
+// nvml.DeviceGetVgpuProcessesUtilizationInfo()
+func (l *library) DeviceGetVgpuProcessesUtilizationInfo(device Device) (VgpuProcessesUtilizationInfo, Return) {
+	return device.GetVgpuProcessesUtilizationInfo()
+}
+
+func (device nvmlDevice) GetVgpuProcessesUtilizationInfo() (VgpuProcessesUtilizationInfo, Return) {
+	var vgpuProcUtilInfo VgpuProcessesUtilizationInfo
+	ret := nvmlDeviceGetVgpuProcessesUtilizationInfo(device, &vgpuProcUtilInfo)
+	return vgpuProcUtilInfo, ret
+}
+
+// nvml.DeviceGetSramEccErrorStatus()
+func (l *library) DeviceGetSramEccErrorStatus(device Device) (EccSramErrorStatus, Return) {
+	return device.GetSramEccErrorStatus()
+}
+
+func (device nvmlDevice) GetSramEccErrorStatus() (EccSramErrorStatus, Return) {
+	var status EccSramErrorStatus
+	ret := nvmlDeviceGetSramEccErrorStatus(device, &status)
+	return status, ret
+}
