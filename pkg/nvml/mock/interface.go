@@ -510,15 +510,6 @@ var _ nvml.Interface = &Interface{}
 //			DeviceGetVgpuProcessUtilizationFunc: func(device nvml.Device, v uint64) ([]nvml.VgpuProcessUtilizationSample, nvml.Return) {
 //				panic("mock out the DeviceGetVgpuProcessUtilization method")
 //			},
-//			DeviceGetVgpuSchedulerCapabilitiesFunc: func(device nvml.Device) (nvml.VgpuSchedulerCapabilities, nvml.Return) {
-//				panic("mock out the DeviceGetVgpuSchedulerCapabilities method")
-//			},
-//			DeviceGetVgpuSchedulerLogFunc: func(device nvml.Device) (nvml.VgpuSchedulerLog, nvml.Return) {
-//				panic("mock out the DeviceGetVgpuSchedulerLog method")
-//			},
-//			DeviceGetVgpuSchedulerStateFunc: func(device nvml.Device) (nvml.VgpuSchedulerGetState, nvml.Return) {
-//				panic("mock out the DeviceGetVgpuSchedulerState method")
-//			},
 //			DeviceGetVgpuUtilizationFunc: func(device nvml.Device, v uint64) (nvml.ValueType, []nvml.VgpuInstanceUtilizationSample, nvml.Return) {
 //				panic("mock out the DeviceGetVgpuUtilization method")
 //			},
@@ -632,9 +623,6 @@ var _ nvml.Interface = &Interface{}
 //			},
 //			DeviceSetTemperatureThresholdFunc: func(device nvml.Device, temperatureThresholds nvml.TemperatureThresholds, n int) nvml.Return {
 //				panic("mock out the DeviceSetTemperatureThreshold method")
-//			},
-//			DeviceSetVgpuSchedulerStateFunc: func(device nvml.Device, vgpuSchedulerSetState *nvml.VgpuSchedulerSetState) nvml.Return {
-//				panic("mock out the DeviceSetVgpuSchedulerState method")
 //			},
 //			DeviceSetVirtualizationModeFunc: func(device nvml.Device, gpuVirtualizationMode nvml.GpuVirtualizationMode) nvml.Return {
 //				panic("mock out the DeviceSetVirtualizationMode method")
@@ -1390,15 +1378,6 @@ type Interface struct {
 	// DeviceGetVgpuProcessUtilizationFunc mocks the DeviceGetVgpuProcessUtilization method.
 	DeviceGetVgpuProcessUtilizationFunc func(device nvml.Device, v uint64) ([]nvml.VgpuProcessUtilizationSample, nvml.Return)
 
-	// DeviceGetVgpuSchedulerCapabilitiesFunc mocks the DeviceGetVgpuSchedulerCapabilities method.
-	DeviceGetVgpuSchedulerCapabilitiesFunc func(device nvml.Device) (nvml.VgpuSchedulerCapabilities, nvml.Return)
-
-	// DeviceGetVgpuSchedulerLogFunc mocks the DeviceGetVgpuSchedulerLog method.
-	DeviceGetVgpuSchedulerLogFunc func(device nvml.Device) (nvml.VgpuSchedulerLog, nvml.Return)
-
-	// DeviceGetVgpuSchedulerStateFunc mocks the DeviceGetVgpuSchedulerState method.
-	DeviceGetVgpuSchedulerStateFunc func(device nvml.Device) (nvml.VgpuSchedulerGetState, nvml.Return)
-
 	// DeviceGetVgpuUtilizationFunc mocks the DeviceGetVgpuUtilization method.
 	DeviceGetVgpuUtilizationFunc func(device nvml.Device, v uint64) (nvml.ValueType, []nvml.VgpuInstanceUtilizationSample, nvml.Return)
 
@@ -1512,9 +1491,6 @@ type Interface struct {
 
 	// DeviceSetTemperatureThresholdFunc mocks the DeviceSetTemperatureThreshold method.
 	DeviceSetTemperatureThresholdFunc func(device nvml.Device, temperatureThresholds nvml.TemperatureThresholds, n int) nvml.Return
-
-	// DeviceSetVgpuSchedulerStateFunc mocks the DeviceSetVgpuSchedulerState method.
-	DeviceSetVgpuSchedulerStateFunc func(device nvml.Device, vgpuSchedulerSetState *nvml.VgpuSchedulerSetState) nvml.Return
 
 	// DeviceSetVirtualizationModeFunc mocks the DeviceSetVirtualizationMode method.
 	DeviceSetVirtualizationModeFunc func(device nvml.Device, gpuVirtualizationMode nvml.GpuVirtualizationMode) nvml.Return
@@ -2735,21 +2711,6 @@ type Interface struct {
 			// V is the v argument value.
 			V uint64
 		}
-		// DeviceGetVgpuSchedulerCapabilities holds details about calls to the DeviceGetVgpuSchedulerCapabilities method.
-		DeviceGetVgpuSchedulerCapabilities []struct {
-			// Device is the device argument value.
-			Device nvml.Device
-		}
-		// DeviceGetVgpuSchedulerLog holds details about calls to the DeviceGetVgpuSchedulerLog method.
-		DeviceGetVgpuSchedulerLog []struct {
-			// Device is the device argument value.
-			Device nvml.Device
-		}
-		// DeviceGetVgpuSchedulerState holds details about calls to the DeviceGetVgpuSchedulerState method.
-		DeviceGetVgpuSchedulerState []struct {
-			// Device is the device argument value.
-			Device nvml.Device
-		}
 		// DeviceGetVgpuUtilization holds details about calls to the DeviceGetVgpuUtilization method.
 		DeviceGetVgpuUtilization []struct {
 			// Device is the device argument value.
@@ -3029,13 +2990,6 @@ type Interface struct {
 			TemperatureThresholds nvml.TemperatureThresholds
 			// N is the n argument value.
 			N int
-		}
-		// DeviceSetVgpuSchedulerState holds details about calls to the DeviceSetVgpuSchedulerState method.
-		DeviceSetVgpuSchedulerState []struct {
-			// Device is the device argument value.
-			Device nvml.Device
-			// VgpuSchedulerSetState is the vgpuSchedulerSetState argument value.
-			VgpuSchedulerSetState *nvml.VgpuSchedulerSetState
 		}
 		// DeviceSetVirtualizationMode holds details about calls to the DeviceSetVirtualizationMode method.
 		DeviceSetVirtualizationMode []struct {
@@ -3649,9 +3603,6 @@ type Interface struct {
 	lockDeviceGetVgpuCapabilities                       sync.RWMutex
 	lockDeviceGetVgpuMetadata                           sync.RWMutex
 	lockDeviceGetVgpuProcessUtilization                 sync.RWMutex
-	lockDeviceGetVgpuSchedulerCapabilities              sync.RWMutex
-	lockDeviceGetVgpuSchedulerLog                       sync.RWMutex
-	lockDeviceGetVgpuSchedulerState                     sync.RWMutex
 	lockDeviceGetVgpuUtilization                        sync.RWMutex
 	lockDeviceGetViolationStatus                        sync.RWMutex
 	lockDeviceGetVirtualizationMode                     sync.RWMutex
@@ -3690,7 +3641,6 @@ type Interface struct {
 	lockDeviceSetPersistenceMode                        sync.RWMutex
 	lockDeviceSetPowerManagementLimit                   sync.RWMutex
 	lockDeviceSetTemperatureThreshold                   sync.RWMutex
-	lockDeviceSetVgpuSchedulerState                     sync.RWMutex
 	lockDeviceSetVirtualizationMode                     sync.RWMutex
 	lockDeviceValidateInforom                           sync.RWMutex
 	lockErrorString                                     sync.RWMutex
@@ -9308,102 +9258,6 @@ func (mock *Interface) DeviceGetVgpuProcessUtilizationCalls() []struct {
 	return calls
 }
 
-// DeviceGetVgpuSchedulerCapabilities calls DeviceGetVgpuSchedulerCapabilitiesFunc.
-func (mock *Interface) DeviceGetVgpuSchedulerCapabilities(device nvml.Device) (nvml.VgpuSchedulerCapabilities, nvml.Return) {
-	if mock.DeviceGetVgpuSchedulerCapabilitiesFunc == nil {
-		panic("Interface.DeviceGetVgpuSchedulerCapabilitiesFunc: method is nil but Interface.DeviceGetVgpuSchedulerCapabilities was just called")
-	}
-	callInfo := struct {
-		Device nvml.Device
-	}{
-		Device: device,
-	}
-	mock.lockDeviceGetVgpuSchedulerCapabilities.Lock()
-	mock.calls.DeviceGetVgpuSchedulerCapabilities = append(mock.calls.DeviceGetVgpuSchedulerCapabilities, callInfo)
-	mock.lockDeviceGetVgpuSchedulerCapabilities.Unlock()
-	return mock.DeviceGetVgpuSchedulerCapabilitiesFunc(device)
-}
-
-// DeviceGetVgpuSchedulerCapabilitiesCalls gets all the calls that were made to DeviceGetVgpuSchedulerCapabilities.
-// Check the length with:
-//
-//	len(mockedInterface.DeviceGetVgpuSchedulerCapabilitiesCalls())
-func (mock *Interface) DeviceGetVgpuSchedulerCapabilitiesCalls() []struct {
-	Device nvml.Device
-} {
-	var calls []struct {
-		Device nvml.Device
-	}
-	mock.lockDeviceGetVgpuSchedulerCapabilities.RLock()
-	calls = mock.calls.DeviceGetVgpuSchedulerCapabilities
-	mock.lockDeviceGetVgpuSchedulerCapabilities.RUnlock()
-	return calls
-}
-
-// DeviceGetVgpuSchedulerLog calls DeviceGetVgpuSchedulerLogFunc.
-func (mock *Interface) DeviceGetVgpuSchedulerLog(device nvml.Device) (nvml.VgpuSchedulerLog, nvml.Return) {
-	if mock.DeviceGetVgpuSchedulerLogFunc == nil {
-		panic("Interface.DeviceGetVgpuSchedulerLogFunc: method is nil but Interface.DeviceGetVgpuSchedulerLog was just called")
-	}
-	callInfo := struct {
-		Device nvml.Device
-	}{
-		Device: device,
-	}
-	mock.lockDeviceGetVgpuSchedulerLog.Lock()
-	mock.calls.DeviceGetVgpuSchedulerLog = append(mock.calls.DeviceGetVgpuSchedulerLog, callInfo)
-	mock.lockDeviceGetVgpuSchedulerLog.Unlock()
-	return mock.DeviceGetVgpuSchedulerLogFunc(device)
-}
-
-// DeviceGetVgpuSchedulerLogCalls gets all the calls that were made to DeviceGetVgpuSchedulerLog.
-// Check the length with:
-//
-//	len(mockedInterface.DeviceGetVgpuSchedulerLogCalls())
-func (mock *Interface) DeviceGetVgpuSchedulerLogCalls() []struct {
-	Device nvml.Device
-} {
-	var calls []struct {
-		Device nvml.Device
-	}
-	mock.lockDeviceGetVgpuSchedulerLog.RLock()
-	calls = mock.calls.DeviceGetVgpuSchedulerLog
-	mock.lockDeviceGetVgpuSchedulerLog.RUnlock()
-	return calls
-}
-
-// DeviceGetVgpuSchedulerState calls DeviceGetVgpuSchedulerStateFunc.
-func (mock *Interface) DeviceGetVgpuSchedulerState(device nvml.Device) (nvml.VgpuSchedulerGetState, nvml.Return) {
-	if mock.DeviceGetVgpuSchedulerStateFunc == nil {
-		panic("Interface.DeviceGetVgpuSchedulerStateFunc: method is nil but Interface.DeviceGetVgpuSchedulerState was just called")
-	}
-	callInfo := struct {
-		Device nvml.Device
-	}{
-		Device: device,
-	}
-	mock.lockDeviceGetVgpuSchedulerState.Lock()
-	mock.calls.DeviceGetVgpuSchedulerState = append(mock.calls.DeviceGetVgpuSchedulerState, callInfo)
-	mock.lockDeviceGetVgpuSchedulerState.Unlock()
-	return mock.DeviceGetVgpuSchedulerStateFunc(device)
-}
-
-// DeviceGetVgpuSchedulerStateCalls gets all the calls that were made to DeviceGetVgpuSchedulerState.
-// Check the length with:
-//
-//	len(mockedInterface.DeviceGetVgpuSchedulerStateCalls())
-func (mock *Interface) DeviceGetVgpuSchedulerStateCalls() []struct {
-	Device nvml.Device
-} {
-	var calls []struct {
-		Device nvml.Device
-	}
-	mock.lockDeviceGetVgpuSchedulerState.RLock()
-	calls = mock.calls.DeviceGetVgpuSchedulerState
-	mock.lockDeviceGetVgpuSchedulerState.RUnlock()
-	return calls
-}
-
 // DeviceGetVgpuUtilization calls DeviceGetVgpuUtilizationFunc.
 func (mock *Interface) DeviceGetVgpuUtilization(device nvml.Device, v uint64) (nvml.ValueType, []nvml.VgpuInstanceUtilizationSample, nvml.Return) {
 	if mock.DeviceGetVgpuUtilizationFunc == nil {
@@ -10797,42 +10651,6 @@ func (mock *Interface) DeviceSetTemperatureThresholdCalls() []struct {
 	mock.lockDeviceSetTemperatureThreshold.RLock()
 	calls = mock.calls.DeviceSetTemperatureThreshold
 	mock.lockDeviceSetTemperatureThreshold.RUnlock()
-	return calls
-}
-
-// DeviceSetVgpuSchedulerState calls DeviceSetVgpuSchedulerStateFunc.
-func (mock *Interface) DeviceSetVgpuSchedulerState(device nvml.Device, vgpuSchedulerSetState *nvml.VgpuSchedulerSetState) nvml.Return {
-	if mock.DeviceSetVgpuSchedulerStateFunc == nil {
-		panic("Interface.DeviceSetVgpuSchedulerStateFunc: method is nil but Interface.DeviceSetVgpuSchedulerState was just called")
-	}
-	callInfo := struct {
-		Device                nvml.Device
-		VgpuSchedulerSetState *nvml.VgpuSchedulerSetState
-	}{
-		Device:                device,
-		VgpuSchedulerSetState: vgpuSchedulerSetState,
-	}
-	mock.lockDeviceSetVgpuSchedulerState.Lock()
-	mock.calls.DeviceSetVgpuSchedulerState = append(mock.calls.DeviceSetVgpuSchedulerState, callInfo)
-	mock.lockDeviceSetVgpuSchedulerState.Unlock()
-	return mock.DeviceSetVgpuSchedulerStateFunc(device, vgpuSchedulerSetState)
-}
-
-// DeviceSetVgpuSchedulerStateCalls gets all the calls that were made to DeviceSetVgpuSchedulerState.
-// Check the length with:
-//
-//	len(mockedInterface.DeviceSetVgpuSchedulerStateCalls())
-func (mock *Interface) DeviceSetVgpuSchedulerStateCalls() []struct {
-	Device                nvml.Device
-	VgpuSchedulerSetState *nvml.VgpuSchedulerSetState
-} {
-	var calls []struct {
-		Device                nvml.Device
-		VgpuSchedulerSetState *nvml.VgpuSchedulerSetState
-	}
-	mock.lockDeviceSetVgpuSchedulerState.RLock()
-	calls = mock.calls.DeviceSetVgpuSchedulerState
-	mock.lockDeviceSetVgpuSchedulerState.RUnlock()
 	return calls
 }
 

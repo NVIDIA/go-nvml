@@ -31,9 +31,9 @@ const (
 	// NO_UNVERSIONED_FUNC_DEFS as defined in go-nvml/<predefine>:24
 	NO_UNVERSIONED_FUNC_DEFS = 1
 	// API_VERSION as defined in nvml/nvml.h
-	API_VERSION = 11
+	API_VERSION = 12
 	// API_VERSION_STR as defined in nvml/nvml.h
-	API_VERSION_STR = "11"
+	API_VERSION_STR = "12"
 	// VALUE_NOT_AVAILABLE as defined in nvml/nvml.h
 	VALUE_NOT_AVAILABLE = -1
 	// DEVICE_PCI_BUS_ID_BUFFER_SIZE as defined in nvml/nvml.h
@@ -78,18 +78,6 @@ const (
 	VGPU_NAME_BUFFER_SIZE = 64
 	// GRID_LICENSE_FEATURE_MAX_COUNT as defined in nvml/nvml.h
 	GRID_LICENSE_FEATURE_MAX_COUNT = 3
-	// VGPU_SCHEDULER_POLICY_UNKNOWN as defined in nvml/nvml.h
-	VGPU_SCHEDULER_POLICY_UNKNOWN = 0
-	// VGPU_SCHEDULER_POLICY_BEST_EFFORT as defined in nvml/nvml.h
-	VGPU_SCHEDULER_POLICY_BEST_EFFORT = 1
-	// VGPU_SCHEDULER_POLICY_EQUAL_SHARE as defined in nvml/nvml.h
-	VGPU_SCHEDULER_POLICY_EQUAL_SHARE = 2
-	// VGPU_SCHEDULER_POLICY_FIXED_SHARE as defined in nvml/nvml.h
-	VGPU_SCHEDULER_POLICY_FIXED_SHARE = 3
-	// SUPPORTED_VGPU_SCHEDULER_POLICY_COUNT as defined in nvml/nvml.h
-	SUPPORTED_VGPU_SCHEDULER_POLICY_COUNT = 3
-	// SCHEDULER_SW_MAX_LOG_ENTRIES as defined in nvml/nvml.h
-	SCHEDULER_SW_MAX_LOG_ENTRIES = 200
 	// GRID_LICENSE_STATE_UNKNOWN as defined in nvml/nvml.h
 	GRID_LICENSE_STATE_UNKNOWN = 0
 	// GRID_LICENSE_STATE_UNINITIALIZED as defined in nvml/nvml.h
@@ -499,7 +487,7 @@ const (
 	// FI_DEV_PCIE_L0_TO_RECOVERY_COUNTER as defined in nvml/nvml.h
 	FI_DEV_PCIE_L0_TO_RECOVERY_COUNTER = 169
 	// FI_MAX as defined in nvml/nvml.h
-	FI_MAX = 170
+	FI_MAX = 173
 	// EventTypeSingleBitEccError as defined in nvml/nvml.h
 	EventTypeSingleBitEccError = 1
 	// EventTypeDoubleBitEccError as defined in nvml/nvml.h
@@ -753,6 +741,7 @@ type GpuP2PStatus int32
 const (
 	P2P_STATUS_OK                         GpuP2PStatus = iota
 	P2P_STATUS_CHIPSET_NOT_SUPPORED       GpuP2PStatus = 1
+	P2P_STATUS_CHIPSET_NOT_SUPPORTED      GpuP2PStatus = 1
 	P2P_STATUS_GPU_NOT_SUPPORTED          GpuP2PStatus = 2
 	P2P_STATUS_IOH_TOPOLOGY_NOT_SUPPORTED GpuP2PStatus = 3
 	P2P_STATUS_DISABLED_BY_REGKEY         GpuP2PStatus = 4
@@ -1137,7 +1126,9 @@ const (
 	DEVICE_VGPU_CAP_FRACTIONAL_MULTI_VGPU            DeviceVgpuCapability = iota
 	DEVICE_VGPU_CAP_HETEROGENEOUS_TIMESLICE_PROFILES DeviceVgpuCapability = 1
 	DEVICE_VGPU_CAP_HETEROGENEOUS_TIMESLICE_SIZES    DeviceVgpuCapability = 2
-	DEVICE_VGPU_CAP_COUNT                            DeviceVgpuCapability = 3
+	DEVICE_VGPU_CAP_READ_DEVICE_BUFFER_BW            DeviceVgpuCapability = 3
+	DEVICE_VGPU_CAP_WRITE_DEVICE_BUFFER_BW           DeviceVgpuCapability = 4
+	DEVICE_VGPU_CAP_COUNT                            DeviceVgpuCapability = 5
 )
 
 // GpuUtilizationDomainId as declared in nvml/nvml.h

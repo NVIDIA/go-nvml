@@ -184,9 +184,6 @@ var (
 	DeviceGetVgpuCapabilities                       = libnvml.DeviceGetVgpuCapabilities
 	DeviceGetVgpuMetadata                           = libnvml.DeviceGetVgpuMetadata
 	DeviceGetVgpuProcessUtilization                 = libnvml.DeviceGetVgpuProcessUtilization
-	DeviceGetVgpuSchedulerCapabilities              = libnvml.DeviceGetVgpuSchedulerCapabilities
-	DeviceGetVgpuSchedulerLog                       = libnvml.DeviceGetVgpuSchedulerLog
-	DeviceGetVgpuSchedulerState                     = libnvml.DeviceGetVgpuSchedulerState
 	DeviceGetVgpuUtilization                        = libnvml.DeviceGetVgpuUtilization
 	DeviceGetViolationStatus                        = libnvml.DeviceGetViolationStatus
 	DeviceGetVirtualizationMode                     = libnvml.DeviceGetVirtualizationMode
@@ -225,7 +222,6 @@ var (
 	DeviceSetPersistenceMode                        = libnvml.DeviceSetPersistenceMode
 	DeviceSetPowerManagementLimit                   = libnvml.DeviceSetPowerManagementLimit
 	DeviceSetTemperatureThreshold                   = libnvml.DeviceSetTemperatureThreshold
-	DeviceSetVgpuSchedulerState                     = libnvml.DeviceSetVgpuSchedulerState
 	DeviceSetVirtualizationMode                     = libnvml.DeviceSetVirtualizationMode
 	DeviceValidateInforom                           = libnvml.DeviceValidateInforom
 	ErrorString                                     = libnvml.ErrorString
@@ -481,9 +477,6 @@ type Interface interface {
 	DeviceGetVgpuCapabilities(Device, DeviceVgpuCapability) (bool, Return)
 	DeviceGetVgpuMetadata(Device) (VgpuPgpuMetadata, Return)
 	DeviceGetVgpuProcessUtilization(Device, uint64) ([]VgpuProcessUtilizationSample, Return)
-	DeviceGetVgpuSchedulerCapabilities(Device) (VgpuSchedulerCapabilities, Return)
-	DeviceGetVgpuSchedulerLog(Device) (VgpuSchedulerLog, Return)
-	DeviceGetVgpuSchedulerState(Device) (VgpuSchedulerGetState, Return)
 	DeviceGetVgpuUtilization(Device, uint64) (ValueType, []VgpuInstanceUtilizationSample, Return)
 	DeviceGetViolationStatus(Device, PerfPolicyType) (ViolationTime, Return)
 	DeviceGetVirtualizationMode(Device) (GpuVirtualizationMode, Return)
@@ -522,7 +515,6 @@ type Interface interface {
 	DeviceSetPersistenceMode(Device, EnableState) Return
 	DeviceSetPowerManagementLimit(Device, uint32) Return
 	DeviceSetTemperatureThreshold(Device, TemperatureThresholds, int) Return
-	DeviceSetVgpuSchedulerState(Device, *VgpuSchedulerSetState) Return
 	DeviceSetVirtualizationMode(Device, GpuVirtualizationMode) Return
 	DeviceValidateInforom(Device) Return
 	ErrorString(Return) string
@@ -770,9 +762,6 @@ type Device interface {
 	GetVgpuCapabilities(DeviceVgpuCapability) (bool, Return)
 	GetVgpuMetadata() (VgpuPgpuMetadata, Return)
 	GetVgpuProcessUtilization(uint64) ([]VgpuProcessUtilizationSample, Return)
-	GetVgpuSchedulerCapabilities() (VgpuSchedulerCapabilities, Return)
-	GetVgpuSchedulerLog() (VgpuSchedulerLog, Return)
-	GetVgpuSchedulerState() (VgpuSchedulerGetState, Return)
 	GetVgpuUtilization(uint64) (ValueType, []VgpuInstanceUtilizationSample, Return)
 	GetViolationStatus(PerfPolicyType) (ViolationTime, Return)
 	GetVirtualizationMode() (GpuVirtualizationMode, Return)
@@ -811,7 +800,6 @@ type Device interface {
 	SetPersistenceMode(EnableState) Return
 	SetPowerManagementLimit(uint32) Return
 	SetTemperatureThreshold(TemperatureThresholds, int) Return
-	SetVgpuSchedulerState(*VgpuSchedulerSetState) Return
 	SetVirtualizationMode(GpuVirtualizationMode) Return
 	ValidateInforom() Return
 	VgpuTypeGetMaxInstances(VgpuTypeId) (int, Return)

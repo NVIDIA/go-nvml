@@ -2156,42 +2156,6 @@ func nvmlDeviceGetPgpuMetadataString(nvmlDevice nvmlDevice, PgpuMetadata *byte, 
 	return __v
 }
 
-// nvmlDeviceGetVgpuSchedulerLog function as declared in nvml/nvml.h
-func nvmlDeviceGetVgpuSchedulerLog(nvmlDevice nvmlDevice, PSchedulerLog *VgpuSchedulerLog) Return {
-	cnvmlDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&nvmlDevice)), cgoAllocsUnknown
-	cPSchedulerLog, _ := (*C.nvmlVgpuSchedulerLog_t)(unsafe.Pointer(PSchedulerLog)), cgoAllocsUnknown
-	__ret := C.nvmlDeviceGetVgpuSchedulerLog(cnvmlDevice, cPSchedulerLog)
-	__v := (Return)(__ret)
-	return __v
-}
-
-// nvmlDeviceGetVgpuSchedulerState function as declared in nvml/nvml.h
-func nvmlDeviceGetVgpuSchedulerState(nvmlDevice nvmlDevice, PSchedulerState *VgpuSchedulerGetState) Return {
-	cnvmlDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&nvmlDevice)), cgoAllocsUnknown
-	cPSchedulerState, _ := (*C.nvmlVgpuSchedulerGetState_t)(unsafe.Pointer(PSchedulerState)), cgoAllocsUnknown
-	__ret := C.nvmlDeviceGetVgpuSchedulerState(cnvmlDevice, cPSchedulerState)
-	__v := (Return)(__ret)
-	return __v
-}
-
-// nvmlDeviceSetVgpuSchedulerState function as declared in nvml/nvml.h
-func nvmlDeviceSetVgpuSchedulerState(nvmlDevice nvmlDevice, PSchedulerState *VgpuSchedulerSetState) Return {
-	cnvmlDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&nvmlDevice)), cgoAllocsUnknown
-	cPSchedulerState, _ := (*C.nvmlVgpuSchedulerSetState_t)(unsafe.Pointer(PSchedulerState)), cgoAllocsUnknown
-	__ret := C.nvmlDeviceSetVgpuSchedulerState(cnvmlDevice, cPSchedulerState)
-	__v := (Return)(__ret)
-	return __v
-}
-
-// nvmlDeviceGetVgpuSchedulerCapabilities function as declared in nvml/nvml.h
-func nvmlDeviceGetVgpuSchedulerCapabilities(nvmlDevice nvmlDevice, PCapabilities *VgpuSchedulerCapabilities) Return {
-	cnvmlDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&nvmlDevice)), cgoAllocsUnknown
-	cPCapabilities, _ := (*C.nvmlVgpuSchedulerCapabilities_t)(unsafe.Pointer(PCapabilities)), cgoAllocsUnknown
-	__ret := C.nvmlDeviceGetVgpuSchedulerCapabilities(cnvmlDevice, cPCapabilities)
-	__v := (Return)(__ret)
-	return __v
-}
-
 // nvmlGetVgpuVersion function as declared in nvml/nvml.h
 func nvmlGetVgpuVersion(Supported *VgpuVersion, Current *VgpuVersion) Return {
 	cSupported, _ := (*C.nvmlVgpuVersion_t)(unsafe.Pointer(Supported)), cgoAllocsUnknown

@@ -2654,48 +2654,6 @@ func (device nvmlDevice) GetVgpuCapabilities(capability DeviceVgpuCapability) (b
 	return (capResult != 0), ret
 }
 
-// nvml.DeviceGetVgpuSchedulerLog()
-func (l *library) DeviceGetVgpuSchedulerLog(device Device) (VgpuSchedulerLog, Return) {
-	return device.GetVgpuSchedulerLog()
-}
-
-func (device nvmlDevice) GetVgpuSchedulerLog() (VgpuSchedulerLog, Return) {
-	var pSchedulerLog VgpuSchedulerLog
-	ret := nvmlDeviceGetVgpuSchedulerLog(device, &pSchedulerLog)
-	return pSchedulerLog, ret
-}
-
-// nvml.DeviceGetVgpuSchedulerState()
-func (l *library) DeviceGetVgpuSchedulerState(device Device) (VgpuSchedulerGetState, Return) {
-	return device.GetVgpuSchedulerState()
-}
-
-func (device nvmlDevice) GetVgpuSchedulerState() (VgpuSchedulerGetState, Return) {
-	var pSchedulerState VgpuSchedulerGetState
-	ret := nvmlDeviceGetVgpuSchedulerState(device, &pSchedulerState)
-	return pSchedulerState, ret
-}
-
-// nvml.DeviceSetVgpuSchedulerState()
-func (l *library) DeviceSetVgpuSchedulerState(device Device, pSchedulerState *VgpuSchedulerSetState) Return {
-	return device.SetVgpuSchedulerState(pSchedulerState)
-}
-
-func (device nvmlDevice) SetVgpuSchedulerState(pSchedulerState *VgpuSchedulerSetState) Return {
-	return nvmlDeviceSetVgpuSchedulerState(device, pSchedulerState)
-}
-
-// nvml.DeviceGetVgpuSchedulerCapabilities()
-func (l *library) DeviceGetVgpuSchedulerCapabilities(device Device) (VgpuSchedulerCapabilities, Return) {
-	return device.GetVgpuSchedulerCapabilities()
-}
-
-func (device nvmlDevice) GetVgpuSchedulerCapabilities() (VgpuSchedulerCapabilities, Return) {
-	var pCapabilities VgpuSchedulerCapabilities
-	ret := nvmlDeviceGetVgpuSchedulerCapabilities(device, &pCapabilities)
-	return pCapabilities, ret
-}
-
 // nvml.GpuInstanceGetComputeInstancePossiblePlacements()
 func (l *library) GpuInstanceGetComputeInstancePossiblePlacements(gpuInstance GpuInstance, info *ComputeInstanceProfileInfo) ([]ComputeInstancePlacement, Return) {
 	return gpuInstance.GetComputeInstancePossiblePlacements(info)
