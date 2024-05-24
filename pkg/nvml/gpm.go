@@ -51,20 +51,31 @@ func (g *nvmlGpmMetricsGetType) convert() *GpmMetricsGetType {
 
 // nvml.GpmMetricsGet()
 type GpmMetricsGetVType struct {
-	metricsGet *nvmlGpmMetricsGetType
+	metricsGet *GpmMetricsGetType
 }
 
 func (l *library) GpmMetricsGetV(metricsGet *GpmMetricsGetType) GpmMetricsGetVType {
-	return GpmMetricsGetVType{metricsGet.convert()}
+	return GpmMetricsGetVType{metricsGet}
 }
+
+// nvmlGpmMetricsGetStub is a stub function that can be overridden for testing.
+var nvmlGpmMetricsGetStub = nvmlGpmMetricsGet
+
 func (metricsGetV GpmMetricsGetVType) V1() Return {
 	metricsGetV.metricsGet.Version = 1
-	return nvmlGpmMetricsGet(metricsGetV.metricsGet)
+	return gpmMetricsGet(metricsGetV.metricsGet)
 }
 
 func (l *library) GpmMetricsGet(metricsGet *GpmMetricsGetType) Return {
 	metricsGet.Version = GPM_METRICS_GET_VERSION
-	return nvmlGpmMetricsGet(metricsGet.convert())
+	return gpmMetricsGet(metricsGet)
+}
+
+func gpmMetricsGet(metricsGet *GpmMetricsGetType) Return {
+	nvmlMetricsGet := metricsGet.convert()
+	ret := nvmlGpmMetricsGetStub(nvmlMetricsGet)
+	*metricsGet = *nvmlMetricsGet.convert()
+	return ret
 }
 
 // nvml.GpmSampleFree()
