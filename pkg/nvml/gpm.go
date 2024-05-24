@@ -150,3 +150,23 @@ func (device nvmlDevice) GpmMigSampleGet(gpuInstanceId int, gpmSample GpmSample)
 func (gpmSample nvmlGpmSample) MigGet(device Device, gpuInstanceId int) Return {
 	return nvmlGpmMigSampleGet(nvmlDeviceHandle(device), uint32(gpuInstanceId), gpmSample)
 }
+
+// nvml.GpmQueryIfStreamingEnabled()
+func (l *library) GpmQueryIfStreamingEnabled(device Device) (uint32, Return) {
+	return device.GpmQueryIfStreamingEnabled()
+}
+
+func (device nvmlDevice) GpmQueryIfStreamingEnabled() (uint32, Return) {
+	var state uint32
+	ret := nvmlGpmQueryIfStreamingEnabled(device, &state)
+	return state, ret
+}
+
+// nvml.GpmSetStreamingEnabled()
+func (l *library) GpmSetStreamingEnabled(device Device, state uint32) Return {
+	return device.GpmSetStreamingEnabled(state)
+}
+
+func (device nvmlDevice) GpmSetStreamingEnabled(state uint32) Return {
+	return nvmlGpmSetStreamingEnabled(device, state)
+}
