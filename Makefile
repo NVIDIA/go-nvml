@@ -172,50 +172,45 @@ clean-bindings:
 	rm -f $(PKG_BINDINGS_DIR)/types_gen.go
 	rm -f $(PKG_BINDINGS_DIR)/zz_generated.api.go
 
-# Update nvml.h from the Anaconda package repository
+# Update nvml.h from the NVIDIA headers repo on gitlab
 update-nvml-h: JQ ?= $(DOCKER) run -i --rm -v "$(PWD):$(PWD)" -w "$(PWD)" backplane/jq:latest
-update-nvml-h: NVML_DEV_PACKAGES_INFO := $(shell \
-		wget -qO - https://api.anaconda.org/package/nvidia/cuda-nvml-dev/files | \
-			$(JQ) '.[] | select(.attrs.subdir=="linux-64") | .version + "@" + .upload_time[:19] + "@" + .full_name' | \
+update-nvml-h: NVML_DEV_HEADERS_INFO := $(shell \
+		wget -qO - https://gitlab.com/api/v4/projects/nvidia%2Fheaders%2Fcuda-individual%2Fnvml_dev/repository/tags?search="^v" | \
+			$(JQ) '.[] | select(.name | test("^v")) | .name[1:] + "@" + .created_at[:19]' | \
 			tr -d '"' | tr ' ' '-' | sort -rV \
 	)
-update-nvml-h: NVML_DEV_PACKAGES_COUNT := $(words $(NVML_DEV_PACKAGES_INFO))
+update-nvml-h: NVML_DEV_HEADERS_COUNT := $(words $(NVML_DEV_HEADERS_INFO))
 update-nvml-h: .list-nvml-packages
 update-nvml-h:
-	@read -p "Pick an NVML package to update ([1]-$(NVML_DEV_PACKAGES_COUNT)): " idx; \
+	@read -p "Pick an NVML header to update ([1]-$(NVML_DEV_HEADERS_COUNT)): " idx; \
 	if [ -z $${idx} ]; then idx=1; fi; \
-	if ! [ $${idx} -ge 1 ] || ! [ $${idx} -le $(NVML_DEV_PACKAGES_COUNT) ]; then echo "Invalid number: \"$${idx}\""; exit 1; fi; \
-	NVML_DEV_PACKAGE_INFO="$$(echo "$(NVML_DEV_PACKAGES_INFO)" | cut -d ' ' -f$${idx})"; \
-	NVML_VERSION="$$(echo "$${NVML_DEV_PACKAGE_INFO}" | cut -d '@' -f1)"; \
-	NVML_DEV_PACKAGE="$$(echo "$${NVML_DEV_PACKAGE_INFO}" | cut -d '@' -f3)"; \
-	NVML_DEV_PACKAGE_URL="https://api.anaconda.org/download/$${NVML_DEV_PACKAGE}"; \
+	if ! [ $${idx} -ge 1 ] || ! [ $${idx} -le $(NVML_DEV_HEADERS_COUNT) ]; then echo "Invalid number: \"$${idx}\""; exit 1; fi; \
+	NVML_DEV_HEADERS_INFO="$$(echo "$(NVML_DEV_HEADERS_INFO)" | cut -d ' ' -f$${idx})"; \
+	NVML_VERSION="$$(echo "$${NVML_DEV_HEADERS_INFO}" | cut -d '@' -f1)"; \
+	NVML_DEV_HEADER_URL="https://gitlab.com/nvidia/headers/cuda-individual/nvml_dev/-/raw/v$${NVML_VERSION}/nvml.h"; \
 	echo; \
 	echo "NVML version: $${NVML_VERSION}"; \
-	echo "Package: $${NVML_DEV_PACKAGE}"; \
 	echo; \
-	echo "Updating nvml.h to $${NVML_VERSION} from $${NVML_DEV_PACKAGE_URL} ..."; \
-	wget -qO - "$${NVML_DEV_PACKAGE_URL}" | \
-	tar -xj --directory="$(GEN_BINDINGS_DIR)" \
-		--strip-components=1 include/nvml.h && \
+	echo "Updating nvml.h to $${NVML_VERSION} from $${NVML_DEV_HEADER_URL} ..."; \
+	wget -O "$(GEN_BINDINGS_DIR)/nvml.h" "$${NVML_DEV_HEADER_URL}" && \
 	$(SED) -i -E 's#[[:blank:]]+$$##g' "$(GEN_BINDINGS_DIR)/nvml.h" && \
-	$(SED) -i "1i /*** From $${NVML_DEV_PACKAGE_URL} ***/" "$(GEN_BINDINGS_DIR)/nvml.h" && \
+	$(SED) -i "1i /*** From $${NVML_DEV_HEADER_URL} ***/" "$(GEN_BINDINGS_DIR)/nvml.h" && \
 	$(SED) -i "1i /*** NVML VERSION: $${NVML_VERSION} ***/" "$(GEN_BINDINGS_DIR)/nvml.h" && \
 	echo "Successfully updated nvml.h to $${NVML_VERSION}."
 
 .list-nvml-packages:
-	@if [ $(NVML_DEV_PACKAGES_COUNT) -eq 0 ]; then \
+	@if [ $(NVML_DEV_HEADERS_COUNT) -eq 0 ]; then \
 		echo "Failed to get NVML from anaconda.org, please try again."; \
 		exit 1; \
 	fi
-	@echo "Found $(NVML_DEV_PACKAGES_COUNT) NVML packages:"; echo
-	@printf "%3s  %-8s  %-19s  %-s\n" "No." "Version" "Upload Time" "Package"
+	@echo "Found $(NVML_DEV_HEADERS_COUNT) NVML headers:"; echo
+	@printf "%3s  %-8s  %-19s\n" "No." "Version" "Upload Time"
 	@idx=0; \
-	for info in $(NVML_DEV_PACKAGES_INFO); do \
+	for info in $(NVML_DEV_HEADERS_INFO); do \
 		idx=$$((idx + 1)); \
 		NVML_VERSION="$$(echo "$${info}" | cut -d '@' -f1)"; \
 		UPLOAD_TIME="$$(echo "$${info}" | cut -d '@' -f2)"; \
-		PACKAGE="$$(echo "$${info}" | cut -d '@' -f3)"; \
-		printf "%3s  %-8s  %-19s  %-s\n" "$${idx}" "$${NVML_VERSION}" "$${UPLOAD_TIME}" "$${PACKAGE}"; \
+		printf "%3s  %-8s  %-19s\n" "$${idx}" "$${NVML_VERSION}" "$${UPLOAD_TIME}"; \
 	done; \
 	echo
 
