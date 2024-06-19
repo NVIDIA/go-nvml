@@ -58,6 +58,11 @@ fmt:
 	go list -f '{{.Dir}}' $(MODULE)/pkg/... $(MODULE)/gen/... \
 		| xargs gofmt -s -l -w
 
+# Apply goimports -local to the codebase
+goimports:
+	go list -f {{.Dir}} $(MODULE)/... \
+		| xargs goimports -local $(MODULE) -w
+
 golangci-lint:
 	golangci-lint run ./pkg/...
 

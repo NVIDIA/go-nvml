@@ -30,9 +30,8 @@ func (g *GpmMetricsGetType) convert() *nvmlGpmMetricsGetType {
 		Sample1:    g.Sample1.(nvmlGpmSample),
 		Sample2:    g.Sample2.(nvmlGpmSample),
 	}
-	for i := range g.Metrics {
-		out.Metrics[i] = g.Metrics[i]
-	}
+	out.Metrics = g.Metrics
+
 	return out
 }
 
@@ -43,9 +42,8 @@ func (g *nvmlGpmMetricsGetType) convert() *GpmMetricsGetType {
 		Sample1:    g.Sample1,
 		Sample2:    g.Sample2,
 	}
-	for i := range g.Metrics {
-		out.Metrics[i] = g.Metrics[i]
-	}
+	out.Metrics = g.Metrics
+
 	return out
 }
 

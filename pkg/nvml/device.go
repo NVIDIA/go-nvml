@@ -68,6 +68,7 @@ type GpuInstanceInfo struct {
 	Placement GpuInstancePlacement
 }
 
+//nolint:unused
 func (g GpuInstanceInfo) convert() nvmlGpuInstanceInfo {
 	out := nvmlGpuInstanceInfo{
 		Device:    g.Device.(nvmlDevice),
@@ -97,6 +98,7 @@ type ComputeInstanceInfo struct {
 	Placement   ComputeInstancePlacement
 }
 
+//nolint:unused
 func (c ComputeInstanceInfo) convert() nvmlComputeInstanceInfo {
 	out := nvmlComputeInstanceInfo{
 		Device:      c.Device.(nvmlDevice),

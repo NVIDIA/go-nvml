@@ -23,6 +23,7 @@ type EventData struct {
 	ComputeInstanceId uint32
 }
 
+//nolint:unused
 func (e EventData) convert() nvmlEventData {
 	out := nvmlEventData{
 		Device:            e.Device.(nvmlDevice),

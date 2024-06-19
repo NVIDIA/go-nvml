@@ -49,8 +49,10 @@ func TestInit(t *testing.T) {
 func TestSystem(t *testing.T) {
 	requireLibNvidiaML(t)
 
-	Init()
-	defer Shutdown()
+	_ = Init()
+	defer func() {
+		_ = Shutdown()
+	}()
 
 	driverVersion, ret := SystemGetDriverVersion()
 	if ret != SUCCESS {
@@ -118,8 +120,10 @@ func TestSystem(t *testing.T) {
 func TestUnit(t *testing.T) {
 	requireLibNvidiaML(t)
 
-	Init()
-	defer Shutdown()
+	_ = Init()
+	defer func() {
+		_ = Shutdown()
+	}()
 
 	unitCount, ret := UnitGetCount()
 	if ret != SUCCESS {
@@ -261,8 +265,10 @@ func TestUnit(t *testing.T) {
 func TestEventSet(t *testing.T) {
 	requireLibNvidiaML(t)
 
-	Init()
-	defer Shutdown()
+	_ = Init()
+	defer func() {
+		_ = Shutdown()
+	}()
 
 	set, ret := EventSetCreate()
 	if ret != SUCCESS {
