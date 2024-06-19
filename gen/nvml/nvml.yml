@@ -59,6 +59,9 @@ TRANSLATOR:
       - {action: replace, from: "^nvml"}
       - {action: replace, from: "_t$"}
       - {transform: export}
+      # We explicitly unexport the SUCCESS and ERROR_ constants to allow for go-native error implementations.
+      - {action: replace, from: "^SUCCESS", to: "nvmlSUCCESS"}
+      - {action: replace, from: "^ERROR", to: "nvmlERROR"}
     type:
       - {action: accept, from: "^nvml"}
       - {action: replace, from: "^nvml"}

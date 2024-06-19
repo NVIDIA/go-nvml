@@ -146,38 +146,38 @@ func (s *Server) setMockFuncs() {
 		return nil
 	}
 
-	s.InitFunc = func() nvml.Return {
+	s.InitFunc = func() error {
 		return nvml.SUCCESS
 	}
 
-	s.ShutdownFunc = func() nvml.Return {
+	s.ShutdownFunc = func() error {
 		return nvml.SUCCESS
 	}
 
-	s.SystemGetDriverVersionFunc = func() (string, nvml.Return) {
+	s.SystemGetDriverVersionFunc = func() (string, error) {
 		return s.DriverVersion, nvml.SUCCESS
 	}
 
-	s.SystemGetNVMLVersionFunc = func() (string, nvml.Return) {
+	s.SystemGetNVMLVersionFunc = func() (string, error) {
 		return s.NvmlVersion, nvml.SUCCESS
 	}
 
-	s.SystemGetCudaDriverVersionFunc = func() (int, nvml.Return) {
+	s.SystemGetCudaDriverVersionFunc = func() (int, error) {
 		return s.CudaDriverVersion, nvml.SUCCESS
 	}
 
-	s.DeviceGetCountFunc = func() (int, nvml.Return) {
+	s.DeviceGetCountFunc = func() (int, error) {
 		return len(s.Devices), nvml.SUCCESS
 	}
 
-	s.DeviceGetHandleByIndexFunc = func(index int) (nvml.Device, nvml.Return) {
+	s.DeviceGetHandleByIndexFunc = func(index int) (nvml.Device, error) {
 		if index < 0 || index >= len(s.Devices) {
 			return nil, nvml.ERROR_INVALID_ARGUMENT
 		}
 		return s.Devices[index], nvml.SUCCESS
 	}
 
-	s.DeviceGetHandleByUUIDFunc = func(uuid string) (nvml.Device, nvml.Return) {
+	s.DeviceGetHandleByUUIDFunc = func(uuid string) (nvml.Device, error) {
 		for _, d := range s.Devices {
 			if uuid == d.(*Device).UUID {
 				return d, nvml.SUCCESS
@@ -186,7 +186,7 @@ func (s *Server) setMockFuncs() {
 		return nil, nvml.ERROR_INVALID_ARGUMENT
 	}
 
-	s.DeviceGetHandleByPciBusIdFunc = func(busID string) (nvml.Device, nvml.Return) {
+	s.DeviceGetHandleByPciBusIdFunc = func(busID string) (nvml.Device, error) {
 		for _, d := range s.Devices {
 			if busID == d.(*Device).PciBusID {
 				return d, nvml.SUCCESS
@@ -197,55 +197,55 @@ func (s *Server) setMockFuncs() {
 }
 
 func (d *Device) setMockFuncs() {
-	d.GetMinorNumberFunc = func() (int, nvml.Return) {
+	d.GetMinorNumberFunc = func() (int, error) {
 		return d.Minor, nvml.SUCCESS
 	}
 
-	d.GetIndexFunc = func() (int, nvml.Return) {
+	d.GetIndexFunc = func() (int, error) {
 		return d.Index, nvml.SUCCESS
 	}
 
-	d.GetCudaComputeCapabilityFunc = func() (int, int, nvml.Return) {
+	d.GetCudaComputeCapabilityFunc = func() (int, int, error) {
 		return d.CudaComputeCapability.Major, d.CudaComputeCapability.Minor, nvml.SUCCESS
 	}
 
-	d.GetUUIDFunc = func() (string, nvml.Return) {
+	d.GetUUIDFunc = func() (string, error) {
 		return d.UUID, nvml.SUCCESS
 	}
 
-	d.GetNameFunc = func() (string, nvml.Return) {
+	d.GetNameFunc = func() (string, error) {
 		return d.Name, nvml.SUCCESS
 	}
 
-	d.GetBrandFunc = func() (nvml.BrandType, nvml.Return) {
+	d.GetBrandFunc = func() (nvml.BrandType, error) {
 		return d.Brand, nvml.SUCCESS
 	}
 
-	d.GetArchitectureFunc = func() (nvml.DeviceArchitecture, nvml.Return) {
+	d.GetArchitectureFunc = func() (nvml.DeviceArchitecture, error) {
 		return d.Architecture, nvml.SUCCESS
 	}
 
-	d.GetMemoryInfoFunc = func() (nvml.Memory, nvml.Return) {
+	d.GetMemoryInfoFunc = func() (nvml.Memory, error) {
 		return d.MemoryInfo, nvml.SUCCESS
 	}
 
-	d.GetPciInfoFunc = func() (nvml.PciInfo, nvml.Return) {
+	d.GetPciInfoFunc = func() (nvml.PciInfo, error) {
 		p := nvml.PciInfo{
 			PciDeviceId: 0x20B010DE,
 		}
 		return p, nvml.SUCCESS
 	}
 
-	d.SetMigModeFunc = func(mode int) (nvml.Return, nvml.Return) {
+	d.SetMigModeFunc = func(mode int) (error, error) {
 		d.MigMode = mode
 		return nvml.SUCCESS, nvml.SUCCESS
 	}
 
-	d.GetMigModeFunc = func() (int, int, nvml.Return) {
+	d.GetMigModeFunc = func() (int, int, error) {
 		return d.MigMode, d.MigMode, nvml.SUCCESS
 	}
 
-	d.GetGpuInstanceProfileInfoFunc = func(giProfileId int) (nvml.GpuInstanceProfileInfo, nvml.Return) {
+	d.GetGpuInstanceProfileInfoFunc = func(giProfileId int) (nvml.GpuInstanceProfileInfo, error) {
 		if giProfileId < 0 || giProfileId >= nvml.GPU_INSTANCE_PROFILE_COUNT {
 			return nvml.GpuInstanceProfileInfo{}, nvml.ERROR_INVALID_ARGUMENT
 		}
@@ -257,11 +257,11 @@ func (d *Device) setMockFuncs() {
 		return MIGProfiles.GpuInstanceProfiles[giProfileId], nvml.SUCCESS
 	}
 
-	d.GetGpuInstancePossiblePlacementsFunc = func(info *nvml.GpuInstanceProfileInfo) ([]nvml.GpuInstancePlacement, nvml.Return) {
+	d.GetGpuInstancePossiblePlacementsFunc = func(info *nvml.GpuInstanceProfileInfo) ([]nvml.GpuInstancePlacement, error) {
 		return MIGPlacements.GpuInstancePossiblePlacements[int(info.Id)], nvml.SUCCESS
 	}
 
-	d.CreateGpuInstanceFunc = func(info *nvml.GpuInstanceProfileInfo) (nvml.GpuInstance, nvml.Return) {
+	d.CreateGpuInstanceFunc = func(info *nvml.GpuInstanceProfileInfo) (nvml.GpuInstance, error) {
 		d.Lock()
 		defer d.Unlock()
 		giInfo := nvml.GpuInstanceInfo{
@@ -275,7 +275,7 @@ func (d *Device) setMockFuncs() {
 		return gi, nvml.SUCCESS
 	}
 
-	d.CreateGpuInstanceWithPlacementFunc = func(info *nvml.GpuInstanceProfileInfo, placement *nvml.GpuInstancePlacement) (nvml.GpuInstance, nvml.Return) {
+	d.CreateGpuInstanceWithPlacementFunc = func(info *nvml.GpuInstanceProfileInfo, placement *nvml.GpuInstancePlacement) (nvml.GpuInstance, error) {
 		d.Lock()
 		defer d.Unlock()
 		giInfo := nvml.GpuInstanceInfo{
@@ -290,7 +290,7 @@ func (d *Device) setMockFuncs() {
 		return gi, nvml.SUCCESS
 	}
 
-	d.GetGpuInstancesFunc = func(info *nvml.GpuInstanceProfileInfo) ([]nvml.GpuInstance, nvml.Return) {
+	d.GetGpuInstancesFunc = func(info *nvml.GpuInstanceProfileInfo) ([]nvml.GpuInstance, error) {
 		d.RLock()
 		defer d.RUnlock()
 		var gis []nvml.GpuInstance
@@ -304,11 +304,11 @@ func (d *Device) setMockFuncs() {
 }
 
 func (gi *GpuInstance) setMockFuncs() {
-	gi.GetInfoFunc = func() (nvml.GpuInstanceInfo, nvml.Return) {
+	gi.GetInfoFunc = func() (nvml.GpuInstanceInfo, error) {
 		return gi.Info, nvml.SUCCESS
 	}
 
-	gi.GetComputeInstanceProfileInfoFunc = func(ciProfileId int, ciEngProfileId int) (nvml.ComputeInstanceProfileInfo, nvml.Return) {
+	gi.GetComputeInstanceProfileInfoFunc = func(ciProfileId int, ciEngProfileId int) (nvml.ComputeInstanceProfileInfo, error) {
 		if ciProfileId < 0 || ciProfileId >= nvml.COMPUTE_INSTANCE_PROFILE_COUNT {
 			return nvml.ComputeInstanceProfileInfo{}, nvml.ERROR_INVALID_ARGUMENT
 		}
@@ -330,11 +330,11 @@ func (gi *GpuInstance) setMockFuncs() {
 		return MIGProfiles.ComputeInstanceProfiles[giProfileId][ciProfileId], nvml.SUCCESS
 	}
 
-	gi.GetComputeInstancePossiblePlacementsFunc = func(info *nvml.ComputeInstanceProfileInfo) ([]nvml.ComputeInstancePlacement, nvml.Return) {
+	gi.GetComputeInstancePossiblePlacementsFunc = func(info *nvml.ComputeInstanceProfileInfo) ([]nvml.ComputeInstancePlacement, error) {
 		return MIGPlacements.ComputeInstancePossiblePlacements[int(gi.Info.Id)][int(info.Id)], nvml.SUCCESS
 	}
 
-	gi.CreateComputeInstanceFunc = func(info *nvml.ComputeInstanceProfileInfo) (nvml.ComputeInstance, nvml.Return) {
+	gi.CreateComputeInstanceFunc = func(info *nvml.ComputeInstanceProfileInfo) (nvml.ComputeInstance, error) {
 		gi.Lock()
 		defer gi.Unlock()
 		ciInfo := nvml.ComputeInstanceInfo{
@@ -349,7 +349,7 @@ func (gi *GpuInstance) setMockFuncs() {
 		return ci, nvml.SUCCESS
 	}
 
-	gi.GetComputeInstancesFunc = func(info *nvml.ComputeInstanceProfileInfo) ([]nvml.ComputeInstance, nvml.Return) {
+	gi.GetComputeInstancesFunc = func(info *nvml.ComputeInstanceProfileInfo) ([]nvml.ComputeInstance, error) {
 		gi.RLock()
 		defer gi.RUnlock()
 		var cis []nvml.ComputeInstance
@@ -361,7 +361,7 @@ func (gi *GpuInstance) setMockFuncs() {
 		return cis, nvml.SUCCESS
 	}
 
-	gi.DestroyFunc = func() nvml.Return {
+	gi.DestroyFunc = func() error {
 		d := gi.Info.Device.(*Device)
 		d.Lock()
 		defer d.Unlock()
@@ -371,11 +371,11 @@ func (gi *GpuInstance) setMockFuncs() {
 }
 
 func (ci *ComputeInstance) setMockFuncs() {
-	ci.GetInfoFunc = func() (nvml.ComputeInstanceInfo, nvml.Return) {
+	ci.GetInfoFunc = func() (nvml.ComputeInstanceInfo, error) {
 		return ci.Info, nvml.SUCCESS
 	}
 
-	ci.DestroyFunc = func() nvml.Return {
+	ci.DestroyFunc = func() error {
 		gi := ci.Info.GpuInstance.(*GpuInstance)
 		gi.Lock()
 		defer gi.Unlock()

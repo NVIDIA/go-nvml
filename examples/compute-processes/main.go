@@ -24,31 +24,31 @@ import (
 )
 
 func main() {
-	ret := nvml.Init()
-	if ret != nvml.SUCCESS {
-		log.Fatalf("Unable to initialize NVML: %v", nvml.ErrorString(ret))
+	err := nvml.Init()
+	if err != nil {
+		log.Fatalf("Unable to initialize NVML: %v", err)
 	}
 	defer func() {
-		ret := nvml.Shutdown()
-		if ret != nvml.SUCCESS {
-			log.Fatalf("Unable to shutdown NVML: %v", nvml.ErrorString(ret))
+		err := nvml.Shutdown()
+		if err != nil {
+			log.Fatalf("Unable to shutdown NVML: %v", err)
 		}
 	}()
 
-	count, ret := nvml.DeviceGetCount()
-	if ret != nvml.SUCCESS {
-		log.Fatalf("Unable to get device count: %v", nvml.ErrorString(ret))
+	count, err := nvml.DeviceGetCount()
+	if err != nil {
+		log.Fatalf("Unable to get device count: %v", err)
 	}
 
 	for di := 0; di < count; di++ {
-		device, ret := nvml.DeviceGetHandleByIndex(di)
-		if ret != nvml.SUCCESS {
-			log.Fatalf("Unable to get device at index %d: %v", di, nvml.ErrorString(ret))
+		device, err := nvml.DeviceGetHandleByIndex(di)
+		if err != nil {
+			log.Fatalf("Unable to get device at index %d: %v", di, err)
 		}
 
-		processInfos, ret := device.GetComputeRunningProcesses()
-		if ret != nvml.SUCCESS {
-			log.Fatalf("Unable to get process info for device at index %d: %v", di, nvml.ErrorString(ret))
+		processInfos, err := device.GetComputeRunningProcesses()
+		if err != nil {
+			log.Fatalf("Unable to get process info for device at index %d: %v", di, err)
 		}
 		fmt.Printf("Found %d processes on device %d\n", len(processInfos), di)
 		for pi, processInfo := range processInfos {

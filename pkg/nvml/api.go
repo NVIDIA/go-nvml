@@ -22,7 +22,7 @@ package nvml
 // with the list of excluded methods for the Interface type in
 // gen/nvml/generateapi.go. In the future we should automate this.
 //
-//go:generate moq -out mock/extendedinterface.go -pkg mock . ExtendedInterface:ExtendedInterface
+//go:generate moq -rm -out mock/extendedinterface.go -pkg mock . ExtendedInterface:ExtendedInterface
 type ExtendedInterface interface {
 	LookupSymbol(string) error
 }

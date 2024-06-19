@@ -4,9 +4,8 @@
 package mock
 
 import (
-	"sync"
-
 	"github.com/NVIDIA/go-nvml/pkg/nvml"
+	"sync"
 )
 
 // Ensure, that Interface does implement nvml.Interface.
@@ -19,967 +18,967 @@ var _ nvml.Interface = &Interface{}
 //
 //		// make and configure a mocked nvml.Interface
 //		mockedInterface := &Interface{
-//			ComputeInstanceDestroyFunc: func(computeInstance nvml.ComputeInstance) nvml.Return {
+//			ComputeInstanceDestroyFunc: func(computeInstance nvml.ComputeInstance) error {
 //				panic("mock out the ComputeInstanceDestroy method")
 //			},
-//			ComputeInstanceGetInfoFunc: func(computeInstance nvml.ComputeInstance) (nvml.ComputeInstanceInfo, nvml.Return) {
+//			ComputeInstanceGetInfoFunc: func(computeInstance nvml.ComputeInstance) (nvml.ComputeInstanceInfo, error) {
 //				panic("mock out the ComputeInstanceGetInfo method")
 //			},
-//			DeviceClearAccountingPidsFunc: func(device nvml.Device) nvml.Return {
+//			DeviceClearAccountingPidsFunc: func(device nvml.Device) error {
 //				panic("mock out the DeviceClearAccountingPids method")
 //			},
-//			DeviceClearCpuAffinityFunc: func(device nvml.Device) nvml.Return {
+//			DeviceClearCpuAffinityFunc: func(device nvml.Device) error {
 //				panic("mock out the DeviceClearCpuAffinity method")
 //			},
-//			DeviceClearEccErrorCountsFunc: func(device nvml.Device, eccCounterType nvml.EccCounterType) nvml.Return {
+//			DeviceClearEccErrorCountsFunc: func(device nvml.Device, eccCounterType nvml.EccCounterType) error {
 //				panic("mock out the DeviceClearEccErrorCounts method")
 //			},
-//			DeviceClearFieldValuesFunc: func(device nvml.Device, fieldValues []nvml.FieldValue) nvml.Return {
+//			DeviceClearFieldValuesFunc: func(device nvml.Device, fieldValues []nvml.FieldValue) error {
 //				panic("mock out the DeviceClearFieldValues method")
 //			},
-//			DeviceCreateGpuInstanceFunc: func(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo) (nvml.GpuInstance, nvml.Return) {
+//			DeviceCreateGpuInstanceFunc: func(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo) (nvml.GpuInstance, error) {
 //				panic("mock out the DeviceCreateGpuInstance method")
 //			},
-//			DeviceCreateGpuInstanceWithPlacementFunc: func(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo, gpuInstancePlacement *nvml.GpuInstancePlacement) (nvml.GpuInstance, nvml.Return) {
+//			DeviceCreateGpuInstanceWithPlacementFunc: func(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo, gpuInstancePlacement *nvml.GpuInstancePlacement) (nvml.GpuInstance, error) {
 //				panic("mock out the DeviceCreateGpuInstanceWithPlacement method")
 //			},
-//			DeviceDiscoverGpusFunc: func() (nvml.PciInfo, nvml.Return) {
+//			DeviceDiscoverGpusFunc: func() (nvml.PciInfo, error) {
 //				panic("mock out the DeviceDiscoverGpus method")
 //			},
-//			DeviceFreezeNvLinkUtilizationCounterFunc: func(device nvml.Device, n1 int, n2 int, enableState nvml.EnableState) nvml.Return {
+//			DeviceFreezeNvLinkUtilizationCounterFunc: func(device nvml.Device, n1 int, n2 int, enableState nvml.EnableState) error {
 //				panic("mock out the DeviceFreezeNvLinkUtilizationCounter method")
 //			},
-//			DeviceGetAPIRestrictionFunc: func(device nvml.Device, restrictedAPI nvml.RestrictedAPI) (nvml.EnableState, nvml.Return) {
+//			DeviceGetAPIRestrictionFunc: func(device nvml.Device, restrictedAPI nvml.RestrictedAPI) (nvml.EnableState, error) {
 //				panic("mock out the DeviceGetAPIRestriction method")
 //			},
-//			DeviceGetAccountingBufferSizeFunc: func(device nvml.Device) (int, nvml.Return) {
+//			DeviceGetAccountingBufferSizeFunc: func(device nvml.Device) (int, error) {
 //				panic("mock out the DeviceGetAccountingBufferSize method")
 //			},
-//			DeviceGetAccountingModeFunc: func(device nvml.Device) (nvml.EnableState, nvml.Return) {
+//			DeviceGetAccountingModeFunc: func(device nvml.Device) (nvml.EnableState, error) {
 //				panic("mock out the DeviceGetAccountingMode method")
 //			},
-//			DeviceGetAccountingPidsFunc: func(device nvml.Device) ([]int, nvml.Return) {
+//			DeviceGetAccountingPidsFunc: func(device nvml.Device) ([]int, error) {
 //				panic("mock out the DeviceGetAccountingPids method")
 //			},
-//			DeviceGetAccountingStatsFunc: func(device nvml.Device, v uint32) (nvml.AccountingStats, nvml.Return) {
+//			DeviceGetAccountingStatsFunc: func(device nvml.Device, v uint32) (nvml.AccountingStats, error) {
 //				panic("mock out the DeviceGetAccountingStats method")
 //			},
-//			DeviceGetActiveVgpusFunc: func(device nvml.Device) ([]nvml.VgpuInstance, nvml.Return) {
+//			DeviceGetActiveVgpusFunc: func(device nvml.Device) ([]nvml.VgpuInstance, error) {
 //				panic("mock out the DeviceGetActiveVgpus method")
 //			},
-//			DeviceGetAdaptiveClockInfoStatusFunc: func(device nvml.Device) (uint32, nvml.Return) {
+//			DeviceGetAdaptiveClockInfoStatusFunc: func(device nvml.Device) (uint32, error) {
 //				panic("mock out the DeviceGetAdaptiveClockInfoStatus method")
 //			},
-//			DeviceGetApplicationsClockFunc: func(device nvml.Device, clockType nvml.ClockType) (uint32, nvml.Return) {
+//			DeviceGetApplicationsClockFunc: func(device nvml.Device, clockType nvml.ClockType) (uint32, error) {
 //				panic("mock out the DeviceGetApplicationsClock method")
 //			},
-//			DeviceGetArchitectureFunc: func(device nvml.Device) (nvml.DeviceArchitecture, nvml.Return) {
+//			DeviceGetArchitectureFunc: func(device nvml.Device) (nvml.DeviceArchitecture, error) {
 //				panic("mock out the DeviceGetArchitecture method")
 //			},
-//			DeviceGetAttributesFunc: func(device nvml.Device) (nvml.DeviceAttributes, nvml.Return) {
+//			DeviceGetAttributesFunc: func(device nvml.Device) (nvml.DeviceAttributes, error) {
 //				panic("mock out the DeviceGetAttributes method")
 //			},
-//			DeviceGetAutoBoostedClocksEnabledFunc: func(device nvml.Device) (nvml.EnableState, nvml.EnableState, nvml.Return) {
+//			DeviceGetAutoBoostedClocksEnabledFunc: func(device nvml.Device) (nvml.EnableState, nvml.EnableState, error) {
 //				panic("mock out the DeviceGetAutoBoostedClocksEnabled method")
 //			},
-//			DeviceGetBAR1MemoryInfoFunc: func(device nvml.Device) (nvml.BAR1Memory, nvml.Return) {
+//			DeviceGetBAR1MemoryInfoFunc: func(device nvml.Device) (nvml.BAR1Memory, error) {
 //				panic("mock out the DeviceGetBAR1MemoryInfo method")
 //			},
-//			DeviceGetBoardIdFunc: func(device nvml.Device) (uint32, nvml.Return) {
+//			DeviceGetBoardIdFunc: func(device nvml.Device) (uint32, error) {
 //				panic("mock out the DeviceGetBoardId method")
 //			},
-//			DeviceGetBoardPartNumberFunc: func(device nvml.Device) (string, nvml.Return) {
+//			DeviceGetBoardPartNumberFunc: func(device nvml.Device) (string, error) {
 //				panic("mock out the DeviceGetBoardPartNumber method")
 //			},
-//			DeviceGetBrandFunc: func(device nvml.Device) (nvml.BrandType, nvml.Return) {
+//			DeviceGetBrandFunc: func(device nvml.Device) (nvml.BrandType, error) {
 //				panic("mock out the DeviceGetBrand method")
 //			},
-//			DeviceGetBridgeChipInfoFunc: func(device nvml.Device) (nvml.BridgeChipHierarchy, nvml.Return) {
+//			DeviceGetBridgeChipInfoFunc: func(device nvml.Device) (nvml.BridgeChipHierarchy, error) {
 //				panic("mock out the DeviceGetBridgeChipInfo method")
 //			},
-//			DeviceGetBusTypeFunc: func(device nvml.Device) (nvml.BusType, nvml.Return) {
+//			DeviceGetBusTypeFunc: func(device nvml.Device) (nvml.BusType, error) {
 //				panic("mock out the DeviceGetBusType method")
 //			},
 //			DeviceGetC2cModeInfoVFunc: func(device nvml.Device) nvml.C2cModeInfoHandler {
 //				panic("mock out the DeviceGetC2cModeInfoV method")
 //			},
-//			DeviceGetClkMonStatusFunc: func(device nvml.Device) (nvml.ClkMonStatus, nvml.Return) {
+//			DeviceGetClkMonStatusFunc: func(device nvml.Device) (nvml.ClkMonStatus, error) {
 //				panic("mock out the DeviceGetClkMonStatus method")
 //			},
-//			DeviceGetClockFunc: func(device nvml.Device, clockType nvml.ClockType, clockId nvml.ClockId) (uint32, nvml.Return) {
+//			DeviceGetClockFunc: func(device nvml.Device, clockType nvml.ClockType, clockId nvml.ClockId) (uint32, error) {
 //				panic("mock out the DeviceGetClock method")
 //			},
-//			DeviceGetClockInfoFunc: func(device nvml.Device, clockType nvml.ClockType) (uint32, nvml.Return) {
+//			DeviceGetClockInfoFunc: func(device nvml.Device, clockType nvml.ClockType) (uint32, error) {
 //				panic("mock out the DeviceGetClockInfo method")
 //			},
-//			DeviceGetComputeInstanceIdFunc: func(device nvml.Device) (int, nvml.Return) {
+//			DeviceGetComputeInstanceIdFunc: func(device nvml.Device) (int, error) {
 //				panic("mock out the DeviceGetComputeInstanceId method")
 //			},
-//			DeviceGetComputeModeFunc: func(device nvml.Device) (nvml.ComputeMode, nvml.Return) {
+//			DeviceGetComputeModeFunc: func(device nvml.Device) (nvml.ComputeMode, error) {
 //				panic("mock out the DeviceGetComputeMode method")
 //			},
-//			DeviceGetComputeRunningProcessesFunc: func(device nvml.Device) ([]nvml.ProcessInfo, nvml.Return) {
+//			DeviceGetComputeRunningProcessesFunc: func(device nvml.Device) ([]nvml.ProcessInfo, error) {
 //				panic("mock out the DeviceGetComputeRunningProcesses method")
 //			},
-//			DeviceGetConfComputeGpuAttestationReportFunc: func(device nvml.Device) (nvml.ConfComputeGpuAttestationReport, nvml.Return) {
+//			DeviceGetConfComputeGpuAttestationReportFunc: func(device nvml.Device) (nvml.ConfComputeGpuAttestationReport, error) {
 //				panic("mock out the DeviceGetConfComputeGpuAttestationReport method")
 //			},
-//			DeviceGetConfComputeGpuCertificateFunc: func(device nvml.Device) (nvml.ConfComputeGpuCertificate, nvml.Return) {
+//			DeviceGetConfComputeGpuCertificateFunc: func(device nvml.Device) (nvml.ConfComputeGpuCertificate, error) {
 //				panic("mock out the DeviceGetConfComputeGpuCertificate method")
 //			},
-//			DeviceGetConfComputeMemSizeInfoFunc: func(device nvml.Device) (nvml.ConfComputeMemSizeInfo, nvml.Return) {
+//			DeviceGetConfComputeMemSizeInfoFunc: func(device nvml.Device) (nvml.ConfComputeMemSizeInfo, error) {
 //				panic("mock out the DeviceGetConfComputeMemSizeInfo method")
 //			},
-//			DeviceGetConfComputeProtectedMemoryUsageFunc: func(device nvml.Device) (nvml.Memory, nvml.Return) {
+//			DeviceGetConfComputeProtectedMemoryUsageFunc: func(device nvml.Device) (nvml.Memory, error) {
 //				panic("mock out the DeviceGetConfComputeProtectedMemoryUsage method")
 //			},
-//			DeviceGetCountFunc: func() (int, nvml.Return) {
+//			DeviceGetCountFunc: func() (int, error) {
 //				panic("mock out the DeviceGetCount method")
 //			},
-//			DeviceGetCpuAffinityFunc: func(device nvml.Device, n int) ([]uint, nvml.Return) {
+//			DeviceGetCpuAffinityFunc: func(device nvml.Device, n int) ([]uint, error) {
 //				panic("mock out the DeviceGetCpuAffinity method")
 //			},
-//			DeviceGetCpuAffinityWithinScopeFunc: func(device nvml.Device, n int, affinityScope nvml.AffinityScope) ([]uint, nvml.Return) {
+//			DeviceGetCpuAffinityWithinScopeFunc: func(device nvml.Device, n int, affinityScope nvml.AffinityScope) ([]uint, error) {
 //				panic("mock out the DeviceGetCpuAffinityWithinScope method")
 //			},
-//			DeviceGetCreatableVgpusFunc: func(device nvml.Device) ([]nvml.VgpuTypeId, nvml.Return) {
+//			DeviceGetCreatableVgpusFunc: func(device nvml.Device) ([]nvml.VgpuTypeId, error) {
 //				panic("mock out the DeviceGetCreatableVgpus method")
 //			},
-//			DeviceGetCudaComputeCapabilityFunc: func(device nvml.Device) (int, int, nvml.Return) {
+//			DeviceGetCudaComputeCapabilityFunc: func(device nvml.Device) (int, int, error) {
 //				panic("mock out the DeviceGetCudaComputeCapability method")
 //			},
-//			DeviceGetCurrPcieLinkGenerationFunc: func(device nvml.Device) (int, nvml.Return) {
+//			DeviceGetCurrPcieLinkGenerationFunc: func(device nvml.Device) (int, error) {
 //				panic("mock out the DeviceGetCurrPcieLinkGeneration method")
 //			},
-//			DeviceGetCurrPcieLinkWidthFunc: func(device nvml.Device) (int, nvml.Return) {
+//			DeviceGetCurrPcieLinkWidthFunc: func(device nvml.Device) (int, error) {
 //				panic("mock out the DeviceGetCurrPcieLinkWidth method")
 //			},
-//			DeviceGetCurrentClocksEventReasonsFunc: func(device nvml.Device) (uint64, nvml.Return) {
+//			DeviceGetCurrentClocksEventReasonsFunc: func(device nvml.Device) (uint64, error) {
 //				panic("mock out the DeviceGetCurrentClocksEventReasons method")
 //			},
-//			DeviceGetCurrentClocksThrottleReasonsFunc: func(device nvml.Device) (uint64, nvml.Return) {
+//			DeviceGetCurrentClocksThrottleReasonsFunc: func(device nvml.Device) (uint64, error) {
 //				panic("mock out the DeviceGetCurrentClocksThrottleReasons method")
 //			},
-//			DeviceGetDecoderUtilizationFunc: func(device nvml.Device) (uint32, uint32, nvml.Return) {
+//			DeviceGetDecoderUtilizationFunc: func(device nvml.Device) (uint32, uint32, error) {
 //				panic("mock out the DeviceGetDecoderUtilization method")
 //			},
-//			DeviceGetDefaultApplicationsClockFunc: func(device nvml.Device, clockType nvml.ClockType) (uint32, nvml.Return) {
+//			DeviceGetDefaultApplicationsClockFunc: func(device nvml.Device, clockType nvml.ClockType) (uint32, error) {
 //				panic("mock out the DeviceGetDefaultApplicationsClock method")
 //			},
-//			DeviceGetDefaultEccModeFunc: func(device nvml.Device) (nvml.EnableState, nvml.Return) {
+//			DeviceGetDefaultEccModeFunc: func(device nvml.Device) (nvml.EnableState, error) {
 //				panic("mock out the DeviceGetDefaultEccMode method")
 //			},
-//			DeviceGetDetailedEccErrorsFunc: func(device nvml.Device, memoryErrorType nvml.MemoryErrorType, eccCounterType nvml.EccCounterType) (nvml.EccErrorCounts, nvml.Return) {
+//			DeviceGetDetailedEccErrorsFunc: func(device nvml.Device, memoryErrorType nvml.MemoryErrorType, eccCounterType nvml.EccCounterType) (nvml.EccErrorCounts, error) {
 //				panic("mock out the DeviceGetDetailedEccErrors method")
 //			},
-//			DeviceGetDeviceHandleFromMigDeviceHandleFunc: func(device nvml.Device) (nvml.Device, nvml.Return) {
+//			DeviceGetDeviceHandleFromMigDeviceHandleFunc: func(device nvml.Device) (nvml.Device, error) {
 //				panic("mock out the DeviceGetDeviceHandleFromMigDeviceHandle method")
 //			},
-//			DeviceGetDisplayActiveFunc: func(device nvml.Device) (nvml.EnableState, nvml.Return) {
+//			DeviceGetDisplayActiveFunc: func(device nvml.Device) (nvml.EnableState, error) {
 //				panic("mock out the DeviceGetDisplayActive method")
 //			},
-//			DeviceGetDisplayModeFunc: func(device nvml.Device) (nvml.EnableState, nvml.Return) {
+//			DeviceGetDisplayModeFunc: func(device nvml.Device) (nvml.EnableState, error) {
 //				panic("mock out the DeviceGetDisplayMode method")
 //			},
-//			DeviceGetDriverModelFunc: func(device nvml.Device) (nvml.DriverModel, nvml.DriverModel, nvml.Return) {
+//			DeviceGetDriverModelFunc: func(device nvml.Device) (nvml.DriverModel, nvml.DriverModel, error) {
 //				panic("mock out the DeviceGetDriverModel method")
 //			},
-//			DeviceGetDynamicPstatesInfoFunc: func(device nvml.Device) (nvml.GpuDynamicPstatesInfo, nvml.Return) {
+//			DeviceGetDynamicPstatesInfoFunc: func(device nvml.Device) (nvml.GpuDynamicPstatesInfo, error) {
 //				panic("mock out the DeviceGetDynamicPstatesInfo method")
 //			},
-//			DeviceGetEccModeFunc: func(device nvml.Device) (nvml.EnableState, nvml.EnableState, nvml.Return) {
+//			DeviceGetEccModeFunc: func(device nvml.Device) (nvml.EnableState, nvml.EnableState, error) {
 //				panic("mock out the DeviceGetEccMode method")
 //			},
-//			DeviceGetEncoderCapacityFunc: func(device nvml.Device, encoderType nvml.EncoderType) (int, nvml.Return) {
+//			DeviceGetEncoderCapacityFunc: func(device nvml.Device, encoderType nvml.EncoderType) (int, error) {
 //				panic("mock out the DeviceGetEncoderCapacity method")
 //			},
-//			DeviceGetEncoderSessionsFunc: func(device nvml.Device) ([]nvml.EncoderSessionInfo, nvml.Return) {
+//			DeviceGetEncoderSessionsFunc: func(device nvml.Device) ([]nvml.EncoderSessionInfo, error) {
 //				panic("mock out the DeviceGetEncoderSessions method")
 //			},
-//			DeviceGetEncoderStatsFunc: func(device nvml.Device) (int, uint32, uint32, nvml.Return) {
+//			DeviceGetEncoderStatsFunc: func(device nvml.Device) (int, uint32, uint32, error) {
 //				panic("mock out the DeviceGetEncoderStats method")
 //			},
-//			DeviceGetEncoderUtilizationFunc: func(device nvml.Device) (uint32, uint32, nvml.Return) {
+//			DeviceGetEncoderUtilizationFunc: func(device nvml.Device) (uint32, uint32, error) {
 //				panic("mock out the DeviceGetEncoderUtilization method")
 //			},
-//			DeviceGetEnforcedPowerLimitFunc: func(device nvml.Device) (uint32, nvml.Return) {
+//			DeviceGetEnforcedPowerLimitFunc: func(device nvml.Device) (uint32, error) {
 //				panic("mock out the DeviceGetEnforcedPowerLimit method")
 //			},
-//			DeviceGetFBCSessionsFunc: func(device nvml.Device) ([]nvml.FBCSessionInfo, nvml.Return) {
+//			DeviceGetFBCSessionsFunc: func(device nvml.Device) ([]nvml.FBCSessionInfo, error) {
 //				panic("mock out the DeviceGetFBCSessions method")
 //			},
-//			DeviceGetFBCStatsFunc: func(device nvml.Device) (nvml.FBCStats, nvml.Return) {
+//			DeviceGetFBCStatsFunc: func(device nvml.Device) (nvml.FBCStats, error) {
 //				panic("mock out the DeviceGetFBCStats method")
 //			},
-//			DeviceGetFanControlPolicy_v2Func: func(device nvml.Device, n int) (nvml.FanControlPolicy, nvml.Return) {
+//			DeviceGetFanControlPolicy_v2Func: func(device nvml.Device, n int) (nvml.FanControlPolicy, error) {
 //				panic("mock out the DeviceGetFanControlPolicy_v2 method")
 //			},
-//			DeviceGetFanSpeedFunc: func(device nvml.Device) (uint32, nvml.Return) {
+//			DeviceGetFanSpeedFunc: func(device nvml.Device) (uint32, error) {
 //				panic("mock out the DeviceGetFanSpeed method")
 //			},
-//			DeviceGetFanSpeed_v2Func: func(device nvml.Device, n int) (uint32, nvml.Return) {
+//			DeviceGetFanSpeed_v2Func: func(device nvml.Device, n int) (uint32, error) {
 //				panic("mock out the DeviceGetFanSpeed_v2 method")
 //			},
-//			DeviceGetFieldValuesFunc: func(device nvml.Device, fieldValues []nvml.FieldValue) nvml.Return {
+//			DeviceGetFieldValuesFunc: func(device nvml.Device, fieldValues []nvml.FieldValue) error {
 //				panic("mock out the DeviceGetFieldValues method")
 //			},
-//			DeviceGetGpcClkMinMaxVfOffsetFunc: func(device nvml.Device) (int, int, nvml.Return) {
+//			DeviceGetGpcClkMinMaxVfOffsetFunc: func(device nvml.Device) (int, int, error) {
 //				panic("mock out the DeviceGetGpcClkMinMaxVfOffset method")
 //			},
-//			DeviceGetGpcClkVfOffsetFunc: func(device nvml.Device) (int, nvml.Return) {
+//			DeviceGetGpcClkVfOffsetFunc: func(device nvml.Device) (int, error) {
 //				panic("mock out the DeviceGetGpcClkVfOffset method")
 //			},
-//			DeviceGetGpuFabricInfoFunc: func(device nvml.Device) (nvml.GpuFabricInfo, nvml.Return) {
+//			DeviceGetGpuFabricInfoFunc: func(device nvml.Device) (nvml.GpuFabricInfo, error) {
 //				panic("mock out the DeviceGetGpuFabricInfo method")
 //			},
 //			DeviceGetGpuFabricInfoVFunc: func(device nvml.Device) nvml.GpuFabricInfoHandler {
 //				panic("mock out the DeviceGetGpuFabricInfoV method")
 //			},
-//			DeviceGetGpuInstanceByIdFunc: func(device nvml.Device, n int) (nvml.GpuInstance, nvml.Return) {
+//			DeviceGetGpuInstanceByIdFunc: func(device nvml.Device, n int) (nvml.GpuInstance, error) {
 //				panic("mock out the DeviceGetGpuInstanceById method")
 //			},
-//			DeviceGetGpuInstanceIdFunc: func(device nvml.Device) (int, nvml.Return) {
+//			DeviceGetGpuInstanceIdFunc: func(device nvml.Device) (int, error) {
 //				panic("mock out the DeviceGetGpuInstanceId method")
 //			},
-//			DeviceGetGpuInstancePossiblePlacementsFunc: func(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo) ([]nvml.GpuInstancePlacement, nvml.Return) {
+//			DeviceGetGpuInstancePossiblePlacementsFunc: func(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo) ([]nvml.GpuInstancePlacement, error) {
 //				panic("mock out the DeviceGetGpuInstancePossiblePlacements method")
 //			},
-//			DeviceGetGpuInstanceProfileInfoFunc: func(device nvml.Device, n int) (nvml.GpuInstanceProfileInfo, nvml.Return) {
+//			DeviceGetGpuInstanceProfileInfoFunc: func(device nvml.Device, n int) (nvml.GpuInstanceProfileInfo, error) {
 //				panic("mock out the DeviceGetGpuInstanceProfileInfo method")
 //			},
 //			DeviceGetGpuInstanceProfileInfoVFunc: func(device nvml.Device, n int) nvml.GpuInstanceProfileInfoHandler {
 //				panic("mock out the DeviceGetGpuInstanceProfileInfoV method")
 //			},
-//			DeviceGetGpuInstanceRemainingCapacityFunc: func(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo) (int, nvml.Return) {
+//			DeviceGetGpuInstanceRemainingCapacityFunc: func(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo) (int, error) {
 //				panic("mock out the DeviceGetGpuInstanceRemainingCapacity method")
 //			},
-//			DeviceGetGpuInstancesFunc: func(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo) ([]nvml.GpuInstance, nvml.Return) {
+//			DeviceGetGpuInstancesFunc: func(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo) ([]nvml.GpuInstance, error) {
 //				panic("mock out the DeviceGetGpuInstances method")
 //			},
-//			DeviceGetGpuMaxPcieLinkGenerationFunc: func(device nvml.Device) (int, nvml.Return) {
+//			DeviceGetGpuMaxPcieLinkGenerationFunc: func(device nvml.Device) (int, error) {
 //				panic("mock out the DeviceGetGpuMaxPcieLinkGeneration method")
 //			},
-//			DeviceGetGpuOperationModeFunc: func(device nvml.Device) (nvml.GpuOperationMode, nvml.GpuOperationMode, nvml.Return) {
+//			DeviceGetGpuOperationModeFunc: func(device nvml.Device) (nvml.GpuOperationMode, nvml.GpuOperationMode, error) {
 //				panic("mock out the DeviceGetGpuOperationMode method")
 //			},
-//			DeviceGetGraphicsRunningProcessesFunc: func(device nvml.Device) ([]nvml.ProcessInfo, nvml.Return) {
+//			DeviceGetGraphicsRunningProcessesFunc: func(device nvml.Device) ([]nvml.ProcessInfo, error) {
 //				panic("mock out the DeviceGetGraphicsRunningProcesses method")
 //			},
-//			DeviceGetGridLicensableFeaturesFunc: func(device nvml.Device) (nvml.GridLicensableFeatures, nvml.Return) {
+//			DeviceGetGridLicensableFeaturesFunc: func(device nvml.Device) (nvml.GridLicensableFeatures, error) {
 //				panic("mock out the DeviceGetGridLicensableFeatures method")
 //			},
-//			DeviceGetGspFirmwareModeFunc: func(device nvml.Device) (bool, bool, nvml.Return) {
+//			DeviceGetGspFirmwareModeFunc: func(device nvml.Device) (bool, bool, error) {
 //				panic("mock out the DeviceGetGspFirmwareMode method")
 //			},
-//			DeviceGetGspFirmwareVersionFunc: func(device nvml.Device) (string, nvml.Return) {
+//			DeviceGetGspFirmwareVersionFunc: func(device nvml.Device) (string, error) {
 //				panic("mock out the DeviceGetGspFirmwareVersion method")
 //			},
-//			DeviceGetHandleByIndexFunc: func(n int) (nvml.Device, nvml.Return) {
+//			DeviceGetHandleByIndexFunc: func(n int) (nvml.Device, error) {
 //				panic("mock out the DeviceGetHandleByIndex method")
 //			},
-//			DeviceGetHandleByPciBusIdFunc: func(s string) (nvml.Device, nvml.Return) {
+//			DeviceGetHandleByPciBusIdFunc: func(s string) (nvml.Device, error) {
 //				panic("mock out the DeviceGetHandleByPciBusId method")
 //			},
-//			DeviceGetHandleBySerialFunc: func(s string) (nvml.Device, nvml.Return) {
+//			DeviceGetHandleBySerialFunc: func(s string) (nvml.Device, error) {
 //				panic("mock out the DeviceGetHandleBySerial method")
 //			},
-//			DeviceGetHandleByUUIDFunc: func(s string) (nvml.Device, nvml.Return) {
+//			DeviceGetHandleByUUIDFunc: func(s string) (nvml.Device, error) {
 //				panic("mock out the DeviceGetHandleByUUID method")
 //			},
-//			DeviceGetHostVgpuModeFunc: func(device nvml.Device) (nvml.HostVgpuMode, nvml.Return) {
+//			DeviceGetHostVgpuModeFunc: func(device nvml.Device) (nvml.HostVgpuMode, error) {
 //				panic("mock out the DeviceGetHostVgpuMode method")
 //			},
-//			DeviceGetIndexFunc: func(device nvml.Device) (int, nvml.Return) {
+//			DeviceGetIndexFunc: func(device nvml.Device) (int, error) {
 //				panic("mock out the DeviceGetIndex method")
 //			},
-//			DeviceGetInforomConfigurationChecksumFunc: func(device nvml.Device) (uint32, nvml.Return) {
+//			DeviceGetInforomConfigurationChecksumFunc: func(device nvml.Device) (uint32, error) {
 //				panic("mock out the DeviceGetInforomConfigurationChecksum method")
 //			},
-//			DeviceGetInforomImageVersionFunc: func(device nvml.Device) (string, nvml.Return) {
+//			DeviceGetInforomImageVersionFunc: func(device nvml.Device) (string, error) {
 //				panic("mock out the DeviceGetInforomImageVersion method")
 //			},
-//			DeviceGetInforomVersionFunc: func(device nvml.Device, inforomObject nvml.InforomObject) (string, nvml.Return) {
+//			DeviceGetInforomVersionFunc: func(device nvml.Device, inforomObject nvml.InforomObject) (string, error) {
 //				panic("mock out the DeviceGetInforomVersion method")
 //			},
-//			DeviceGetIrqNumFunc: func(device nvml.Device) (int, nvml.Return) {
+//			DeviceGetIrqNumFunc: func(device nvml.Device) (int, error) {
 //				panic("mock out the DeviceGetIrqNum method")
 //			},
-//			DeviceGetJpgUtilizationFunc: func(device nvml.Device) (uint32, uint32, nvml.Return) {
+//			DeviceGetJpgUtilizationFunc: func(device nvml.Device) (uint32, uint32, error) {
 //				panic("mock out the DeviceGetJpgUtilization method")
 //			},
-//			DeviceGetLastBBXFlushTimeFunc: func(device nvml.Device) (uint64, uint, nvml.Return) {
+//			DeviceGetLastBBXFlushTimeFunc: func(device nvml.Device) (uint64, uint, error) {
 //				panic("mock out the DeviceGetLastBBXFlushTime method")
 //			},
-//			DeviceGetMPSComputeRunningProcessesFunc: func(device nvml.Device) ([]nvml.ProcessInfo, nvml.Return) {
+//			DeviceGetMPSComputeRunningProcessesFunc: func(device nvml.Device) ([]nvml.ProcessInfo, error) {
 //				panic("mock out the DeviceGetMPSComputeRunningProcesses method")
 //			},
-//			DeviceGetMaxClockInfoFunc: func(device nvml.Device, clockType nvml.ClockType) (uint32, nvml.Return) {
+//			DeviceGetMaxClockInfoFunc: func(device nvml.Device, clockType nvml.ClockType) (uint32, error) {
 //				panic("mock out the DeviceGetMaxClockInfo method")
 //			},
-//			DeviceGetMaxCustomerBoostClockFunc: func(device nvml.Device, clockType nvml.ClockType) (uint32, nvml.Return) {
+//			DeviceGetMaxCustomerBoostClockFunc: func(device nvml.Device, clockType nvml.ClockType) (uint32, error) {
 //				panic("mock out the DeviceGetMaxCustomerBoostClock method")
 //			},
-//			DeviceGetMaxMigDeviceCountFunc: func(device nvml.Device) (int, nvml.Return) {
+//			DeviceGetMaxMigDeviceCountFunc: func(device nvml.Device) (int, error) {
 //				panic("mock out the DeviceGetMaxMigDeviceCount method")
 //			},
-//			DeviceGetMaxPcieLinkGenerationFunc: func(device nvml.Device) (int, nvml.Return) {
+//			DeviceGetMaxPcieLinkGenerationFunc: func(device nvml.Device) (int, error) {
 //				panic("mock out the DeviceGetMaxPcieLinkGeneration method")
 //			},
-//			DeviceGetMaxPcieLinkWidthFunc: func(device nvml.Device) (int, nvml.Return) {
+//			DeviceGetMaxPcieLinkWidthFunc: func(device nvml.Device) (int, error) {
 //				panic("mock out the DeviceGetMaxPcieLinkWidth method")
 //			},
-//			DeviceGetMemClkMinMaxVfOffsetFunc: func(device nvml.Device) (int, int, nvml.Return) {
+//			DeviceGetMemClkMinMaxVfOffsetFunc: func(device nvml.Device) (int, int, error) {
 //				panic("mock out the DeviceGetMemClkMinMaxVfOffset method")
 //			},
-//			DeviceGetMemClkVfOffsetFunc: func(device nvml.Device) (int, nvml.Return) {
+//			DeviceGetMemClkVfOffsetFunc: func(device nvml.Device) (int, error) {
 //				panic("mock out the DeviceGetMemClkVfOffset method")
 //			},
-//			DeviceGetMemoryAffinityFunc: func(device nvml.Device, n int, affinityScope nvml.AffinityScope) ([]uint, nvml.Return) {
+//			DeviceGetMemoryAffinityFunc: func(device nvml.Device, n int, affinityScope nvml.AffinityScope) ([]uint, error) {
 //				panic("mock out the DeviceGetMemoryAffinity method")
 //			},
-//			DeviceGetMemoryBusWidthFunc: func(device nvml.Device) (uint32, nvml.Return) {
+//			DeviceGetMemoryBusWidthFunc: func(device nvml.Device) (uint32, error) {
 //				panic("mock out the DeviceGetMemoryBusWidth method")
 //			},
-//			DeviceGetMemoryErrorCounterFunc: func(device nvml.Device, memoryErrorType nvml.MemoryErrorType, eccCounterType nvml.EccCounterType, memoryLocation nvml.MemoryLocation) (uint64, nvml.Return) {
+//			DeviceGetMemoryErrorCounterFunc: func(device nvml.Device, memoryErrorType nvml.MemoryErrorType, eccCounterType nvml.EccCounterType, memoryLocation nvml.MemoryLocation) (uint64, error) {
 //				panic("mock out the DeviceGetMemoryErrorCounter method")
 //			},
-//			DeviceGetMemoryInfoFunc: func(device nvml.Device) (nvml.Memory, nvml.Return) {
+//			DeviceGetMemoryInfoFunc: func(device nvml.Device) (nvml.Memory, error) {
 //				panic("mock out the DeviceGetMemoryInfo method")
 //			},
-//			DeviceGetMemoryInfo_v2Func: func(device nvml.Device) (nvml.Memory_v2, nvml.Return) {
+//			DeviceGetMemoryInfo_v2Func: func(device nvml.Device) (nvml.Memory_v2, error) {
 //				panic("mock out the DeviceGetMemoryInfo_v2 method")
 //			},
-//			DeviceGetMigDeviceHandleByIndexFunc: func(device nvml.Device, n int) (nvml.Device, nvml.Return) {
+//			DeviceGetMigDeviceHandleByIndexFunc: func(device nvml.Device, n int) (nvml.Device, error) {
 //				panic("mock out the DeviceGetMigDeviceHandleByIndex method")
 //			},
-//			DeviceGetMigModeFunc: func(device nvml.Device) (int, int, nvml.Return) {
+//			DeviceGetMigModeFunc: func(device nvml.Device) (int, int, error) {
 //				panic("mock out the DeviceGetMigMode method")
 //			},
-//			DeviceGetMinMaxClockOfPStateFunc: func(device nvml.Device, clockType nvml.ClockType, pstates nvml.Pstates) (uint32, uint32, nvml.Return) {
+//			DeviceGetMinMaxClockOfPStateFunc: func(device nvml.Device, clockType nvml.ClockType, pstates nvml.Pstates) (uint32, uint32, error) {
 //				panic("mock out the DeviceGetMinMaxClockOfPState method")
 //			},
-//			DeviceGetMinMaxFanSpeedFunc: func(device nvml.Device) (int, int, nvml.Return) {
+//			DeviceGetMinMaxFanSpeedFunc: func(device nvml.Device) (int, int, error) {
 //				panic("mock out the DeviceGetMinMaxFanSpeed method")
 //			},
-//			DeviceGetMinorNumberFunc: func(device nvml.Device) (int, nvml.Return) {
+//			DeviceGetMinorNumberFunc: func(device nvml.Device) (int, error) {
 //				panic("mock out the DeviceGetMinorNumber method")
 //			},
-//			DeviceGetModuleIdFunc: func(device nvml.Device) (int, nvml.Return) {
+//			DeviceGetModuleIdFunc: func(device nvml.Device) (int, error) {
 //				panic("mock out the DeviceGetModuleId method")
 //			},
-//			DeviceGetMultiGpuBoardFunc: func(device nvml.Device) (int, nvml.Return) {
+//			DeviceGetMultiGpuBoardFunc: func(device nvml.Device) (int, error) {
 //				panic("mock out the DeviceGetMultiGpuBoard method")
 //			},
-//			DeviceGetNameFunc: func(device nvml.Device) (string, nvml.Return) {
+//			DeviceGetNameFunc: func(device nvml.Device) (string, error) {
 //				panic("mock out the DeviceGetName method")
 //			},
-//			DeviceGetNumFansFunc: func(device nvml.Device) (int, nvml.Return) {
+//			DeviceGetNumFansFunc: func(device nvml.Device) (int, error) {
 //				panic("mock out the DeviceGetNumFans method")
 //			},
-//			DeviceGetNumGpuCoresFunc: func(device nvml.Device) (int, nvml.Return) {
+//			DeviceGetNumGpuCoresFunc: func(device nvml.Device) (int, error) {
 //				panic("mock out the DeviceGetNumGpuCores method")
 //			},
-//			DeviceGetNumaNodeIdFunc: func(device nvml.Device) (int, nvml.Return) {
+//			DeviceGetNumaNodeIdFunc: func(device nvml.Device) (int, error) {
 //				panic("mock out the DeviceGetNumaNodeId method")
 //			},
-//			DeviceGetNvLinkCapabilityFunc: func(device nvml.Device, n int, nvLinkCapability nvml.NvLinkCapability) (uint32, nvml.Return) {
+//			DeviceGetNvLinkCapabilityFunc: func(device nvml.Device, n int, nvLinkCapability nvml.NvLinkCapability) (uint32, error) {
 //				panic("mock out the DeviceGetNvLinkCapability method")
 //			},
-//			DeviceGetNvLinkErrorCounterFunc: func(device nvml.Device, n int, nvLinkErrorCounter nvml.NvLinkErrorCounter) (uint64, nvml.Return) {
+//			DeviceGetNvLinkErrorCounterFunc: func(device nvml.Device, n int, nvLinkErrorCounter nvml.NvLinkErrorCounter) (uint64, error) {
 //				panic("mock out the DeviceGetNvLinkErrorCounter method")
 //			},
-//			DeviceGetNvLinkRemoteDeviceTypeFunc: func(device nvml.Device, n int) (nvml.IntNvLinkDeviceType, nvml.Return) {
+//			DeviceGetNvLinkRemoteDeviceTypeFunc: func(device nvml.Device, n int) (nvml.IntNvLinkDeviceType, error) {
 //				panic("mock out the DeviceGetNvLinkRemoteDeviceType method")
 //			},
-//			DeviceGetNvLinkRemotePciInfoFunc: func(device nvml.Device, n int) (nvml.PciInfo, nvml.Return) {
+//			DeviceGetNvLinkRemotePciInfoFunc: func(device nvml.Device, n int) (nvml.PciInfo, error) {
 //				panic("mock out the DeviceGetNvLinkRemotePciInfo method")
 //			},
-//			DeviceGetNvLinkStateFunc: func(device nvml.Device, n int) (nvml.EnableState, nvml.Return) {
+//			DeviceGetNvLinkStateFunc: func(device nvml.Device, n int) (nvml.EnableState, error) {
 //				panic("mock out the DeviceGetNvLinkState method")
 //			},
-//			DeviceGetNvLinkUtilizationControlFunc: func(device nvml.Device, n1 int, n2 int) (nvml.NvLinkUtilizationControl, nvml.Return) {
+//			DeviceGetNvLinkUtilizationControlFunc: func(device nvml.Device, n1 int, n2 int) (nvml.NvLinkUtilizationControl, error) {
 //				panic("mock out the DeviceGetNvLinkUtilizationControl method")
 //			},
-//			DeviceGetNvLinkUtilizationCounterFunc: func(device nvml.Device, n1 int, n2 int) (uint64, uint64, nvml.Return) {
+//			DeviceGetNvLinkUtilizationCounterFunc: func(device nvml.Device, n1 int, n2 int) (uint64, uint64, error) {
 //				panic("mock out the DeviceGetNvLinkUtilizationCounter method")
 //			},
-//			DeviceGetNvLinkVersionFunc: func(device nvml.Device, n int) (uint32, nvml.Return) {
+//			DeviceGetNvLinkVersionFunc: func(device nvml.Device, n int) (uint32, error) {
 //				panic("mock out the DeviceGetNvLinkVersion method")
 //			},
-//			DeviceGetOfaUtilizationFunc: func(device nvml.Device) (uint32, uint32, nvml.Return) {
+//			DeviceGetOfaUtilizationFunc: func(device nvml.Device) (uint32, uint32, error) {
 //				panic("mock out the DeviceGetOfaUtilization method")
 //			},
-//			DeviceGetP2PStatusFunc: func(device1 nvml.Device, device2 nvml.Device, gpuP2PCapsIndex nvml.GpuP2PCapsIndex) (nvml.GpuP2PStatus, nvml.Return) {
+//			DeviceGetP2PStatusFunc: func(device1 nvml.Device, device2 nvml.Device, gpuP2PCapsIndex nvml.GpuP2PCapsIndex) (nvml.GpuP2PStatus, error) {
 //				panic("mock out the DeviceGetP2PStatus method")
 //			},
-//			DeviceGetPciInfoFunc: func(device nvml.Device) (nvml.PciInfo, nvml.Return) {
+//			DeviceGetPciInfoFunc: func(device nvml.Device) (nvml.PciInfo, error) {
 //				panic("mock out the DeviceGetPciInfo method")
 //			},
-//			DeviceGetPciInfoExtFunc: func(device nvml.Device) (nvml.PciInfoExt, nvml.Return) {
+//			DeviceGetPciInfoExtFunc: func(device nvml.Device) (nvml.PciInfoExt, error) {
 //				panic("mock out the DeviceGetPciInfoExt method")
 //			},
-//			DeviceGetPcieLinkMaxSpeedFunc: func(device nvml.Device) (uint32, nvml.Return) {
+//			DeviceGetPcieLinkMaxSpeedFunc: func(device nvml.Device) (uint32, error) {
 //				panic("mock out the DeviceGetPcieLinkMaxSpeed method")
 //			},
-//			DeviceGetPcieReplayCounterFunc: func(device nvml.Device) (int, nvml.Return) {
+//			DeviceGetPcieReplayCounterFunc: func(device nvml.Device) (int, error) {
 //				panic("mock out the DeviceGetPcieReplayCounter method")
 //			},
-//			DeviceGetPcieSpeedFunc: func(device nvml.Device) (int, nvml.Return) {
+//			DeviceGetPcieSpeedFunc: func(device nvml.Device) (int, error) {
 //				panic("mock out the DeviceGetPcieSpeed method")
 //			},
-//			DeviceGetPcieThroughputFunc: func(device nvml.Device, pcieUtilCounter nvml.PcieUtilCounter) (uint32, nvml.Return) {
+//			DeviceGetPcieThroughputFunc: func(device nvml.Device, pcieUtilCounter nvml.PcieUtilCounter) (uint32, error) {
 //				panic("mock out the DeviceGetPcieThroughput method")
 //			},
-//			DeviceGetPerformanceStateFunc: func(device nvml.Device) (nvml.Pstates, nvml.Return) {
+//			DeviceGetPerformanceStateFunc: func(device nvml.Device) (nvml.Pstates, error) {
 //				panic("mock out the DeviceGetPerformanceState method")
 //			},
-//			DeviceGetPersistenceModeFunc: func(device nvml.Device) (nvml.EnableState, nvml.Return) {
+//			DeviceGetPersistenceModeFunc: func(device nvml.Device) (nvml.EnableState, error) {
 //				panic("mock out the DeviceGetPersistenceMode method")
 //			},
-//			DeviceGetPgpuMetadataStringFunc: func(device nvml.Device) (string, nvml.Return) {
+//			DeviceGetPgpuMetadataStringFunc: func(device nvml.Device) (string, error) {
 //				panic("mock out the DeviceGetPgpuMetadataString method")
 //			},
-//			DeviceGetPowerManagementDefaultLimitFunc: func(device nvml.Device) (uint32, nvml.Return) {
+//			DeviceGetPowerManagementDefaultLimitFunc: func(device nvml.Device) (uint32, error) {
 //				panic("mock out the DeviceGetPowerManagementDefaultLimit method")
 //			},
-//			DeviceGetPowerManagementLimitFunc: func(device nvml.Device) (uint32, nvml.Return) {
+//			DeviceGetPowerManagementLimitFunc: func(device nvml.Device) (uint32, error) {
 //				panic("mock out the DeviceGetPowerManagementLimit method")
 //			},
-//			DeviceGetPowerManagementLimitConstraintsFunc: func(device nvml.Device) (uint32, uint32, nvml.Return) {
+//			DeviceGetPowerManagementLimitConstraintsFunc: func(device nvml.Device) (uint32, uint32, error) {
 //				panic("mock out the DeviceGetPowerManagementLimitConstraints method")
 //			},
-//			DeviceGetPowerManagementModeFunc: func(device nvml.Device) (nvml.EnableState, nvml.Return) {
+//			DeviceGetPowerManagementModeFunc: func(device nvml.Device) (nvml.EnableState, error) {
 //				panic("mock out the DeviceGetPowerManagementMode method")
 //			},
-//			DeviceGetPowerSourceFunc: func(device nvml.Device) (nvml.PowerSource, nvml.Return) {
+//			DeviceGetPowerSourceFunc: func(device nvml.Device) (nvml.PowerSource, error) {
 //				panic("mock out the DeviceGetPowerSource method")
 //			},
-//			DeviceGetPowerStateFunc: func(device nvml.Device) (nvml.Pstates, nvml.Return) {
+//			DeviceGetPowerStateFunc: func(device nvml.Device) (nvml.Pstates, error) {
 //				panic("mock out the DeviceGetPowerState method")
 //			},
-//			DeviceGetPowerUsageFunc: func(device nvml.Device) (uint32, nvml.Return) {
+//			DeviceGetPowerUsageFunc: func(device nvml.Device) (uint32, error) {
 //				panic("mock out the DeviceGetPowerUsage method")
 //			},
-//			DeviceGetProcessUtilizationFunc: func(device nvml.Device, v uint64) ([]nvml.ProcessUtilizationSample, nvml.Return) {
+//			DeviceGetProcessUtilizationFunc: func(device nvml.Device, v uint64) ([]nvml.ProcessUtilizationSample, error) {
 //				panic("mock out the DeviceGetProcessUtilization method")
 //			},
-//			DeviceGetProcessesUtilizationInfoFunc: func(device nvml.Device) (nvml.ProcessesUtilizationInfo, nvml.Return) {
+//			DeviceGetProcessesUtilizationInfoFunc: func(device nvml.Device) (nvml.ProcessesUtilizationInfo, error) {
 //				panic("mock out the DeviceGetProcessesUtilizationInfo method")
 //			},
-//			DeviceGetRemappedRowsFunc: func(device nvml.Device) (int, int, bool, bool, nvml.Return) {
+//			DeviceGetRemappedRowsFunc: func(device nvml.Device) (int, int, bool, bool, error) {
 //				panic("mock out the DeviceGetRemappedRows method")
 //			},
-//			DeviceGetRetiredPagesFunc: func(device nvml.Device, pageRetirementCause nvml.PageRetirementCause) ([]uint64, nvml.Return) {
+//			DeviceGetRetiredPagesFunc: func(device nvml.Device, pageRetirementCause nvml.PageRetirementCause) ([]uint64, error) {
 //				panic("mock out the DeviceGetRetiredPages method")
 //			},
-//			DeviceGetRetiredPagesPendingStatusFunc: func(device nvml.Device) (nvml.EnableState, nvml.Return) {
+//			DeviceGetRetiredPagesPendingStatusFunc: func(device nvml.Device) (nvml.EnableState, error) {
 //				panic("mock out the DeviceGetRetiredPagesPendingStatus method")
 //			},
-//			DeviceGetRetiredPages_v2Func: func(device nvml.Device, pageRetirementCause nvml.PageRetirementCause) ([]uint64, []uint64, nvml.Return) {
+//			DeviceGetRetiredPages_v2Func: func(device nvml.Device, pageRetirementCause nvml.PageRetirementCause) ([]uint64, []uint64, error) {
 //				panic("mock out the DeviceGetRetiredPages_v2 method")
 //			},
-//			DeviceGetRowRemapperHistogramFunc: func(device nvml.Device) (nvml.RowRemapperHistogramValues, nvml.Return) {
+//			DeviceGetRowRemapperHistogramFunc: func(device nvml.Device) (nvml.RowRemapperHistogramValues, error) {
 //				panic("mock out the DeviceGetRowRemapperHistogram method")
 //			},
-//			DeviceGetRunningProcessDetailListFunc: func(device nvml.Device) (nvml.ProcessDetailList, nvml.Return) {
+//			DeviceGetRunningProcessDetailListFunc: func(device nvml.Device) (nvml.ProcessDetailList, error) {
 //				panic("mock out the DeviceGetRunningProcessDetailList method")
 //			},
-//			DeviceGetSamplesFunc: func(device nvml.Device, samplingType nvml.SamplingType, v uint64) (nvml.ValueType, []nvml.Sample, nvml.Return) {
+//			DeviceGetSamplesFunc: func(device nvml.Device, samplingType nvml.SamplingType, v uint64) (nvml.ValueType, []nvml.Sample, error) {
 //				panic("mock out the DeviceGetSamples method")
 //			},
-//			DeviceGetSerialFunc: func(device nvml.Device) (string, nvml.Return) {
+//			DeviceGetSerialFunc: func(device nvml.Device) (string, error) {
 //				panic("mock out the DeviceGetSerial method")
 //			},
-//			DeviceGetSramEccErrorStatusFunc: func(device nvml.Device) (nvml.EccSramErrorStatus, nvml.Return) {
+//			DeviceGetSramEccErrorStatusFunc: func(device nvml.Device) (nvml.EccSramErrorStatus, error) {
 //				panic("mock out the DeviceGetSramEccErrorStatus method")
 //			},
-//			DeviceGetSupportedClocksEventReasonsFunc: func(device nvml.Device) (uint64, nvml.Return) {
+//			DeviceGetSupportedClocksEventReasonsFunc: func(device nvml.Device) (uint64, error) {
 //				panic("mock out the DeviceGetSupportedClocksEventReasons method")
 //			},
-//			DeviceGetSupportedClocksThrottleReasonsFunc: func(device nvml.Device) (uint64, nvml.Return) {
+//			DeviceGetSupportedClocksThrottleReasonsFunc: func(device nvml.Device) (uint64, error) {
 //				panic("mock out the DeviceGetSupportedClocksThrottleReasons method")
 //			},
-//			DeviceGetSupportedEventTypesFunc: func(device nvml.Device) (uint64, nvml.Return) {
+//			DeviceGetSupportedEventTypesFunc: func(device nvml.Device) (uint64, error) {
 //				panic("mock out the DeviceGetSupportedEventTypes method")
 //			},
-//			DeviceGetSupportedGraphicsClocksFunc: func(device nvml.Device, n int) (int, uint32, nvml.Return) {
+//			DeviceGetSupportedGraphicsClocksFunc: func(device nvml.Device, n int) (int, uint32, error) {
 //				panic("mock out the DeviceGetSupportedGraphicsClocks method")
 //			},
-//			DeviceGetSupportedMemoryClocksFunc: func(device nvml.Device) (int, uint32, nvml.Return) {
+//			DeviceGetSupportedMemoryClocksFunc: func(device nvml.Device) (int, uint32, error) {
 //				panic("mock out the DeviceGetSupportedMemoryClocks method")
 //			},
-//			DeviceGetSupportedPerformanceStatesFunc: func(device nvml.Device) ([]nvml.Pstates, nvml.Return) {
+//			DeviceGetSupportedPerformanceStatesFunc: func(device nvml.Device) ([]nvml.Pstates, error) {
 //				panic("mock out the DeviceGetSupportedPerformanceStates method")
 //			},
-//			DeviceGetSupportedVgpusFunc: func(device nvml.Device) ([]nvml.VgpuTypeId, nvml.Return) {
+//			DeviceGetSupportedVgpusFunc: func(device nvml.Device) ([]nvml.VgpuTypeId, error) {
 //				panic("mock out the DeviceGetSupportedVgpus method")
 //			},
-//			DeviceGetTargetFanSpeedFunc: func(device nvml.Device, n int) (int, nvml.Return) {
+//			DeviceGetTargetFanSpeedFunc: func(device nvml.Device, n int) (int, error) {
 //				panic("mock out the DeviceGetTargetFanSpeed method")
 //			},
-//			DeviceGetTemperatureFunc: func(device nvml.Device, temperatureSensors nvml.TemperatureSensors) (uint32, nvml.Return) {
+//			DeviceGetTemperatureFunc: func(device nvml.Device, temperatureSensors nvml.TemperatureSensors) (uint32, error) {
 //				panic("mock out the DeviceGetTemperature method")
 //			},
-//			DeviceGetTemperatureThresholdFunc: func(device nvml.Device, temperatureThresholds nvml.TemperatureThresholds) (uint32, nvml.Return) {
+//			DeviceGetTemperatureThresholdFunc: func(device nvml.Device, temperatureThresholds nvml.TemperatureThresholds) (uint32, error) {
 //				panic("mock out the DeviceGetTemperatureThreshold method")
 //			},
-//			DeviceGetThermalSettingsFunc: func(device nvml.Device, v uint32) (nvml.GpuThermalSettings, nvml.Return) {
+//			DeviceGetThermalSettingsFunc: func(device nvml.Device, v uint32) (nvml.GpuThermalSettings, error) {
 //				panic("mock out the DeviceGetThermalSettings method")
 //			},
-//			DeviceGetTopologyCommonAncestorFunc: func(device1 nvml.Device, device2 nvml.Device) (nvml.GpuTopologyLevel, nvml.Return) {
+//			DeviceGetTopologyCommonAncestorFunc: func(device1 nvml.Device, device2 nvml.Device) (nvml.GpuTopologyLevel, error) {
 //				panic("mock out the DeviceGetTopologyCommonAncestor method")
 //			},
-//			DeviceGetTopologyNearestGpusFunc: func(device nvml.Device, gpuTopologyLevel nvml.GpuTopologyLevel) ([]nvml.Device, nvml.Return) {
+//			DeviceGetTopologyNearestGpusFunc: func(device nvml.Device, gpuTopologyLevel nvml.GpuTopologyLevel) ([]nvml.Device, error) {
 //				panic("mock out the DeviceGetTopologyNearestGpus method")
 //			},
-//			DeviceGetTotalEccErrorsFunc: func(device nvml.Device, memoryErrorType nvml.MemoryErrorType, eccCounterType nvml.EccCounterType) (uint64, nvml.Return) {
+//			DeviceGetTotalEccErrorsFunc: func(device nvml.Device, memoryErrorType nvml.MemoryErrorType, eccCounterType nvml.EccCounterType) (uint64, error) {
 //				panic("mock out the DeviceGetTotalEccErrors method")
 //			},
-//			DeviceGetTotalEnergyConsumptionFunc: func(device nvml.Device) (uint64, nvml.Return) {
+//			DeviceGetTotalEnergyConsumptionFunc: func(device nvml.Device) (uint64, error) {
 //				panic("mock out the DeviceGetTotalEnergyConsumption method")
 //			},
-//			DeviceGetUUIDFunc: func(device nvml.Device) (string, nvml.Return) {
+//			DeviceGetUUIDFunc: func(device nvml.Device) (string, error) {
 //				panic("mock out the DeviceGetUUID method")
 //			},
-//			DeviceGetUtilizationRatesFunc: func(device nvml.Device) (nvml.Utilization, nvml.Return) {
+//			DeviceGetUtilizationRatesFunc: func(device nvml.Device) (nvml.Utilization, error) {
 //				panic("mock out the DeviceGetUtilizationRates method")
 //			},
-//			DeviceGetVbiosVersionFunc: func(device nvml.Device) (string, nvml.Return) {
+//			DeviceGetVbiosVersionFunc: func(device nvml.Device) (string, error) {
 //				panic("mock out the DeviceGetVbiosVersion method")
 //			},
-//			DeviceGetVgpuCapabilitiesFunc: func(device nvml.Device, deviceVgpuCapability nvml.DeviceVgpuCapability) (bool, nvml.Return) {
+//			DeviceGetVgpuCapabilitiesFunc: func(device nvml.Device, deviceVgpuCapability nvml.DeviceVgpuCapability) (bool, error) {
 //				panic("mock out the DeviceGetVgpuCapabilities method")
 //			},
-//			DeviceGetVgpuHeterogeneousModeFunc: func(device nvml.Device) (nvml.VgpuHeterogeneousMode, nvml.Return) {
+//			DeviceGetVgpuHeterogeneousModeFunc: func(device nvml.Device) (nvml.VgpuHeterogeneousMode, error) {
 //				panic("mock out the DeviceGetVgpuHeterogeneousMode method")
 //			},
-//			DeviceGetVgpuInstancesUtilizationInfoFunc: func(device nvml.Device) (nvml.VgpuInstancesUtilizationInfo, nvml.Return) {
+//			DeviceGetVgpuInstancesUtilizationInfoFunc: func(device nvml.Device) (nvml.VgpuInstancesUtilizationInfo, error) {
 //				panic("mock out the DeviceGetVgpuInstancesUtilizationInfo method")
 //			},
-//			DeviceGetVgpuMetadataFunc: func(device nvml.Device) (nvml.VgpuPgpuMetadata, nvml.Return) {
+//			DeviceGetVgpuMetadataFunc: func(device nvml.Device) (nvml.VgpuPgpuMetadata, error) {
 //				panic("mock out the DeviceGetVgpuMetadata method")
 //			},
-//			DeviceGetVgpuProcessUtilizationFunc: func(device nvml.Device, v uint64) ([]nvml.VgpuProcessUtilizationSample, nvml.Return) {
+//			DeviceGetVgpuProcessUtilizationFunc: func(device nvml.Device, v uint64) ([]nvml.VgpuProcessUtilizationSample, error) {
 //				panic("mock out the DeviceGetVgpuProcessUtilization method")
 //			},
-//			DeviceGetVgpuProcessesUtilizationInfoFunc: func(device nvml.Device) (nvml.VgpuProcessesUtilizationInfo, nvml.Return) {
+//			DeviceGetVgpuProcessesUtilizationInfoFunc: func(device nvml.Device) (nvml.VgpuProcessesUtilizationInfo, error) {
 //				panic("mock out the DeviceGetVgpuProcessesUtilizationInfo method")
 //			},
-//			DeviceGetVgpuSchedulerCapabilitiesFunc: func(device nvml.Device) (nvml.VgpuSchedulerCapabilities, nvml.Return) {
+//			DeviceGetVgpuSchedulerCapabilitiesFunc: func(device nvml.Device) (nvml.VgpuSchedulerCapabilities, error) {
 //				panic("mock out the DeviceGetVgpuSchedulerCapabilities method")
 //			},
-//			DeviceGetVgpuSchedulerLogFunc: func(device nvml.Device) (nvml.VgpuSchedulerLog, nvml.Return) {
+//			DeviceGetVgpuSchedulerLogFunc: func(device nvml.Device) (nvml.VgpuSchedulerLog, error) {
 //				panic("mock out the DeviceGetVgpuSchedulerLog method")
 //			},
-//			DeviceGetVgpuSchedulerStateFunc: func(device nvml.Device) (nvml.VgpuSchedulerGetState, nvml.Return) {
+//			DeviceGetVgpuSchedulerStateFunc: func(device nvml.Device) (nvml.VgpuSchedulerGetState, error) {
 //				panic("mock out the DeviceGetVgpuSchedulerState method")
 //			},
-//			DeviceGetVgpuTypeCreatablePlacementsFunc: func(device nvml.Device, vgpuTypeId nvml.VgpuTypeId) (nvml.VgpuPlacementList, nvml.Return) {
+//			DeviceGetVgpuTypeCreatablePlacementsFunc: func(device nvml.Device, vgpuTypeId nvml.VgpuTypeId) (nvml.VgpuPlacementList, error) {
 //				panic("mock out the DeviceGetVgpuTypeCreatablePlacements method")
 //			},
-//			DeviceGetVgpuTypeSupportedPlacementsFunc: func(device nvml.Device, vgpuTypeId nvml.VgpuTypeId) (nvml.VgpuPlacementList, nvml.Return) {
+//			DeviceGetVgpuTypeSupportedPlacementsFunc: func(device nvml.Device, vgpuTypeId nvml.VgpuTypeId) (nvml.VgpuPlacementList, error) {
 //				panic("mock out the DeviceGetVgpuTypeSupportedPlacements method")
 //			},
-//			DeviceGetVgpuUtilizationFunc: func(device nvml.Device, v uint64) (nvml.ValueType, []nvml.VgpuInstanceUtilizationSample, nvml.Return) {
+//			DeviceGetVgpuUtilizationFunc: func(device nvml.Device, v uint64) (nvml.ValueType, []nvml.VgpuInstanceUtilizationSample, error) {
 //				panic("mock out the DeviceGetVgpuUtilization method")
 //			},
-//			DeviceGetViolationStatusFunc: func(device nvml.Device, perfPolicyType nvml.PerfPolicyType) (nvml.ViolationTime, nvml.Return) {
+//			DeviceGetViolationStatusFunc: func(device nvml.Device, perfPolicyType nvml.PerfPolicyType) (nvml.ViolationTime, error) {
 //				panic("mock out the DeviceGetViolationStatus method")
 //			},
-//			DeviceGetVirtualizationModeFunc: func(device nvml.Device) (nvml.GpuVirtualizationMode, nvml.Return) {
+//			DeviceGetVirtualizationModeFunc: func(device nvml.Device) (nvml.GpuVirtualizationMode, error) {
 //				panic("mock out the DeviceGetVirtualizationMode method")
 //			},
-//			DeviceIsMigDeviceHandleFunc: func(device nvml.Device) (bool, nvml.Return) {
+//			DeviceIsMigDeviceHandleFunc: func(device nvml.Device) (bool, error) {
 //				panic("mock out the DeviceIsMigDeviceHandle method")
 //			},
-//			DeviceModifyDrainStateFunc: func(pciInfo *nvml.PciInfo, enableState nvml.EnableState) nvml.Return {
+//			DeviceModifyDrainStateFunc: func(pciInfo *nvml.PciInfo, enableState nvml.EnableState) error {
 //				panic("mock out the DeviceModifyDrainState method")
 //			},
-//			DeviceOnSameBoardFunc: func(device1 nvml.Device, device2 nvml.Device) (int, nvml.Return) {
+//			DeviceOnSameBoardFunc: func(device1 nvml.Device, device2 nvml.Device) (int, error) {
 //				panic("mock out the DeviceOnSameBoard method")
 //			},
-//			DeviceQueryDrainStateFunc: func(pciInfo *nvml.PciInfo) (nvml.EnableState, nvml.Return) {
+//			DeviceQueryDrainStateFunc: func(pciInfo *nvml.PciInfo) (nvml.EnableState, error) {
 //				panic("mock out the DeviceQueryDrainState method")
 //			},
-//			DeviceRegisterEventsFunc: func(device nvml.Device, v uint64, eventSet nvml.EventSet) nvml.Return {
+//			DeviceRegisterEventsFunc: func(device nvml.Device, v uint64, eventSet nvml.EventSet) error {
 //				panic("mock out the DeviceRegisterEvents method")
 //			},
-//			DeviceRemoveGpuFunc: func(pciInfo *nvml.PciInfo) nvml.Return {
+//			DeviceRemoveGpuFunc: func(pciInfo *nvml.PciInfo) error {
 //				panic("mock out the DeviceRemoveGpu method")
 //			},
-//			DeviceRemoveGpu_v2Func: func(pciInfo *nvml.PciInfo, detachGpuState nvml.DetachGpuState, pcieLinkState nvml.PcieLinkState) nvml.Return {
+//			DeviceRemoveGpu_v2Func: func(pciInfo *nvml.PciInfo, detachGpuState nvml.DetachGpuState, pcieLinkState nvml.PcieLinkState) error {
 //				panic("mock out the DeviceRemoveGpu_v2 method")
 //			},
-//			DeviceResetApplicationsClocksFunc: func(device nvml.Device) nvml.Return {
+//			DeviceResetApplicationsClocksFunc: func(device nvml.Device) error {
 //				panic("mock out the DeviceResetApplicationsClocks method")
 //			},
-//			DeviceResetGpuLockedClocksFunc: func(device nvml.Device) nvml.Return {
+//			DeviceResetGpuLockedClocksFunc: func(device nvml.Device) error {
 //				panic("mock out the DeviceResetGpuLockedClocks method")
 //			},
-//			DeviceResetMemoryLockedClocksFunc: func(device nvml.Device) nvml.Return {
+//			DeviceResetMemoryLockedClocksFunc: func(device nvml.Device) error {
 //				panic("mock out the DeviceResetMemoryLockedClocks method")
 //			},
-//			DeviceResetNvLinkErrorCountersFunc: func(device nvml.Device, n int) nvml.Return {
+//			DeviceResetNvLinkErrorCountersFunc: func(device nvml.Device, n int) error {
 //				panic("mock out the DeviceResetNvLinkErrorCounters method")
 //			},
-//			DeviceResetNvLinkUtilizationCounterFunc: func(device nvml.Device, n1 int, n2 int) nvml.Return {
+//			DeviceResetNvLinkUtilizationCounterFunc: func(device nvml.Device, n1 int, n2 int) error {
 //				panic("mock out the DeviceResetNvLinkUtilizationCounter method")
 //			},
-//			DeviceSetAPIRestrictionFunc: func(device nvml.Device, restrictedAPI nvml.RestrictedAPI, enableState nvml.EnableState) nvml.Return {
+//			DeviceSetAPIRestrictionFunc: func(device nvml.Device, restrictedAPI nvml.RestrictedAPI, enableState nvml.EnableState) error {
 //				panic("mock out the DeviceSetAPIRestriction method")
 //			},
-//			DeviceSetAccountingModeFunc: func(device nvml.Device, enableState nvml.EnableState) nvml.Return {
+//			DeviceSetAccountingModeFunc: func(device nvml.Device, enableState nvml.EnableState) error {
 //				panic("mock out the DeviceSetAccountingMode method")
 //			},
-//			DeviceSetApplicationsClocksFunc: func(device nvml.Device, v1 uint32, v2 uint32) nvml.Return {
+//			DeviceSetApplicationsClocksFunc: func(device nvml.Device, v1 uint32, v2 uint32) error {
 //				panic("mock out the DeviceSetApplicationsClocks method")
 //			},
-//			DeviceSetAutoBoostedClocksEnabledFunc: func(device nvml.Device, enableState nvml.EnableState) nvml.Return {
+//			DeviceSetAutoBoostedClocksEnabledFunc: func(device nvml.Device, enableState nvml.EnableState) error {
 //				panic("mock out the DeviceSetAutoBoostedClocksEnabled method")
 //			},
-//			DeviceSetComputeModeFunc: func(device nvml.Device, computeMode nvml.ComputeMode) nvml.Return {
+//			DeviceSetComputeModeFunc: func(device nvml.Device, computeMode nvml.ComputeMode) error {
 //				panic("mock out the DeviceSetComputeMode method")
 //			},
-//			DeviceSetConfComputeUnprotectedMemSizeFunc: func(device nvml.Device, v uint64) nvml.Return {
+//			DeviceSetConfComputeUnprotectedMemSizeFunc: func(device nvml.Device, v uint64) error {
 //				panic("mock out the DeviceSetConfComputeUnprotectedMemSize method")
 //			},
-//			DeviceSetCpuAffinityFunc: func(device nvml.Device) nvml.Return {
+//			DeviceSetCpuAffinityFunc: func(device nvml.Device) error {
 //				panic("mock out the DeviceSetCpuAffinity method")
 //			},
-//			DeviceSetDefaultAutoBoostedClocksEnabledFunc: func(device nvml.Device, enableState nvml.EnableState, v uint32) nvml.Return {
+//			DeviceSetDefaultAutoBoostedClocksEnabledFunc: func(device nvml.Device, enableState nvml.EnableState, v uint32) error {
 //				panic("mock out the DeviceSetDefaultAutoBoostedClocksEnabled method")
 //			},
-//			DeviceSetDefaultFanSpeed_v2Func: func(device nvml.Device, n int) nvml.Return {
+//			DeviceSetDefaultFanSpeed_v2Func: func(device nvml.Device, n int) error {
 //				panic("mock out the DeviceSetDefaultFanSpeed_v2 method")
 //			},
-//			DeviceSetDriverModelFunc: func(device nvml.Device, driverModel nvml.DriverModel, v uint32) nvml.Return {
+//			DeviceSetDriverModelFunc: func(device nvml.Device, driverModel nvml.DriverModel, v uint32) error {
 //				panic("mock out the DeviceSetDriverModel method")
 //			},
-//			DeviceSetEccModeFunc: func(device nvml.Device, enableState nvml.EnableState) nvml.Return {
+//			DeviceSetEccModeFunc: func(device nvml.Device, enableState nvml.EnableState) error {
 //				panic("mock out the DeviceSetEccMode method")
 //			},
-//			DeviceSetFanControlPolicyFunc: func(device nvml.Device, n int, fanControlPolicy nvml.FanControlPolicy) nvml.Return {
+//			DeviceSetFanControlPolicyFunc: func(device nvml.Device, n int, fanControlPolicy nvml.FanControlPolicy) error {
 //				panic("mock out the DeviceSetFanControlPolicy method")
 //			},
-//			DeviceSetFanSpeed_v2Func: func(device nvml.Device, n1 int, n2 int) nvml.Return {
+//			DeviceSetFanSpeed_v2Func: func(device nvml.Device, n1 int, n2 int) error {
 //				panic("mock out the DeviceSetFanSpeed_v2 method")
 //			},
-//			DeviceSetGpcClkVfOffsetFunc: func(device nvml.Device, n int) nvml.Return {
+//			DeviceSetGpcClkVfOffsetFunc: func(device nvml.Device, n int) error {
 //				panic("mock out the DeviceSetGpcClkVfOffset method")
 //			},
-//			DeviceSetGpuLockedClocksFunc: func(device nvml.Device, v1 uint32, v2 uint32) nvml.Return {
+//			DeviceSetGpuLockedClocksFunc: func(device nvml.Device, v1 uint32, v2 uint32) error {
 //				panic("mock out the DeviceSetGpuLockedClocks method")
 //			},
-//			DeviceSetGpuOperationModeFunc: func(device nvml.Device, gpuOperationMode nvml.GpuOperationMode) nvml.Return {
+//			DeviceSetGpuOperationModeFunc: func(device nvml.Device, gpuOperationMode nvml.GpuOperationMode) error {
 //				panic("mock out the DeviceSetGpuOperationMode method")
 //			},
-//			DeviceSetMemClkVfOffsetFunc: func(device nvml.Device, n int) nvml.Return {
+//			DeviceSetMemClkVfOffsetFunc: func(device nvml.Device, n int) error {
 //				panic("mock out the DeviceSetMemClkVfOffset method")
 //			},
-//			DeviceSetMemoryLockedClocksFunc: func(device nvml.Device, v1 uint32, v2 uint32) nvml.Return {
+//			DeviceSetMemoryLockedClocksFunc: func(device nvml.Device, v1 uint32, v2 uint32) error {
 //				panic("mock out the DeviceSetMemoryLockedClocks method")
 //			},
-//			DeviceSetMigModeFunc: func(device nvml.Device, n int) (nvml.Return, nvml.Return) {
+//			DeviceSetMigModeFunc: func(device nvml.Device, n int) (error, error) {
 //				panic("mock out the DeviceSetMigMode method")
 //			},
-//			DeviceSetNvLinkDeviceLowPowerThresholdFunc: func(device nvml.Device, nvLinkPowerThres *nvml.NvLinkPowerThres) nvml.Return {
+//			DeviceSetNvLinkDeviceLowPowerThresholdFunc: func(device nvml.Device, nvLinkPowerThres *nvml.NvLinkPowerThres) error {
 //				panic("mock out the DeviceSetNvLinkDeviceLowPowerThreshold method")
 //			},
-//			DeviceSetNvLinkUtilizationControlFunc: func(device nvml.Device, n1 int, n2 int, nvLinkUtilizationControl *nvml.NvLinkUtilizationControl, b bool) nvml.Return {
+//			DeviceSetNvLinkUtilizationControlFunc: func(device nvml.Device, n1 int, n2 int, nvLinkUtilizationControl *nvml.NvLinkUtilizationControl, b bool) error {
 //				panic("mock out the DeviceSetNvLinkUtilizationControl method")
 //			},
-//			DeviceSetPersistenceModeFunc: func(device nvml.Device, enableState nvml.EnableState) nvml.Return {
+//			DeviceSetPersistenceModeFunc: func(device nvml.Device, enableState nvml.EnableState) error {
 //				panic("mock out the DeviceSetPersistenceMode method")
 //			},
-//			DeviceSetPowerManagementLimitFunc: func(device nvml.Device, v uint32) nvml.Return {
+//			DeviceSetPowerManagementLimitFunc: func(device nvml.Device, v uint32) error {
 //				panic("mock out the DeviceSetPowerManagementLimit method")
 //			},
-//			DeviceSetPowerManagementLimit_v2Func: func(device nvml.Device, powerValue_v2 *nvml.PowerValue_v2) nvml.Return {
+//			DeviceSetPowerManagementLimit_v2Func: func(device nvml.Device, powerValue_v2 *nvml.PowerValue_v2) error {
 //				panic("mock out the DeviceSetPowerManagementLimit_v2 method")
 //			},
-//			DeviceSetTemperatureThresholdFunc: func(device nvml.Device, temperatureThresholds nvml.TemperatureThresholds, n int) nvml.Return {
+//			DeviceSetTemperatureThresholdFunc: func(device nvml.Device, temperatureThresholds nvml.TemperatureThresholds, n int) error {
 //				panic("mock out the DeviceSetTemperatureThreshold method")
 //			},
-//			DeviceSetVgpuCapabilitiesFunc: func(device nvml.Device, deviceVgpuCapability nvml.DeviceVgpuCapability, enableState nvml.EnableState) nvml.Return {
+//			DeviceSetVgpuCapabilitiesFunc: func(device nvml.Device, deviceVgpuCapability nvml.DeviceVgpuCapability, enableState nvml.EnableState) error {
 //				panic("mock out the DeviceSetVgpuCapabilities method")
 //			},
-//			DeviceSetVgpuHeterogeneousModeFunc: func(device nvml.Device, vgpuHeterogeneousMode nvml.VgpuHeterogeneousMode) nvml.Return {
+//			DeviceSetVgpuHeterogeneousModeFunc: func(device nvml.Device, vgpuHeterogeneousMode nvml.VgpuHeterogeneousMode) error {
 //				panic("mock out the DeviceSetVgpuHeterogeneousMode method")
 //			},
-//			DeviceSetVgpuSchedulerStateFunc: func(device nvml.Device, vgpuSchedulerSetState *nvml.VgpuSchedulerSetState) nvml.Return {
+//			DeviceSetVgpuSchedulerStateFunc: func(device nvml.Device, vgpuSchedulerSetState *nvml.VgpuSchedulerSetState) error {
 //				panic("mock out the DeviceSetVgpuSchedulerState method")
 //			},
-//			DeviceSetVirtualizationModeFunc: func(device nvml.Device, gpuVirtualizationMode nvml.GpuVirtualizationMode) nvml.Return {
+//			DeviceSetVirtualizationModeFunc: func(device nvml.Device, gpuVirtualizationMode nvml.GpuVirtualizationMode) error {
 //				panic("mock out the DeviceSetVirtualizationMode method")
 //			},
-//			DeviceValidateInforomFunc: func(device nvml.Device) nvml.Return {
+//			DeviceValidateInforomFunc: func(device nvml.Device) error {
 //				panic("mock out the DeviceValidateInforom method")
 //			},
 //			ErrorStringFunc: func(returnMoqParam nvml.Return) string {
 //				panic("mock out the ErrorString method")
 //			},
-//			EventSetCreateFunc: func() (nvml.EventSet, nvml.Return) {
+//			EventSetCreateFunc: func() (nvml.EventSet, error) {
 //				panic("mock out the EventSetCreate method")
 //			},
-//			EventSetFreeFunc: func(eventSet nvml.EventSet) nvml.Return {
+//			EventSetFreeFunc: func(eventSet nvml.EventSet) error {
 //				panic("mock out the EventSetFree method")
 //			},
-//			EventSetWaitFunc: func(eventSet nvml.EventSet, v uint32) (nvml.EventData, nvml.Return) {
+//			EventSetWaitFunc: func(eventSet nvml.EventSet, v uint32) (nvml.EventData, error) {
 //				panic("mock out the EventSetWait method")
 //			},
 //			ExtensionsFunc: func() nvml.ExtendedInterface {
 //				panic("mock out the Extensions method")
 //			},
-//			GetExcludedDeviceCountFunc: func() (int, nvml.Return) {
+//			GetExcludedDeviceCountFunc: func() (int, error) {
 //				panic("mock out the GetExcludedDeviceCount method")
 //			},
-//			GetExcludedDeviceInfoByIndexFunc: func(n int) (nvml.ExcludedDeviceInfo, nvml.Return) {
+//			GetExcludedDeviceInfoByIndexFunc: func(n int) (nvml.ExcludedDeviceInfo, error) {
 //				panic("mock out the GetExcludedDeviceInfoByIndex method")
 //			},
-//			GetVgpuCompatibilityFunc: func(vgpuMetadata *nvml.VgpuMetadata, vgpuPgpuMetadata *nvml.VgpuPgpuMetadata) (nvml.VgpuPgpuCompatibility, nvml.Return) {
+//			GetVgpuCompatibilityFunc: func(vgpuMetadata *nvml.VgpuMetadata, vgpuPgpuMetadata *nvml.VgpuPgpuMetadata) (nvml.VgpuPgpuCompatibility, error) {
 //				panic("mock out the GetVgpuCompatibility method")
 //			},
-//			GetVgpuDriverCapabilitiesFunc: func(vgpuDriverCapability nvml.VgpuDriverCapability) (bool, nvml.Return) {
+//			GetVgpuDriverCapabilitiesFunc: func(vgpuDriverCapability nvml.VgpuDriverCapability) (bool, error) {
 //				panic("mock out the GetVgpuDriverCapabilities method")
 //			},
-//			GetVgpuVersionFunc: func() (nvml.VgpuVersion, nvml.VgpuVersion, nvml.Return) {
+//			GetVgpuVersionFunc: func() (nvml.VgpuVersion, nvml.VgpuVersion, error) {
 //				panic("mock out the GetVgpuVersion method")
 //			},
-//			GpmMetricsGetFunc: func(gpmMetricsGetType *nvml.GpmMetricsGetType) nvml.Return {
+//			GpmMetricsGetFunc: func(gpmMetricsGetType *nvml.GpmMetricsGetType) error {
 //				panic("mock out the GpmMetricsGet method")
 //			},
 //			GpmMetricsGetVFunc: func(gpmMetricsGetType *nvml.GpmMetricsGetType) nvml.GpmMetricsGetVType {
 //				panic("mock out the GpmMetricsGetV method")
 //			},
-//			GpmMigSampleGetFunc: func(device nvml.Device, n int, gpmSample nvml.GpmSample) nvml.Return {
+//			GpmMigSampleGetFunc: func(device nvml.Device, n int, gpmSample nvml.GpmSample) error {
 //				panic("mock out the GpmMigSampleGet method")
 //			},
-//			GpmQueryDeviceSupportFunc: func(device nvml.Device) (nvml.GpmSupport, nvml.Return) {
+//			GpmQueryDeviceSupportFunc: func(device nvml.Device) (nvml.GpmSupport, error) {
 //				panic("mock out the GpmQueryDeviceSupport method")
 //			},
 //			GpmQueryDeviceSupportVFunc: func(device nvml.Device) nvml.GpmSupportV {
 //				panic("mock out the GpmQueryDeviceSupportV method")
 //			},
-//			GpmQueryIfStreamingEnabledFunc: func(device nvml.Device) (uint32, nvml.Return) {
+//			GpmQueryIfStreamingEnabledFunc: func(device nvml.Device) (uint32, error) {
 //				panic("mock out the GpmQueryIfStreamingEnabled method")
 //			},
-//			GpmSampleAllocFunc: func() (nvml.GpmSample, nvml.Return) {
+//			GpmSampleAllocFunc: func() (nvml.GpmSample, error) {
 //				panic("mock out the GpmSampleAlloc method")
 //			},
-//			GpmSampleFreeFunc: func(gpmSample nvml.GpmSample) nvml.Return {
+//			GpmSampleFreeFunc: func(gpmSample nvml.GpmSample) error {
 //				panic("mock out the GpmSampleFree method")
 //			},
-//			GpmSampleGetFunc: func(device nvml.Device, gpmSample nvml.GpmSample) nvml.Return {
+//			GpmSampleGetFunc: func(device nvml.Device, gpmSample nvml.GpmSample) error {
 //				panic("mock out the GpmSampleGet method")
 //			},
-//			GpmSetStreamingEnabledFunc: func(device nvml.Device, v uint32) nvml.Return {
+//			GpmSetStreamingEnabledFunc: func(device nvml.Device, v uint32) error {
 //				panic("mock out the GpmSetStreamingEnabled method")
 //			},
-//			GpuInstanceCreateComputeInstanceFunc: func(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) (nvml.ComputeInstance, nvml.Return) {
+//			GpuInstanceCreateComputeInstanceFunc: func(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) (nvml.ComputeInstance, error) {
 //				panic("mock out the GpuInstanceCreateComputeInstance method")
 //			},
-//			GpuInstanceCreateComputeInstanceWithPlacementFunc: func(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo, computeInstancePlacement *nvml.ComputeInstancePlacement) (nvml.ComputeInstance, nvml.Return) {
+//			GpuInstanceCreateComputeInstanceWithPlacementFunc: func(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo, computeInstancePlacement *nvml.ComputeInstancePlacement) (nvml.ComputeInstance, error) {
 //				panic("mock out the GpuInstanceCreateComputeInstanceWithPlacement method")
 //			},
-//			GpuInstanceDestroyFunc: func(gpuInstance nvml.GpuInstance) nvml.Return {
+//			GpuInstanceDestroyFunc: func(gpuInstance nvml.GpuInstance) error {
 //				panic("mock out the GpuInstanceDestroy method")
 //			},
-//			GpuInstanceGetComputeInstanceByIdFunc: func(gpuInstance nvml.GpuInstance, n int) (nvml.ComputeInstance, nvml.Return) {
+//			GpuInstanceGetComputeInstanceByIdFunc: func(gpuInstance nvml.GpuInstance, n int) (nvml.ComputeInstance, error) {
 //				panic("mock out the GpuInstanceGetComputeInstanceById method")
 //			},
-//			GpuInstanceGetComputeInstancePossiblePlacementsFunc: func(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) ([]nvml.ComputeInstancePlacement, nvml.Return) {
+//			GpuInstanceGetComputeInstancePossiblePlacementsFunc: func(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) ([]nvml.ComputeInstancePlacement, error) {
 //				panic("mock out the GpuInstanceGetComputeInstancePossiblePlacements method")
 //			},
-//			GpuInstanceGetComputeInstanceProfileInfoFunc: func(gpuInstance nvml.GpuInstance, n1 int, n2 int) (nvml.ComputeInstanceProfileInfo, nvml.Return) {
+//			GpuInstanceGetComputeInstanceProfileInfoFunc: func(gpuInstance nvml.GpuInstance, n1 int, n2 int) (nvml.ComputeInstanceProfileInfo, error) {
 //				panic("mock out the GpuInstanceGetComputeInstanceProfileInfo method")
 //			},
 //			GpuInstanceGetComputeInstanceProfileInfoVFunc: func(gpuInstance nvml.GpuInstance, n1 int, n2 int) nvml.ComputeInstanceProfileInfoHandler {
 //				panic("mock out the GpuInstanceGetComputeInstanceProfileInfoV method")
 //			},
-//			GpuInstanceGetComputeInstanceRemainingCapacityFunc: func(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) (int, nvml.Return) {
+//			GpuInstanceGetComputeInstanceRemainingCapacityFunc: func(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) (int, error) {
 //				panic("mock out the GpuInstanceGetComputeInstanceRemainingCapacity method")
 //			},
-//			GpuInstanceGetComputeInstancesFunc: func(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) ([]nvml.ComputeInstance, nvml.Return) {
+//			GpuInstanceGetComputeInstancesFunc: func(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) ([]nvml.ComputeInstance, error) {
 //				panic("mock out the GpuInstanceGetComputeInstances method")
 //			},
-//			GpuInstanceGetInfoFunc: func(gpuInstance nvml.GpuInstance) (nvml.GpuInstanceInfo, nvml.Return) {
+//			GpuInstanceGetInfoFunc: func(gpuInstance nvml.GpuInstance) (nvml.GpuInstanceInfo, error) {
 //				panic("mock out the GpuInstanceGetInfo method")
 //			},
-//			InitFunc: func() nvml.Return {
+//			InitFunc: func() error {
 //				panic("mock out the Init method")
 //			},
-//			InitWithFlagsFunc: func(v uint32) nvml.Return {
+//			InitWithFlagsFunc: func(v uint32) error {
 //				panic("mock out the InitWithFlags method")
 //			},
-//			SetVgpuVersionFunc: func(vgpuVersion *nvml.VgpuVersion) nvml.Return {
+//			SetVgpuVersionFunc: func(vgpuVersion *nvml.VgpuVersion) error {
 //				panic("mock out the SetVgpuVersion method")
 //			},
-//			ShutdownFunc: func() nvml.Return {
+//			ShutdownFunc: func() error {
 //				panic("mock out the Shutdown method")
 //			},
-//			SystemGetConfComputeCapabilitiesFunc: func() (nvml.ConfComputeSystemCaps, nvml.Return) {
+//			SystemGetConfComputeCapabilitiesFunc: func() (nvml.ConfComputeSystemCaps, error) {
 //				panic("mock out the SystemGetConfComputeCapabilities method")
 //			},
-//			SystemGetConfComputeKeyRotationThresholdInfoFunc: func() (nvml.ConfComputeGetKeyRotationThresholdInfo, nvml.Return) {
+//			SystemGetConfComputeKeyRotationThresholdInfoFunc: func() (nvml.ConfComputeGetKeyRotationThresholdInfo, error) {
 //				panic("mock out the SystemGetConfComputeKeyRotationThresholdInfo method")
 //			},
-//			SystemGetConfComputeSettingsFunc: func() (nvml.SystemConfComputeSettings, nvml.Return) {
+//			SystemGetConfComputeSettingsFunc: func() (nvml.SystemConfComputeSettings, error) {
 //				panic("mock out the SystemGetConfComputeSettings method")
 //			},
-//			SystemGetCudaDriverVersionFunc: func() (int, nvml.Return) {
+//			SystemGetCudaDriverVersionFunc: func() (int, error) {
 //				panic("mock out the SystemGetCudaDriverVersion method")
 //			},
-//			SystemGetCudaDriverVersion_v2Func: func() (int, nvml.Return) {
+//			SystemGetCudaDriverVersion_v2Func: func() (int, error) {
 //				panic("mock out the SystemGetCudaDriverVersion_v2 method")
 //			},
-//			SystemGetDriverVersionFunc: func() (string, nvml.Return) {
+//			SystemGetDriverVersionFunc: func() (string, error) {
 //				panic("mock out the SystemGetDriverVersion method")
 //			},
-//			SystemGetHicVersionFunc: func() ([]nvml.HwbcEntry, nvml.Return) {
+//			SystemGetHicVersionFunc: func() ([]nvml.HwbcEntry, error) {
 //				panic("mock out the SystemGetHicVersion method")
 //			},
-//			SystemGetNVMLVersionFunc: func() (string, nvml.Return) {
+//			SystemGetNVMLVersionFunc: func() (string, error) {
 //				panic("mock out the SystemGetNVMLVersion method")
 //			},
-//			SystemGetProcessNameFunc: func(n int) (string, nvml.Return) {
+//			SystemGetProcessNameFunc: func(n int) (string, error) {
 //				panic("mock out the SystemGetProcessName method")
 //			},
-//			SystemGetTopologyGpuSetFunc: func(n int) ([]nvml.Device, nvml.Return) {
+//			SystemGetTopologyGpuSetFunc: func(n int) ([]nvml.Device, error) {
 //				panic("mock out the SystemGetTopologyGpuSet method")
 //			},
-//			SystemSetConfComputeKeyRotationThresholdInfoFunc: func(confComputeSetKeyRotationThresholdInfo nvml.ConfComputeSetKeyRotationThresholdInfo) nvml.Return {
+//			SystemSetConfComputeKeyRotationThresholdInfoFunc: func(confComputeSetKeyRotationThresholdInfo nvml.ConfComputeSetKeyRotationThresholdInfo) error {
 //				panic("mock out the SystemSetConfComputeKeyRotationThresholdInfo method")
 //			},
-//			UnitGetCountFunc: func() (int, nvml.Return) {
+//			UnitGetCountFunc: func() (int, error) {
 //				panic("mock out the UnitGetCount method")
 //			},
-//			UnitGetDevicesFunc: func(unit nvml.Unit) ([]nvml.Device, nvml.Return) {
+//			UnitGetDevicesFunc: func(unit nvml.Unit) ([]nvml.Device, error) {
 //				panic("mock out the UnitGetDevices method")
 //			},
-//			UnitGetFanSpeedInfoFunc: func(unit nvml.Unit) (nvml.UnitFanSpeeds, nvml.Return) {
+//			UnitGetFanSpeedInfoFunc: func(unit nvml.Unit) (nvml.UnitFanSpeeds, error) {
 //				panic("mock out the UnitGetFanSpeedInfo method")
 //			},
-//			UnitGetHandleByIndexFunc: func(n int) (nvml.Unit, nvml.Return) {
+//			UnitGetHandleByIndexFunc: func(n int) (nvml.Unit, error) {
 //				panic("mock out the UnitGetHandleByIndex method")
 //			},
-//			UnitGetLedStateFunc: func(unit nvml.Unit) (nvml.LedState, nvml.Return) {
+//			UnitGetLedStateFunc: func(unit nvml.Unit) (nvml.LedState, error) {
 //				panic("mock out the UnitGetLedState method")
 //			},
-//			UnitGetPsuInfoFunc: func(unit nvml.Unit) (nvml.PSUInfo, nvml.Return) {
+//			UnitGetPsuInfoFunc: func(unit nvml.Unit) (nvml.PSUInfo, error) {
 //				panic("mock out the UnitGetPsuInfo method")
 //			},
-//			UnitGetTemperatureFunc: func(unit nvml.Unit, n int) (uint32, nvml.Return) {
+//			UnitGetTemperatureFunc: func(unit nvml.Unit, n int) (uint32, error) {
 //				panic("mock out the UnitGetTemperature method")
 //			},
-//			UnitGetUnitInfoFunc: func(unit nvml.Unit) (nvml.UnitInfo, nvml.Return) {
+//			UnitGetUnitInfoFunc: func(unit nvml.Unit) (nvml.UnitInfo, error) {
 //				panic("mock out the UnitGetUnitInfo method")
 //			},
-//			UnitSetLedStateFunc: func(unit nvml.Unit, ledColor nvml.LedColor) nvml.Return {
+//			UnitSetLedStateFunc: func(unit nvml.Unit, ledColor nvml.LedColor) error {
 //				panic("mock out the UnitSetLedState method")
 //			},
-//			VgpuInstanceClearAccountingPidsFunc: func(vgpuInstance nvml.VgpuInstance) nvml.Return {
+//			VgpuInstanceClearAccountingPidsFunc: func(vgpuInstance nvml.VgpuInstance) error {
 //				panic("mock out the VgpuInstanceClearAccountingPids method")
 //			},
-//			VgpuInstanceGetAccountingModeFunc: func(vgpuInstance nvml.VgpuInstance) (nvml.EnableState, nvml.Return) {
+//			VgpuInstanceGetAccountingModeFunc: func(vgpuInstance nvml.VgpuInstance) (nvml.EnableState, error) {
 //				panic("mock out the VgpuInstanceGetAccountingMode method")
 //			},
-//			VgpuInstanceGetAccountingPidsFunc: func(vgpuInstance nvml.VgpuInstance) ([]int, nvml.Return) {
+//			VgpuInstanceGetAccountingPidsFunc: func(vgpuInstance nvml.VgpuInstance) ([]int, error) {
 //				panic("mock out the VgpuInstanceGetAccountingPids method")
 //			},
-//			VgpuInstanceGetAccountingStatsFunc: func(vgpuInstance nvml.VgpuInstance, n int) (nvml.AccountingStats, nvml.Return) {
+//			VgpuInstanceGetAccountingStatsFunc: func(vgpuInstance nvml.VgpuInstance, n int) (nvml.AccountingStats, error) {
 //				panic("mock out the VgpuInstanceGetAccountingStats method")
 //			},
-//			VgpuInstanceGetEccModeFunc: func(vgpuInstance nvml.VgpuInstance) (nvml.EnableState, nvml.Return) {
+//			VgpuInstanceGetEccModeFunc: func(vgpuInstance nvml.VgpuInstance) (nvml.EnableState, error) {
 //				panic("mock out the VgpuInstanceGetEccMode method")
 //			},
-//			VgpuInstanceGetEncoderCapacityFunc: func(vgpuInstance nvml.VgpuInstance) (int, nvml.Return) {
+//			VgpuInstanceGetEncoderCapacityFunc: func(vgpuInstance nvml.VgpuInstance) (int, error) {
 //				panic("mock out the VgpuInstanceGetEncoderCapacity method")
 //			},
-//			VgpuInstanceGetEncoderSessionsFunc: func(vgpuInstance nvml.VgpuInstance) (int, nvml.EncoderSessionInfo, nvml.Return) {
+//			VgpuInstanceGetEncoderSessionsFunc: func(vgpuInstance nvml.VgpuInstance) (int, nvml.EncoderSessionInfo, error) {
 //				panic("mock out the VgpuInstanceGetEncoderSessions method")
 //			},
-//			VgpuInstanceGetEncoderStatsFunc: func(vgpuInstance nvml.VgpuInstance) (int, uint32, uint32, nvml.Return) {
+//			VgpuInstanceGetEncoderStatsFunc: func(vgpuInstance nvml.VgpuInstance) (int, uint32, uint32, error) {
 //				panic("mock out the VgpuInstanceGetEncoderStats method")
 //			},
-//			VgpuInstanceGetFBCSessionsFunc: func(vgpuInstance nvml.VgpuInstance) (int, nvml.FBCSessionInfo, nvml.Return) {
+//			VgpuInstanceGetFBCSessionsFunc: func(vgpuInstance nvml.VgpuInstance) (int, nvml.FBCSessionInfo, error) {
 //				panic("mock out the VgpuInstanceGetFBCSessions method")
 //			},
-//			VgpuInstanceGetFBCStatsFunc: func(vgpuInstance nvml.VgpuInstance) (nvml.FBCStats, nvml.Return) {
+//			VgpuInstanceGetFBCStatsFunc: func(vgpuInstance nvml.VgpuInstance) (nvml.FBCStats, error) {
 //				panic("mock out the VgpuInstanceGetFBCStats method")
 //			},
-//			VgpuInstanceGetFbUsageFunc: func(vgpuInstance nvml.VgpuInstance) (uint64, nvml.Return) {
+//			VgpuInstanceGetFbUsageFunc: func(vgpuInstance nvml.VgpuInstance) (uint64, error) {
 //				panic("mock out the VgpuInstanceGetFbUsage method")
 //			},
-//			VgpuInstanceGetFrameRateLimitFunc: func(vgpuInstance nvml.VgpuInstance) (uint32, nvml.Return) {
+//			VgpuInstanceGetFrameRateLimitFunc: func(vgpuInstance nvml.VgpuInstance) (uint32, error) {
 //				panic("mock out the VgpuInstanceGetFrameRateLimit method")
 //			},
-//			VgpuInstanceGetGpuInstanceIdFunc: func(vgpuInstance nvml.VgpuInstance) (int, nvml.Return) {
+//			VgpuInstanceGetGpuInstanceIdFunc: func(vgpuInstance nvml.VgpuInstance) (int, error) {
 //				panic("mock out the VgpuInstanceGetGpuInstanceId method")
 //			},
-//			VgpuInstanceGetGpuPciIdFunc: func(vgpuInstance nvml.VgpuInstance) (string, nvml.Return) {
+//			VgpuInstanceGetGpuPciIdFunc: func(vgpuInstance nvml.VgpuInstance) (string, error) {
 //				panic("mock out the VgpuInstanceGetGpuPciId method")
 //			},
-//			VgpuInstanceGetLicenseInfoFunc: func(vgpuInstance nvml.VgpuInstance) (nvml.VgpuLicenseInfo, nvml.Return) {
+//			VgpuInstanceGetLicenseInfoFunc: func(vgpuInstance nvml.VgpuInstance) (nvml.VgpuLicenseInfo, error) {
 //				panic("mock out the VgpuInstanceGetLicenseInfo method")
 //			},
-//			VgpuInstanceGetLicenseStatusFunc: func(vgpuInstance nvml.VgpuInstance) (int, nvml.Return) {
+//			VgpuInstanceGetLicenseStatusFunc: func(vgpuInstance nvml.VgpuInstance) (int, error) {
 //				panic("mock out the VgpuInstanceGetLicenseStatus method")
 //			},
-//			VgpuInstanceGetMdevUUIDFunc: func(vgpuInstance nvml.VgpuInstance) (string, nvml.Return) {
+//			VgpuInstanceGetMdevUUIDFunc: func(vgpuInstance nvml.VgpuInstance) (string, error) {
 //				panic("mock out the VgpuInstanceGetMdevUUID method")
 //			},
-//			VgpuInstanceGetMetadataFunc: func(vgpuInstance nvml.VgpuInstance) (nvml.VgpuMetadata, nvml.Return) {
+//			VgpuInstanceGetMetadataFunc: func(vgpuInstance nvml.VgpuInstance) (nvml.VgpuMetadata, error) {
 //				panic("mock out the VgpuInstanceGetMetadata method")
 //			},
-//			VgpuInstanceGetTypeFunc: func(vgpuInstance nvml.VgpuInstance) (nvml.VgpuTypeId, nvml.Return) {
+//			VgpuInstanceGetTypeFunc: func(vgpuInstance nvml.VgpuInstance) (nvml.VgpuTypeId, error) {
 //				panic("mock out the VgpuInstanceGetType method")
 //			},
-//			VgpuInstanceGetUUIDFunc: func(vgpuInstance nvml.VgpuInstance) (string, nvml.Return) {
+//			VgpuInstanceGetUUIDFunc: func(vgpuInstance nvml.VgpuInstance) (string, error) {
 //				panic("mock out the VgpuInstanceGetUUID method")
 //			},
-//			VgpuInstanceGetVmDriverVersionFunc: func(vgpuInstance nvml.VgpuInstance) (string, nvml.Return) {
+//			VgpuInstanceGetVmDriverVersionFunc: func(vgpuInstance nvml.VgpuInstance) (string, error) {
 //				panic("mock out the VgpuInstanceGetVmDriverVersion method")
 //			},
-//			VgpuInstanceGetVmIDFunc: func(vgpuInstance nvml.VgpuInstance) (string, nvml.VgpuVmIdType, nvml.Return) {
+//			VgpuInstanceGetVmIDFunc: func(vgpuInstance nvml.VgpuInstance) (string, nvml.VgpuVmIdType, error) {
 //				panic("mock out the VgpuInstanceGetVmID method")
 //			},
-//			VgpuInstanceSetEncoderCapacityFunc: func(vgpuInstance nvml.VgpuInstance, n int) nvml.Return {
+//			VgpuInstanceSetEncoderCapacityFunc: func(vgpuInstance nvml.VgpuInstance, n int) error {
 //				panic("mock out the VgpuInstanceSetEncoderCapacity method")
 //			},
-//			VgpuTypeGetCapabilitiesFunc: func(vgpuTypeId nvml.VgpuTypeId, vgpuCapability nvml.VgpuCapability) (bool, nvml.Return) {
+//			VgpuTypeGetCapabilitiesFunc: func(vgpuTypeId nvml.VgpuTypeId, vgpuCapability nvml.VgpuCapability) (bool, error) {
 //				panic("mock out the VgpuTypeGetCapabilities method")
 //			},
-//			VgpuTypeGetClassFunc: func(vgpuTypeId nvml.VgpuTypeId) (string, nvml.Return) {
+//			VgpuTypeGetClassFunc: func(vgpuTypeId nvml.VgpuTypeId) (string, error) {
 //				panic("mock out the VgpuTypeGetClass method")
 //			},
-//			VgpuTypeGetDeviceIDFunc: func(vgpuTypeId nvml.VgpuTypeId) (uint64, uint64, nvml.Return) {
+//			VgpuTypeGetDeviceIDFunc: func(vgpuTypeId nvml.VgpuTypeId) (uint64, uint64, error) {
 //				panic("mock out the VgpuTypeGetDeviceID method")
 //			},
-//			VgpuTypeGetFrameRateLimitFunc: func(vgpuTypeId nvml.VgpuTypeId) (uint32, nvml.Return) {
+//			VgpuTypeGetFrameRateLimitFunc: func(vgpuTypeId nvml.VgpuTypeId) (uint32, error) {
 //				panic("mock out the VgpuTypeGetFrameRateLimit method")
 //			},
-//			VgpuTypeGetFramebufferSizeFunc: func(vgpuTypeId nvml.VgpuTypeId) (uint64, nvml.Return) {
+//			VgpuTypeGetFramebufferSizeFunc: func(vgpuTypeId nvml.VgpuTypeId) (uint64, error) {
 //				panic("mock out the VgpuTypeGetFramebufferSize method")
 //			},
-//			VgpuTypeGetGpuInstanceProfileIdFunc: func(vgpuTypeId nvml.VgpuTypeId) (uint32, nvml.Return) {
+//			VgpuTypeGetGpuInstanceProfileIdFunc: func(vgpuTypeId nvml.VgpuTypeId) (uint32, error) {
 //				panic("mock out the VgpuTypeGetGpuInstanceProfileId method")
 //			},
-//			VgpuTypeGetLicenseFunc: func(vgpuTypeId nvml.VgpuTypeId) (string, nvml.Return) {
+//			VgpuTypeGetLicenseFunc: func(vgpuTypeId nvml.VgpuTypeId) (string, error) {
 //				panic("mock out the VgpuTypeGetLicense method")
 //			},
-//			VgpuTypeGetMaxInstancesFunc: func(device nvml.Device, vgpuTypeId nvml.VgpuTypeId) (int, nvml.Return) {
+//			VgpuTypeGetMaxInstancesFunc: func(device nvml.Device, vgpuTypeId nvml.VgpuTypeId) (int, error) {
 //				panic("mock out the VgpuTypeGetMaxInstances method")
 //			},
-//			VgpuTypeGetMaxInstancesPerVmFunc: func(vgpuTypeId nvml.VgpuTypeId) (int, nvml.Return) {
+//			VgpuTypeGetMaxInstancesPerVmFunc: func(vgpuTypeId nvml.VgpuTypeId) (int, error) {
 //				panic("mock out the VgpuTypeGetMaxInstancesPerVm method")
 //			},
-//			VgpuTypeGetNameFunc: func(vgpuTypeId nvml.VgpuTypeId) (string, nvml.Return) {
+//			VgpuTypeGetNameFunc: func(vgpuTypeId nvml.VgpuTypeId) (string, error) {
 //				panic("mock out the VgpuTypeGetName method")
 //			},
-//			VgpuTypeGetNumDisplayHeadsFunc: func(vgpuTypeId nvml.VgpuTypeId) (int, nvml.Return) {
+//			VgpuTypeGetNumDisplayHeadsFunc: func(vgpuTypeId nvml.VgpuTypeId) (int, error) {
 //				panic("mock out the VgpuTypeGetNumDisplayHeads method")
 //			},
-//			VgpuTypeGetResolutionFunc: func(vgpuTypeId nvml.VgpuTypeId, n int) (uint32, uint32, nvml.Return) {
+//			VgpuTypeGetResolutionFunc: func(vgpuTypeId nvml.VgpuTypeId, n int) (uint32, uint32, error) {
 //				panic("mock out the VgpuTypeGetResolution method")
 //			},
 //		}
@@ -990,967 +989,967 @@ var _ nvml.Interface = &Interface{}
 //	}
 type Interface struct {
 	// ComputeInstanceDestroyFunc mocks the ComputeInstanceDestroy method.
-	ComputeInstanceDestroyFunc func(computeInstance nvml.ComputeInstance) nvml.Return
+	ComputeInstanceDestroyFunc func(computeInstance nvml.ComputeInstance) error
 
 	// ComputeInstanceGetInfoFunc mocks the ComputeInstanceGetInfo method.
-	ComputeInstanceGetInfoFunc func(computeInstance nvml.ComputeInstance) (nvml.ComputeInstanceInfo, nvml.Return)
+	ComputeInstanceGetInfoFunc func(computeInstance nvml.ComputeInstance) (nvml.ComputeInstanceInfo, error)
 
 	// DeviceClearAccountingPidsFunc mocks the DeviceClearAccountingPids method.
-	DeviceClearAccountingPidsFunc func(device nvml.Device) nvml.Return
+	DeviceClearAccountingPidsFunc func(device nvml.Device) error
 
 	// DeviceClearCpuAffinityFunc mocks the DeviceClearCpuAffinity method.
-	DeviceClearCpuAffinityFunc func(device nvml.Device) nvml.Return
+	DeviceClearCpuAffinityFunc func(device nvml.Device) error
 
 	// DeviceClearEccErrorCountsFunc mocks the DeviceClearEccErrorCounts method.
-	DeviceClearEccErrorCountsFunc func(device nvml.Device, eccCounterType nvml.EccCounterType) nvml.Return
+	DeviceClearEccErrorCountsFunc func(device nvml.Device, eccCounterType nvml.EccCounterType) error
 
 	// DeviceClearFieldValuesFunc mocks the DeviceClearFieldValues method.
-	DeviceClearFieldValuesFunc func(device nvml.Device, fieldValues []nvml.FieldValue) nvml.Return
+	DeviceClearFieldValuesFunc func(device nvml.Device, fieldValues []nvml.FieldValue) error
 
 	// DeviceCreateGpuInstanceFunc mocks the DeviceCreateGpuInstance method.
-	DeviceCreateGpuInstanceFunc func(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo) (nvml.GpuInstance, nvml.Return)
+	DeviceCreateGpuInstanceFunc func(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo) (nvml.GpuInstance, error)
 
 	// DeviceCreateGpuInstanceWithPlacementFunc mocks the DeviceCreateGpuInstanceWithPlacement method.
-	DeviceCreateGpuInstanceWithPlacementFunc func(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo, gpuInstancePlacement *nvml.GpuInstancePlacement) (nvml.GpuInstance, nvml.Return)
+	DeviceCreateGpuInstanceWithPlacementFunc func(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo, gpuInstancePlacement *nvml.GpuInstancePlacement) (nvml.GpuInstance, error)
 
 	// DeviceDiscoverGpusFunc mocks the DeviceDiscoverGpus method.
-	DeviceDiscoverGpusFunc func() (nvml.PciInfo, nvml.Return)
+	DeviceDiscoverGpusFunc func() (nvml.PciInfo, error)
 
 	// DeviceFreezeNvLinkUtilizationCounterFunc mocks the DeviceFreezeNvLinkUtilizationCounter method.
-	DeviceFreezeNvLinkUtilizationCounterFunc func(device nvml.Device, n1 int, n2 int, enableState nvml.EnableState) nvml.Return
+	DeviceFreezeNvLinkUtilizationCounterFunc func(device nvml.Device, n1 int, n2 int, enableState nvml.EnableState) error
 
 	// DeviceGetAPIRestrictionFunc mocks the DeviceGetAPIRestriction method.
-	DeviceGetAPIRestrictionFunc func(device nvml.Device, restrictedAPI nvml.RestrictedAPI) (nvml.EnableState, nvml.Return)
+	DeviceGetAPIRestrictionFunc func(device nvml.Device, restrictedAPI nvml.RestrictedAPI) (nvml.EnableState, error)
 
 	// DeviceGetAccountingBufferSizeFunc mocks the DeviceGetAccountingBufferSize method.
-	DeviceGetAccountingBufferSizeFunc func(device nvml.Device) (int, nvml.Return)
+	DeviceGetAccountingBufferSizeFunc func(device nvml.Device) (int, error)
 
 	// DeviceGetAccountingModeFunc mocks the DeviceGetAccountingMode method.
-	DeviceGetAccountingModeFunc func(device nvml.Device) (nvml.EnableState, nvml.Return)
+	DeviceGetAccountingModeFunc func(device nvml.Device) (nvml.EnableState, error)
 
 	// DeviceGetAccountingPidsFunc mocks the DeviceGetAccountingPids method.
-	DeviceGetAccountingPidsFunc func(device nvml.Device) ([]int, nvml.Return)
+	DeviceGetAccountingPidsFunc func(device nvml.Device) ([]int, error)
 
 	// DeviceGetAccountingStatsFunc mocks the DeviceGetAccountingStats method.
-	DeviceGetAccountingStatsFunc func(device nvml.Device, v uint32) (nvml.AccountingStats, nvml.Return)
+	DeviceGetAccountingStatsFunc func(device nvml.Device, v uint32) (nvml.AccountingStats, error)
 
 	// DeviceGetActiveVgpusFunc mocks the DeviceGetActiveVgpus method.
-	DeviceGetActiveVgpusFunc func(device nvml.Device) ([]nvml.VgpuInstance, nvml.Return)
+	DeviceGetActiveVgpusFunc func(device nvml.Device) ([]nvml.VgpuInstance, error)
 
 	// DeviceGetAdaptiveClockInfoStatusFunc mocks the DeviceGetAdaptiveClockInfoStatus method.
-	DeviceGetAdaptiveClockInfoStatusFunc func(device nvml.Device) (uint32, nvml.Return)
+	DeviceGetAdaptiveClockInfoStatusFunc func(device nvml.Device) (uint32, error)
 
 	// DeviceGetApplicationsClockFunc mocks the DeviceGetApplicationsClock method.
-	DeviceGetApplicationsClockFunc func(device nvml.Device, clockType nvml.ClockType) (uint32, nvml.Return)
+	DeviceGetApplicationsClockFunc func(device nvml.Device, clockType nvml.ClockType) (uint32, error)
 
 	// DeviceGetArchitectureFunc mocks the DeviceGetArchitecture method.
-	DeviceGetArchitectureFunc func(device nvml.Device) (nvml.DeviceArchitecture, nvml.Return)
+	DeviceGetArchitectureFunc func(device nvml.Device) (nvml.DeviceArchitecture, error)
 
 	// DeviceGetAttributesFunc mocks the DeviceGetAttributes method.
-	DeviceGetAttributesFunc func(device nvml.Device) (nvml.DeviceAttributes, nvml.Return)
+	DeviceGetAttributesFunc func(device nvml.Device) (nvml.DeviceAttributes, error)
 
 	// DeviceGetAutoBoostedClocksEnabledFunc mocks the DeviceGetAutoBoostedClocksEnabled method.
-	DeviceGetAutoBoostedClocksEnabledFunc func(device nvml.Device) (nvml.EnableState, nvml.EnableState, nvml.Return)
+	DeviceGetAutoBoostedClocksEnabledFunc func(device nvml.Device) (nvml.EnableState, nvml.EnableState, error)
 
 	// DeviceGetBAR1MemoryInfoFunc mocks the DeviceGetBAR1MemoryInfo method.
-	DeviceGetBAR1MemoryInfoFunc func(device nvml.Device) (nvml.BAR1Memory, nvml.Return)
+	DeviceGetBAR1MemoryInfoFunc func(device nvml.Device) (nvml.BAR1Memory, error)
 
 	// DeviceGetBoardIdFunc mocks the DeviceGetBoardId method.
-	DeviceGetBoardIdFunc func(device nvml.Device) (uint32, nvml.Return)
+	DeviceGetBoardIdFunc func(device nvml.Device) (uint32, error)
 
 	// DeviceGetBoardPartNumberFunc mocks the DeviceGetBoardPartNumber method.
-	DeviceGetBoardPartNumberFunc func(device nvml.Device) (string, nvml.Return)
+	DeviceGetBoardPartNumberFunc func(device nvml.Device) (string, error)
 
 	// DeviceGetBrandFunc mocks the DeviceGetBrand method.
-	DeviceGetBrandFunc func(device nvml.Device) (nvml.BrandType, nvml.Return)
+	DeviceGetBrandFunc func(device nvml.Device) (nvml.BrandType, error)
 
 	// DeviceGetBridgeChipInfoFunc mocks the DeviceGetBridgeChipInfo method.
-	DeviceGetBridgeChipInfoFunc func(device nvml.Device) (nvml.BridgeChipHierarchy, nvml.Return)
+	DeviceGetBridgeChipInfoFunc func(device nvml.Device) (nvml.BridgeChipHierarchy, error)
 
 	// DeviceGetBusTypeFunc mocks the DeviceGetBusType method.
-	DeviceGetBusTypeFunc func(device nvml.Device) (nvml.BusType, nvml.Return)
+	DeviceGetBusTypeFunc func(device nvml.Device) (nvml.BusType, error)
 
 	// DeviceGetC2cModeInfoVFunc mocks the DeviceGetC2cModeInfoV method.
 	DeviceGetC2cModeInfoVFunc func(device nvml.Device) nvml.C2cModeInfoHandler
 
 	// DeviceGetClkMonStatusFunc mocks the DeviceGetClkMonStatus method.
-	DeviceGetClkMonStatusFunc func(device nvml.Device) (nvml.ClkMonStatus, nvml.Return)
+	DeviceGetClkMonStatusFunc func(device nvml.Device) (nvml.ClkMonStatus, error)
 
 	// DeviceGetClockFunc mocks the DeviceGetClock method.
-	DeviceGetClockFunc func(device nvml.Device, clockType nvml.ClockType, clockId nvml.ClockId) (uint32, nvml.Return)
+	DeviceGetClockFunc func(device nvml.Device, clockType nvml.ClockType, clockId nvml.ClockId) (uint32, error)
 
 	// DeviceGetClockInfoFunc mocks the DeviceGetClockInfo method.
-	DeviceGetClockInfoFunc func(device nvml.Device, clockType nvml.ClockType) (uint32, nvml.Return)
+	DeviceGetClockInfoFunc func(device nvml.Device, clockType nvml.ClockType) (uint32, error)
 
 	// DeviceGetComputeInstanceIdFunc mocks the DeviceGetComputeInstanceId method.
-	DeviceGetComputeInstanceIdFunc func(device nvml.Device) (int, nvml.Return)
+	DeviceGetComputeInstanceIdFunc func(device nvml.Device) (int, error)
 
 	// DeviceGetComputeModeFunc mocks the DeviceGetComputeMode method.
-	DeviceGetComputeModeFunc func(device nvml.Device) (nvml.ComputeMode, nvml.Return)
+	DeviceGetComputeModeFunc func(device nvml.Device) (nvml.ComputeMode, error)
 
 	// DeviceGetComputeRunningProcessesFunc mocks the DeviceGetComputeRunningProcesses method.
-	DeviceGetComputeRunningProcessesFunc func(device nvml.Device) ([]nvml.ProcessInfo, nvml.Return)
+	DeviceGetComputeRunningProcessesFunc func(device nvml.Device) ([]nvml.ProcessInfo, error)
 
 	// DeviceGetConfComputeGpuAttestationReportFunc mocks the DeviceGetConfComputeGpuAttestationReport method.
-	DeviceGetConfComputeGpuAttestationReportFunc func(device nvml.Device) (nvml.ConfComputeGpuAttestationReport, nvml.Return)
+	DeviceGetConfComputeGpuAttestationReportFunc func(device nvml.Device) (nvml.ConfComputeGpuAttestationReport, error)
 
 	// DeviceGetConfComputeGpuCertificateFunc mocks the DeviceGetConfComputeGpuCertificate method.
-	DeviceGetConfComputeGpuCertificateFunc func(device nvml.Device) (nvml.ConfComputeGpuCertificate, nvml.Return)
+	DeviceGetConfComputeGpuCertificateFunc func(device nvml.Device) (nvml.ConfComputeGpuCertificate, error)
 
 	// DeviceGetConfComputeMemSizeInfoFunc mocks the DeviceGetConfComputeMemSizeInfo method.
-	DeviceGetConfComputeMemSizeInfoFunc func(device nvml.Device) (nvml.ConfComputeMemSizeInfo, nvml.Return)
+	DeviceGetConfComputeMemSizeInfoFunc func(device nvml.Device) (nvml.ConfComputeMemSizeInfo, error)
 
 	// DeviceGetConfComputeProtectedMemoryUsageFunc mocks the DeviceGetConfComputeProtectedMemoryUsage method.
-	DeviceGetConfComputeProtectedMemoryUsageFunc func(device nvml.Device) (nvml.Memory, nvml.Return)
+	DeviceGetConfComputeProtectedMemoryUsageFunc func(device nvml.Device) (nvml.Memory, error)
 
 	// DeviceGetCountFunc mocks the DeviceGetCount method.
-	DeviceGetCountFunc func() (int, nvml.Return)
+	DeviceGetCountFunc func() (int, error)
 
 	// DeviceGetCpuAffinityFunc mocks the DeviceGetCpuAffinity method.
-	DeviceGetCpuAffinityFunc func(device nvml.Device, n int) ([]uint, nvml.Return)
+	DeviceGetCpuAffinityFunc func(device nvml.Device, n int) ([]uint, error)
 
 	// DeviceGetCpuAffinityWithinScopeFunc mocks the DeviceGetCpuAffinityWithinScope method.
-	DeviceGetCpuAffinityWithinScopeFunc func(device nvml.Device, n int, affinityScope nvml.AffinityScope) ([]uint, nvml.Return)
+	DeviceGetCpuAffinityWithinScopeFunc func(device nvml.Device, n int, affinityScope nvml.AffinityScope) ([]uint, error)
 
 	// DeviceGetCreatableVgpusFunc mocks the DeviceGetCreatableVgpus method.
-	DeviceGetCreatableVgpusFunc func(device nvml.Device) ([]nvml.VgpuTypeId, nvml.Return)
+	DeviceGetCreatableVgpusFunc func(device nvml.Device) ([]nvml.VgpuTypeId, error)
 
 	// DeviceGetCudaComputeCapabilityFunc mocks the DeviceGetCudaComputeCapability method.
-	DeviceGetCudaComputeCapabilityFunc func(device nvml.Device) (int, int, nvml.Return)
+	DeviceGetCudaComputeCapabilityFunc func(device nvml.Device) (int, int, error)
 
 	// DeviceGetCurrPcieLinkGenerationFunc mocks the DeviceGetCurrPcieLinkGeneration method.
-	DeviceGetCurrPcieLinkGenerationFunc func(device nvml.Device) (int, nvml.Return)
+	DeviceGetCurrPcieLinkGenerationFunc func(device nvml.Device) (int, error)
 
 	// DeviceGetCurrPcieLinkWidthFunc mocks the DeviceGetCurrPcieLinkWidth method.
-	DeviceGetCurrPcieLinkWidthFunc func(device nvml.Device) (int, nvml.Return)
+	DeviceGetCurrPcieLinkWidthFunc func(device nvml.Device) (int, error)
 
 	// DeviceGetCurrentClocksEventReasonsFunc mocks the DeviceGetCurrentClocksEventReasons method.
-	DeviceGetCurrentClocksEventReasonsFunc func(device nvml.Device) (uint64, nvml.Return)
+	DeviceGetCurrentClocksEventReasonsFunc func(device nvml.Device) (uint64, error)
 
 	// DeviceGetCurrentClocksThrottleReasonsFunc mocks the DeviceGetCurrentClocksThrottleReasons method.
-	DeviceGetCurrentClocksThrottleReasonsFunc func(device nvml.Device) (uint64, nvml.Return)
+	DeviceGetCurrentClocksThrottleReasonsFunc func(device nvml.Device) (uint64, error)
 
 	// DeviceGetDecoderUtilizationFunc mocks the DeviceGetDecoderUtilization method.
-	DeviceGetDecoderUtilizationFunc func(device nvml.Device) (uint32, uint32, nvml.Return)
+	DeviceGetDecoderUtilizationFunc func(device nvml.Device) (uint32, uint32, error)
 
 	// DeviceGetDefaultApplicationsClockFunc mocks the DeviceGetDefaultApplicationsClock method.
-	DeviceGetDefaultApplicationsClockFunc func(device nvml.Device, clockType nvml.ClockType) (uint32, nvml.Return)
+	DeviceGetDefaultApplicationsClockFunc func(device nvml.Device, clockType nvml.ClockType) (uint32, error)
 
 	// DeviceGetDefaultEccModeFunc mocks the DeviceGetDefaultEccMode method.
-	DeviceGetDefaultEccModeFunc func(device nvml.Device) (nvml.EnableState, nvml.Return)
+	DeviceGetDefaultEccModeFunc func(device nvml.Device) (nvml.EnableState, error)
 
 	// DeviceGetDetailedEccErrorsFunc mocks the DeviceGetDetailedEccErrors method.
-	DeviceGetDetailedEccErrorsFunc func(device nvml.Device, memoryErrorType nvml.MemoryErrorType, eccCounterType nvml.EccCounterType) (nvml.EccErrorCounts, nvml.Return)
+	DeviceGetDetailedEccErrorsFunc func(device nvml.Device, memoryErrorType nvml.MemoryErrorType, eccCounterType nvml.EccCounterType) (nvml.EccErrorCounts, error)
 
 	// DeviceGetDeviceHandleFromMigDeviceHandleFunc mocks the DeviceGetDeviceHandleFromMigDeviceHandle method.
-	DeviceGetDeviceHandleFromMigDeviceHandleFunc func(device nvml.Device) (nvml.Device, nvml.Return)
+	DeviceGetDeviceHandleFromMigDeviceHandleFunc func(device nvml.Device) (nvml.Device, error)
 
 	// DeviceGetDisplayActiveFunc mocks the DeviceGetDisplayActive method.
-	DeviceGetDisplayActiveFunc func(device nvml.Device) (nvml.EnableState, nvml.Return)
+	DeviceGetDisplayActiveFunc func(device nvml.Device) (nvml.EnableState, error)
 
 	// DeviceGetDisplayModeFunc mocks the DeviceGetDisplayMode method.
-	DeviceGetDisplayModeFunc func(device nvml.Device) (nvml.EnableState, nvml.Return)
+	DeviceGetDisplayModeFunc func(device nvml.Device) (nvml.EnableState, error)
 
 	// DeviceGetDriverModelFunc mocks the DeviceGetDriverModel method.
-	DeviceGetDriverModelFunc func(device nvml.Device) (nvml.DriverModel, nvml.DriverModel, nvml.Return)
+	DeviceGetDriverModelFunc func(device nvml.Device) (nvml.DriverModel, nvml.DriverModel, error)
 
 	// DeviceGetDynamicPstatesInfoFunc mocks the DeviceGetDynamicPstatesInfo method.
-	DeviceGetDynamicPstatesInfoFunc func(device nvml.Device) (nvml.GpuDynamicPstatesInfo, nvml.Return)
+	DeviceGetDynamicPstatesInfoFunc func(device nvml.Device) (nvml.GpuDynamicPstatesInfo, error)
 
 	// DeviceGetEccModeFunc mocks the DeviceGetEccMode method.
-	DeviceGetEccModeFunc func(device nvml.Device) (nvml.EnableState, nvml.EnableState, nvml.Return)
+	DeviceGetEccModeFunc func(device nvml.Device) (nvml.EnableState, nvml.EnableState, error)
 
 	// DeviceGetEncoderCapacityFunc mocks the DeviceGetEncoderCapacity method.
-	DeviceGetEncoderCapacityFunc func(device nvml.Device, encoderType nvml.EncoderType) (int, nvml.Return)
+	DeviceGetEncoderCapacityFunc func(device nvml.Device, encoderType nvml.EncoderType) (int, error)
 
 	// DeviceGetEncoderSessionsFunc mocks the DeviceGetEncoderSessions method.
-	DeviceGetEncoderSessionsFunc func(device nvml.Device) ([]nvml.EncoderSessionInfo, nvml.Return)
+	DeviceGetEncoderSessionsFunc func(device nvml.Device) ([]nvml.EncoderSessionInfo, error)
 
 	// DeviceGetEncoderStatsFunc mocks the DeviceGetEncoderStats method.
-	DeviceGetEncoderStatsFunc func(device nvml.Device) (int, uint32, uint32, nvml.Return)
+	DeviceGetEncoderStatsFunc func(device nvml.Device) (int, uint32, uint32, error)
 
 	// DeviceGetEncoderUtilizationFunc mocks the DeviceGetEncoderUtilization method.
-	DeviceGetEncoderUtilizationFunc func(device nvml.Device) (uint32, uint32, nvml.Return)
+	DeviceGetEncoderUtilizationFunc func(device nvml.Device) (uint32, uint32, error)
 
 	// DeviceGetEnforcedPowerLimitFunc mocks the DeviceGetEnforcedPowerLimit method.
-	DeviceGetEnforcedPowerLimitFunc func(device nvml.Device) (uint32, nvml.Return)
+	DeviceGetEnforcedPowerLimitFunc func(device nvml.Device) (uint32, error)
 
 	// DeviceGetFBCSessionsFunc mocks the DeviceGetFBCSessions method.
-	DeviceGetFBCSessionsFunc func(device nvml.Device) ([]nvml.FBCSessionInfo, nvml.Return)
+	DeviceGetFBCSessionsFunc func(device nvml.Device) ([]nvml.FBCSessionInfo, error)
 
 	// DeviceGetFBCStatsFunc mocks the DeviceGetFBCStats method.
-	DeviceGetFBCStatsFunc func(device nvml.Device) (nvml.FBCStats, nvml.Return)
+	DeviceGetFBCStatsFunc func(device nvml.Device) (nvml.FBCStats, error)
 
 	// DeviceGetFanControlPolicy_v2Func mocks the DeviceGetFanControlPolicy_v2 method.
-	DeviceGetFanControlPolicy_v2Func func(device nvml.Device, n int) (nvml.FanControlPolicy, nvml.Return)
+	DeviceGetFanControlPolicy_v2Func func(device nvml.Device, n int) (nvml.FanControlPolicy, error)
 
 	// DeviceGetFanSpeedFunc mocks the DeviceGetFanSpeed method.
-	DeviceGetFanSpeedFunc func(device nvml.Device) (uint32, nvml.Return)
+	DeviceGetFanSpeedFunc func(device nvml.Device) (uint32, error)
 
 	// DeviceGetFanSpeed_v2Func mocks the DeviceGetFanSpeed_v2 method.
-	DeviceGetFanSpeed_v2Func func(device nvml.Device, n int) (uint32, nvml.Return)
+	DeviceGetFanSpeed_v2Func func(device nvml.Device, n int) (uint32, error)
 
 	// DeviceGetFieldValuesFunc mocks the DeviceGetFieldValues method.
-	DeviceGetFieldValuesFunc func(device nvml.Device, fieldValues []nvml.FieldValue) nvml.Return
+	DeviceGetFieldValuesFunc func(device nvml.Device, fieldValues []nvml.FieldValue) error
 
 	// DeviceGetGpcClkMinMaxVfOffsetFunc mocks the DeviceGetGpcClkMinMaxVfOffset method.
-	DeviceGetGpcClkMinMaxVfOffsetFunc func(device nvml.Device) (int, int, nvml.Return)
+	DeviceGetGpcClkMinMaxVfOffsetFunc func(device nvml.Device) (int, int, error)
 
 	// DeviceGetGpcClkVfOffsetFunc mocks the DeviceGetGpcClkVfOffset method.
-	DeviceGetGpcClkVfOffsetFunc func(device nvml.Device) (int, nvml.Return)
+	DeviceGetGpcClkVfOffsetFunc func(device nvml.Device) (int, error)
 
 	// DeviceGetGpuFabricInfoFunc mocks the DeviceGetGpuFabricInfo method.
-	DeviceGetGpuFabricInfoFunc func(device nvml.Device) (nvml.GpuFabricInfo, nvml.Return)
+	DeviceGetGpuFabricInfoFunc func(device nvml.Device) (nvml.GpuFabricInfo, error)
 
 	// DeviceGetGpuFabricInfoVFunc mocks the DeviceGetGpuFabricInfoV method.
 	DeviceGetGpuFabricInfoVFunc func(device nvml.Device) nvml.GpuFabricInfoHandler
 
 	// DeviceGetGpuInstanceByIdFunc mocks the DeviceGetGpuInstanceById method.
-	DeviceGetGpuInstanceByIdFunc func(device nvml.Device, n int) (nvml.GpuInstance, nvml.Return)
+	DeviceGetGpuInstanceByIdFunc func(device nvml.Device, n int) (nvml.GpuInstance, error)
 
 	// DeviceGetGpuInstanceIdFunc mocks the DeviceGetGpuInstanceId method.
-	DeviceGetGpuInstanceIdFunc func(device nvml.Device) (int, nvml.Return)
+	DeviceGetGpuInstanceIdFunc func(device nvml.Device) (int, error)
 
 	// DeviceGetGpuInstancePossiblePlacementsFunc mocks the DeviceGetGpuInstancePossiblePlacements method.
-	DeviceGetGpuInstancePossiblePlacementsFunc func(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo) ([]nvml.GpuInstancePlacement, nvml.Return)
+	DeviceGetGpuInstancePossiblePlacementsFunc func(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo) ([]nvml.GpuInstancePlacement, error)
 
 	// DeviceGetGpuInstanceProfileInfoFunc mocks the DeviceGetGpuInstanceProfileInfo method.
-	DeviceGetGpuInstanceProfileInfoFunc func(device nvml.Device, n int) (nvml.GpuInstanceProfileInfo, nvml.Return)
+	DeviceGetGpuInstanceProfileInfoFunc func(device nvml.Device, n int) (nvml.GpuInstanceProfileInfo, error)
 
 	// DeviceGetGpuInstanceProfileInfoVFunc mocks the DeviceGetGpuInstanceProfileInfoV method.
 	DeviceGetGpuInstanceProfileInfoVFunc func(device nvml.Device, n int) nvml.GpuInstanceProfileInfoHandler
 
 	// DeviceGetGpuInstanceRemainingCapacityFunc mocks the DeviceGetGpuInstanceRemainingCapacity method.
-	DeviceGetGpuInstanceRemainingCapacityFunc func(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo) (int, nvml.Return)
+	DeviceGetGpuInstanceRemainingCapacityFunc func(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo) (int, error)
 
 	// DeviceGetGpuInstancesFunc mocks the DeviceGetGpuInstances method.
-	DeviceGetGpuInstancesFunc func(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo) ([]nvml.GpuInstance, nvml.Return)
+	DeviceGetGpuInstancesFunc func(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo) ([]nvml.GpuInstance, error)
 
 	// DeviceGetGpuMaxPcieLinkGenerationFunc mocks the DeviceGetGpuMaxPcieLinkGeneration method.
-	DeviceGetGpuMaxPcieLinkGenerationFunc func(device nvml.Device) (int, nvml.Return)
+	DeviceGetGpuMaxPcieLinkGenerationFunc func(device nvml.Device) (int, error)
 
 	// DeviceGetGpuOperationModeFunc mocks the DeviceGetGpuOperationMode method.
-	DeviceGetGpuOperationModeFunc func(device nvml.Device) (nvml.GpuOperationMode, nvml.GpuOperationMode, nvml.Return)
+	DeviceGetGpuOperationModeFunc func(device nvml.Device) (nvml.GpuOperationMode, nvml.GpuOperationMode, error)
 
 	// DeviceGetGraphicsRunningProcessesFunc mocks the DeviceGetGraphicsRunningProcesses method.
-	DeviceGetGraphicsRunningProcessesFunc func(device nvml.Device) ([]nvml.ProcessInfo, nvml.Return)
+	DeviceGetGraphicsRunningProcessesFunc func(device nvml.Device) ([]nvml.ProcessInfo, error)
 
 	// DeviceGetGridLicensableFeaturesFunc mocks the DeviceGetGridLicensableFeatures method.
-	DeviceGetGridLicensableFeaturesFunc func(device nvml.Device) (nvml.GridLicensableFeatures, nvml.Return)
+	DeviceGetGridLicensableFeaturesFunc func(device nvml.Device) (nvml.GridLicensableFeatures, error)
 
 	// DeviceGetGspFirmwareModeFunc mocks the DeviceGetGspFirmwareMode method.
-	DeviceGetGspFirmwareModeFunc func(device nvml.Device) (bool, bool, nvml.Return)
+	DeviceGetGspFirmwareModeFunc func(device nvml.Device) (bool, bool, error)
 
 	// DeviceGetGspFirmwareVersionFunc mocks the DeviceGetGspFirmwareVersion method.
-	DeviceGetGspFirmwareVersionFunc func(device nvml.Device) (string, nvml.Return)
+	DeviceGetGspFirmwareVersionFunc func(device nvml.Device) (string, error)
 
 	// DeviceGetHandleByIndexFunc mocks the DeviceGetHandleByIndex method.
-	DeviceGetHandleByIndexFunc func(n int) (nvml.Device, nvml.Return)
+	DeviceGetHandleByIndexFunc func(n int) (nvml.Device, error)
 
 	// DeviceGetHandleByPciBusIdFunc mocks the DeviceGetHandleByPciBusId method.
-	DeviceGetHandleByPciBusIdFunc func(s string) (nvml.Device, nvml.Return)
+	DeviceGetHandleByPciBusIdFunc func(s string) (nvml.Device, error)
 
 	// DeviceGetHandleBySerialFunc mocks the DeviceGetHandleBySerial method.
-	DeviceGetHandleBySerialFunc func(s string) (nvml.Device, nvml.Return)
+	DeviceGetHandleBySerialFunc func(s string) (nvml.Device, error)
 
 	// DeviceGetHandleByUUIDFunc mocks the DeviceGetHandleByUUID method.
-	DeviceGetHandleByUUIDFunc func(s string) (nvml.Device, nvml.Return)
+	DeviceGetHandleByUUIDFunc func(s string) (nvml.Device, error)
 
 	// DeviceGetHostVgpuModeFunc mocks the DeviceGetHostVgpuMode method.
-	DeviceGetHostVgpuModeFunc func(device nvml.Device) (nvml.HostVgpuMode, nvml.Return)
+	DeviceGetHostVgpuModeFunc func(device nvml.Device) (nvml.HostVgpuMode, error)
 
 	// DeviceGetIndexFunc mocks the DeviceGetIndex method.
-	DeviceGetIndexFunc func(device nvml.Device) (int, nvml.Return)
+	DeviceGetIndexFunc func(device nvml.Device) (int, error)
 
 	// DeviceGetInforomConfigurationChecksumFunc mocks the DeviceGetInforomConfigurationChecksum method.
-	DeviceGetInforomConfigurationChecksumFunc func(device nvml.Device) (uint32, nvml.Return)
+	DeviceGetInforomConfigurationChecksumFunc func(device nvml.Device) (uint32, error)
 
 	// DeviceGetInforomImageVersionFunc mocks the DeviceGetInforomImageVersion method.
-	DeviceGetInforomImageVersionFunc func(device nvml.Device) (string, nvml.Return)
+	DeviceGetInforomImageVersionFunc func(device nvml.Device) (string, error)
 
 	// DeviceGetInforomVersionFunc mocks the DeviceGetInforomVersion method.
-	DeviceGetInforomVersionFunc func(device nvml.Device, inforomObject nvml.InforomObject) (string, nvml.Return)
+	DeviceGetInforomVersionFunc func(device nvml.Device, inforomObject nvml.InforomObject) (string, error)
 
 	// DeviceGetIrqNumFunc mocks the DeviceGetIrqNum method.
-	DeviceGetIrqNumFunc func(device nvml.Device) (int, nvml.Return)
+	DeviceGetIrqNumFunc func(device nvml.Device) (int, error)
 
 	// DeviceGetJpgUtilizationFunc mocks the DeviceGetJpgUtilization method.
-	DeviceGetJpgUtilizationFunc func(device nvml.Device) (uint32, uint32, nvml.Return)
+	DeviceGetJpgUtilizationFunc func(device nvml.Device) (uint32, uint32, error)
 
 	// DeviceGetLastBBXFlushTimeFunc mocks the DeviceGetLastBBXFlushTime method.
-	DeviceGetLastBBXFlushTimeFunc func(device nvml.Device) (uint64, uint, nvml.Return)
+	DeviceGetLastBBXFlushTimeFunc func(device nvml.Device) (uint64, uint, error)
 
 	// DeviceGetMPSComputeRunningProcessesFunc mocks the DeviceGetMPSComputeRunningProcesses method.
-	DeviceGetMPSComputeRunningProcessesFunc func(device nvml.Device) ([]nvml.ProcessInfo, nvml.Return)
+	DeviceGetMPSComputeRunningProcessesFunc func(device nvml.Device) ([]nvml.ProcessInfo, error)
 
 	// DeviceGetMaxClockInfoFunc mocks the DeviceGetMaxClockInfo method.
-	DeviceGetMaxClockInfoFunc func(device nvml.Device, clockType nvml.ClockType) (uint32, nvml.Return)
+	DeviceGetMaxClockInfoFunc func(device nvml.Device, clockType nvml.ClockType) (uint32, error)
 
 	// DeviceGetMaxCustomerBoostClockFunc mocks the DeviceGetMaxCustomerBoostClock method.
-	DeviceGetMaxCustomerBoostClockFunc func(device nvml.Device, clockType nvml.ClockType) (uint32, nvml.Return)
+	DeviceGetMaxCustomerBoostClockFunc func(device nvml.Device, clockType nvml.ClockType) (uint32, error)
 
 	// DeviceGetMaxMigDeviceCountFunc mocks the DeviceGetMaxMigDeviceCount method.
-	DeviceGetMaxMigDeviceCountFunc func(device nvml.Device) (int, nvml.Return)
+	DeviceGetMaxMigDeviceCountFunc func(device nvml.Device) (int, error)
 
 	// DeviceGetMaxPcieLinkGenerationFunc mocks the DeviceGetMaxPcieLinkGeneration method.
-	DeviceGetMaxPcieLinkGenerationFunc func(device nvml.Device) (int, nvml.Return)
+	DeviceGetMaxPcieLinkGenerationFunc func(device nvml.Device) (int, error)
 
 	// DeviceGetMaxPcieLinkWidthFunc mocks the DeviceGetMaxPcieLinkWidth method.
-	DeviceGetMaxPcieLinkWidthFunc func(device nvml.Device) (int, nvml.Return)
+	DeviceGetMaxPcieLinkWidthFunc func(device nvml.Device) (int, error)
 
 	// DeviceGetMemClkMinMaxVfOffsetFunc mocks the DeviceGetMemClkMinMaxVfOffset method.
-	DeviceGetMemClkMinMaxVfOffsetFunc func(device nvml.Device) (int, int, nvml.Return)
+	DeviceGetMemClkMinMaxVfOffsetFunc func(device nvml.Device) (int, int, error)
 
 	// DeviceGetMemClkVfOffsetFunc mocks the DeviceGetMemClkVfOffset method.
-	DeviceGetMemClkVfOffsetFunc func(device nvml.Device) (int, nvml.Return)
+	DeviceGetMemClkVfOffsetFunc func(device nvml.Device) (int, error)
 
 	// DeviceGetMemoryAffinityFunc mocks the DeviceGetMemoryAffinity method.
-	DeviceGetMemoryAffinityFunc func(device nvml.Device, n int, affinityScope nvml.AffinityScope) ([]uint, nvml.Return)
+	DeviceGetMemoryAffinityFunc func(device nvml.Device, n int, affinityScope nvml.AffinityScope) ([]uint, error)
 
 	// DeviceGetMemoryBusWidthFunc mocks the DeviceGetMemoryBusWidth method.
-	DeviceGetMemoryBusWidthFunc func(device nvml.Device) (uint32, nvml.Return)
+	DeviceGetMemoryBusWidthFunc func(device nvml.Device) (uint32, error)
 
 	// DeviceGetMemoryErrorCounterFunc mocks the DeviceGetMemoryErrorCounter method.
-	DeviceGetMemoryErrorCounterFunc func(device nvml.Device, memoryErrorType nvml.MemoryErrorType, eccCounterType nvml.EccCounterType, memoryLocation nvml.MemoryLocation) (uint64, nvml.Return)
+	DeviceGetMemoryErrorCounterFunc func(device nvml.Device, memoryErrorType nvml.MemoryErrorType, eccCounterType nvml.EccCounterType, memoryLocation nvml.MemoryLocation) (uint64, error)
 
 	// DeviceGetMemoryInfoFunc mocks the DeviceGetMemoryInfo method.
-	DeviceGetMemoryInfoFunc func(device nvml.Device) (nvml.Memory, nvml.Return)
+	DeviceGetMemoryInfoFunc func(device nvml.Device) (nvml.Memory, error)
 
 	// DeviceGetMemoryInfo_v2Func mocks the DeviceGetMemoryInfo_v2 method.
-	DeviceGetMemoryInfo_v2Func func(device nvml.Device) (nvml.Memory_v2, nvml.Return)
+	DeviceGetMemoryInfo_v2Func func(device nvml.Device) (nvml.Memory_v2, error)
 
 	// DeviceGetMigDeviceHandleByIndexFunc mocks the DeviceGetMigDeviceHandleByIndex method.
-	DeviceGetMigDeviceHandleByIndexFunc func(device nvml.Device, n int) (nvml.Device, nvml.Return)
+	DeviceGetMigDeviceHandleByIndexFunc func(device nvml.Device, n int) (nvml.Device, error)
 
 	// DeviceGetMigModeFunc mocks the DeviceGetMigMode method.
-	DeviceGetMigModeFunc func(device nvml.Device) (int, int, nvml.Return)
+	DeviceGetMigModeFunc func(device nvml.Device) (int, int, error)
 
 	// DeviceGetMinMaxClockOfPStateFunc mocks the DeviceGetMinMaxClockOfPState method.
-	DeviceGetMinMaxClockOfPStateFunc func(device nvml.Device, clockType nvml.ClockType, pstates nvml.Pstates) (uint32, uint32, nvml.Return)
+	DeviceGetMinMaxClockOfPStateFunc func(device nvml.Device, clockType nvml.ClockType, pstates nvml.Pstates) (uint32, uint32, error)
 
 	// DeviceGetMinMaxFanSpeedFunc mocks the DeviceGetMinMaxFanSpeed method.
-	DeviceGetMinMaxFanSpeedFunc func(device nvml.Device) (int, int, nvml.Return)
+	DeviceGetMinMaxFanSpeedFunc func(device nvml.Device) (int, int, error)
 
 	// DeviceGetMinorNumberFunc mocks the DeviceGetMinorNumber method.
-	DeviceGetMinorNumberFunc func(device nvml.Device) (int, nvml.Return)
+	DeviceGetMinorNumberFunc func(device nvml.Device) (int, error)
 
 	// DeviceGetModuleIdFunc mocks the DeviceGetModuleId method.
-	DeviceGetModuleIdFunc func(device nvml.Device) (int, nvml.Return)
+	DeviceGetModuleIdFunc func(device nvml.Device) (int, error)
 
 	// DeviceGetMultiGpuBoardFunc mocks the DeviceGetMultiGpuBoard method.
-	DeviceGetMultiGpuBoardFunc func(device nvml.Device) (int, nvml.Return)
+	DeviceGetMultiGpuBoardFunc func(device nvml.Device) (int, error)
 
 	// DeviceGetNameFunc mocks the DeviceGetName method.
-	DeviceGetNameFunc func(device nvml.Device) (string, nvml.Return)
+	DeviceGetNameFunc func(device nvml.Device) (string, error)
 
 	// DeviceGetNumFansFunc mocks the DeviceGetNumFans method.
-	DeviceGetNumFansFunc func(device nvml.Device) (int, nvml.Return)
+	DeviceGetNumFansFunc func(device nvml.Device) (int, error)
 
 	// DeviceGetNumGpuCoresFunc mocks the DeviceGetNumGpuCores method.
-	DeviceGetNumGpuCoresFunc func(device nvml.Device) (int, nvml.Return)
+	DeviceGetNumGpuCoresFunc func(device nvml.Device) (int, error)
 
 	// DeviceGetNumaNodeIdFunc mocks the DeviceGetNumaNodeId method.
-	DeviceGetNumaNodeIdFunc func(device nvml.Device) (int, nvml.Return)
+	DeviceGetNumaNodeIdFunc func(device nvml.Device) (int, error)
 
 	// DeviceGetNvLinkCapabilityFunc mocks the DeviceGetNvLinkCapability method.
-	DeviceGetNvLinkCapabilityFunc func(device nvml.Device, n int, nvLinkCapability nvml.NvLinkCapability) (uint32, nvml.Return)
+	DeviceGetNvLinkCapabilityFunc func(device nvml.Device, n int, nvLinkCapability nvml.NvLinkCapability) (uint32, error)
 
 	// DeviceGetNvLinkErrorCounterFunc mocks the DeviceGetNvLinkErrorCounter method.
-	DeviceGetNvLinkErrorCounterFunc func(device nvml.Device, n int, nvLinkErrorCounter nvml.NvLinkErrorCounter) (uint64, nvml.Return)
+	DeviceGetNvLinkErrorCounterFunc func(device nvml.Device, n int, nvLinkErrorCounter nvml.NvLinkErrorCounter) (uint64, error)
 
 	// DeviceGetNvLinkRemoteDeviceTypeFunc mocks the DeviceGetNvLinkRemoteDeviceType method.
-	DeviceGetNvLinkRemoteDeviceTypeFunc func(device nvml.Device, n int) (nvml.IntNvLinkDeviceType, nvml.Return)
+	DeviceGetNvLinkRemoteDeviceTypeFunc func(device nvml.Device, n int) (nvml.IntNvLinkDeviceType, error)
 
 	// DeviceGetNvLinkRemotePciInfoFunc mocks the DeviceGetNvLinkRemotePciInfo method.
-	DeviceGetNvLinkRemotePciInfoFunc func(device nvml.Device, n int) (nvml.PciInfo, nvml.Return)
+	DeviceGetNvLinkRemotePciInfoFunc func(device nvml.Device, n int) (nvml.PciInfo, error)
 
 	// DeviceGetNvLinkStateFunc mocks the DeviceGetNvLinkState method.
-	DeviceGetNvLinkStateFunc func(device nvml.Device, n int) (nvml.EnableState, nvml.Return)
+	DeviceGetNvLinkStateFunc func(device nvml.Device, n int) (nvml.EnableState, error)
 
 	// DeviceGetNvLinkUtilizationControlFunc mocks the DeviceGetNvLinkUtilizationControl method.
-	DeviceGetNvLinkUtilizationControlFunc func(device nvml.Device, n1 int, n2 int) (nvml.NvLinkUtilizationControl, nvml.Return)
+	DeviceGetNvLinkUtilizationControlFunc func(device nvml.Device, n1 int, n2 int) (nvml.NvLinkUtilizationControl, error)
 
 	// DeviceGetNvLinkUtilizationCounterFunc mocks the DeviceGetNvLinkUtilizationCounter method.
-	DeviceGetNvLinkUtilizationCounterFunc func(device nvml.Device, n1 int, n2 int) (uint64, uint64, nvml.Return)
+	DeviceGetNvLinkUtilizationCounterFunc func(device nvml.Device, n1 int, n2 int) (uint64, uint64, error)
 
 	// DeviceGetNvLinkVersionFunc mocks the DeviceGetNvLinkVersion method.
-	DeviceGetNvLinkVersionFunc func(device nvml.Device, n int) (uint32, nvml.Return)
+	DeviceGetNvLinkVersionFunc func(device nvml.Device, n int) (uint32, error)
 
 	// DeviceGetOfaUtilizationFunc mocks the DeviceGetOfaUtilization method.
-	DeviceGetOfaUtilizationFunc func(device nvml.Device) (uint32, uint32, nvml.Return)
+	DeviceGetOfaUtilizationFunc func(device nvml.Device) (uint32, uint32, error)
 
 	// DeviceGetP2PStatusFunc mocks the DeviceGetP2PStatus method.
-	DeviceGetP2PStatusFunc func(device1 nvml.Device, device2 nvml.Device, gpuP2PCapsIndex nvml.GpuP2PCapsIndex) (nvml.GpuP2PStatus, nvml.Return)
+	DeviceGetP2PStatusFunc func(device1 nvml.Device, device2 nvml.Device, gpuP2PCapsIndex nvml.GpuP2PCapsIndex) (nvml.GpuP2PStatus, error)
 
 	// DeviceGetPciInfoFunc mocks the DeviceGetPciInfo method.
-	DeviceGetPciInfoFunc func(device nvml.Device) (nvml.PciInfo, nvml.Return)
+	DeviceGetPciInfoFunc func(device nvml.Device) (nvml.PciInfo, error)
 
 	// DeviceGetPciInfoExtFunc mocks the DeviceGetPciInfoExt method.
-	DeviceGetPciInfoExtFunc func(device nvml.Device) (nvml.PciInfoExt, nvml.Return)
+	DeviceGetPciInfoExtFunc func(device nvml.Device) (nvml.PciInfoExt, error)
 
 	// DeviceGetPcieLinkMaxSpeedFunc mocks the DeviceGetPcieLinkMaxSpeed method.
-	DeviceGetPcieLinkMaxSpeedFunc func(device nvml.Device) (uint32, nvml.Return)
+	DeviceGetPcieLinkMaxSpeedFunc func(device nvml.Device) (uint32, error)
 
 	// DeviceGetPcieReplayCounterFunc mocks the DeviceGetPcieReplayCounter method.
-	DeviceGetPcieReplayCounterFunc func(device nvml.Device) (int, nvml.Return)
+	DeviceGetPcieReplayCounterFunc func(device nvml.Device) (int, error)
 
 	// DeviceGetPcieSpeedFunc mocks the DeviceGetPcieSpeed method.
-	DeviceGetPcieSpeedFunc func(device nvml.Device) (int, nvml.Return)
+	DeviceGetPcieSpeedFunc func(device nvml.Device) (int, error)
 
 	// DeviceGetPcieThroughputFunc mocks the DeviceGetPcieThroughput method.
-	DeviceGetPcieThroughputFunc func(device nvml.Device, pcieUtilCounter nvml.PcieUtilCounter) (uint32, nvml.Return)
+	DeviceGetPcieThroughputFunc func(device nvml.Device, pcieUtilCounter nvml.PcieUtilCounter) (uint32, error)
 
 	// DeviceGetPerformanceStateFunc mocks the DeviceGetPerformanceState method.
-	DeviceGetPerformanceStateFunc func(device nvml.Device) (nvml.Pstates, nvml.Return)
+	DeviceGetPerformanceStateFunc func(device nvml.Device) (nvml.Pstates, error)
 
 	// DeviceGetPersistenceModeFunc mocks the DeviceGetPersistenceMode method.
-	DeviceGetPersistenceModeFunc func(device nvml.Device) (nvml.EnableState, nvml.Return)
+	DeviceGetPersistenceModeFunc func(device nvml.Device) (nvml.EnableState, error)
 
 	// DeviceGetPgpuMetadataStringFunc mocks the DeviceGetPgpuMetadataString method.
-	DeviceGetPgpuMetadataStringFunc func(device nvml.Device) (string, nvml.Return)
+	DeviceGetPgpuMetadataStringFunc func(device nvml.Device) (string, error)
 
 	// DeviceGetPowerManagementDefaultLimitFunc mocks the DeviceGetPowerManagementDefaultLimit method.
-	DeviceGetPowerManagementDefaultLimitFunc func(device nvml.Device) (uint32, nvml.Return)
+	DeviceGetPowerManagementDefaultLimitFunc func(device nvml.Device) (uint32, error)
 
 	// DeviceGetPowerManagementLimitFunc mocks the DeviceGetPowerManagementLimit method.
-	DeviceGetPowerManagementLimitFunc func(device nvml.Device) (uint32, nvml.Return)
+	DeviceGetPowerManagementLimitFunc func(device nvml.Device) (uint32, error)
 
 	// DeviceGetPowerManagementLimitConstraintsFunc mocks the DeviceGetPowerManagementLimitConstraints method.
-	DeviceGetPowerManagementLimitConstraintsFunc func(device nvml.Device) (uint32, uint32, nvml.Return)
+	DeviceGetPowerManagementLimitConstraintsFunc func(device nvml.Device) (uint32, uint32, error)
 
 	// DeviceGetPowerManagementModeFunc mocks the DeviceGetPowerManagementMode method.
-	DeviceGetPowerManagementModeFunc func(device nvml.Device) (nvml.EnableState, nvml.Return)
+	DeviceGetPowerManagementModeFunc func(device nvml.Device) (nvml.EnableState, error)
 
 	// DeviceGetPowerSourceFunc mocks the DeviceGetPowerSource method.
-	DeviceGetPowerSourceFunc func(device nvml.Device) (nvml.PowerSource, nvml.Return)
+	DeviceGetPowerSourceFunc func(device nvml.Device) (nvml.PowerSource, error)
 
 	// DeviceGetPowerStateFunc mocks the DeviceGetPowerState method.
-	DeviceGetPowerStateFunc func(device nvml.Device) (nvml.Pstates, nvml.Return)
+	DeviceGetPowerStateFunc func(device nvml.Device) (nvml.Pstates, error)
 
 	// DeviceGetPowerUsageFunc mocks the DeviceGetPowerUsage method.
-	DeviceGetPowerUsageFunc func(device nvml.Device) (uint32, nvml.Return)
+	DeviceGetPowerUsageFunc func(device nvml.Device) (uint32, error)
 
 	// DeviceGetProcessUtilizationFunc mocks the DeviceGetProcessUtilization method.
-	DeviceGetProcessUtilizationFunc func(device nvml.Device, v uint64) ([]nvml.ProcessUtilizationSample, nvml.Return)
+	DeviceGetProcessUtilizationFunc func(device nvml.Device, v uint64) ([]nvml.ProcessUtilizationSample, error)
 
 	// DeviceGetProcessesUtilizationInfoFunc mocks the DeviceGetProcessesUtilizationInfo method.
-	DeviceGetProcessesUtilizationInfoFunc func(device nvml.Device) (nvml.ProcessesUtilizationInfo, nvml.Return)
+	DeviceGetProcessesUtilizationInfoFunc func(device nvml.Device) (nvml.ProcessesUtilizationInfo, error)
 
 	// DeviceGetRemappedRowsFunc mocks the DeviceGetRemappedRows method.
-	DeviceGetRemappedRowsFunc func(device nvml.Device) (int, int, bool, bool, nvml.Return)
+	DeviceGetRemappedRowsFunc func(device nvml.Device) (int, int, bool, bool, error)
 
 	// DeviceGetRetiredPagesFunc mocks the DeviceGetRetiredPages method.
-	DeviceGetRetiredPagesFunc func(device nvml.Device, pageRetirementCause nvml.PageRetirementCause) ([]uint64, nvml.Return)
+	DeviceGetRetiredPagesFunc func(device nvml.Device, pageRetirementCause nvml.PageRetirementCause) ([]uint64, error)
 
 	// DeviceGetRetiredPagesPendingStatusFunc mocks the DeviceGetRetiredPagesPendingStatus method.
-	DeviceGetRetiredPagesPendingStatusFunc func(device nvml.Device) (nvml.EnableState, nvml.Return)
+	DeviceGetRetiredPagesPendingStatusFunc func(device nvml.Device) (nvml.EnableState, error)
 
 	// DeviceGetRetiredPages_v2Func mocks the DeviceGetRetiredPages_v2 method.
-	DeviceGetRetiredPages_v2Func func(device nvml.Device, pageRetirementCause nvml.PageRetirementCause) ([]uint64, []uint64, nvml.Return)
+	DeviceGetRetiredPages_v2Func func(device nvml.Device, pageRetirementCause nvml.PageRetirementCause) ([]uint64, []uint64, error)
 
 	// DeviceGetRowRemapperHistogramFunc mocks the DeviceGetRowRemapperHistogram method.
-	DeviceGetRowRemapperHistogramFunc func(device nvml.Device) (nvml.RowRemapperHistogramValues, nvml.Return)
+	DeviceGetRowRemapperHistogramFunc func(device nvml.Device) (nvml.RowRemapperHistogramValues, error)
 
 	// DeviceGetRunningProcessDetailListFunc mocks the DeviceGetRunningProcessDetailList method.
-	DeviceGetRunningProcessDetailListFunc func(device nvml.Device) (nvml.ProcessDetailList, nvml.Return)
+	DeviceGetRunningProcessDetailListFunc func(device nvml.Device) (nvml.ProcessDetailList, error)
 
 	// DeviceGetSamplesFunc mocks the DeviceGetSamples method.
-	DeviceGetSamplesFunc func(device nvml.Device, samplingType nvml.SamplingType, v uint64) (nvml.ValueType, []nvml.Sample, nvml.Return)
+	DeviceGetSamplesFunc func(device nvml.Device, samplingType nvml.SamplingType, v uint64) (nvml.ValueType, []nvml.Sample, error)
 
 	// DeviceGetSerialFunc mocks the DeviceGetSerial method.
-	DeviceGetSerialFunc func(device nvml.Device) (string, nvml.Return)
+	DeviceGetSerialFunc func(device nvml.Device) (string, error)
 
 	// DeviceGetSramEccErrorStatusFunc mocks the DeviceGetSramEccErrorStatus method.
-	DeviceGetSramEccErrorStatusFunc func(device nvml.Device) (nvml.EccSramErrorStatus, nvml.Return)
+	DeviceGetSramEccErrorStatusFunc func(device nvml.Device) (nvml.EccSramErrorStatus, error)
 
 	// DeviceGetSupportedClocksEventReasonsFunc mocks the DeviceGetSupportedClocksEventReasons method.
-	DeviceGetSupportedClocksEventReasonsFunc func(device nvml.Device) (uint64, nvml.Return)
+	DeviceGetSupportedClocksEventReasonsFunc func(device nvml.Device) (uint64, error)
 
 	// DeviceGetSupportedClocksThrottleReasonsFunc mocks the DeviceGetSupportedClocksThrottleReasons method.
-	DeviceGetSupportedClocksThrottleReasonsFunc func(device nvml.Device) (uint64, nvml.Return)
+	DeviceGetSupportedClocksThrottleReasonsFunc func(device nvml.Device) (uint64, error)
 
 	// DeviceGetSupportedEventTypesFunc mocks the DeviceGetSupportedEventTypes method.
-	DeviceGetSupportedEventTypesFunc func(device nvml.Device) (uint64, nvml.Return)
+	DeviceGetSupportedEventTypesFunc func(device nvml.Device) (uint64, error)
 
 	// DeviceGetSupportedGraphicsClocksFunc mocks the DeviceGetSupportedGraphicsClocks method.
-	DeviceGetSupportedGraphicsClocksFunc func(device nvml.Device, n int) (int, uint32, nvml.Return)
+	DeviceGetSupportedGraphicsClocksFunc func(device nvml.Device, n int) (int, uint32, error)
 
 	// DeviceGetSupportedMemoryClocksFunc mocks the DeviceGetSupportedMemoryClocks method.
-	DeviceGetSupportedMemoryClocksFunc func(device nvml.Device) (int, uint32, nvml.Return)
+	DeviceGetSupportedMemoryClocksFunc func(device nvml.Device) (int, uint32, error)
 
 	// DeviceGetSupportedPerformanceStatesFunc mocks the DeviceGetSupportedPerformanceStates method.
-	DeviceGetSupportedPerformanceStatesFunc func(device nvml.Device) ([]nvml.Pstates, nvml.Return)
+	DeviceGetSupportedPerformanceStatesFunc func(device nvml.Device) ([]nvml.Pstates, error)
 
 	// DeviceGetSupportedVgpusFunc mocks the DeviceGetSupportedVgpus method.
-	DeviceGetSupportedVgpusFunc func(device nvml.Device) ([]nvml.VgpuTypeId, nvml.Return)
+	DeviceGetSupportedVgpusFunc func(device nvml.Device) ([]nvml.VgpuTypeId, error)
 
 	// DeviceGetTargetFanSpeedFunc mocks the DeviceGetTargetFanSpeed method.
-	DeviceGetTargetFanSpeedFunc func(device nvml.Device, n int) (int, nvml.Return)
+	DeviceGetTargetFanSpeedFunc func(device nvml.Device, n int) (int, error)
 
 	// DeviceGetTemperatureFunc mocks the DeviceGetTemperature method.
-	DeviceGetTemperatureFunc func(device nvml.Device, temperatureSensors nvml.TemperatureSensors) (uint32, nvml.Return)
+	DeviceGetTemperatureFunc func(device nvml.Device, temperatureSensors nvml.TemperatureSensors) (uint32, error)
 
 	// DeviceGetTemperatureThresholdFunc mocks the DeviceGetTemperatureThreshold method.
-	DeviceGetTemperatureThresholdFunc func(device nvml.Device, temperatureThresholds nvml.TemperatureThresholds) (uint32, nvml.Return)
+	DeviceGetTemperatureThresholdFunc func(device nvml.Device, temperatureThresholds nvml.TemperatureThresholds) (uint32, error)
 
 	// DeviceGetThermalSettingsFunc mocks the DeviceGetThermalSettings method.
-	DeviceGetThermalSettingsFunc func(device nvml.Device, v uint32) (nvml.GpuThermalSettings, nvml.Return)
+	DeviceGetThermalSettingsFunc func(device nvml.Device, v uint32) (nvml.GpuThermalSettings, error)
 
 	// DeviceGetTopologyCommonAncestorFunc mocks the DeviceGetTopologyCommonAncestor method.
-	DeviceGetTopologyCommonAncestorFunc func(device1 nvml.Device, device2 nvml.Device) (nvml.GpuTopologyLevel, nvml.Return)
+	DeviceGetTopologyCommonAncestorFunc func(device1 nvml.Device, device2 nvml.Device) (nvml.GpuTopologyLevel, error)
 
 	// DeviceGetTopologyNearestGpusFunc mocks the DeviceGetTopologyNearestGpus method.
-	DeviceGetTopologyNearestGpusFunc func(device nvml.Device, gpuTopologyLevel nvml.GpuTopologyLevel) ([]nvml.Device, nvml.Return)
+	DeviceGetTopologyNearestGpusFunc func(device nvml.Device, gpuTopologyLevel nvml.GpuTopologyLevel) ([]nvml.Device, error)
 
 	// DeviceGetTotalEccErrorsFunc mocks the DeviceGetTotalEccErrors method.
-	DeviceGetTotalEccErrorsFunc func(device nvml.Device, memoryErrorType nvml.MemoryErrorType, eccCounterType nvml.EccCounterType) (uint64, nvml.Return)
+	DeviceGetTotalEccErrorsFunc func(device nvml.Device, memoryErrorType nvml.MemoryErrorType, eccCounterType nvml.EccCounterType) (uint64, error)
 
 	// DeviceGetTotalEnergyConsumptionFunc mocks the DeviceGetTotalEnergyConsumption method.
-	DeviceGetTotalEnergyConsumptionFunc func(device nvml.Device) (uint64, nvml.Return)
+	DeviceGetTotalEnergyConsumptionFunc func(device nvml.Device) (uint64, error)
 
 	// DeviceGetUUIDFunc mocks the DeviceGetUUID method.
-	DeviceGetUUIDFunc func(device nvml.Device) (string, nvml.Return)
+	DeviceGetUUIDFunc func(device nvml.Device) (string, error)
 
 	// DeviceGetUtilizationRatesFunc mocks the DeviceGetUtilizationRates method.
-	DeviceGetUtilizationRatesFunc func(device nvml.Device) (nvml.Utilization, nvml.Return)
+	DeviceGetUtilizationRatesFunc func(device nvml.Device) (nvml.Utilization, error)
 
 	// DeviceGetVbiosVersionFunc mocks the DeviceGetVbiosVersion method.
-	DeviceGetVbiosVersionFunc func(device nvml.Device) (string, nvml.Return)
+	DeviceGetVbiosVersionFunc func(device nvml.Device) (string, error)
 
 	// DeviceGetVgpuCapabilitiesFunc mocks the DeviceGetVgpuCapabilities method.
-	DeviceGetVgpuCapabilitiesFunc func(device nvml.Device, deviceVgpuCapability nvml.DeviceVgpuCapability) (bool, nvml.Return)
+	DeviceGetVgpuCapabilitiesFunc func(device nvml.Device, deviceVgpuCapability nvml.DeviceVgpuCapability) (bool, error)
 
 	// DeviceGetVgpuHeterogeneousModeFunc mocks the DeviceGetVgpuHeterogeneousMode method.
-	DeviceGetVgpuHeterogeneousModeFunc func(device nvml.Device) (nvml.VgpuHeterogeneousMode, nvml.Return)
+	DeviceGetVgpuHeterogeneousModeFunc func(device nvml.Device) (nvml.VgpuHeterogeneousMode, error)
 
 	// DeviceGetVgpuInstancesUtilizationInfoFunc mocks the DeviceGetVgpuInstancesUtilizationInfo method.
-	DeviceGetVgpuInstancesUtilizationInfoFunc func(device nvml.Device) (nvml.VgpuInstancesUtilizationInfo, nvml.Return)
+	DeviceGetVgpuInstancesUtilizationInfoFunc func(device nvml.Device) (nvml.VgpuInstancesUtilizationInfo, error)
 
 	// DeviceGetVgpuMetadataFunc mocks the DeviceGetVgpuMetadata method.
-	DeviceGetVgpuMetadataFunc func(device nvml.Device) (nvml.VgpuPgpuMetadata, nvml.Return)
+	DeviceGetVgpuMetadataFunc func(device nvml.Device) (nvml.VgpuPgpuMetadata, error)
 
 	// DeviceGetVgpuProcessUtilizationFunc mocks the DeviceGetVgpuProcessUtilization method.
-	DeviceGetVgpuProcessUtilizationFunc func(device nvml.Device, v uint64) ([]nvml.VgpuProcessUtilizationSample, nvml.Return)
+	DeviceGetVgpuProcessUtilizationFunc func(device nvml.Device, v uint64) ([]nvml.VgpuProcessUtilizationSample, error)
 
 	// DeviceGetVgpuProcessesUtilizationInfoFunc mocks the DeviceGetVgpuProcessesUtilizationInfo method.
-	DeviceGetVgpuProcessesUtilizationInfoFunc func(device nvml.Device) (nvml.VgpuProcessesUtilizationInfo, nvml.Return)
+	DeviceGetVgpuProcessesUtilizationInfoFunc func(device nvml.Device) (nvml.VgpuProcessesUtilizationInfo, error)
 
 	// DeviceGetVgpuSchedulerCapabilitiesFunc mocks the DeviceGetVgpuSchedulerCapabilities method.
-	DeviceGetVgpuSchedulerCapabilitiesFunc func(device nvml.Device) (nvml.VgpuSchedulerCapabilities, nvml.Return)
+	DeviceGetVgpuSchedulerCapabilitiesFunc func(device nvml.Device) (nvml.VgpuSchedulerCapabilities, error)
 
 	// DeviceGetVgpuSchedulerLogFunc mocks the DeviceGetVgpuSchedulerLog method.
-	DeviceGetVgpuSchedulerLogFunc func(device nvml.Device) (nvml.VgpuSchedulerLog, nvml.Return)
+	DeviceGetVgpuSchedulerLogFunc func(device nvml.Device) (nvml.VgpuSchedulerLog, error)
 
 	// DeviceGetVgpuSchedulerStateFunc mocks the DeviceGetVgpuSchedulerState method.
-	DeviceGetVgpuSchedulerStateFunc func(device nvml.Device) (nvml.VgpuSchedulerGetState, nvml.Return)
+	DeviceGetVgpuSchedulerStateFunc func(device nvml.Device) (nvml.VgpuSchedulerGetState, error)
 
 	// DeviceGetVgpuTypeCreatablePlacementsFunc mocks the DeviceGetVgpuTypeCreatablePlacements method.
-	DeviceGetVgpuTypeCreatablePlacementsFunc func(device nvml.Device, vgpuTypeId nvml.VgpuTypeId) (nvml.VgpuPlacementList, nvml.Return)
+	DeviceGetVgpuTypeCreatablePlacementsFunc func(device nvml.Device, vgpuTypeId nvml.VgpuTypeId) (nvml.VgpuPlacementList, error)
 
 	// DeviceGetVgpuTypeSupportedPlacementsFunc mocks the DeviceGetVgpuTypeSupportedPlacements method.
-	DeviceGetVgpuTypeSupportedPlacementsFunc func(device nvml.Device, vgpuTypeId nvml.VgpuTypeId) (nvml.VgpuPlacementList, nvml.Return)
+	DeviceGetVgpuTypeSupportedPlacementsFunc func(device nvml.Device, vgpuTypeId nvml.VgpuTypeId) (nvml.VgpuPlacementList, error)
 
 	// DeviceGetVgpuUtilizationFunc mocks the DeviceGetVgpuUtilization method.
-	DeviceGetVgpuUtilizationFunc func(device nvml.Device, v uint64) (nvml.ValueType, []nvml.VgpuInstanceUtilizationSample, nvml.Return)
+	DeviceGetVgpuUtilizationFunc func(device nvml.Device, v uint64) (nvml.ValueType, []nvml.VgpuInstanceUtilizationSample, error)
 
 	// DeviceGetViolationStatusFunc mocks the DeviceGetViolationStatus method.
-	DeviceGetViolationStatusFunc func(device nvml.Device, perfPolicyType nvml.PerfPolicyType) (nvml.ViolationTime, nvml.Return)
+	DeviceGetViolationStatusFunc func(device nvml.Device, perfPolicyType nvml.PerfPolicyType) (nvml.ViolationTime, error)
 
 	// DeviceGetVirtualizationModeFunc mocks the DeviceGetVirtualizationMode method.
-	DeviceGetVirtualizationModeFunc func(device nvml.Device) (nvml.GpuVirtualizationMode, nvml.Return)
+	DeviceGetVirtualizationModeFunc func(device nvml.Device) (nvml.GpuVirtualizationMode, error)
 
 	// DeviceIsMigDeviceHandleFunc mocks the DeviceIsMigDeviceHandle method.
-	DeviceIsMigDeviceHandleFunc func(device nvml.Device) (bool, nvml.Return)
+	DeviceIsMigDeviceHandleFunc func(device nvml.Device) (bool, error)
 
 	// DeviceModifyDrainStateFunc mocks the DeviceModifyDrainState method.
-	DeviceModifyDrainStateFunc func(pciInfo *nvml.PciInfo, enableState nvml.EnableState) nvml.Return
+	DeviceModifyDrainStateFunc func(pciInfo *nvml.PciInfo, enableState nvml.EnableState) error
 
 	// DeviceOnSameBoardFunc mocks the DeviceOnSameBoard method.
-	DeviceOnSameBoardFunc func(device1 nvml.Device, device2 nvml.Device) (int, nvml.Return)
+	DeviceOnSameBoardFunc func(device1 nvml.Device, device2 nvml.Device) (int, error)
 
 	// DeviceQueryDrainStateFunc mocks the DeviceQueryDrainState method.
-	DeviceQueryDrainStateFunc func(pciInfo *nvml.PciInfo) (nvml.EnableState, nvml.Return)
+	DeviceQueryDrainStateFunc func(pciInfo *nvml.PciInfo) (nvml.EnableState, error)
 
 	// DeviceRegisterEventsFunc mocks the DeviceRegisterEvents method.
-	DeviceRegisterEventsFunc func(device nvml.Device, v uint64, eventSet nvml.EventSet) nvml.Return
+	DeviceRegisterEventsFunc func(device nvml.Device, v uint64, eventSet nvml.EventSet) error
 
 	// DeviceRemoveGpuFunc mocks the DeviceRemoveGpu method.
-	DeviceRemoveGpuFunc func(pciInfo *nvml.PciInfo) nvml.Return
+	DeviceRemoveGpuFunc func(pciInfo *nvml.PciInfo) error
 
 	// DeviceRemoveGpu_v2Func mocks the DeviceRemoveGpu_v2 method.
-	DeviceRemoveGpu_v2Func func(pciInfo *nvml.PciInfo, detachGpuState nvml.DetachGpuState, pcieLinkState nvml.PcieLinkState) nvml.Return
+	DeviceRemoveGpu_v2Func func(pciInfo *nvml.PciInfo, detachGpuState nvml.DetachGpuState, pcieLinkState nvml.PcieLinkState) error
 
 	// DeviceResetApplicationsClocksFunc mocks the DeviceResetApplicationsClocks method.
-	DeviceResetApplicationsClocksFunc func(device nvml.Device) nvml.Return
+	DeviceResetApplicationsClocksFunc func(device nvml.Device) error
 
 	// DeviceResetGpuLockedClocksFunc mocks the DeviceResetGpuLockedClocks method.
-	DeviceResetGpuLockedClocksFunc func(device nvml.Device) nvml.Return
+	DeviceResetGpuLockedClocksFunc func(device nvml.Device) error
 
 	// DeviceResetMemoryLockedClocksFunc mocks the DeviceResetMemoryLockedClocks method.
-	DeviceResetMemoryLockedClocksFunc func(device nvml.Device) nvml.Return
+	DeviceResetMemoryLockedClocksFunc func(device nvml.Device) error
 
 	// DeviceResetNvLinkErrorCountersFunc mocks the DeviceResetNvLinkErrorCounters method.
-	DeviceResetNvLinkErrorCountersFunc func(device nvml.Device, n int) nvml.Return
+	DeviceResetNvLinkErrorCountersFunc func(device nvml.Device, n int) error
 
 	// DeviceResetNvLinkUtilizationCounterFunc mocks the DeviceResetNvLinkUtilizationCounter method.
-	DeviceResetNvLinkUtilizationCounterFunc func(device nvml.Device, n1 int, n2 int) nvml.Return
+	DeviceResetNvLinkUtilizationCounterFunc func(device nvml.Device, n1 int, n2 int) error
 
 	// DeviceSetAPIRestrictionFunc mocks the DeviceSetAPIRestriction method.
-	DeviceSetAPIRestrictionFunc func(device nvml.Device, restrictedAPI nvml.RestrictedAPI, enableState nvml.EnableState) nvml.Return
+	DeviceSetAPIRestrictionFunc func(device nvml.Device, restrictedAPI nvml.RestrictedAPI, enableState nvml.EnableState) error
 
 	// DeviceSetAccountingModeFunc mocks the DeviceSetAccountingMode method.
-	DeviceSetAccountingModeFunc func(device nvml.Device, enableState nvml.EnableState) nvml.Return
+	DeviceSetAccountingModeFunc func(device nvml.Device, enableState nvml.EnableState) error
 
 	// DeviceSetApplicationsClocksFunc mocks the DeviceSetApplicationsClocks method.
-	DeviceSetApplicationsClocksFunc func(device nvml.Device, v1 uint32, v2 uint32) nvml.Return
+	DeviceSetApplicationsClocksFunc func(device nvml.Device, v1 uint32, v2 uint32) error
 
 	// DeviceSetAutoBoostedClocksEnabledFunc mocks the DeviceSetAutoBoostedClocksEnabled method.
-	DeviceSetAutoBoostedClocksEnabledFunc func(device nvml.Device, enableState nvml.EnableState) nvml.Return
+	DeviceSetAutoBoostedClocksEnabledFunc func(device nvml.Device, enableState nvml.EnableState) error
 
 	// DeviceSetComputeModeFunc mocks the DeviceSetComputeMode method.
-	DeviceSetComputeModeFunc func(device nvml.Device, computeMode nvml.ComputeMode) nvml.Return
+	DeviceSetComputeModeFunc func(device nvml.Device, computeMode nvml.ComputeMode) error
 
 	// DeviceSetConfComputeUnprotectedMemSizeFunc mocks the DeviceSetConfComputeUnprotectedMemSize method.
-	DeviceSetConfComputeUnprotectedMemSizeFunc func(device nvml.Device, v uint64) nvml.Return
+	DeviceSetConfComputeUnprotectedMemSizeFunc func(device nvml.Device, v uint64) error
 
 	// DeviceSetCpuAffinityFunc mocks the DeviceSetCpuAffinity method.
-	DeviceSetCpuAffinityFunc func(device nvml.Device) nvml.Return
+	DeviceSetCpuAffinityFunc func(device nvml.Device) error
 
 	// DeviceSetDefaultAutoBoostedClocksEnabledFunc mocks the DeviceSetDefaultAutoBoostedClocksEnabled method.
-	DeviceSetDefaultAutoBoostedClocksEnabledFunc func(device nvml.Device, enableState nvml.EnableState, v uint32) nvml.Return
+	DeviceSetDefaultAutoBoostedClocksEnabledFunc func(device nvml.Device, enableState nvml.EnableState, v uint32) error
 
 	// DeviceSetDefaultFanSpeed_v2Func mocks the DeviceSetDefaultFanSpeed_v2 method.
-	DeviceSetDefaultFanSpeed_v2Func func(device nvml.Device, n int) nvml.Return
+	DeviceSetDefaultFanSpeed_v2Func func(device nvml.Device, n int) error
 
 	// DeviceSetDriverModelFunc mocks the DeviceSetDriverModel method.
-	DeviceSetDriverModelFunc func(device nvml.Device, driverModel nvml.DriverModel, v uint32) nvml.Return
+	DeviceSetDriverModelFunc func(device nvml.Device, driverModel nvml.DriverModel, v uint32) error
 
 	// DeviceSetEccModeFunc mocks the DeviceSetEccMode method.
-	DeviceSetEccModeFunc func(device nvml.Device, enableState nvml.EnableState) nvml.Return
+	DeviceSetEccModeFunc func(device nvml.Device, enableState nvml.EnableState) error
 
 	// DeviceSetFanControlPolicyFunc mocks the DeviceSetFanControlPolicy method.
-	DeviceSetFanControlPolicyFunc func(device nvml.Device, n int, fanControlPolicy nvml.FanControlPolicy) nvml.Return
+	DeviceSetFanControlPolicyFunc func(device nvml.Device, n int, fanControlPolicy nvml.FanControlPolicy) error
 
 	// DeviceSetFanSpeed_v2Func mocks the DeviceSetFanSpeed_v2 method.
-	DeviceSetFanSpeed_v2Func func(device nvml.Device, n1 int, n2 int) nvml.Return
+	DeviceSetFanSpeed_v2Func func(device nvml.Device, n1 int, n2 int) error
 
 	// DeviceSetGpcClkVfOffsetFunc mocks the DeviceSetGpcClkVfOffset method.
-	DeviceSetGpcClkVfOffsetFunc func(device nvml.Device, n int) nvml.Return
+	DeviceSetGpcClkVfOffsetFunc func(device nvml.Device, n int) error
 
 	// DeviceSetGpuLockedClocksFunc mocks the DeviceSetGpuLockedClocks method.
-	DeviceSetGpuLockedClocksFunc func(device nvml.Device, v1 uint32, v2 uint32) nvml.Return
+	DeviceSetGpuLockedClocksFunc func(device nvml.Device, v1 uint32, v2 uint32) error
 
 	// DeviceSetGpuOperationModeFunc mocks the DeviceSetGpuOperationMode method.
-	DeviceSetGpuOperationModeFunc func(device nvml.Device, gpuOperationMode nvml.GpuOperationMode) nvml.Return
+	DeviceSetGpuOperationModeFunc func(device nvml.Device, gpuOperationMode nvml.GpuOperationMode) error
 
 	// DeviceSetMemClkVfOffsetFunc mocks the DeviceSetMemClkVfOffset method.
-	DeviceSetMemClkVfOffsetFunc func(device nvml.Device, n int) nvml.Return
+	DeviceSetMemClkVfOffsetFunc func(device nvml.Device, n int) error
 
 	// DeviceSetMemoryLockedClocksFunc mocks the DeviceSetMemoryLockedClocks method.
-	DeviceSetMemoryLockedClocksFunc func(device nvml.Device, v1 uint32, v2 uint32) nvml.Return
+	DeviceSetMemoryLockedClocksFunc func(device nvml.Device, v1 uint32, v2 uint32) error
 
 	// DeviceSetMigModeFunc mocks the DeviceSetMigMode method.
-	DeviceSetMigModeFunc func(device nvml.Device, n int) (nvml.Return, nvml.Return)
+	DeviceSetMigModeFunc func(device nvml.Device, n int) (error, error)
 
 	// DeviceSetNvLinkDeviceLowPowerThresholdFunc mocks the DeviceSetNvLinkDeviceLowPowerThreshold method.
-	DeviceSetNvLinkDeviceLowPowerThresholdFunc func(device nvml.Device, nvLinkPowerThres *nvml.NvLinkPowerThres) nvml.Return
+	DeviceSetNvLinkDeviceLowPowerThresholdFunc func(device nvml.Device, nvLinkPowerThres *nvml.NvLinkPowerThres) error
 
 	// DeviceSetNvLinkUtilizationControlFunc mocks the DeviceSetNvLinkUtilizationControl method.
-	DeviceSetNvLinkUtilizationControlFunc func(device nvml.Device, n1 int, n2 int, nvLinkUtilizationControl *nvml.NvLinkUtilizationControl, b bool) nvml.Return
+	DeviceSetNvLinkUtilizationControlFunc func(device nvml.Device, n1 int, n2 int, nvLinkUtilizationControl *nvml.NvLinkUtilizationControl, b bool) error
 
 	// DeviceSetPersistenceModeFunc mocks the DeviceSetPersistenceMode method.
-	DeviceSetPersistenceModeFunc func(device nvml.Device, enableState nvml.EnableState) nvml.Return
+	DeviceSetPersistenceModeFunc func(device nvml.Device, enableState nvml.EnableState) error
 
 	// DeviceSetPowerManagementLimitFunc mocks the DeviceSetPowerManagementLimit method.
-	DeviceSetPowerManagementLimitFunc func(device nvml.Device, v uint32) nvml.Return
+	DeviceSetPowerManagementLimitFunc func(device nvml.Device, v uint32) error
 
 	// DeviceSetPowerManagementLimit_v2Func mocks the DeviceSetPowerManagementLimit_v2 method.
-	DeviceSetPowerManagementLimit_v2Func func(device nvml.Device, powerValue_v2 *nvml.PowerValue_v2) nvml.Return
+	DeviceSetPowerManagementLimit_v2Func func(device nvml.Device, powerValue_v2 *nvml.PowerValue_v2) error
 
 	// DeviceSetTemperatureThresholdFunc mocks the DeviceSetTemperatureThreshold method.
-	DeviceSetTemperatureThresholdFunc func(device nvml.Device, temperatureThresholds nvml.TemperatureThresholds, n int) nvml.Return
+	DeviceSetTemperatureThresholdFunc func(device nvml.Device, temperatureThresholds nvml.TemperatureThresholds, n int) error
 
 	// DeviceSetVgpuCapabilitiesFunc mocks the DeviceSetVgpuCapabilities method.
-	DeviceSetVgpuCapabilitiesFunc func(device nvml.Device, deviceVgpuCapability nvml.DeviceVgpuCapability, enableState nvml.EnableState) nvml.Return
+	DeviceSetVgpuCapabilitiesFunc func(device nvml.Device, deviceVgpuCapability nvml.DeviceVgpuCapability, enableState nvml.EnableState) error
 
 	// DeviceSetVgpuHeterogeneousModeFunc mocks the DeviceSetVgpuHeterogeneousMode method.
-	DeviceSetVgpuHeterogeneousModeFunc func(device nvml.Device, vgpuHeterogeneousMode nvml.VgpuHeterogeneousMode) nvml.Return
+	DeviceSetVgpuHeterogeneousModeFunc func(device nvml.Device, vgpuHeterogeneousMode nvml.VgpuHeterogeneousMode) error
 
 	// DeviceSetVgpuSchedulerStateFunc mocks the DeviceSetVgpuSchedulerState method.
-	DeviceSetVgpuSchedulerStateFunc func(device nvml.Device, vgpuSchedulerSetState *nvml.VgpuSchedulerSetState) nvml.Return
+	DeviceSetVgpuSchedulerStateFunc func(device nvml.Device, vgpuSchedulerSetState *nvml.VgpuSchedulerSetState) error
 
 	// DeviceSetVirtualizationModeFunc mocks the DeviceSetVirtualizationMode method.
-	DeviceSetVirtualizationModeFunc func(device nvml.Device, gpuVirtualizationMode nvml.GpuVirtualizationMode) nvml.Return
+	DeviceSetVirtualizationModeFunc func(device nvml.Device, gpuVirtualizationMode nvml.GpuVirtualizationMode) error
 
 	// DeviceValidateInforomFunc mocks the DeviceValidateInforom method.
-	DeviceValidateInforomFunc func(device nvml.Device) nvml.Return
+	DeviceValidateInforomFunc func(device nvml.Device) error
 
 	// ErrorStringFunc mocks the ErrorString method.
 	ErrorStringFunc func(returnMoqParam nvml.Return) string
 
 	// EventSetCreateFunc mocks the EventSetCreate method.
-	EventSetCreateFunc func() (nvml.EventSet, nvml.Return)
+	EventSetCreateFunc func() (nvml.EventSet, error)
 
 	// EventSetFreeFunc mocks the EventSetFree method.
-	EventSetFreeFunc func(eventSet nvml.EventSet) nvml.Return
+	EventSetFreeFunc func(eventSet nvml.EventSet) error
 
 	// EventSetWaitFunc mocks the EventSetWait method.
-	EventSetWaitFunc func(eventSet nvml.EventSet, v uint32) (nvml.EventData, nvml.Return)
+	EventSetWaitFunc func(eventSet nvml.EventSet, v uint32) (nvml.EventData, error)
 
 	// ExtensionsFunc mocks the Extensions method.
 	ExtensionsFunc func() nvml.ExtendedInterface
 
 	// GetExcludedDeviceCountFunc mocks the GetExcludedDeviceCount method.
-	GetExcludedDeviceCountFunc func() (int, nvml.Return)
+	GetExcludedDeviceCountFunc func() (int, error)
 
 	// GetExcludedDeviceInfoByIndexFunc mocks the GetExcludedDeviceInfoByIndex method.
-	GetExcludedDeviceInfoByIndexFunc func(n int) (nvml.ExcludedDeviceInfo, nvml.Return)
+	GetExcludedDeviceInfoByIndexFunc func(n int) (nvml.ExcludedDeviceInfo, error)
 
 	// GetVgpuCompatibilityFunc mocks the GetVgpuCompatibility method.
-	GetVgpuCompatibilityFunc func(vgpuMetadata *nvml.VgpuMetadata, vgpuPgpuMetadata *nvml.VgpuPgpuMetadata) (nvml.VgpuPgpuCompatibility, nvml.Return)
+	GetVgpuCompatibilityFunc func(vgpuMetadata *nvml.VgpuMetadata, vgpuPgpuMetadata *nvml.VgpuPgpuMetadata) (nvml.VgpuPgpuCompatibility, error)
 
 	// GetVgpuDriverCapabilitiesFunc mocks the GetVgpuDriverCapabilities method.
-	GetVgpuDriverCapabilitiesFunc func(vgpuDriverCapability nvml.VgpuDriverCapability) (bool, nvml.Return)
+	GetVgpuDriverCapabilitiesFunc func(vgpuDriverCapability nvml.VgpuDriverCapability) (bool, error)
 
 	// GetVgpuVersionFunc mocks the GetVgpuVersion method.
-	GetVgpuVersionFunc func() (nvml.VgpuVersion, nvml.VgpuVersion, nvml.Return)
+	GetVgpuVersionFunc func() (nvml.VgpuVersion, nvml.VgpuVersion, error)
 
 	// GpmMetricsGetFunc mocks the GpmMetricsGet method.
-	GpmMetricsGetFunc func(gpmMetricsGetType *nvml.GpmMetricsGetType) nvml.Return
+	GpmMetricsGetFunc func(gpmMetricsGetType *nvml.GpmMetricsGetType) error
 
 	// GpmMetricsGetVFunc mocks the GpmMetricsGetV method.
 	GpmMetricsGetVFunc func(gpmMetricsGetType *nvml.GpmMetricsGetType) nvml.GpmMetricsGetVType
 
 	// GpmMigSampleGetFunc mocks the GpmMigSampleGet method.
-	GpmMigSampleGetFunc func(device nvml.Device, n int, gpmSample nvml.GpmSample) nvml.Return
+	GpmMigSampleGetFunc func(device nvml.Device, n int, gpmSample nvml.GpmSample) error
 
 	// GpmQueryDeviceSupportFunc mocks the GpmQueryDeviceSupport method.
-	GpmQueryDeviceSupportFunc func(device nvml.Device) (nvml.GpmSupport, nvml.Return)
+	GpmQueryDeviceSupportFunc func(device nvml.Device) (nvml.GpmSupport, error)
 
 	// GpmQueryDeviceSupportVFunc mocks the GpmQueryDeviceSupportV method.
 	GpmQueryDeviceSupportVFunc func(device nvml.Device) nvml.GpmSupportV
 
 	// GpmQueryIfStreamingEnabledFunc mocks the GpmQueryIfStreamingEnabled method.
-	GpmQueryIfStreamingEnabledFunc func(device nvml.Device) (uint32, nvml.Return)
+	GpmQueryIfStreamingEnabledFunc func(device nvml.Device) (uint32, error)
 
 	// GpmSampleAllocFunc mocks the GpmSampleAlloc method.
-	GpmSampleAllocFunc func() (nvml.GpmSample, nvml.Return)
+	GpmSampleAllocFunc func() (nvml.GpmSample, error)
 
 	// GpmSampleFreeFunc mocks the GpmSampleFree method.
-	GpmSampleFreeFunc func(gpmSample nvml.GpmSample) nvml.Return
+	GpmSampleFreeFunc func(gpmSample nvml.GpmSample) error
 
 	// GpmSampleGetFunc mocks the GpmSampleGet method.
-	GpmSampleGetFunc func(device nvml.Device, gpmSample nvml.GpmSample) nvml.Return
+	GpmSampleGetFunc func(device nvml.Device, gpmSample nvml.GpmSample) error
 
 	// GpmSetStreamingEnabledFunc mocks the GpmSetStreamingEnabled method.
-	GpmSetStreamingEnabledFunc func(device nvml.Device, v uint32) nvml.Return
+	GpmSetStreamingEnabledFunc func(device nvml.Device, v uint32) error
 
 	// GpuInstanceCreateComputeInstanceFunc mocks the GpuInstanceCreateComputeInstance method.
-	GpuInstanceCreateComputeInstanceFunc func(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) (nvml.ComputeInstance, nvml.Return)
+	GpuInstanceCreateComputeInstanceFunc func(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) (nvml.ComputeInstance, error)
 
 	// GpuInstanceCreateComputeInstanceWithPlacementFunc mocks the GpuInstanceCreateComputeInstanceWithPlacement method.
-	GpuInstanceCreateComputeInstanceWithPlacementFunc func(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo, computeInstancePlacement *nvml.ComputeInstancePlacement) (nvml.ComputeInstance, nvml.Return)
+	GpuInstanceCreateComputeInstanceWithPlacementFunc func(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo, computeInstancePlacement *nvml.ComputeInstancePlacement) (nvml.ComputeInstance, error)
 
 	// GpuInstanceDestroyFunc mocks the GpuInstanceDestroy method.
-	GpuInstanceDestroyFunc func(gpuInstance nvml.GpuInstance) nvml.Return
+	GpuInstanceDestroyFunc func(gpuInstance nvml.GpuInstance) error
 
 	// GpuInstanceGetComputeInstanceByIdFunc mocks the GpuInstanceGetComputeInstanceById method.
-	GpuInstanceGetComputeInstanceByIdFunc func(gpuInstance nvml.GpuInstance, n int) (nvml.ComputeInstance, nvml.Return)
+	GpuInstanceGetComputeInstanceByIdFunc func(gpuInstance nvml.GpuInstance, n int) (nvml.ComputeInstance, error)
 
 	// GpuInstanceGetComputeInstancePossiblePlacementsFunc mocks the GpuInstanceGetComputeInstancePossiblePlacements method.
-	GpuInstanceGetComputeInstancePossiblePlacementsFunc func(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) ([]nvml.ComputeInstancePlacement, nvml.Return)
+	GpuInstanceGetComputeInstancePossiblePlacementsFunc func(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) ([]nvml.ComputeInstancePlacement, error)
 
 	// GpuInstanceGetComputeInstanceProfileInfoFunc mocks the GpuInstanceGetComputeInstanceProfileInfo method.
-	GpuInstanceGetComputeInstanceProfileInfoFunc func(gpuInstance nvml.GpuInstance, n1 int, n2 int) (nvml.ComputeInstanceProfileInfo, nvml.Return)
+	GpuInstanceGetComputeInstanceProfileInfoFunc func(gpuInstance nvml.GpuInstance, n1 int, n2 int) (nvml.ComputeInstanceProfileInfo, error)
 
 	// GpuInstanceGetComputeInstanceProfileInfoVFunc mocks the GpuInstanceGetComputeInstanceProfileInfoV method.
 	GpuInstanceGetComputeInstanceProfileInfoVFunc func(gpuInstance nvml.GpuInstance, n1 int, n2 int) nvml.ComputeInstanceProfileInfoHandler
 
 	// GpuInstanceGetComputeInstanceRemainingCapacityFunc mocks the GpuInstanceGetComputeInstanceRemainingCapacity method.
-	GpuInstanceGetComputeInstanceRemainingCapacityFunc func(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) (int, nvml.Return)
+	GpuInstanceGetComputeInstanceRemainingCapacityFunc func(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) (int, error)
 
 	// GpuInstanceGetComputeInstancesFunc mocks the GpuInstanceGetComputeInstances method.
-	GpuInstanceGetComputeInstancesFunc func(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) ([]nvml.ComputeInstance, nvml.Return)
+	GpuInstanceGetComputeInstancesFunc func(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) ([]nvml.ComputeInstance, error)
 
 	// GpuInstanceGetInfoFunc mocks the GpuInstanceGetInfo method.
-	GpuInstanceGetInfoFunc func(gpuInstance nvml.GpuInstance) (nvml.GpuInstanceInfo, nvml.Return)
+	GpuInstanceGetInfoFunc func(gpuInstance nvml.GpuInstance) (nvml.GpuInstanceInfo, error)
 
 	// InitFunc mocks the Init method.
-	InitFunc func() nvml.Return
+	InitFunc func() error
 
 	// InitWithFlagsFunc mocks the InitWithFlags method.
-	InitWithFlagsFunc func(v uint32) nvml.Return
+	InitWithFlagsFunc func(v uint32) error
 
 	// SetVgpuVersionFunc mocks the SetVgpuVersion method.
-	SetVgpuVersionFunc func(vgpuVersion *nvml.VgpuVersion) nvml.Return
+	SetVgpuVersionFunc func(vgpuVersion *nvml.VgpuVersion) error
 
 	// ShutdownFunc mocks the Shutdown method.
-	ShutdownFunc func() nvml.Return
+	ShutdownFunc func() error
 
 	// SystemGetConfComputeCapabilitiesFunc mocks the SystemGetConfComputeCapabilities method.
-	SystemGetConfComputeCapabilitiesFunc func() (nvml.ConfComputeSystemCaps, nvml.Return)
+	SystemGetConfComputeCapabilitiesFunc func() (nvml.ConfComputeSystemCaps, error)
 
 	// SystemGetConfComputeKeyRotationThresholdInfoFunc mocks the SystemGetConfComputeKeyRotationThresholdInfo method.
-	SystemGetConfComputeKeyRotationThresholdInfoFunc func() (nvml.ConfComputeGetKeyRotationThresholdInfo, nvml.Return)
+	SystemGetConfComputeKeyRotationThresholdInfoFunc func() (nvml.ConfComputeGetKeyRotationThresholdInfo, error)
 
 	// SystemGetConfComputeSettingsFunc mocks the SystemGetConfComputeSettings method.
-	SystemGetConfComputeSettingsFunc func() (nvml.SystemConfComputeSettings, nvml.Return)
+	SystemGetConfComputeSettingsFunc func() (nvml.SystemConfComputeSettings, error)
 
 	// SystemGetCudaDriverVersionFunc mocks the SystemGetCudaDriverVersion method.
-	SystemGetCudaDriverVersionFunc func() (int, nvml.Return)
+	SystemGetCudaDriverVersionFunc func() (int, error)
 
 	// SystemGetCudaDriverVersion_v2Func mocks the SystemGetCudaDriverVersion_v2 method.
-	SystemGetCudaDriverVersion_v2Func func() (int, nvml.Return)
+	SystemGetCudaDriverVersion_v2Func func() (int, error)
 
 	// SystemGetDriverVersionFunc mocks the SystemGetDriverVersion method.
-	SystemGetDriverVersionFunc func() (string, nvml.Return)
+	SystemGetDriverVersionFunc func() (string, error)
 
 	// SystemGetHicVersionFunc mocks the SystemGetHicVersion method.
-	SystemGetHicVersionFunc func() ([]nvml.HwbcEntry, nvml.Return)
+	SystemGetHicVersionFunc func() ([]nvml.HwbcEntry, error)
 
 	// SystemGetNVMLVersionFunc mocks the SystemGetNVMLVersion method.
-	SystemGetNVMLVersionFunc func() (string, nvml.Return)
+	SystemGetNVMLVersionFunc func() (string, error)
 
 	// SystemGetProcessNameFunc mocks the SystemGetProcessName method.
-	SystemGetProcessNameFunc func(n int) (string, nvml.Return)
+	SystemGetProcessNameFunc func(n int) (string, error)
 
 	// SystemGetTopologyGpuSetFunc mocks the SystemGetTopologyGpuSet method.
-	SystemGetTopologyGpuSetFunc func(n int) ([]nvml.Device, nvml.Return)
+	SystemGetTopologyGpuSetFunc func(n int) ([]nvml.Device, error)
 
 	// SystemSetConfComputeKeyRotationThresholdInfoFunc mocks the SystemSetConfComputeKeyRotationThresholdInfo method.
-	SystemSetConfComputeKeyRotationThresholdInfoFunc func(confComputeSetKeyRotationThresholdInfo nvml.ConfComputeSetKeyRotationThresholdInfo) nvml.Return
+	SystemSetConfComputeKeyRotationThresholdInfoFunc func(confComputeSetKeyRotationThresholdInfo nvml.ConfComputeSetKeyRotationThresholdInfo) error
 
 	// UnitGetCountFunc mocks the UnitGetCount method.
-	UnitGetCountFunc func() (int, nvml.Return)
+	UnitGetCountFunc func() (int, error)
 
 	// UnitGetDevicesFunc mocks the UnitGetDevices method.
-	UnitGetDevicesFunc func(unit nvml.Unit) ([]nvml.Device, nvml.Return)
+	UnitGetDevicesFunc func(unit nvml.Unit) ([]nvml.Device, error)
 
 	// UnitGetFanSpeedInfoFunc mocks the UnitGetFanSpeedInfo method.
-	UnitGetFanSpeedInfoFunc func(unit nvml.Unit) (nvml.UnitFanSpeeds, nvml.Return)
+	UnitGetFanSpeedInfoFunc func(unit nvml.Unit) (nvml.UnitFanSpeeds, error)
 
 	// UnitGetHandleByIndexFunc mocks the UnitGetHandleByIndex method.
-	UnitGetHandleByIndexFunc func(n int) (nvml.Unit, nvml.Return)
+	UnitGetHandleByIndexFunc func(n int) (nvml.Unit, error)
 
 	// UnitGetLedStateFunc mocks the UnitGetLedState method.
-	UnitGetLedStateFunc func(unit nvml.Unit) (nvml.LedState, nvml.Return)
+	UnitGetLedStateFunc func(unit nvml.Unit) (nvml.LedState, error)
 
 	// UnitGetPsuInfoFunc mocks the UnitGetPsuInfo method.
-	UnitGetPsuInfoFunc func(unit nvml.Unit) (nvml.PSUInfo, nvml.Return)
+	UnitGetPsuInfoFunc func(unit nvml.Unit) (nvml.PSUInfo, error)
 
 	// UnitGetTemperatureFunc mocks the UnitGetTemperature method.
-	UnitGetTemperatureFunc func(unit nvml.Unit, n int) (uint32, nvml.Return)
+	UnitGetTemperatureFunc func(unit nvml.Unit, n int) (uint32, error)
 
 	// UnitGetUnitInfoFunc mocks the UnitGetUnitInfo method.
-	UnitGetUnitInfoFunc func(unit nvml.Unit) (nvml.UnitInfo, nvml.Return)
+	UnitGetUnitInfoFunc func(unit nvml.Unit) (nvml.UnitInfo, error)
 
 	// UnitSetLedStateFunc mocks the UnitSetLedState method.
-	UnitSetLedStateFunc func(unit nvml.Unit, ledColor nvml.LedColor) nvml.Return
+	UnitSetLedStateFunc func(unit nvml.Unit, ledColor nvml.LedColor) error
 
 	// VgpuInstanceClearAccountingPidsFunc mocks the VgpuInstanceClearAccountingPids method.
-	VgpuInstanceClearAccountingPidsFunc func(vgpuInstance nvml.VgpuInstance) nvml.Return
+	VgpuInstanceClearAccountingPidsFunc func(vgpuInstance nvml.VgpuInstance) error
 
 	// VgpuInstanceGetAccountingModeFunc mocks the VgpuInstanceGetAccountingMode method.
-	VgpuInstanceGetAccountingModeFunc func(vgpuInstance nvml.VgpuInstance) (nvml.EnableState, nvml.Return)
+	VgpuInstanceGetAccountingModeFunc func(vgpuInstance nvml.VgpuInstance) (nvml.EnableState, error)
 
 	// VgpuInstanceGetAccountingPidsFunc mocks the VgpuInstanceGetAccountingPids method.
-	VgpuInstanceGetAccountingPidsFunc func(vgpuInstance nvml.VgpuInstance) ([]int, nvml.Return)
+	VgpuInstanceGetAccountingPidsFunc func(vgpuInstance nvml.VgpuInstance) ([]int, error)
 
 	// VgpuInstanceGetAccountingStatsFunc mocks the VgpuInstanceGetAccountingStats method.
-	VgpuInstanceGetAccountingStatsFunc func(vgpuInstance nvml.VgpuInstance, n int) (nvml.AccountingStats, nvml.Return)
+	VgpuInstanceGetAccountingStatsFunc func(vgpuInstance nvml.VgpuInstance, n int) (nvml.AccountingStats, error)
 
 	// VgpuInstanceGetEccModeFunc mocks the VgpuInstanceGetEccMode method.
-	VgpuInstanceGetEccModeFunc func(vgpuInstance nvml.VgpuInstance) (nvml.EnableState, nvml.Return)
+	VgpuInstanceGetEccModeFunc func(vgpuInstance nvml.VgpuInstance) (nvml.EnableState, error)
 
 	// VgpuInstanceGetEncoderCapacityFunc mocks the VgpuInstanceGetEncoderCapacity method.
-	VgpuInstanceGetEncoderCapacityFunc func(vgpuInstance nvml.VgpuInstance) (int, nvml.Return)
+	VgpuInstanceGetEncoderCapacityFunc func(vgpuInstance nvml.VgpuInstance) (int, error)
 
 	// VgpuInstanceGetEncoderSessionsFunc mocks the VgpuInstanceGetEncoderSessions method.
-	VgpuInstanceGetEncoderSessionsFunc func(vgpuInstance nvml.VgpuInstance) (int, nvml.EncoderSessionInfo, nvml.Return)
+	VgpuInstanceGetEncoderSessionsFunc func(vgpuInstance nvml.VgpuInstance) (int, nvml.EncoderSessionInfo, error)
 
 	// VgpuInstanceGetEncoderStatsFunc mocks the VgpuInstanceGetEncoderStats method.
-	VgpuInstanceGetEncoderStatsFunc func(vgpuInstance nvml.VgpuInstance) (int, uint32, uint32, nvml.Return)
+	VgpuInstanceGetEncoderStatsFunc func(vgpuInstance nvml.VgpuInstance) (int, uint32, uint32, error)
 
 	// VgpuInstanceGetFBCSessionsFunc mocks the VgpuInstanceGetFBCSessions method.
-	VgpuInstanceGetFBCSessionsFunc func(vgpuInstance nvml.VgpuInstance) (int, nvml.FBCSessionInfo, nvml.Return)
+	VgpuInstanceGetFBCSessionsFunc func(vgpuInstance nvml.VgpuInstance) (int, nvml.FBCSessionInfo, error)
 
 	// VgpuInstanceGetFBCStatsFunc mocks the VgpuInstanceGetFBCStats method.
-	VgpuInstanceGetFBCStatsFunc func(vgpuInstance nvml.VgpuInstance) (nvml.FBCStats, nvml.Return)
+	VgpuInstanceGetFBCStatsFunc func(vgpuInstance nvml.VgpuInstance) (nvml.FBCStats, error)
 
 	// VgpuInstanceGetFbUsageFunc mocks the VgpuInstanceGetFbUsage method.
-	VgpuInstanceGetFbUsageFunc func(vgpuInstance nvml.VgpuInstance) (uint64, nvml.Return)
+	VgpuInstanceGetFbUsageFunc func(vgpuInstance nvml.VgpuInstance) (uint64, error)
 
 	// VgpuInstanceGetFrameRateLimitFunc mocks the VgpuInstanceGetFrameRateLimit method.
-	VgpuInstanceGetFrameRateLimitFunc func(vgpuInstance nvml.VgpuInstance) (uint32, nvml.Return)
+	VgpuInstanceGetFrameRateLimitFunc func(vgpuInstance nvml.VgpuInstance) (uint32, error)
 
 	// VgpuInstanceGetGpuInstanceIdFunc mocks the VgpuInstanceGetGpuInstanceId method.
-	VgpuInstanceGetGpuInstanceIdFunc func(vgpuInstance nvml.VgpuInstance) (int, nvml.Return)
+	VgpuInstanceGetGpuInstanceIdFunc func(vgpuInstance nvml.VgpuInstance) (int, error)
 
 	// VgpuInstanceGetGpuPciIdFunc mocks the VgpuInstanceGetGpuPciId method.
-	VgpuInstanceGetGpuPciIdFunc func(vgpuInstance nvml.VgpuInstance) (string, nvml.Return)
+	VgpuInstanceGetGpuPciIdFunc func(vgpuInstance nvml.VgpuInstance) (string, error)
 
 	// VgpuInstanceGetLicenseInfoFunc mocks the VgpuInstanceGetLicenseInfo method.
-	VgpuInstanceGetLicenseInfoFunc func(vgpuInstance nvml.VgpuInstance) (nvml.VgpuLicenseInfo, nvml.Return)
+	VgpuInstanceGetLicenseInfoFunc func(vgpuInstance nvml.VgpuInstance) (nvml.VgpuLicenseInfo, error)
 
 	// VgpuInstanceGetLicenseStatusFunc mocks the VgpuInstanceGetLicenseStatus method.
-	VgpuInstanceGetLicenseStatusFunc func(vgpuInstance nvml.VgpuInstance) (int, nvml.Return)
+	VgpuInstanceGetLicenseStatusFunc func(vgpuInstance nvml.VgpuInstance) (int, error)
 
 	// VgpuInstanceGetMdevUUIDFunc mocks the VgpuInstanceGetMdevUUID method.
-	VgpuInstanceGetMdevUUIDFunc func(vgpuInstance nvml.VgpuInstance) (string, nvml.Return)
+	VgpuInstanceGetMdevUUIDFunc func(vgpuInstance nvml.VgpuInstance) (string, error)
 
 	// VgpuInstanceGetMetadataFunc mocks the VgpuInstanceGetMetadata method.
-	VgpuInstanceGetMetadataFunc func(vgpuInstance nvml.VgpuInstance) (nvml.VgpuMetadata, nvml.Return)
+	VgpuInstanceGetMetadataFunc func(vgpuInstance nvml.VgpuInstance) (nvml.VgpuMetadata, error)
 
 	// VgpuInstanceGetTypeFunc mocks the VgpuInstanceGetType method.
-	VgpuInstanceGetTypeFunc func(vgpuInstance nvml.VgpuInstance) (nvml.VgpuTypeId, nvml.Return)
+	VgpuInstanceGetTypeFunc func(vgpuInstance nvml.VgpuInstance) (nvml.VgpuTypeId, error)
 
 	// VgpuInstanceGetUUIDFunc mocks the VgpuInstanceGetUUID method.
-	VgpuInstanceGetUUIDFunc func(vgpuInstance nvml.VgpuInstance) (string, nvml.Return)
+	VgpuInstanceGetUUIDFunc func(vgpuInstance nvml.VgpuInstance) (string, error)
 
 	// VgpuInstanceGetVmDriverVersionFunc mocks the VgpuInstanceGetVmDriverVersion method.
-	VgpuInstanceGetVmDriverVersionFunc func(vgpuInstance nvml.VgpuInstance) (string, nvml.Return)
+	VgpuInstanceGetVmDriverVersionFunc func(vgpuInstance nvml.VgpuInstance) (string, error)
 
 	// VgpuInstanceGetVmIDFunc mocks the VgpuInstanceGetVmID method.
-	VgpuInstanceGetVmIDFunc func(vgpuInstance nvml.VgpuInstance) (string, nvml.VgpuVmIdType, nvml.Return)
+	VgpuInstanceGetVmIDFunc func(vgpuInstance nvml.VgpuInstance) (string, nvml.VgpuVmIdType, error)
 
 	// VgpuInstanceSetEncoderCapacityFunc mocks the VgpuInstanceSetEncoderCapacity method.
-	VgpuInstanceSetEncoderCapacityFunc func(vgpuInstance nvml.VgpuInstance, n int) nvml.Return
+	VgpuInstanceSetEncoderCapacityFunc func(vgpuInstance nvml.VgpuInstance, n int) error
 
 	// VgpuTypeGetCapabilitiesFunc mocks the VgpuTypeGetCapabilities method.
-	VgpuTypeGetCapabilitiesFunc func(vgpuTypeId nvml.VgpuTypeId, vgpuCapability nvml.VgpuCapability) (bool, nvml.Return)
+	VgpuTypeGetCapabilitiesFunc func(vgpuTypeId nvml.VgpuTypeId, vgpuCapability nvml.VgpuCapability) (bool, error)
 
 	// VgpuTypeGetClassFunc mocks the VgpuTypeGetClass method.
-	VgpuTypeGetClassFunc func(vgpuTypeId nvml.VgpuTypeId) (string, nvml.Return)
+	VgpuTypeGetClassFunc func(vgpuTypeId nvml.VgpuTypeId) (string, error)
 
 	// VgpuTypeGetDeviceIDFunc mocks the VgpuTypeGetDeviceID method.
-	VgpuTypeGetDeviceIDFunc func(vgpuTypeId nvml.VgpuTypeId) (uint64, uint64, nvml.Return)
+	VgpuTypeGetDeviceIDFunc func(vgpuTypeId nvml.VgpuTypeId) (uint64, uint64, error)
 
 	// VgpuTypeGetFrameRateLimitFunc mocks the VgpuTypeGetFrameRateLimit method.
-	VgpuTypeGetFrameRateLimitFunc func(vgpuTypeId nvml.VgpuTypeId) (uint32, nvml.Return)
+	VgpuTypeGetFrameRateLimitFunc func(vgpuTypeId nvml.VgpuTypeId) (uint32, error)
 
 	// VgpuTypeGetFramebufferSizeFunc mocks the VgpuTypeGetFramebufferSize method.
-	VgpuTypeGetFramebufferSizeFunc func(vgpuTypeId nvml.VgpuTypeId) (uint64, nvml.Return)
+	VgpuTypeGetFramebufferSizeFunc func(vgpuTypeId nvml.VgpuTypeId) (uint64, error)
 
 	// VgpuTypeGetGpuInstanceProfileIdFunc mocks the VgpuTypeGetGpuInstanceProfileId method.
-	VgpuTypeGetGpuInstanceProfileIdFunc func(vgpuTypeId nvml.VgpuTypeId) (uint32, nvml.Return)
+	VgpuTypeGetGpuInstanceProfileIdFunc func(vgpuTypeId nvml.VgpuTypeId) (uint32, error)
 
 	// VgpuTypeGetLicenseFunc mocks the VgpuTypeGetLicense method.
-	VgpuTypeGetLicenseFunc func(vgpuTypeId nvml.VgpuTypeId) (string, nvml.Return)
+	VgpuTypeGetLicenseFunc func(vgpuTypeId nvml.VgpuTypeId) (string, error)
 
 	// VgpuTypeGetMaxInstancesFunc mocks the VgpuTypeGetMaxInstances method.
-	VgpuTypeGetMaxInstancesFunc func(device nvml.Device, vgpuTypeId nvml.VgpuTypeId) (int, nvml.Return)
+	VgpuTypeGetMaxInstancesFunc func(device nvml.Device, vgpuTypeId nvml.VgpuTypeId) (int, error)
 
 	// VgpuTypeGetMaxInstancesPerVmFunc mocks the VgpuTypeGetMaxInstancesPerVm method.
-	VgpuTypeGetMaxInstancesPerVmFunc func(vgpuTypeId nvml.VgpuTypeId) (int, nvml.Return)
+	VgpuTypeGetMaxInstancesPerVmFunc func(vgpuTypeId nvml.VgpuTypeId) (int, error)
 
 	// VgpuTypeGetNameFunc mocks the VgpuTypeGetName method.
-	VgpuTypeGetNameFunc func(vgpuTypeId nvml.VgpuTypeId) (string, nvml.Return)
+	VgpuTypeGetNameFunc func(vgpuTypeId nvml.VgpuTypeId) (string, error)
 
 	// VgpuTypeGetNumDisplayHeadsFunc mocks the VgpuTypeGetNumDisplayHeads method.
-	VgpuTypeGetNumDisplayHeadsFunc func(vgpuTypeId nvml.VgpuTypeId) (int, nvml.Return)
+	VgpuTypeGetNumDisplayHeadsFunc func(vgpuTypeId nvml.VgpuTypeId) (int, error)
 
 	// VgpuTypeGetResolutionFunc mocks the VgpuTypeGetResolution method.
-	VgpuTypeGetResolutionFunc func(vgpuTypeId nvml.VgpuTypeId, n int) (uint32, uint32, nvml.Return)
+	VgpuTypeGetResolutionFunc func(vgpuTypeId nvml.VgpuTypeId, n int) (uint32, uint32, error)
 
 	// calls tracks calls to the methods.
 	calls struct {
@@ -4148,7 +4147,7 @@ type Interface struct {
 }
 
 // ComputeInstanceDestroy calls ComputeInstanceDestroyFunc.
-func (mock *Interface) ComputeInstanceDestroy(computeInstance nvml.ComputeInstance) nvml.Return {
+func (mock *Interface) ComputeInstanceDestroy(computeInstance nvml.ComputeInstance) error {
 	if mock.ComputeInstanceDestroyFunc == nil {
 		panic("Interface.ComputeInstanceDestroyFunc: method is nil but Interface.ComputeInstanceDestroy was just called")
 	}
@@ -4180,7 +4179,7 @@ func (mock *Interface) ComputeInstanceDestroyCalls() []struct {
 }
 
 // ComputeInstanceGetInfo calls ComputeInstanceGetInfoFunc.
-func (mock *Interface) ComputeInstanceGetInfo(computeInstance nvml.ComputeInstance) (nvml.ComputeInstanceInfo, nvml.Return) {
+func (mock *Interface) ComputeInstanceGetInfo(computeInstance nvml.ComputeInstance) (nvml.ComputeInstanceInfo, error) {
 	if mock.ComputeInstanceGetInfoFunc == nil {
 		panic("Interface.ComputeInstanceGetInfoFunc: method is nil but Interface.ComputeInstanceGetInfo was just called")
 	}
@@ -4212,7 +4211,7 @@ func (mock *Interface) ComputeInstanceGetInfoCalls() []struct {
 }
 
 // DeviceClearAccountingPids calls DeviceClearAccountingPidsFunc.
-func (mock *Interface) DeviceClearAccountingPids(device nvml.Device) nvml.Return {
+func (mock *Interface) DeviceClearAccountingPids(device nvml.Device) error {
 	if mock.DeviceClearAccountingPidsFunc == nil {
 		panic("Interface.DeviceClearAccountingPidsFunc: method is nil but Interface.DeviceClearAccountingPids was just called")
 	}
@@ -4244,7 +4243,7 @@ func (mock *Interface) DeviceClearAccountingPidsCalls() []struct {
 }
 
 // DeviceClearCpuAffinity calls DeviceClearCpuAffinityFunc.
-func (mock *Interface) DeviceClearCpuAffinity(device nvml.Device) nvml.Return {
+func (mock *Interface) DeviceClearCpuAffinity(device nvml.Device) error {
 	if mock.DeviceClearCpuAffinityFunc == nil {
 		panic("Interface.DeviceClearCpuAffinityFunc: method is nil but Interface.DeviceClearCpuAffinity was just called")
 	}
@@ -4276,7 +4275,7 @@ func (mock *Interface) DeviceClearCpuAffinityCalls() []struct {
 }
 
 // DeviceClearEccErrorCounts calls DeviceClearEccErrorCountsFunc.
-func (mock *Interface) DeviceClearEccErrorCounts(device nvml.Device, eccCounterType nvml.EccCounterType) nvml.Return {
+func (mock *Interface) DeviceClearEccErrorCounts(device nvml.Device, eccCounterType nvml.EccCounterType) error {
 	if mock.DeviceClearEccErrorCountsFunc == nil {
 		panic("Interface.DeviceClearEccErrorCountsFunc: method is nil but Interface.DeviceClearEccErrorCounts was just called")
 	}
@@ -4312,7 +4311,7 @@ func (mock *Interface) DeviceClearEccErrorCountsCalls() []struct {
 }
 
 // DeviceClearFieldValues calls DeviceClearFieldValuesFunc.
-func (mock *Interface) DeviceClearFieldValues(device nvml.Device, fieldValues []nvml.FieldValue) nvml.Return {
+func (mock *Interface) DeviceClearFieldValues(device nvml.Device, fieldValues []nvml.FieldValue) error {
 	if mock.DeviceClearFieldValuesFunc == nil {
 		panic("Interface.DeviceClearFieldValuesFunc: method is nil but Interface.DeviceClearFieldValues was just called")
 	}
@@ -4348,7 +4347,7 @@ func (mock *Interface) DeviceClearFieldValuesCalls() []struct {
 }
 
 // DeviceCreateGpuInstance calls DeviceCreateGpuInstanceFunc.
-func (mock *Interface) DeviceCreateGpuInstance(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo) (nvml.GpuInstance, nvml.Return) {
+func (mock *Interface) DeviceCreateGpuInstance(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo) (nvml.GpuInstance, error) {
 	if mock.DeviceCreateGpuInstanceFunc == nil {
 		panic("Interface.DeviceCreateGpuInstanceFunc: method is nil but Interface.DeviceCreateGpuInstance was just called")
 	}
@@ -4384,7 +4383,7 @@ func (mock *Interface) DeviceCreateGpuInstanceCalls() []struct {
 }
 
 // DeviceCreateGpuInstanceWithPlacement calls DeviceCreateGpuInstanceWithPlacementFunc.
-func (mock *Interface) DeviceCreateGpuInstanceWithPlacement(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo, gpuInstancePlacement *nvml.GpuInstancePlacement) (nvml.GpuInstance, nvml.Return) {
+func (mock *Interface) DeviceCreateGpuInstanceWithPlacement(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo, gpuInstancePlacement *nvml.GpuInstancePlacement) (nvml.GpuInstance, error) {
 	if mock.DeviceCreateGpuInstanceWithPlacementFunc == nil {
 		panic("Interface.DeviceCreateGpuInstanceWithPlacementFunc: method is nil but Interface.DeviceCreateGpuInstanceWithPlacement was just called")
 	}
@@ -4424,7 +4423,7 @@ func (mock *Interface) DeviceCreateGpuInstanceWithPlacementCalls() []struct {
 }
 
 // DeviceDiscoverGpus calls DeviceDiscoverGpusFunc.
-func (mock *Interface) DeviceDiscoverGpus() (nvml.PciInfo, nvml.Return) {
+func (mock *Interface) DeviceDiscoverGpus() (nvml.PciInfo, error) {
 	if mock.DeviceDiscoverGpusFunc == nil {
 		panic("Interface.DeviceDiscoverGpusFunc: method is nil but Interface.DeviceDiscoverGpus was just called")
 	}
@@ -4451,7 +4450,7 @@ func (mock *Interface) DeviceDiscoverGpusCalls() []struct {
 }
 
 // DeviceFreezeNvLinkUtilizationCounter calls DeviceFreezeNvLinkUtilizationCounterFunc.
-func (mock *Interface) DeviceFreezeNvLinkUtilizationCounter(device nvml.Device, n1 int, n2 int, enableState nvml.EnableState) nvml.Return {
+func (mock *Interface) DeviceFreezeNvLinkUtilizationCounter(device nvml.Device, n1 int, n2 int, enableState nvml.EnableState) error {
 	if mock.DeviceFreezeNvLinkUtilizationCounterFunc == nil {
 		panic("Interface.DeviceFreezeNvLinkUtilizationCounterFunc: method is nil but Interface.DeviceFreezeNvLinkUtilizationCounter was just called")
 	}
@@ -4495,7 +4494,7 @@ func (mock *Interface) DeviceFreezeNvLinkUtilizationCounterCalls() []struct {
 }
 
 // DeviceGetAPIRestriction calls DeviceGetAPIRestrictionFunc.
-func (mock *Interface) DeviceGetAPIRestriction(device nvml.Device, restrictedAPI nvml.RestrictedAPI) (nvml.EnableState, nvml.Return) {
+func (mock *Interface) DeviceGetAPIRestriction(device nvml.Device, restrictedAPI nvml.RestrictedAPI) (nvml.EnableState, error) {
 	if mock.DeviceGetAPIRestrictionFunc == nil {
 		panic("Interface.DeviceGetAPIRestrictionFunc: method is nil but Interface.DeviceGetAPIRestriction was just called")
 	}
@@ -4531,7 +4530,7 @@ func (mock *Interface) DeviceGetAPIRestrictionCalls() []struct {
 }
 
 // DeviceGetAccountingBufferSize calls DeviceGetAccountingBufferSizeFunc.
-func (mock *Interface) DeviceGetAccountingBufferSize(device nvml.Device) (int, nvml.Return) {
+func (mock *Interface) DeviceGetAccountingBufferSize(device nvml.Device) (int, error) {
 	if mock.DeviceGetAccountingBufferSizeFunc == nil {
 		panic("Interface.DeviceGetAccountingBufferSizeFunc: method is nil but Interface.DeviceGetAccountingBufferSize was just called")
 	}
@@ -4563,7 +4562,7 @@ func (mock *Interface) DeviceGetAccountingBufferSizeCalls() []struct {
 }
 
 // DeviceGetAccountingMode calls DeviceGetAccountingModeFunc.
-func (mock *Interface) DeviceGetAccountingMode(device nvml.Device) (nvml.EnableState, nvml.Return) {
+func (mock *Interface) DeviceGetAccountingMode(device nvml.Device) (nvml.EnableState, error) {
 	if mock.DeviceGetAccountingModeFunc == nil {
 		panic("Interface.DeviceGetAccountingModeFunc: method is nil but Interface.DeviceGetAccountingMode was just called")
 	}
@@ -4595,7 +4594,7 @@ func (mock *Interface) DeviceGetAccountingModeCalls() []struct {
 }
 
 // DeviceGetAccountingPids calls DeviceGetAccountingPidsFunc.
-func (mock *Interface) DeviceGetAccountingPids(device nvml.Device) ([]int, nvml.Return) {
+func (mock *Interface) DeviceGetAccountingPids(device nvml.Device) ([]int, error) {
 	if mock.DeviceGetAccountingPidsFunc == nil {
 		panic("Interface.DeviceGetAccountingPidsFunc: method is nil but Interface.DeviceGetAccountingPids was just called")
 	}
@@ -4627,7 +4626,7 @@ func (mock *Interface) DeviceGetAccountingPidsCalls() []struct {
 }
 
 // DeviceGetAccountingStats calls DeviceGetAccountingStatsFunc.
-func (mock *Interface) DeviceGetAccountingStats(device nvml.Device, v uint32) (nvml.AccountingStats, nvml.Return) {
+func (mock *Interface) DeviceGetAccountingStats(device nvml.Device, v uint32) (nvml.AccountingStats, error) {
 	if mock.DeviceGetAccountingStatsFunc == nil {
 		panic("Interface.DeviceGetAccountingStatsFunc: method is nil but Interface.DeviceGetAccountingStats was just called")
 	}
@@ -4663,7 +4662,7 @@ func (mock *Interface) DeviceGetAccountingStatsCalls() []struct {
 }
 
 // DeviceGetActiveVgpus calls DeviceGetActiveVgpusFunc.
-func (mock *Interface) DeviceGetActiveVgpus(device nvml.Device) ([]nvml.VgpuInstance, nvml.Return) {
+func (mock *Interface) DeviceGetActiveVgpus(device nvml.Device) ([]nvml.VgpuInstance, error) {
 	if mock.DeviceGetActiveVgpusFunc == nil {
 		panic("Interface.DeviceGetActiveVgpusFunc: method is nil but Interface.DeviceGetActiveVgpus was just called")
 	}
@@ -4695,7 +4694,7 @@ func (mock *Interface) DeviceGetActiveVgpusCalls() []struct {
 }
 
 // DeviceGetAdaptiveClockInfoStatus calls DeviceGetAdaptiveClockInfoStatusFunc.
-func (mock *Interface) DeviceGetAdaptiveClockInfoStatus(device nvml.Device) (uint32, nvml.Return) {
+func (mock *Interface) DeviceGetAdaptiveClockInfoStatus(device nvml.Device) (uint32, error) {
 	if mock.DeviceGetAdaptiveClockInfoStatusFunc == nil {
 		panic("Interface.DeviceGetAdaptiveClockInfoStatusFunc: method is nil but Interface.DeviceGetAdaptiveClockInfoStatus was just called")
 	}
@@ -4727,7 +4726,7 @@ func (mock *Interface) DeviceGetAdaptiveClockInfoStatusCalls() []struct {
 }
 
 // DeviceGetApplicationsClock calls DeviceGetApplicationsClockFunc.
-func (mock *Interface) DeviceGetApplicationsClock(device nvml.Device, clockType nvml.ClockType) (uint32, nvml.Return) {
+func (mock *Interface) DeviceGetApplicationsClock(device nvml.Device, clockType nvml.ClockType) (uint32, error) {
 	if mock.DeviceGetApplicationsClockFunc == nil {
 		panic("Interface.DeviceGetApplicationsClockFunc: method is nil but Interface.DeviceGetApplicationsClock was just called")
 	}
@@ -4763,7 +4762,7 @@ func (mock *Interface) DeviceGetApplicationsClockCalls() []struct {
 }
 
 // DeviceGetArchitecture calls DeviceGetArchitectureFunc.
-func (mock *Interface) DeviceGetArchitecture(device nvml.Device) (nvml.DeviceArchitecture, nvml.Return) {
+func (mock *Interface) DeviceGetArchitecture(device nvml.Device) (nvml.DeviceArchitecture, error) {
 	if mock.DeviceGetArchitectureFunc == nil {
 		panic("Interface.DeviceGetArchitectureFunc: method is nil but Interface.DeviceGetArchitecture was just called")
 	}
@@ -4795,7 +4794,7 @@ func (mock *Interface) DeviceGetArchitectureCalls() []struct {
 }
 
 // DeviceGetAttributes calls DeviceGetAttributesFunc.
-func (mock *Interface) DeviceGetAttributes(device nvml.Device) (nvml.DeviceAttributes, nvml.Return) {
+func (mock *Interface) DeviceGetAttributes(device nvml.Device) (nvml.DeviceAttributes, error) {
 	if mock.DeviceGetAttributesFunc == nil {
 		panic("Interface.DeviceGetAttributesFunc: method is nil but Interface.DeviceGetAttributes was just called")
 	}
@@ -4827,7 +4826,7 @@ func (mock *Interface) DeviceGetAttributesCalls() []struct {
 }
 
 // DeviceGetAutoBoostedClocksEnabled calls DeviceGetAutoBoostedClocksEnabledFunc.
-func (mock *Interface) DeviceGetAutoBoostedClocksEnabled(device nvml.Device) (nvml.EnableState, nvml.EnableState, nvml.Return) {
+func (mock *Interface) DeviceGetAutoBoostedClocksEnabled(device nvml.Device) (nvml.EnableState, nvml.EnableState, error) {
 	if mock.DeviceGetAutoBoostedClocksEnabledFunc == nil {
 		panic("Interface.DeviceGetAutoBoostedClocksEnabledFunc: method is nil but Interface.DeviceGetAutoBoostedClocksEnabled was just called")
 	}
@@ -4859,7 +4858,7 @@ func (mock *Interface) DeviceGetAutoBoostedClocksEnabledCalls() []struct {
 }
 
 // DeviceGetBAR1MemoryInfo calls DeviceGetBAR1MemoryInfoFunc.
-func (mock *Interface) DeviceGetBAR1MemoryInfo(device nvml.Device) (nvml.BAR1Memory, nvml.Return) {
+func (mock *Interface) DeviceGetBAR1MemoryInfo(device nvml.Device) (nvml.BAR1Memory, error) {
 	if mock.DeviceGetBAR1MemoryInfoFunc == nil {
 		panic("Interface.DeviceGetBAR1MemoryInfoFunc: method is nil but Interface.DeviceGetBAR1MemoryInfo was just called")
 	}
@@ -4891,7 +4890,7 @@ func (mock *Interface) DeviceGetBAR1MemoryInfoCalls() []struct {
 }
 
 // DeviceGetBoardId calls DeviceGetBoardIdFunc.
-func (mock *Interface) DeviceGetBoardId(device nvml.Device) (uint32, nvml.Return) {
+func (mock *Interface) DeviceGetBoardId(device nvml.Device) (uint32, error) {
 	if mock.DeviceGetBoardIdFunc == nil {
 		panic("Interface.DeviceGetBoardIdFunc: method is nil but Interface.DeviceGetBoardId was just called")
 	}
@@ -4923,7 +4922,7 @@ func (mock *Interface) DeviceGetBoardIdCalls() []struct {
 }
 
 // DeviceGetBoardPartNumber calls DeviceGetBoardPartNumberFunc.
-func (mock *Interface) DeviceGetBoardPartNumber(device nvml.Device) (string, nvml.Return) {
+func (mock *Interface) DeviceGetBoardPartNumber(device nvml.Device) (string, error) {
 	if mock.DeviceGetBoardPartNumberFunc == nil {
 		panic("Interface.DeviceGetBoardPartNumberFunc: method is nil but Interface.DeviceGetBoardPartNumber was just called")
 	}
@@ -4955,7 +4954,7 @@ func (mock *Interface) DeviceGetBoardPartNumberCalls() []struct {
 }
 
 // DeviceGetBrand calls DeviceGetBrandFunc.
-func (mock *Interface) DeviceGetBrand(device nvml.Device) (nvml.BrandType, nvml.Return) {
+func (mock *Interface) DeviceGetBrand(device nvml.Device) (nvml.BrandType, error) {
 	if mock.DeviceGetBrandFunc == nil {
 		panic("Interface.DeviceGetBrandFunc: method is nil but Interface.DeviceGetBrand was just called")
 	}
@@ -4987,7 +4986,7 @@ func (mock *Interface) DeviceGetBrandCalls() []struct {
 }
 
 // DeviceGetBridgeChipInfo calls DeviceGetBridgeChipInfoFunc.
-func (mock *Interface) DeviceGetBridgeChipInfo(device nvml.Device) (nvml.BridgeChipHierarchy, nvml.Return) {
+func (mock *Interface) DeviceGetBridgeChipInfo(device nvml.Device) (nvml.BridgeChipHierarchy, error) {
 	if mock.DeviceGetBridgeChipInfoFunc == nil {
 		panic("Interface.DeviceGetBridgeChipInfoFunc: method is nil but Interface.DeviceGetBridgeChipInfo was just called")
 	}
@@ -5019,7 +5018,7 @@ func (mock *Interface) DeviceGetBridgeChipInfoCalls() []struct {
 }
 
 // DeviceGetBusType calls DeviceGetBusTypeFunc.
-func (mock *Interface) DeviceGetBusType(device nvml.Device) (nvml.BusType, nvml.Return) {
+func (mock *Interface) DeviceGetBusType(device nvml.Device) (nvml.BusType, error) {
 	if mock.DeviceGetBusTypeFunc == nil {
 		panic("Interface.DeviceGetBusTypeFunc: method is nil but Interface.DeviceGetBusType was just called")
 	}
@@ -5083,7 +5082,7 @@ func (mock *Interface) DeviceGetC2cModeInfoVCalls() []struct {
 }
 
 // DeviceGetClkMonStatus calls DeviceGetClkMonStatusFunc.
-func (mock *Interface) DeviceGetClkMonStatus(device nvml.Device) (nvml.ClkMonStatus, nvml.Return) {
+func (mock *Interface) DeviceGetClkMonStatus(device nvml.Device) (nvml.ClkMonStatus, error) {
 	if mock.DeviceGetClkMonStatusFunc == nil {
 		panic("Interface.DeviceGetClkMonStatusFunc: method is nil but Interface.DeviceGetClkMonStatus was just called")
 	}
@@ -5115,7 +5114,7 @@ func (mock *Interface) DeviceGetClkMonStatusCalls() []struct {
 }
 
 // DeviceGetClock calls DeviceGetClockFunc.
-func (mock *Interface) DeviceGetClock(device nvml.Device, clockType nvml.ClockType, clockId nvml.ClockId) (uint32, nvml.Return) {
+func (mock *Interface) DeviceGetClock(device nvml.Device, clockType nvml.ClockType, clockId nvml.ClockId) (uint32, error) {
 	if mock.DeviceGetClockFunc == nil {
 		panic("Interface.DeviceGetClockFunc: method is nil but Interface.DeviceGetClock was just called")
 	}
@@ -5155,7 +5154,7 @@ func (mock *Interface) DeviceGetClockCalls() []struct {
 }
 
 // DeviceGetClockInfo calls DeviceGetClockInfoFunc.
-func (mock *Interface) DeviceGetClockInfo(device nvml.Device, clockType nvml.ClockType) (uint32, nvml.Return) {
+func (mock *Interface) DeviceGetClockInfo(device nvml.Device, clockType nvml.ClockType) (uint32, error) {
 	if mock.DeviceGetClockInfoFunc == nil {
 		panic("Interface.DeviceGetClockInfoFunc: method is nil but Interface.DeviceGetClockInfo was just called")
 	}
@@ -5191,7 +5190,7 @@ func (mock *Interface) DeviceGetClockInfoCalls() []struct {
 }
 
 // DeviceGetComputeInstanceId calls DeviceGetComputeInstanceIdFunc.
-func (mock *Interface) DeviceGetComputeInstanceId(device nvml.Device) (int, nvml.Return) {
+func (mock *Interface) DeviceGetComputeInstanceId(device nvml.Device) (int, error) {
 	if mock.DeviceGetComputeInstanceIdFunc == nil {
 		panic("Interface.DeviceGetComputeInstanceIdFunc: method is nil but Interface.DeviceGetComputeInstanceId was just called")
 	}
@@ -5223,7 +5222,7 @@ func (mock *Interface) DeviceGetComputeInstanceIdCalls() []struct {
 }
 
 // DeviceGetComputeMode calls DeviceGetComputeModeFunc.
-func (mock *Interface) DeviceGetComputeMode(device nvml.Device) (nvml.ComputeMode, nvml.Return) {
+func (mock *Interface) DeviceGetComputeMode(device nvml.Device) (nvml.ComputeMode, error) {
 	if mock.DeviceGetComputeModeFunc == nil {
 		panic("Interface.DeviceGetComputeModeFunc: method is nil but Interface.DeviceGetComputeMode was just called")
 	}
@@ -5255,7 +5254,7 @@ func (mock *Interface) DeviceGetComputeModeCalls() []struct {
 }
 
 // DeviceGetComputeRunningProcesses calls DeviceGetComputeRunningProcessesFunc.
-func (mock *Interface) DeviceGetComputeRunningProcesses(device nvml.Device) ([]nvml.ProcessInfo, nvml.Return) {
+func (mock *Interface) DeviceGetComputeRunningProcesses(device nvml.Device) ([]nvml.ProcessInfo, error) {
 	if mock.DeviceGetComputeRunningProcessesFunc == nil {
 		panic("Interface.DeviceGetComputeRunningProcessesFunc: method is nil but Interface.DeviceGetComputeRunningProcesses was just called")
 	}
@@ -5287,7 +5286,7 @@ func (mock *Interface) DeviceGetComputeRunningProcessesCalls() []struct {
 }
 
 // DeviceGetConfComputeGpuAttestationReport calls DeviceGetConfComputeGpuAttestationReportFunc.
-func (mock *Interface) DeviceGetConfComputeGpuAttestationReport(device nvml.Device) (nvml.ConfComputeGpuAttestationReport, nvml.Return) {
+func (mock *Interface) DeviceGetConfComputeGpuAttestationReport(device nvml.Device) (nvml.ConfComputeGpuAttestationReport, error) {
 	if mock.DeviceGetConfComputeGpuAttestationReportFunc == nil {
 		panic("Interface.DeviceGetConfComputeGpuAttestationReportFunc: method is nil but Interface.DeviceGetConfComputeGpuAttestationReport was just called")
 	}
@@ -5319,7 +5318,7 @@ func (mock *Interface) DeviceGetConfComputeGpuAttestationReportCalls() []struct 
 }
 
 // DeviceGetConfComputeGpuCertificate calls DeviceGetConfComputeGpuCertificateFunc.
-func (mock *Interface) DeviceGetConfComputeGpuCertificate(device nvml.Device) (nvml.ConfComputeGpuCertificate, nvml.Return) {
+func (mock *Interface) DeviceGetConfComputeGpuCertificate(device nvml.Device) (nvml.ConfComputeGpuCertificate, error) {
 	if mock.DeviceGetConfComputeGpuCertificateFunc == nil {
 		panic("Interface.DeviceGetConfComputeGpuCertificateFunc: method is nil but Interface.DeviceGetConfComputeGpuCertificate was just called")
 	}
@@ -5351,7 +5350,7 @@ func (mock *Interface) DeviceGetConfComputeGpuCertificateCalls() []struct {
 }
 
 // DeviceGetConfComputeMemSizeInfo calls DeviceGetConfComputeMemSizeInfoFunc.
-func (mock *Interface) DeviceGetConfComputeMemSizeInfo(device nvml.Device) (nvml.ConfComputeMemSizeInfo, nvml.Return) {
+func (mock *Interface) DeviceGetConfComputeMemSizeInfo(device nvml.Device) (nvml.ConfComputeMemSizeInfo, error) {
 	if mock.DeviceGetConfComputeMemSizeInfoFunc == nil {
 		panic("Interface.DeviceGetConfComputeMemSizeInfoFunc: method is nil but Interface.DeviceGetConfComputeMemSizeInfo was just called")
 	}
@@ -5383,7 +5382,7 @@ func (mock *Interface) DeviceGetConfComputeMemSizeInfoCalls() []struct {
 }
 
 // DeviceGetConfComputeProtectedMemoryUsage calls DeviceGetConfComputeProtectedMemoryUsageFunc.
-func (mock *Interface) DeviceGetConfComputeProtectedMemoryUsage(device nvml.Device) (nvml.Memory, nvml.Return) {
+func (mock *Interface) DeviceGetConfComputeProtectedMemoryUsage(device nvml.Device) (nvml.Memory, error) {
 	if mock.DeviceGetConfComputeProtectedMemoryUsageFunc == nil {
 		panic("Interface.DeviceGetConfComputeProtectedMemoryUsageFunc: method is nil but Interface.DeviceGetConfComputeProtectedMemoryUsage was just called")
 	}
@@ -5415,7 +5414,7 @@ func (mock *Interface) DeviceGetConfComputeProtectedMemoryUsageCalls() []struct 
 }
 
 // DeviceGetCount calls DeviceGetCountFunc.
-func (mock *Interface) DeviceGetCount() (int, nvml.Return) {
+func (mock *Interface) DeviceGetCount() (int, error) {
 	if mock.DeviceGetCountFunc == nil {
 		panic("Interface.DeviceGetCountFunc: method is nil but Interface.DeviceGetCount was just called")
 	}
@@ -5442,7 +5441,7 @@ func (mock *Interface) DeviceGetCountCalls() []struct {
 }
 
 // DeviceGetCpuAffinity calls DeviceGetCpuAffinityFunc.
-func (mock *Interface) DeviceGetCpuAffinity(device nvml.Device, n int) ([]uint, nvml.Return) {
+func (mock *Interface) DeviceGetCpuAffinity(device nvml.Device, n int) ([]uint, error) {
 	if mock.DeviceGetCpuAffinityFunc == nil {
 		panic("Interface.DeviceGetCpuAffinityFunc: method is nil but Interface.DeviceGetCpuAffinity was just called")
 	}
@@ -5478,7 +5477,7 @@ func (mock *Interface) DeviceGetCpuAffinityCalls() []struct {
 }
 
 // DeviceGetCpuAffinityWithinScope calls DeviceGetCpuAffinityWithinScopeFunc.
-func (mock *Interface) DeviceGetCpuAffinityWithinScope(device nvml.Device, n int, affinityScope nvml.AffinityScope) ([]uint, nvml.Return) {
+func (mock *Interface) DeviceGetCpuAffinityWithinScope(device nvml.Device, n int, affinityScope nvml.AffinityScope) ([]uint, error) {
 	if mock.DeviceGetCpuAffinityWithinScopeFunc == nil {
 		panic("Interface.DeviceGetCpuAffinityWithinScopeFunc: method is nil but Interface.DeviceGetCpuAffinityWithinScope was just called")
 	}
@@ -5518,7 +5517,7 @@ func (mock *Interface) DeviceGetCpuAffinityWithinScopeCalls() []struct {
 }
 
 // DeviceGetCreatableVgpus calls DeviceGetCreatableVgpusFunc.
-func (mock *Interface) DeviceGetCreatableVgpus(device nvml.Device) ([]nvml.VgpuTypeId, nvml.Return) {
+func (mock *Interface) DeviceGetCreatableVgpus(device nvml.Device) ([]nvml.VgpuTypeId, error) {
 	if mock.DeviceGetCreatableVgpusFunc == nil {
 		panic("Interface.DeviceGetCreatableVgpusFunc: method is nil but Interface.DeviceGetCreatableVgpus was just called")
 	}
@@ -5550,7 +5549,7 @@ func (mock *Interface) DeviceGetCreatableVgpusCalls() []struct {
 }
 
 // DeviceGetCudaComputeCapability calls DeviceGetCudaComputeCapabilityFunc.
-func (mock *Interface) DeviceGetCudaComputeCapability(device nvml.Device) (int, int, nvml.Return) {
+func (mock *Interface) DeviceGetCudaComputeCapability(device nvml.Device) (int, int, error) {
 	if mock.DeviceGetCudaComputeCapabilityFunc == nil {
 		panic("Interface.DeviceGetCudaComputeCapabilityFunc: method is nil but Interface.DeviceGetCudaComputeCapability was just called")
 	}
@@ -5582,7 +5581,7 @@ func (mock *Interface) DeviceGetCudaComputeCapabilityCalls() []struct {
 }
 
 // DeviceGetCurrPcieLinkGeneration calls DeviceGetCurrPcieLinkGenerationFunc.
-func (mock *Interface) DeviceGetCurrPcieLinkGeneration(device nvml.Device) (int, nvml.Return) {
+func (mock *Interface) DeviceGetCurrPcieLinkGeneration(device nvml.Device) (int, error) {
 	if mock.DeviceGetCurrPcieLinkGenerationFunc == nil {
 		panic("Interface.DeviceGetCurrPcieLinkGenerationFunc: method is nil but Interface.DeviceGetCurrPcieLinkGeneration was just called")
 	}
@@ -5614,7 +5613,7 @@ func (mock *Interface) DeviceGetCurrPcieLinkGenerationCalls() []struct {
 }
 
 // DeviceGetCurrPcieLinkWidth calls DeviceGetCurrPcieLinkWidthFunc.
-func (mock *Interface) DeviceGetCurrPcieLinkWidth(device nvml.Device) (int, nvml.Return) {
+func (mock *Interface) DeviceGetCurrPcieLinkWidth(device nvml.Device) (int, error) {
 	if mock.DeviceGetCurrPcieLinkWidthFunc == nil {
 		panic("Interface.DeviceGetCurrPcieLinkWidthFunc: method is nil but Interface.DeviceGetCurrPcieLinkWidth was just called")
 	}
@@ -5646,7 +5645,7 @@ func (mock *Interface) DeviceGetCurrPcieLinkWidthCalls() []struct {
 }
 
 // DeviceGetCurrentClocksEventReasons calls DeviceGetCurrentClocksEventReasonsFunc.
-func (mock *Interface) DeviceGetCurrentClocksEventReasons(device nvml.Device) (uint64, nvml.Return) {
+func (mock *Interface) DeviceGetCurrentClocksEventReasons(device nvml.Device) (uint64, error) {
 	if mock.DeviceGetCurrentClocksEventReasonsFunc == nil {
 		panic("Interface.DeviceGetCurrentClocksEventReasonsFunc: method is nil but Interface.DeviceGetCurrentClocksEventReasons was just called")
 	}
@@ -5678,7 +5677,7 @@ func (mock *Interface) DeviceGetCurrentClocksEventReasonsCalls() []struct {
 }
 
 // DeviceGetCurrentClocksThrottleReasons calls DeviceGetCurrentClocksThrottleReasonsFunc.
-func (mock *Interface) DeviceGetCurrentClocksThrottleReasons(device nvml.Device) (uint64, nvml.Return) {
+func (mock *Interface) DeviceGetCurrentClocksThrottleReasons(device nvml.Device) (uint64, error) {
 	if mock.DeviceGetCurrentClocksThrottleReasonsFunc == nil {
 		panic("Interface.DeviceGetCurrentClocksThrottleReasonsFunc: method is nil but Interface.DeviceGetCurrentClocksThrottleReasons was just called")
 	}
@@ -5710,7 +5709,7 @@ func (mock *Interface) DeviceGetCurrentClocksThrottleReasonsCalls() []struct {
 }
 
 // DeviceGetDecoderUtilization calls DeviceGetDecoderUtilizationFunc.
-func (mock *Interface) DeviceGetDecoderUtilization(device nvml.Device) (uint32, uint32, nvml.Return) {
+func (mock *Interface) DeviceGetDecoderUtilization(device nvml.Device) (uint32, uint32, error) {
 	if mock.DeviceGetDecoderUtilizationFunc == nil {
 		panic("Interface.DeviceGetDecoderUtilizationFunc: method is nil but Interface.DeviceGetDecoderUtilization was just called")
 	}
@@ -5742,7 +5741,7 @@ func (mock *Interface) DeviceGetDecoderUtilizationCalls() []struct {
 }
 
 // DeviceGetDefaultApplicationsClock calls DeviceGetDefaultApplicationsClockFunc.
-func (mock *Interface) DeviceGetDefaultApplicationsClock(device nvml.Device, clockType nvml.ClockType) (uint32, nvml.Return) {
+func (mock *Interface) DeviceGetDefaultApplicationsClock(device nvml.Device, clockType nvml.ClockType) (uint32, error) {
 	if mock.DeviceGetDefaultApplicationsClockFunc == nil {
 		panic("Interface.DeviceGetDefaultApplicationsClockFunc: method is nil but Interface.DeviceGetDefaultApplicationsClock was just called")
 	}
@@ -5778,7 +5777,7 @@ func (mock *Interface) DeviceGetDefaultApplicationsClockCalls() []struct {
 }
 
 // DeviceGetDefaultEccMode calls DeviceGetDefaultEccModeFunc.
-func (mock *Interface) DeviceGetDefaultEccMode(device nvml.Device) (nvml.EnableState, nvml.Return) {
+func (mock *Interface) DeviceGetDefaultEccMode(device nvml.Device) (nvml.EnableState, error) {
 	if mock.DeviceGetDefaultEccModeFunc == nil {
 		panic("Interface.DeviceGetDefaultEccModeFunc: method is nil but Interface.DeviceGetDefaultEccMode was just called")
 	}
@@ -5810,7 +5809,7 @@ func (mock *Interface) DeviceGetDefaultEccModeCalls() []struct {
 }
 
 // DeviceGetDetailedEccErrors calls DeviceGetDetailedEccErrorsFunc.
-func (mock *Interface) DeviceGetDetailedEccErrors(device nvml.Device, memoryErrorType nvml.MemoryErrorType, eccCounterType nvml.EccCounterType) (nvml.EccErrorCounts, nvml.Return) {
+func (mock *Interface) DeviceGetDetailedEccErrors(device nvml.Device, memoryErrorType nvml.MemoryErrorType, eccCounterType nvml.EccCounterType) (nvml.EccErrorCounts, error) {
 	if mock.DeviceGetDetailedEccErrorsFunc == nil {
 		panic("Interface.DeviceGetDetailedEccErrorsFunc: method is nil but Interface.DeviceGetDetailedEccErrors was just called")
 	}
@@ -5850,7 +5849,7 @@ func (mock *Interface) DeviceGetDetailedEccErrorsCalls() []struct {
 }
 
 // DeviceGetDeviceHandleFromMigDeviceHandle calls DeviceGetDeviceHandleFromMigDeviceHandleFunc.
-func (mock *Interface) DeviceGetDeviceHandleFromMigDeviceHandle(device nvml.Device) (nvml.Device, nvml.Return) {
+func (mock *Interface) DeviceGetDeviceHandleFromMigDeviceHandle(device nvml.Device) (nvml.Device, error) {
 	if mock.DeviceGetDeviceHandleFromMigDeviceHandleFunc == nil {
 		panic("Interface.DeviceGetDeviceHandleFromMigDeviceHandleFunc: method is nil but Interface.DeviceGetDeviceHandleFromMigDeviceHandle was just called")
 	}
@@ -5882,7 +5881,7 @@ func (mock *Interface) DeviceGetDeviceHandleFromMigDeviceHandleCalls() []struct 
 }
 
 // DeviceGetDisplayActive calls DeviceGetDisplayActiveFunc.
-func (mock *Interface) DeviceGetDisplayActive(device nvml.Device) (nvml.EnableState, nvml.Return) {
+func (mock *Interface) DeviceGetDisplayActive(device nvml.Device) (nvml.EnableState, error) {
 	if mock.DeviceGetDisplayActiveFunc == nil {
 		panic("Interface.DeviceGetDisplayActiveFunc: method is nil but Interface.DeviceGetDisplayActive was just called")
 	}
@@ -5914,7 +5913,7 @@ func (mock *Interface) DeviceGetDisplayActiveCalls() []struct {
 }
 
 // DeviceGetDisplayMode calls DeviceGetDisplayModeFunc.
-func (mock *Interface) DeviceGetDisplayMode(device nvml.Device) (nvml.EnableState, nvml.Return) {
+func (mock *Interface) DeviceGetDisplayMode(device nvml.Device) (nvml.EnableState, error) {
 	if mock.DeviceGetDisplayModeFunc == nil {
 		panic("Interface.DeviceGetDisplayModeFunc: method is nil but Interface.DeviceGetDisplayMode was just called")
 	}
@@ -5946,7 +5945,7 @@ func (mock *Interface) DeviceGetDisplayModeCalls() []struct {
 }
 
 // DeviceGetDriverModel calls DeviceGetDriverModelFunc.
-func (mock *Interface) DeviceGetDriverModel(device nvml.Device) (nvml.DriverModel, nvml.DriverModel, nvml.Return) {
+func (mock *Interface) DeviceGetDriverModel(device nvml.Device) (nvml.DriverModel, nvml.DriverModel, error) {
 	if mock.DeviceGetDriverModelFunc == nil {
 		panic("Interface.DeviceGetDriverModelFunc: method is nil but Interface.DeviceGetDriverModel was just called")
 	}
@@ -5978,7 +5977,7 @@ func (mock *Interface) DeviceGetDriverModelCalls() []struct {
 }
 
 // DeviceGetDynamicPstatesInfo calls DeviceGetDynamicPstatesInfoFunc.
-func (mock *Interface) DeviceGetDynamicPstatesInfo(device nvml.Device) (nvml.GpuDynamicPstatesInfo, nvml.Return) {
+func (mock *Interface) DeviceGetDynamicPstatesInfo(device nvml.Device) (nvml.GpuDynamicPstatesInfo, error) {
 	if mock.DeviceGetDynamicPstatesInfoFunc == nil {
 		panic("Interface.DeviceGetDynamicPstatesInfoFunc: method is nil but Interface.DeviceGetDynamicPstatesInfo was just called")
 	}
@@ -6010,7 +6009,7 @@ func (mock *Interface) DeviceGetDynamicPstatesInfoCalls() []struct {
 }
 
 // DeviceGetEccMode calls DeviceGetEccModeFunc.
-func (mock *Interface) DeviceGetEccMode(device nvml.Device) (nvml.EnableState, nvml.EnableState, nvml.Return) {
+func (mock *Interface) DeviceGetEccMode(device nvml.Device) (nvml.EnableState, nvml.EnableState, error) {
 	if mock.DeviceGetEccModeFunc == nil {
 		panic("Interface.DeviceGetEccModeFunc: method is nil but Interface.DeviceGetEccMode was just called")
 	}
@@ -6042,7 +6041,7 @@ func (mock *Interface) DeviceGetEccModeCalls() []struct {
 }
 
 // DeviceGetEncoderCapacity calls DeviceGetEncoderCapacityFunc.
-func (mock *Interface) DeviceGetEncoderCapacity(device nvml.Device, encoderType nvml.EncoderType) (int, nvml.Return) {
+func (mock *Interface) DeviceGetEncoderCapacity(device nvml.Device, encoderType nvml.EncoderType) (int, error) {
 	if mock.DeviceGetEncoderCapacityFunc == nil {
 		panic("Interface.DeviceGetEncoderCapacityFunc: method is nil but Interface.DeviceGetEncoderCapacity was just called")
 	}
@@ -6078,7 +6077,7 @@ func (mock *Interface) DeviceGetEncoderCapacityCalls() []struct {
 }
 
 // DeviceGetEncoderSessions calls DeviceGetEncoderSessionsFunc.
-func (mock *Interface) DeviceGetEncoderSessions(device nvml.Device) ([]nvml.EncoderSessionInfo, nvml.Return) {
+func (mock *Interface) DeviceGetEncoderSessions(device nvml.Device) ([]nvml.EncoderSessionInfo, error) {
 	if mock.DeviceGetEncoderSessionsFunc == nil {
 		panic("Interface.DeviceGetEncoderSessionsFunc: method is nil but Interface.DeviceGetEncoderSessions was just called")
 	}
@@ -6110,7 +6109,7 @@ func (mock *Interface) DeviceGetEncoderSessionsCalls() []struct {
 }
 
 // DeviceGetEncoderStats calls DeviceGetEncoderStatsFunc.
-func (mock *Interface) DeviceGetEncoderStats(device nvml.Device) (int, uint32, uint32, nvml.Return) {
+func (mock *Interface) DeviceGetEncoderStats(device nvml.Device) (int, uint32, uint32, error) {
 	if mock.DeviceGetEncoderStatsFunc == nil {
 		panic("Interface.DeviceGetEncoderStatsFunc: method is nil but Interface.DeviceGetEncoderStats was just called")
 	}
@@ -6142,7 +6141,7 @@ func (mock *Interface) DeviceGetEncoderStatsCalls() []struct {
 }
 
 // DeviceGetEncoderUtilization calls DeviceGetEncoderUtilizationFunc.
-func (mock *Interface) DeviceGetEncoderUtilization(device nvml.Device) (uint32, uint32, nvml.Return) {
+func (mock *Interface) DeviceGetEncoderUtilization(device nvml.Device) (uint32, uint32, error) {
 	if mock.DeviceGetEncoderUtilizationFunc == nil {
 		panic("Interface.DeviceGetEncoderUtilizationFunc: method is nil but Interface.DeviceGetEncoderUtilization was just called")
 	}
@@ -6174,7 +6173,7 @@ func (mock *Interface) DeviceGetEncoderUtilizationCalls() []struct {
 }
 
 // DeviceGetEnforcedPowerLimit calls DeviceGetEnforcedPowerLimitFunc.
-func (mock *Interface) DeviceGetEnforcedPowerLimit(device nvml.Device) (uint32, nvml.Return) {
+func (mock *Interface) DeviceGetEnforcedPowerLimit(device nvml.Device) (uint32, error) {
 	if mock.DeviceGetEnforcedPowerLimitFunc == nil {
 		panic("Interface.DeviceGetEnforcedPowerLimitFunc: method is nil but Interface.DeviceGetEnforcedPowerLimit was just called")
 	}
@@ -6206,7 +6205,7 @@ func (mock *Interface) DeviceGetEnforcedPowerLimitCalls() []struct {
 }
 
 // DeviceGetFBCSessions calls DeviceGetFBCSessionsFunc.
-func (mock *Interface) DeviceGetFBCSessions(device nvml.Device) ([]nvml.FBCSessionInfo, nvml.Return) {
+func (mock *Interface) DeviceGetFBCSessions(device nvml.Device) ([]nvml.FBCSessionInfo, error) {
 	if mock.DeviceGetFBCSessionsFunc == nil {
 		panic("Interface.DeviceGetFBCSessionsFunc: method is nil but Interface.DeviceGetFBCSessions was just called")
 	}
@@ -6238,7 +6237,7 @@ func (mock *Interface) DeviceGetFBCSessionsCalls() []struct {
 }
 
 // DeviceGetFBCStats calls DeviceGetFBCStatsFunc.
-func (mock *Interface) DeviceGetFBCStats(device nvml.Device) (nvml.FBCStats, nvml.Return) {
+func (mock *Interface) DeviceGetFBCStats(device nvml.Device) (nvml.FBCStats, error) {
 	if mock.DeviceGetFBCStatsFunc == nil {
 		panic("Interface.DeviceGetFBCStatsFunc: method is nil but Interface.DeviceGetFBCStats was just called")
 	}
@@ -6270,7 +6269,7 @@ func (mock *Interface) DeviceGetFBCStatsCalls() []struct {
 }
 
 // DeviceGetFanControlPolicy_v2 calls DeviceGetFanControlPolicy_v2Func.
-func (mock *Interface) DeviceGetFanControlPolicy_v2(device nvml.Device, n int) (nvml.FanControlPolicy, nvml.Return) {
+func (mock *Interface) DeviceGetFanControlPolicy_v2(device nvml.Device, n int) (nvml.FanControlPolicy, error) {
 	if mock.DeviceGetFanControlPolicy_v2Func == nil {
 		panic("Interface.DeviceGetFanControlPolicy_v2Func: method is nil but Interface.DeviceGetFanControlPolicy_v2 was just called")
 	}
@@ -6306,7 +6305,7 @@ func (mock *Interface) DeviceGetFanControlPolicy_v2Calls() []struct {
 }
 
 // DeviceGetFanSpeed calls DeviceGetFanSpeedFunc.
-func (mock *Interface) DeviceGetFanSpeed(device nvml.Device) (uint32, nvml.Return) {
+func (mock *Interface) DeviceGetFanSpeed(device nvml.Device) (uint32, error) {
 	if mock.DeviceGetFanSpeedFunc == nil {
 		panic("Interface.DeviceGetFanSpeedFunc: method is nil but Interface.DeviceGetFanSpeed was just called")
 	}
@@ -6338,7 +6337,7 @@ func (mock *Interface) DeviceGetFanSpeedCalls() []struct {
 }
 
 // DeviceGetFanSpeed_v2 calls DeviceGetFanSpeed_v2Func.
-func (mock *Interface) DeviceGetFanSpeed_v2(device nvml.Device, n int) (uint32, nvml.Return) {
+func (mock *Interface) DeviceGetFanSpeed_v2(device nvml.Device, n int) (uint32, error) {
 	if mock.DeviceGetFanSpeed_v2Func == nil {
 		panic("Interface.DeviceGetFanSpeed_v2Func: method is nil but Interface.DeviceGetFanSpeed_v2 was just called")
 	}
@@ -6374,7 +6373,7 @@ func (mock *Interface) DeviceGetFanSpeed_v2Calls() []struct {
 }
 
 // DeviceGetFieldValues calls DeviceGetFieldValuesFunc.
-func (mock *Interface) DeviceGetFieldValues(device nvml.Device, fieldValues []nvml.FieldValue) nvml.Return {
+func (mock *Interface) DeviceGetFieldValues(device nvml.Device, fieldValues []nvml.FieldValue) error {
 	if mock.DeviceGetFieldValuesFunc == nil {
 		panic("Interface.DeviceGetFieldValuesFunc: method is nil but Interface.DeviceGetFieldValues was just called")
 	}
@@ -6410,7 +6409,7 @@ func (mock *Interface) DeviceGetFieldValuesCalls() []struct {
 }
 
 // DeviceGetGpcClkMinMaxVfOffset calls DeviceGetGpcClkMinMaxVfOffsetFunc.
-func (mock *Interface) DeviceGetGpcClkMinMaxVfOffset(device nvml.Device) (int, int, nvml.Return) {
+func (mock *Interface) DeviceGetGpcClkMinMaxVfOffset(device nvml.Device) (int, int, error) {
 	if mock.DeviceGetGpcClkMinMaxVfOffsetFunc == nil {
 		panic("Interface.DeviceGetGpcClkMinMaxVfOffsetFunc: method is nil but Interface.DeviceGetGpcClkMinMaxVfOffset was just called")
 	}
@@ -6442,7 +6441,7 @@ func (mock *Interface) DeviceGetGpcClkMinMaxVfOffsetCalls() []struct {
 }
 
 // DeviceGetGpcClkVfOffset calls DeviceGetGpcClkVfOffsetFunc.
-func (mock *Interface) DeviceGetGpcClkVfOffset(device nvml.Device) (int, nvml.Return) {
+func (mock *Interface) DeviceGetGpcClkVfOffset(device nvml.Device) (int, error) {
 	if mock.DeviceGetGpcClkVfOffsetFunc == nil {
 		panic("Interface.DeviceGetGpcClkVfOffsetFunc: method is nil but Interface.DeviceGetGpcClkVfOffset was just called")
 	}
@@ -6474,7 +6473,7 @@ func (mock *Interface) DeviceGetGpcClkVfOffsetCalls() []struct {
 }
 
 // DeviceGetGpuFabricInfo calls DeviceGetGpuFabricInfoFunc.
-func (mock *Interface) DeviceGetGpuFabricInfo(device nvml.Device) (nvml.GpuFabricInfo, nvml.Return) {
+func (mock *Interface) DeviceGetGpuFabricInfo(device nvml.Device) (nvml.GpuFabricInfo, error) {
 	if mock.DeviceGetGpuFabricInfoFunc == nil {
 		panic("Interface.DeviceGetGpuFabricInfoFunc: method is nil but Interface.DeviceGetGpuFabricInfo was just called")
 	}
@@ -6538,7 +6537,7 @@ func (mock *Interface) DeviceGetGpuFabricInfoVCalls() []struct {
 }
 
 // DeviceGetGpuInstanceById calls DeviceGetGpuInstanceByIdFunc.
-func (mock *Interface) DeviceGetGpuInstanceById(device nvml.Device, n int) (nvml.GpuInstance, nvml.Return) {
+func (mock *Interface) DeviceGetGpuInstanceById(device nvml.Device, n int) (nvml.GpuInstance, error) {
 	if mock.DeviceGetGpuInstanceByIdFunc == nil {
 		panic("Interface.DeviceGetGpuInstanceByIdFunc: method is nil but Interface.DeviceGetGpuInstanceById was just called")
 	}
@@ -6574,7 +6573,7 @@ func (mock *Interface) DeviceGetGpuInstanceByIdCalls() []struct {
 }
 
 // DeviceGetGpuInstanceId calls DeviceGetGpuInstanceIdFunc.
-func (mock *Interface) DeviceGetGpuInstanceId(device nvml.Device) (int, nvml.Return) {
+func (mock *Interface) DeviceGetGpuInstanceId(device nvml.Device) (int, error) {
 	if mock.DeviceGetGpuInstanceIdFunc == nil {
 		panic("Interface.DeviceGetGpuInstanceIdFunc: method is nil but Interface.DeviceGetGpuInstanceId was just called")
 	}
@@ -6606,7 +6605,7 @@ func (mock *Interface) DeviceGetGpuInstanceIdCalls() []struct {
 }
 
 // DeviceGetGpuInstancePossiblePlacements calls DeviceGetGpuInstancePossiblePlacementsFunc.
-func (mock *Interface) DeviceGetGpuInstancePossiblePlacements(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo) ([]nvml.GpuInstancePlacement, nvml.Return) {
+func (mock *Interface) DeviceGetGpuInstancePossiblePlacements(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo) ([]nvml.GpuInstancePlacement, error) {
 	if mock.DeviceGetGpuInstancePossiblePlacementsFunc == nil {
 		panic("Interface.DeviceGetGpuInstancePossiblePlacementsFunc: method is nil but Interface.DeviceGetGpuInstancePossiblePlacements was just called")
 	}
@@ -6642,7 +6641,7 @@ func (mock *Interface) DeviceGetGpuInstancePossiblePlacementsCalls() []struct {
 }
 
 // DeviceGetGpuInstanceProfileInfo calls DeviceGetGpuInstanceProfileInfoFunc.
-func (mock *Interface) DeviceGetGpuInstanceProfileInfo(device nvml.Device, n int) (nvml.GpuInstanceProfileInfo, nvml.Return) {
+func (mock *Interface) DeviceGetGpuInstanceProfileInfo(device nvml.Device, n int) (nvml.GpuInstanceProfileInfo, error) {
 	if mock.DeviceGetGpuInstanceProfileInfoFunc == nil {
 		panic("Interface.DeviceGetGpuInstanceProfileInfoFunc: method is nil but Interface.DeviceGetGpuInstanceProfileInfo was just called")
 	}
@@ -6714,7 +6713,7 @@ func (mock *Interface) DeviceGetGpuInstanceProfileInfoVCalls() []struct {
 }
 
 // DeviceGetGpuInstanceRemainingCapacity calls DeviceGetGpuInstanceRemainingCapacityFunc.
-func (mock *Interface) DeviceGetGpuInstanceRemainingCapacity(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo) (int, nvml.Return) {
+func (mock *Interface) DeviceGetGpuInstanceRemainingCapacity(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo) (int, error) {
 	if mock.DeviceGetGpuInstanceRemainingCapacityFunc == nil {
 		panic("Interface.DeviceGetGpuInstanceRemainingCapacityFunc: method is nil but Interface.DeviceGetGpuInstanceRemainingCapacity was just called")
 	}
@@ -6750,7 +6749,7 @@ func (mock *Interface) DeviceGetGpuInstanceRemainingCapacityCalls() []struct {
 }
 
 // DeviceGetGpuInstances calls DeviceGetGpuInstancesFunc.
-func (mock *Interface) DeviceGetGpuInstances(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo) ([]nvml.GpuInstance, nvml.Return) {
+func (mock *Interface) DeviceGetGpuInstances(device nvml.Device, gpuInstanceProfileInfo *nvml.GpuInstanceProfileInfo) ([]nvml.GpuInstance, error) {
 	if mock.DeviceGetGpuInstancesFunc == nil {
 		panic("Interface.DeviceGetGpuInstancesFunc: method is nil but Interface.DeviceGetGpuInstances was just called")
 	}
@@ -6786,7 +6785,7 @@ func (mock *Interface) DeviceGetGpuInstancesCalls() []struct {
 }
 
 // DeviceGetGpuMaxPcieLinkGeneration calls DeviceGetGpuMaxPcieLinkGenerationFunc.
-func (mock *Interface) DeviceGetGpuMaxPcieLinkGeneration(device nvml.Device) (int, nvml.Return) {
+func (mock *Interface) DeviceGetGpuMaxPcieLinkGeneration(device nvml.Device) (int, error) {
 	if mock.DeviceGetGpuMaxPcieLinkGenerationFunc == nil {
 		panic("Interface.DeviceGetGpuMaxPcieLinkGenerationFunc: method is nil but Interface.DeviceGetGpuMaxPcieLinkGeneration was just called")
 	}
@@ -6818,7 +6817,7 @@ func (mock *Interface) DeviceGetGpuMaxPcieLinkGenerationCalls() []struct {
 }
 
 // DeviceGetGpuOperationMode calls DeviceGetGpuOperationModeFunc.
-func (mock *Interface) DeviceGetGpuOperationMode(device nvml.Device) (nvml.GpuOperationMode, nvml.GpuOperationMode, nvml.Return) {
+func (mock *Interface) DeviceGetGpuOperationMode(device nvml.Device) (nvml.GpuOperationMode, nvml.GpuOperationMode, error) {
 	if mock.DeviceGetGpuOperationModeFunc == nil {
 		panic("Interface.DeviceGetGpuOperationModeFunc: method is nil but Interface.DeviceGetGpuOperationMode was just called")
 	}
@@ -6850,7 +6849,7 @@ func (mock *Interface) DeviceGetGpuOperationModeCalls() []struct {
 }
 
 // DeviceGetGraphicsRunningProcesses calls DeviceGetGraphicsRunningProcessesFunc.
-func (mock *Interface) DeviceGetGraphicsRunningProcesses(device nvml.Device) ([]nvml.ProcessInfo, nvml.Return) {
+func (mock *Interface) DeviceGetGraphicsRunningProcesses(device nvml.Device) ([]nvml.ProcessInfo, error) {
 	if mock.DeviceGetGraphicsRunningProcessesFunc == nil {
 		panic("Interface.DeviceGetGraphicsRunningProcessesFunc: method is nil but Interface.DeviceGetGraphicsRunningProcesses was just called")
 	}
@@ -6882,7 +6881,7 @@ func (mock *Interface) DeviceGetGraphicsRunningProcessesCalls() []struct {
 }
 
 // DeviceGetGridLicensableFeatures calls DeviceGetGridLicensableFeaturesFunc.
-func (mock *Interface) DeviceGetGridLicensableFeatures(device nvml.Device) (nvml.GridLicensableFeatures, nvml.Return) {
+func (mock *Interface) DeviceGetGridLicensableFeatures(device nvml.Device) (nvml.GridLicensableFeatures, error) {
 	if mock.DeviceGetGridLicensableFeaturesFunc == nil {
 		panic("Interface.DeviceGetGridLicensableFeaturesFunc: method is nil but Interface.DeviceGetGridLicensableFeatures was just called")
 	}
@@ -6914,7 +6913,7 @@ func (mock *Interface) DeviceGetGridLicensableFeaturesCalls() []struct {
 }
 
 // DeviceGetGspFirmwareMode calls DeviceGetGspFirmwareModeFunc.
-func (mock *Interface) DeviceGetGspFirmwareMode(device nvml.Device) (bool, bool, nvml.Return) {
+func (mock *Interface) DeviceGetGspFirmwareMode(device nvml.Device) (bool, bool, error) {
 	if mock.DeviceGetGspFirmwareModeFunc == nil {
 		panic("Interface.DeviceGetGspFirmwareModeFunc: method is nil but Interface.DeviceGetGspFirmwareMode was just called")
 	}
@@ -6946,7 +6945,7 @@ func (mock *Interface) DeviceGetGspFirmwareModeCalls() []struct {
 }
 
 // DeviceGetGspFirmwareVersion calls DeviceGetGspFirmwareVersionFunc.
-func (mock *Interface) DeviceGetGspFirmwareVersion(device nvml.Device) (string, nvml.Return) {
+func (mock *Interface) DeviceGetGspFirmwareVersion(device nvml.Device) (string, error) {
 	if mock.DeviceGetGspFirmwareVersionFunc == nil {
 		panic("Interface.DeviceGetGspFirmwareVersionFunc: method is nil but Interface.DeviceGetGspFirmwareVersion was just called")
 	}
@@ -6978,7 +6977,7 @@ func (mock *Interface) DeviceGetGspFirmwareVersionCalls() []struct {
 }
 
 // DeviceGetHandleByIndex calls DeviceGetHandleByIndexFunc.
-func (mock *Interface) DeviceGetHandleByIndex(n int) (nvml.Device, nvml.Return) {
+func (mock *Interface) DeviceGetHandleByIndex(n int) (nvml.Device, error) {
 	if mock.DeviceGetHandleByIndexFunc == nil {
 		panic("Interface.DeviceGetHandleByIndexFunc: method is nil but Interface.DeviceGetHandleByIndex was just called")
 	}
@@ -7010,7 +7009,7 @@ func (mock *Interface) DeviceGetHandleByIndexCalls() []struct {
 }
 
 // DeviceGetHandleByPciBusId calls DeviceGetHandleByPciBusIdFunc.
-func (mock *Interface) DeviceGetHandleByPciBusId(s string) (nvml.Device, nvml.Return) {
+func (mock *Interface) DeviceGetHandleByPciBusId(s string) (nvml.Device, error) {
 	if mock.DeviceGetHandleByPciBusIdFunc == nil {
 		panic("Interface.DeviceGetHandleByPciBusIdFunc: method is nil but Interface.DeviceGetHandleByPciBusId was just called")
 	}
@@ -7042,7 +7041,7 @@ func (mock *Interface) DeviceGetHandleByPciBusIdCalls() []struct {
 }
 
 // DeviceGetHandleBySerial calls DeviceGetHandleBySerialFunc.
-func (mock *Interface) DeviceGetHandleBySerial(s string) (nvml.Device, nvml.Return) {
+func (mock *Interface) DeviceGetHandleBySerial(s string) (nvml.Device, error) {
 	if mock.DeviceGetHandleBySerialFunc == nil {
 		panic("Interface.DeviceGetHandleBySerialFunc: method is nil but Interface.DeviceGetHandleBySerial was just called")
 	}
@@ -7074,7 +7073,7 @@ func (mock *Interface) DeviceGetHandleBySerialCalls() []struct {
 }
 
 // DeviceGetHandleByUUID calls DeviceGetHandleByUUIDFunc.
-func (mock *Interface) DeviceGetHandleByUUID(s string) (nvml.Device, nvml.Return) {
+func (mock *Interface) DeviceGetHandleByUUID(s string) (nvml.Device, error) {
 	if mock.DeviceGetHandleByUUIDFunc == nil {
 		panic("Interface.DeviceGetHandleByUUIDFunc: method is nil but Interface.DeviceGetHandleByUUID was just called")
 	}
@@ -7106,7 +7105,7 @@ func (mock *Interface) DeviceGetHandleByUUIDCalls() []struct {
 }
 
 // DeviceGetHostVgpuMode calls DeviceGetHostVgpuModeFunc.
-func (mock *Interface) DeviceGetHostVgpuMode(device nvml.Device) (nvml.HostVgpuMode, nvml.Return) {
+func (mock *Interface) DeviceGetHostVgpuMode(device nvml.Device) (nvml.HostVgpuMode, error) {
 	if mock.DeviceGetHostVgpuModeFunc == nil {
 		panic("Interface.DeviceGetHostVgpuModeFunc: method is nil but Interface.DeviceGetHostVgpuMode was just called")
 	}
@@ -7138,7 +7137,7 @@ func (mock *Interface) DeviceGetHostVgpuModeCalls() []struct {
 }
 
 // DeviceGetIndex calls DeviceGetIndexFunc.
-func (mock *Interface) DeviceGetIndex(device nvml.Device) (int, nvml.Return) {
+func (mock *Interface) DeviceGetIndex(device nvml.Device) (int, error) {
 	if mock.DeviceGetIndexFunc == nil {
 		panic("Interface.DeviceGetIndexFunc: method is nil but Interface.DeviceGetIndex was just called")
 	}
@@ -7170,7 +7169,7 @@ func (mock *Interface) DeviceGetIndexCalls() []struct {
 }
 
 // DeviceGetInforomConfigurationChecksum calls DeviceGetInforomConfigurationChecksumFunc.
-func (mock *Interface) DeviceGetInforomConfigurationChecksum(device nvml.Device) (uint32, nvml.Return) {
+func (mock *Interface) DeviceGetInforomConfigurationChecksum(device nvml.Device) (uint32, error) {
 	if mock.DeviceGetInforomConfigurationChecksumFunc == nil {
 		panic("Interface.DeviceGetInforomConfigurationChecksumFunc: method is nil but Interface.DeviceGetInforomConfigurationChecksum was just called")
 	}
@@ -7202,7 +7201,7 @@ func (mock *Interface) DeviceGetInforomConfigurationChecksumCalls() []struct {
 }
 
 // DeviceGetInforomImageVersion calls DeviceGetInforomImageVersionFunc.
-func (mock *Interface) DeviceGetInforomImageVersion(device nvml.Device) (string, nvml.Return) {
+func (mock *Interface) DeviceGetInforomImageVersion(device nvml.Device) (string, error) {
 	if mock.DeviceGetInforomImageVersionFunc == nil {
 		panic("Interface.DeviceGetInforomImageVersionFunc: method is nil but Interface.DeviceGetInforomImageVersion was just called")
 	}
@@ -7234,7 +7233,7 @@ func (mock *Interface) DeviceGetInforomImageVersionCalls() []struct {
 }
 
 // DeviceGetInforomVersion calls DeviceGetInforomVersionFunc.
-func (mock *Interface) DeviceGetInforomVersion(device nvml.Device, inforomObject nvml.InforomObject) (string, nvml.Return) {
+func (mock *Interface) DeviceGetInforomVersion(device nvml.Device, inforomObject nvml.InforomObject) (string, error) {
 	if mock.DeviceGetInforomVersionFunc == nil {
 		panic("Interface.DeviceGetInforomVersionFunc: method is nil but Interface.DeviceGetInforomVersion was just called")
 	}
@@ -7270,7 +7269,7 @@ func (mock *Interface) DeviceGetInforomVersionCalls() []struct {
 }
 
 // DeviceGetIrqNum calls DeviceGetIrqNumFunc.
-func (mock *Interface) DeviceGetIrqNum(device nvml.Device) (int, nvml.Return) {
+func (mock *Interface) DeviceGetIrqNum(device nvml.Device) (int, error) {
 	if mock.DeviceGetIrqNumFunc == nil {
 		panic("Interface.DeviceGetIrqNumFunc: method is nil but Interface.DeviceGetIrqNum was just called")
 	}
@@ -7302,7 +7301,7 @@ func (mock *Interface) DeviceGetIrqNumCalls() []struct {
 }
 
 // DeviceGetJpgUtilization calls DeviceGetJpgUtilizationFunc.
-func (mock *Interface) DeviceGetJpgUtilization(device nvml.Device) (uint32, uint32, nvml.Return) {
+func (mock *Interface) DeviceGetJpgUtilization(device nvml.Device) (uint32, uint32, error) {
 	if mock.DeviceGetJpgUtilizationFunc == nil {
 		panic("Interface.DeviceGetJpgUtilizationFunc: method is nil but Interface.DeviceGetJpgUtilization was just called")
 	}
@@ -7334,7 +7333,7 @@ func (mock *Interface) DeviceGetJpgUtilizationCalls() []struct {
 }
 
 // DeviceGetLastBBXFlushTime calls DeviceGetLastBBXFlushTimeFunc.
-func (mock *Interface) DeviceGetLastBBXFlushTime(device nvml.Device) (uint64, uint, nvml.Return) {
+func (mock *Interface) DeviceGetLastBBXFlushTime(device nvml.Device) (uint64, uint, error) {
 	if mock.DeviceGetLastBBXFlushTimeFunc == nil {
 		panic("Interface.DeviceGetLastBBXFlushTimeFunc: method is nil but Interface.DeviceGetLastBBXFlushTime was just called")
 	}
@@ -7366,7 +7365,7 @@ func (mock *Interface) DeviceGetLastBBXFlushTimeCalls() []struct {
 }
 
 // DeviceGetMPSComputeRunningProcesses calls DeviceGetMPSComputeRunningProcessesFunc.
-func (mock *Interface) DeviceGetMPSComputeRunningProcesses(device nvml.Device) ([]nvml.ProcessInfo, nvml.Return) {
+func (mock *Interface) DeviceGetMPSComputeRunningProcesses(device nvml.Device) ([]nvml.ProcessInfo, error) {
 	if mock.DeviceGetMPSComputeRunningProcessesFunc == nil {
 		panic("Interface.DeviceGetMPSComputeRunningProcessesFunc: method is nil but Interface.DeviceGetMPSComputeRunningProcesses was just called")
 	}
@@ -7398,7 +7397,7 @@ func (mock *Interface) DeviceGetMPSComputeRunningProcessesCalls() []struct {
 }
 
 // DeviceGetMaxClockInfo calls DeviceGetMaxClockInfoFunc.
-func (mock *Interface) DeviceGetMaxClockInfo(device nvml.Device, clockType nvml.ClockType) (uint32, nvml.Return) {
+func (mock *Interface) DeviceGetMaxClockInfo(device nvml.Device, clockType nvml.ClockType) (uint32, error) {
 	if mock.DeviceGetMaxClockInfoFunc == nil {
 		panic("Interface.DeviceGetMaxClockInfoFunc: method is nil but Interface.DeviceGetMaxClockInfo was just called")
 	}
@@ -7434,7 +7433,7 @@ func (mock *Interface) DeviceGetMaxClockInfoCalls() []struct {
 }
 
 // DeviceGetMaxCustomerBoostClock calls DeviceGetMaxCustomerBoostClockFunc.
-func (mock *Interface) DeviceGetMaxCustomerBoostClock(device nvml.Device, clockType nvml.ClockType) (uint32, nvml.Return) {
+func (mock *Interface) DeviceGetMaxCustomerBoostClock(device nvml.Device, clockType nvml.ClockType) (uint32, error) {
 	if mock.DeviceGetMaxCustomerBoostClockFunc == nil {
 		panic("Interface.DeviceGetMaxCustomerBoostClockFunc: method is nil but Interface.DeviceGetMaxCustomerBoostClock was just called")
 	}
@@ -7470,7 +7469,7 @@ func (mock *Interface) DeviceGetMaxCustomerBoostClockCalls() []struct {
 }
 
 // DeviceGetMaxMigDeviceCount calls DeviceGetMaxMigDeviceCountFunc.
-func (mock *Interface) DeviceGetMaxMigDeviceCount(device nvml.Device) (int, nvml.Return) {
+func (mock *Interface) DeviceGetMaxMigDeviceCount(device nvml.Device) (int, error) {
 	if mock.DeviceGetMaxMigDeviceCountFunc == nil {
 		panic("Interface.DeviceGetMaxMigDeviceCountFunc: method is nil but Interface.DeviceGetMaxMigDeviceCount was just called")
 	}
@@ -7502,7 +7501,7 @@ func (mock *Interface) DeviceGetMaxMigDeviceCountCalls() []struct {
 }
 
 // DeviceGetMaxPcieLinkGeneration calls DeviceGetMaxPcieLinkGenerationFunc.
-func (mock *Interface) DeviceGetMaxPcieLinkGeneration(device nvml.Device) (int, nvml.Return) {
+func (mock *Interface) DeviceGetMaxPcieLinkGeneration(device nvml.Device) (int, error) {
 	if mock.DeviceGetMaxPcieLinkGenerationFunc == nil {
 		panic("Interface.DeviceGetMaxPcieLinkGenerationFunc: method is nil but Interface.DeviceGetMaxPcieLinkGeneration was just called")
 	}
@@ -7534,7 +7533,7 @@ func (mock *Interface) DeviceGetMaxPcieLinkGenerationCalls() []struct {
 }
 
 // DeviceGetMaxPcieLinkWidth calls DeviceGetMaxPcieLinkWidthFunc.
-func (mock *Interface) DeviceGetMaxPcieLinkWidth(device nvml.Device) (int, nvml.Return) {
+func (mock *Interface) DeviceGetMaxPcieLinkWidth(device nvml.Device) (int, error) {
 	if mock.DeviceGetMaxPcieLinkWidthFunc == nil {
 		panic("Interface.DeviceGetMaxPcieLinkWidthFunc: method is nil but Interface.DeviceGetMaxPcieLinkWidth was just called")
 	}
@@ -7566,7 +7565,7 @@ func (mock *Interface) DeviceGetMaxPcieLinkWidthCalls() []struct {
 }
 
 // DeviceGetMemClkMinMaxVfOffset calls DeviceGetMemClkMinMaxVfOffsetFunc.
-func (mock *Interface) DeviceGetMemClkMinMaxVfOffset(device nvml.Device) (int, int, nvml.Return) {
+func (mock *Interface) DeviceGetMemClkMinMaxVfOffset(device nvml.Device) (int, int, error) {
 	if mock.DeviceGetMemClkMinMaxVfOffsetFunc == nil {
 		panic("Interface.DeviceGetMemClkMinMaxVfOffsetFunc: method is nil but Interface.DeviceGetMemClkMinMaxVfOffset was just called")
 	}
@@ -7598,7 +7597,7 @@ func (mock *Interface) DeviceGetMemClkMinMaxVfOffsetCalls() []struct {
 }
 
 // DeviceGetMemClkVfOffset calls DeviceGetMemClkVfOffsetFunc.
-func (mock *Interface) DeviceGetMemClkVfOffset(device nvml.Device) (int, nvml.Return) {
+func (mock *Interface) DeviceGetMemClkVfOffset(device nvml.Device) (int, error) {
 	if mock.DeviceGetMemClkVfOffsetFunc == nil {
 		panic("Interface.DeviceGetMemClkVfOffsetFunc: method is nil but Interface.DeviceGetMemClkVfOffset was just called")
 	}
@@ -7630,7 +7629,7 @@ func (mock *Interface) DeviceGetMemClkVfOffsetCalls() []struct {
 }
 
 // DeviceGetMemoryAffinity calls DeviceGetMemoryAffinityFunc.
-func (mock *Interface) DeviceGetMemoryAffinity(device nvml.Device, n int, affinityScope nvml.AffinityScope) ([]uint, nvml.Return) {
+func (mock *Interface) DeviceGetMemoryAffinity(device nvml.Device, n int, affinityScope nvml.AffinityScope) ([]uint, error) {
 	if mock.DeviceGetMemoryAffinityFunc == nil {
 		panic("Interface.DeviceGetMemoryAffinityFunc: method is nil but Interface.DeviceGetMemoryAffinity was just called")
 	}
@@ -7670,7 +7669,7 @@ func (mock *Interface) DeviceGetMemoryAffinityCalls() []struct {
 }
 
 // DeviceGetMemoryBusWidth calls DeviceGetMemoryBusWidthFunc.
-func (mock *Interface) DeviceGetMemoryBusWidth(device nvml.Device) (uint32, nvml.Return) {
+func (mock *Interface) DeviceGetMemoryBusWidth(device nvml.Device) (uint32, error) {
 	if mock.DeviceGetMemoryBusWidthFunc == nil {
 		panic("Interface.DeviceGetMemoryBusWidthFunc: method is nil but Interface.DeviceGetMemoryBusWidth was just called")
 	}
@@ -7702,7 +7701,7 @@ func (mock *Interface) DeviceGetMemoryBusWidthCalls() []struct {
 }
 
 // DeviceGetMemoryErrorCounter calls DeviceGetMemoryErrorCounterFunc.
-func (mock *Interface) DeviceGetMemoryErrorCounter(device nvml.Device, memoryErrorType nvml.MemoryErrorType, eccCounterType nvml.EccCounterType, memoryLocation nvml.MemoryLocation) (uint64, nvml.Return) {
+func (mock *Interface) DeviceGetMemoryErrorCounter(device nvml.Device, memoryErrorType nvml.MemoryErrorType, eccCounterType nvml.EccCounterType, memoryLocation nvml.MemoryLocation) (uint64, error) {
 	if mock.DeviceGetMemoryErrorCounterFunc == nil {
 		panic("Interface.DeviceGetMemoryErrorCounterFunc: method is nil but Interface.DeviceGetMemoryErrorCounter was just called")
 	}
@@ -7746,7 +7745,7 @@ func (mock *Interface) DeviceGetMemoryErrorCounterCalls() []struct {
 }
 
 // DeviceGetMemoryInfo calls DeviceGetMemoryInfoFunc.
-func (mock *Interface) DeviceGetMemoryInfo(device nvml.Device) (nvml.Memory, nvml.Return) {
+func (mock *Interface) DeviceGetMemoryInfo(device nvml.Device) (nvml.Memory, error) {
 	if mock.DeviceGetMemoryInfoFunc == nil {
 		panic("Interface.DeviceGetMemoryInfoFunc: method is nil but Interface.DeviceGetMemoryInfo was just called")
 	}
@@ -7778,7 +7777,7 @@ func (mock *Interface) DeviceGetMemoryInfoCalls() []struct {
 }
 
 // DeviceGetMemoryInfo_v2 calls DeviceGetMemoryInfo_v2Func.
-func (mock *Interface) DeviceGetMemoryInfo_v2(device nvml.Device) (nvml.Memory_v2, nvml.Return) {
+func (mock *Interface) DeviceGetMemoryInfo_v2(device nvml.Device) (nvml.Memory_v2, error) {
 	if mock.DeviceGetMemoryInfo_v2Func == nil {
 		panic("Interface.DeviceGetMemoryInfo_v2Func: method is nil but Interface.DeviceGetMemoryInfo_v2 was just called")
 	}
@@ -7810,7 +7809,7 @@ func (mock *Interface) DeviceGetMemoryInfo_v2Calls() []struct {
 }
 
 // DeviceGetMigDeviceHandleByIndex calls DeviceGetMigDeviceHandleByIndexFunc.
-func (mock *Interface) DeviceGetMigDeviceHandleByIndex(device nvml.Device, n int) (nvml.Device, nvml.Return) {
+func (mock *Interface) DeviceGetMigDeviceHandleByIndex(device nvml.Device, n int) (nvml.Device, error) {
 	if mock.DeviceGetMigDeviceHandleByIndexFunc == nil {
 		panic("Interface.DeviceGetMigDeviceHandleByIndexFunc: method is nil but Interface.DeviceGetMigDeviceHandleByIndex was just called")
 	}
@@ -7846,7 +7845,7 @@ func (mock *Interface) DeviceGetMigDeviceHandleByIndexCalls() []struct {
 }
 
 // DeviceGetMigMode calls DeviceGetMigModeFunc.
-func (mock *Interface) DeviceGetMigMode(device nvml.Device) (int, int, nvml.Return) {
+func (mock *Interface) DeviceGetMigMode(device nvml.Device) (int, int, error) {
 	if mock.DeviceGetMigModeFunc == nil {
 		panic("Interface.DeviceGetMigModeFunc: method is nil but Interface.DeviceGetMigMode was just called")
 	}
@@ -7878,7 +7877,7 @@ func (mock *Interface) DeviceGetMigModeCalls() []struct {
 }
 
 // DeviceGetMinMaxClockOfPState calls DeviceGetMinMaxClockOfPStateFunc.
-func (mock *Interface) DeviceGetMinMaxClockOfPState(device nvml.Device, clockType nvml.ClockType, pstates nvml.Pstates) (uint32, uint32, nvml.Return) {
+func (mock *Interface) DeviceGetMinMaxClockOfPState(device nvml.Device, clockType nvml.ClockType, pstates nvml.Pstates) (uint32, uint32, error) {
 	if mock.DeviceGetMinMaxClockOfPStateFunc == nil {
 		panic("Interface.DeviceGetMinMaxClockOfPStateFunc: method is nil but Interface.DeviceGetMinMaxClockOfPState was just called")
 	}
@@ -7918,7 +7917,7 @@ func (mock *Interface) DeviceGetMinMaxClockOfPStateCalls() []struct {
 }
 
 // DeviceGetMinMaxFanSpeed calls DeviceGetMinMaxFanSpeedFunc.
-func (mock *Interface) DeviceGetMinMaxFanSpeed(device nvml.Device) (int, int, nvml.Return) {
+func (mock *Interface) DeviceGetMinMaxFanSpeed(device nvml.Device) (int, int, error) {
 	if mock.DeviceGetMinMaxFanSpeedFunc == nil {
 		panic("Interface.DeviceGetMinMaxFanSpeedFunc: method is nil but Interface.DeviceGetMinMaxFanSpeed was just called")
 	}
@@ -7950,7 +7949,7 @@ func (mock *Interface) DeviceGetMinMaxFanSpeedCalls() []struct {
 }
 
 // DeviceGetMinorNumber calls DeviceGetMinorNumberFunc.
-func (mock *Interface) DeviceGetMinorNumber(device nvml.Device) (int, nvml.Return) {
+func (mock *Interface) DeviceGetMinorNumber(device nvml.Device) (int, error) {
 	if mock.DeviceGetMinorNumberFunc == nil {
 		panic("Interface.DeviceGetMinorNumberFunc: method is nil but Interface.DeviceGetMinorNumber was just called")
 	}
@@ -7982,7 +7981,7 @@ func (mock *Interface) DeviceGetMinorNumberCalls() []struct {
 }
 
 // DeviceGetModuleId calls DeviceGetModuleIdFunc.
-func (mock *Interface) DeviceGetModuleId(device nvml.Device) (int, nvml.Return) {
+func (mock *Interface) DeviceGetModuleId(device nvml.Device) (int, error) {
 	if mock.DeviceGetModuleIdFunc == nil {
 		panic("Interface.DeviceGetModuleIdFunc: method is nil but Interface.DeviceGetModuleId was just called")
 	}
@@ -8014,7 +8013,7 @@ func (mock *Interface) DeviceGetModuleIdCalls() []struct {
 }
 
 // DeviceGetMultiGpuBoard calls DeviceGetMultiGpuBoardFunc.
-func (mock *Interface) DeviceGetMultiGpuBoard(device nvml.Device) (int, nvml.Return) {
+func (mock *Interface) DeviceGetMultiGpuBoard(device nvml.Device) (int, error) {
 	if mock.DeviceGetMultiGpuBoardFunc == nil {
 		panic("Interface.DeviceGetMultiGpuBoardFunc: method is nil but Interface.DeviceGetMultiGpuBoard was just called")
 	}
@@ -8046,7 +8045,7 @@ func (mock *Interface) DeviceGetMultiGpuBoardCalls() []struct {
 }
 
 // DeviceGetName calls DeviceGetNameFunc.
-func (mock *Interface) DeviceGetName(device nvml.Device) (string, nvml.Return) {
+func (mock *Interface) DeviceGetName(device nvml.Device) (string, error) {
 	if mock.DeviceGetNameFunc == nil {
 		panic("Interface.DeviceGetNameFunc: method is nil but Interface.DeviceGetName was just called")
 	}
@@ -8078,7 +8077,7 @@ func (mock *Interface) DeviceGetNameCalls() []struct {
 }
 
 // DeviceGetNumFans calls DeviceGetNumFansFunc.
-func (mock *Interface) DeviceGetNumFans(device nvml.Device) (int, nvml.Return) {
+func (mock *Interface) DeviceGetNumFans(device nvml.Device) (int, error) {
 	if mock.DeviceGetNumFansFunc == nil {
 		panic("Interface.DeviceGetNumFansFunc: method is nil but Interface.DeviceGetNumFans was just called")
 	}
@@ -8110,7 +8109,7 @@ func (mock *Interface) DeviceGetNumFansCalls() []struct {
 }
 
 // DeviceGetNumGpuCores calls DeviceGetNumGpuCoresFunc.
-func (mock *Interface) DeviceGetNumGpuCores(device nvml.Device) (int, nvml.Return) {
+func (mock *Interface) DeviceGetNumGpuCores(device nvml.Device) (int, error) {
 	if mock.DeviceGetNumGpuCoresFunc == nil {
 		panic("Interface.DeviceGetNumGpuCoresFunc: method is nil but Interface.DeviceGetNumGpuCores was just called")
 	}
@@ -8142,7 +8141,7 @@ func (mock *Interface) DeviceGetNumGpuCoresCalls() []struct {
 }
 
 // DeviceGetNumaNodeId calls DeviceGetNumaNodeIdFunc.
-func (mock *Interface) DeviceGetNumaNodeId(device nvml.Device) (int, nvml.Return) {
+func (mock *Interface) DeviceGetNumaNodeId(device nvml.Device) (int, error) {
 	if mock.DeviceGetNumaNodeIdFunc == nil {
 		panic("Interface.DeviceGetNumaNodeIdFunc: method is nil but Interface.DeviceGetNumaNodeId was just called")
 	}
@@ -8174,7 +8173,7 @@ func (mock *Interface) DeviceGetNumaNodeIdCalls() []struct {
 }
 
 // DeviceGetNvLinkCapability calls DeviceGetNvLinkCapabilityFunc.
-func (mock *Interface) DeviceGetNvLinkCapability(device nvml.Device, n int, nvLinkCapability nvml.NvLinkCapability) (uint32, nvml.Return) {
+func (mock *Interface) DeviceGetNvLinkCapability(device nvml.Device, n int, nvLinkCapability nvml.NvLinkCapability) (uint32, error) {
 	if mock.DeviceGetNvLinkCapabilityFunc == nil {
 		panic("Interface.DeviceGetNvLinkCapabilityFunc: method is nil but Interface.DeviceGetNvLinkCapability was just called")
 	}
@@ -8214,7 +8213,7 @@ func (mock *Interface) DeviceGetNvLinkCapabilityCalls() []struct {
 }
 
 // DeviceGetNvLinkErrorCounter calls DeviceGetNvLinkErrorCounterFunc.
-func (mock *Interface) DeviceGetNvLinkErrorCounter(device nvml.Device, n int, nvLinkErrorCounter nvml.NvLinkErrorCounter) (uint64, nvml.Return) {
+func (mock *Interface) DeviceGetNvLinkErrorCounter(device nvml.Device, n int, nvLinkErrorCounter nvml.NvLinkErrorCounter) (uint64, error) {
 	if mock.DeviceGetNvLinkErrorCounterFunc == nil {
 		panic("Interface.DeviceGetNvLinkErrorCounterFunc: method is nil but Interface.DeviceGetNvLinkErrorCounter was just called")
 	}
@@ -8254,7 +8253,7 @@ func (mock *Interface) DeviceGetNvLinkErrorCounterCalls() []struct {
 }
 
 // DeviceGetNvLinkRemoteDeviceType calls DeviceGetNvLinkRemoteDeviceTypeFunc.
-func (mock *Interface) DeviceGetNvLinkRemoteDeviceType(device nvml.Device, n int) (nvml.IntNvLinkDeviceType, nvml.Return) {
+func (mock *Interface) DeviceGetNvLinkRemoteDeviceType(device nvml.Device, n int) (nvml.IntNvLinkDeviceType, error) {
 	if mock.DeviceGetNvLinkRemoteDeviceTypeFunc == nil {
 		panic("Interface.DeviceGetNvLinkRemoteDeviceTypeFunc: method is nil but Interface.DeviceGetNvLinkRemoteDeviceType was just called")
 	}
@@ -8290,7 +8289,7 @@ func (mock *Interface) DeviceGetNvLinkRemoteDeviceTypeCalls() []struct {
 }
 
 // DeviceGetNvLinkRemotePciInfo calls DeviceGetNvLinkRemotePciInfoFunc.
-func (mock *Interface) DeviceGetNvLinkRemotePciInfo(device nvml.Device, n int) (nvml.PciInfo, nvml.Return) {
+func (mock *Interface) DeviceGetNvLinkRemotePciInfo(device nvml.Device, n int) (nvml.PciInfo, error) {
 	if mock.DeviceGetNvLinkRemotePciInfoFunc == nil {
 		panic("Interface.DeviceGetNvLinkRemotePciInfoFunc: method is nil but Interface.DeviceGetNvLinkRemotePciInfo was just called")
 	}
@@ -8326,7 +8325,7 @@ func (mock *Interface) DeviceGetNvLinkRemotePciInfoCalls() []struct {
 }
 
 // DeviceGetNvLinkState calls DeviceGetNvLinkStateFunc.
-func (mock *Interface) DeviceGetNvLinkState(device nvml.Device, n int) (nvml.EnableState, nvml.Return) {
+func (mock *Interface) DeviceGetNvLinkState(device nvml.Device, n int) (nvml.EnableState, error) {
 	if mock.DeviceGetNvLinkStateFunc == nil {
 		panic("Interface.DeviceGetNvLinkStateFunc: method is nil but Interface.DeviceGetNvLinkState was just called")
 	}
@@ -8362,7 +8361,7 @@ func (mock *Interface) DeviceGetNvLinkStateCalls() []struct {
 }
 
 // DeviceGetNvLinkUtilizationControl calls DeviceGetNvLinkUtilizationControlFunc.
-func (mock *Interface) DeviceGetNvLinkUtilizationControl(device nvml.Device, n1 int, n2 int) (nvml.NvLinkUtilizationControl, nvml.Return) {
+func (mock *Interface) DeviceGetNvLinkUtilizationControl(device nvml.Device, n1 int, n2 int) (nvml.NvLinkUtilizationControl, error) {
 	if mock.DeviceGetNvLinkUtilizationControlFunc == nil {
 		panic("Interface.DeviceGetNvLinkUtilizationControlFunc: method is nil but Interface.DeviceGetNvLinkUtilizationControl was just called")
 	}
@@ -8402,7 +8401,7 @@ func (mock *Interface) DeviceGetNvLinkUtilizationControlCalls() []struct {
 }
 
 // DeviceGetNvLinkUtilizationCounter calls DeviceGetNvLinkUtilizationCounterFunc.
-func (mock *Interface) DeviceGetNvLinkUtilizationCounter(device nvml.Device, n1 int, n2 int) (uint64, uint64, nvml.Return) {
+func (mock *Interface) DeviceGetNvLinkUtilizationCounter(device nvml.Device, n1 int, n2 int) (uint64, uint64, error) {
 	if mock.DeviceGetNvLinkUtilizationCounterFunc == nil {
 		panic("Interface.DeviceGetNvLinkUtilizationCounterFunc: method is nil but Interface.DeviceGetNvLinkUtilizationCounter was just called")
 	}
@@ -8442,7 +8441,7 @@ func (mock *Interface) DeviceGetNvLinkUtilizationCounterCalls() []struct {
 }
 
 // DeviceGetNvLinkVersion calls DeviceGetNvLinkVersionFunc.
-func (mock *Interface) DeviceGetNvLinkVersion(device nvml.Device, n int) (uint32, nvml.Return) {
+func (mock *Interface) DeviceGetNvLinkVersion(device nvml.Device, n int) (uint32, error) {
 	if mock.DeviceGetNvLinkVersionFunc == nil {
 		panic("Interface.DeviceGetNvLinkVersionFunc: method is nil but Interface.DeviceGetNvLinkVersion was just called")
 	}
@@ -8478,7 +8477,7 @@ func (mock *Interface) DeviceGetNvLinkVersionCalls() []struct {
 }
 
 // DeviceGetOfaUtilization calls DeviceGetOfaUtilizationFunc.
-func (mock *Interface) DeviceGetOfaUtilization(device nvml.Device) (uint32, uint32, nvml.Return) {
+func (mock *Interface) DeviceGetOfaUtilization(device nvml.Device) (uint32, uint32, error) {
 	if mock.DeviceGetOfaUtilizationFunc == nil {
 		panic("Interface.DeviceGetOfaUtilizationFunc: method is nil but Interface.DeviceGetOfaUtilization was just called")
 	}
@@ -8510,7 +8509,7 @@ func (mock *Interface) DeviceGetOfaUtilizationCalls() []struct {
 }
 
 // DeviceGetP2PStatus calls DeviceGetP2PStatusFunc.
-func (mock *Interface) DeviceGetP2PStatus(device1 nvml.Device, device2 nvml.Device, gpuP2PCapsIndex nvml.GpuP2PCapsIndex) (nvml.GpuP2PStatus, nvml.Return) {
+func (mock *Interface) DeviceGetP2PStatus(device1 nvml.Device, device2 nvml.Device, gpuP2PCapsIndex nvml.GpuP2PCapsIndex) (nvml.GpuP2PStatus, error) {
 	if mock.DeviceGetP2PStatusFunc == nil {
 		panic("Interface.DeviceGetP2PStatusFunc: method is nil but Interface.DeviceGetP2PStatus was just called")
 	}
@@ -8550,7 +8549,7 @@ func (mock *Interface) DeviceGetP2PStatusCalls() []struct {
 }
 
 // DeviceGetPciInfo calls DeviceGetPciInfoFunc.
-func (mock *Interface) DeviceGetPciInfo(device nvml.Device) (nvml.PciInfo, nvml.Return) {
+func (mock *Interface) DeviceGetPciInfo(device nvml.Device) (nvml.PciInfo, error) {
 	if mock.DeviceGetPciInfoFunc == nil {
 		panic("Interface.DeviceGetPciInfoFunc: method is nil but Interface.DeviceGetPciInfo was just called")
 	}
@@ -8582,7 +8581,7 @@ func (mock *Interface) DeviceGetPciInfoCalls() []struct {
 }
 
 // DeviceGetPciInfoExt calls DeviceGetPciInfoExtFunc.
-func (mock *Interface) DeviceGetPciInfoExt(device nvml.Device) (nvml.PciInfoExt, nvml.Return) {
+func (mock *Interface) DeviceGetPciInfoExt(device nvml.Device) (nvml.PciInfoExt, error) {
 	if mock.DeviceGetPciInfoExtFunc == nil {
 		panic("Interface.DeviceGetPciInfoExtFunc: method is nil but Interface.DeviceGetPciInfoExt was just called")
 	}
@@ -8614,7 +8613,7 @@ func (mock *Interface) DeviceGetPciInfoExtCalls() []struct {
 }
 
 // DeviceGetPcieLinkMaxSpeed calls DeviceGetPcieLinkMaxSpeedFunc.
-func (mock *Interface) DeviceGetPcieLinkMaxSpeed(device nvml.Device) (uint32, nvml.Return) {
+func (mock *Interface) DeviceGetPcieLinkMaxSpeed(device nvml.Device) (uint32, error) {
 	if mock.DeviceGetPcieLinkMaxSpeedFunc == nil {
 		panic("Interface.DeviceGetPcieLinkMaxSpeedFunc: method is nil but Interface.DeviceGetPcieLinkMaxSpeed was just called")
 	}
@@ -8646,7 +8645,7 @@ func (mock *Interface) DeviceGetPcieLinkMaxSpeedCalls() []struct {
 }
 
 // DeviceGetPcieReplayCounter calls DeviceGetPcieReplayCounterFunc.
-func (mock *Interface) DeviceGetPcieReplayCounter(device nvml.Device) (int, nvml.Return) {
+func (mock *Interface) DeviceGetPcieReplayCounter(device nvml.Device) (int, error) {
 	if mock.DeviceGetPcieReplayCounterFunc == nil {
 		panic("Interface.DeviceGetPcieReplayCounterFunc: method is nil but Interface.DeviceGetPcieReplayCounter was just called")
 	}
@@ -8678,7 +8677,7 @@ func (mock *Interface) DeviceGetPcieReplayCounterCalls() []struct {
 }
 
 // DeviceGetPcieSpeed calls DeviceGetPcieSpeedFunc.
-func (mock *Interface) DeviceGetPcieSpeed(device nvml.Device) (int, nvml.Return) {
+func (mock *Interface) DeviceGetPcieSpeed(device nvml.Device) (int, error) {
 	if mock.DeviceGetPcieSpeedFunc == nil {
 		panic("Interface.DeviceGetPcieSpeedFunc: method is nil but Interface.DeviceGetPcieSpeed was just called")
 	}
@@ -8710,7 +8709,7 @@ func (mock *Interface) DeviceGetPcieSpeedCalls() []struct {
 }
 
 // DeviceGetPcieThroughput calls DeviceGetPcieThroughputFunc.
-func (mock *Interface) DeviceGetPcieThroughput(device nvml.Device, pcieUtilCounter nvml.PcieUtilCounter) (uint32, nvml.Return) {
+func (mock *Interface) DeviceGetPcieThroughput(device nvml.Device, pcieUtilCounter nvml.PcieUtilCounter) (uint32, error) {
 	if mock.DeviceGetPcieThroughputFunc == nil {
 		panic("Interface.DeviceGetPcieThroughputFunc: method is nil but Interface.DeviceGetPcieThroughput was just called")
 	}
@@ -8746,7 +8745,7 @@ func (mock *Interface) DeviceGetPcieThroughputCalls() []struct {
 }
 
 // DeviceGetPerformanceState calls DeviceGetPerformanceStateFunc.
-func (mock *Interface) DeviceGetPerformanceState(device nvml.Device) (nvml.Pstates, nvml.Return) {
+func (mock *Interface) DeviceGetPerformanceState(device nvml.Device) (nvml.Pstates, error) {
 	if mock.DeviceGetPerformanceStateFunc == nil {
 		panic("Interface.DeviceGetPerformanceStateFunc: method is nil but Interface.DeviceGetPerformanceState was just called")
 	}
@@ -8778,7 +8777,7 @@ func (mock *Interface) DeviceGetPerformanceStateCalls() []struct {
 }
 
 // DeviceGetPersistenceMode calls DeviceGetPersistenceModeFunc.
-func (mock *Interface) DeviceGetPersistenceMode(device nvml.Device) (nvml.EnableState, nvml.Return) {
+func (mock *Interface) DeviceGetPersistenceMode(device nvml.Device) (nvml.EnableState, error) {
 	if mock.DeviceGetPersistenceModeFunc == nil {
 		panic("Interface.DeviceGetPersistenceModeFunc: method is nil but Interface.DeviceGetPersistenceMode was just called")
 	}
@@ -8810,7 +8809,7 @@ func (mock *Interface) DeviceGetPersistenceModeCalls() []struct {
 }
 
 // DeviceGetPgpuMetadataString calls DeviceGetPgpuMetadataStringFunc.
-func (mock *Interface) DeviceGetPgpuMetadataString(device nvml.Device) (string, nvml.Return) {
+func (mock *Interface) DeviceGetPgpuMetadataString(device nvml.Device) (string, error) {
 	if mock.DeviceGetPgpuMetadataStringFunc == nil {
 		panic("Interface.DeviceGetPgpuMetadataStringFunc: method is nil but Interface.DeviceGetPgpuMetadataString was just called")
 	}
@@ -8842,7 +8841,7 @@ func (mock *Interface) DeviceGetPgpuMetadataStringCalls() []struct {
 }
 
 // DeviceGetPowerManagementDefaultLimit calls DeviceGetPowerManagementDefaultLimitFunc.
-func (mock *Interface) DeviceGetPowerManagementDefaultLimit(device nvml.Device) (uint32, nvml.Return) {
+func (mock *Interface) DeviceGetPowerManagementDefaultLimit(device nvml.Device) (uint32, error) {
 	if mock.DeviceGetPowerManagementDefaultLimitFunc == nil {
 		panic("Interface.DeviceGetPowerManagementDefaultLimitFunc: method is nil but Interface.DeviceGetPowerManagementDefaultLimit was just called")
 	}
@@ -8874,7 +8873,7 @@ func (mock *Interface) DeviceGetPowerManagementDefaultLimitCalls() []struct {
 }
 
 // DeviceGetPowerManagementLimit calls DeviceGetPowerManagementLimitFunc.
-func (mock *Interface) DeviceGetPowerManagementLimit(device nvml.Device) (uint32, nvml.Return) {
+func (mock *Interface) DeviceGetPowerManagementLimit(device nvml.Device) (uint32, error) {
 	if mock.DeviceGetPowerManagementLimitFunc == nil {
 		panic("Interface.DeviceGetPowerManagementLimitFunc: method is nil but Interface.DeviceGetPowerManagementLimit was just called")
 	}
@@ -8906,7 +8905,7 @@ func (mock *Interface) DeviceGetPowerManagementLimitCalls() []struct {
 }
 
 // DeviceGetPowerManagementLimitConstraints calls DeviceGetPowerManagementLimitConstraintsFunc.
-func (mock *Interface) DeviceGetPowerManagementLimitConstraints(device nvml.Device) (uint32, uint32, nvml.Return) {
+func (mock *Interface) DeviceGetPowerManagementLimitConstraints(device nvml.Device) (uint32, uint32, error) {
 	if mock.DeviceGetPowerManagementLimitConstraintsFunc == nil {
 		panic("Interface.DeviceGetPowerManagementLimitConstraintsFunc: method is nil but Interface.DeviceGetPowerManagementLimitConstraints was just called")
 	}
@@ -8938,7 +8937,7 @@ func (mock *Interface) DeviceGetPowerManagementLimitConstraintsCalls() []struct 
 }
 
 // DeviceGetPowerManagementMode calls DeviceGetPowerManagementModeFunc.
-func (mock *Interface) DeviceGetPowerManagementMode(device nvml.Device) (nvml.EnableState, nvml.Return) {
+func (mock *Interface) DeviceGetPowerManagementMode(device nvml.Device) (nvml.EnableState, error) {
 	if mock.DeviceGetPowerManagementModeFunc == nil {
 		panic("Interface.DeviceGetPowerManagementModeFunc: method is nil but Interface.DeviceGetPowerManagementMode was just called")
 	}
@@ -8970,7 +8969,7 @@ func (mock *Interface) DeviceGetPowerManagementModeCalls() []struct {
 }
 
 // DeviceGetPowerSource calls DeviceGetPowerSourceFunc.
-func (mock *Interface) DeviceGetPowerSource(device nvml.Device) (nvml.PowerSource, nvml.Return) {
+func (mock *Interface) DeviceGetPowerSource(device nvml.Device) (nvml.PowerSource, error) {
 	if mock.DeviceGetPowerSourceFunc == nil {
 		panic("Interface.DeviceGetPowerSourceFunc: method is nil but Interface.DeviceGetPowerSource was just called")
 	}
@@ -9002,7 +9001,7 @@ func (mock *Interface) DeviceGetPowerSourceCalls() []struct {
 }
 
 // DeviceGetPowerState calls DeviceGetPowerStateFunc.
-func (mock *Interface) DeviceGetPowerState(device nvml.Device) (nvml.Pstates, nvml.Return) {
+func (mock *Interface) DeviceGetPowerState(device nvml.Device) (nvml.Pstates, error) {
 	if mock.DeviceGetPowerStateFunc == nil {
 		panic("Interface.DeviceGetPowerStateFunc: method is nil but Interface.DeviceGetPowerState was just called")
 	}
@@ -9034,7 +9033,7 @@ func (mock *Interface) DeviceGetPowerStateCalls() []struct {
 }
 
 // DeviceGetPowerUsage calls DeviceGetPowerUsageFunc.
-func (mock *Interface) DeviceGetPowerUsage(device nvml.Device) (uint32, nvml.Return) {
+func (mock *Interface) DeviceGetPowerUsage(device nvml.Device) (uint32, error) {
 	if mock.DeviceGetPowerUsageFunc == nil {
 		panic("Interface.DeviceGetPowerUsageFunc: method is nil but Interface.DeviceGetPowerUsage was just called")
 	}
@@ -9066,7 +9065,7 @@ func (mock *Interface) DeviceGetPowerUsageCalls() []struct {
 }
 
 // DeviceGetProcessUtilization calls DeviceGetProcessUtilizationFunc.
-func (mock *Interface) DeviceGetProcessUtilization(device nvml.Device, v uint64) ([]nvml.ProcessUtilizationSample, nvml.Return) {
+func (mock *Interface) DeviceGetProcessUtilization(device nvml.Device, v uint64) ([]nvml.ProcessUtilizationSample, error) {
 	if mock.DeviceGetProcessUtilizationFunc == nil {
 		panic("Interface.DeviceGetProcessUtilizationFunc: method is nil but Interface.DeviceGetProcessUtilization was just called")
 	}
@@ -9102,7 +9101,7 @@ func (mock *Interface) DeviceGetProcessUtilizationCalls() []struct {
 }
 
 // DeviceGetProcessesUtilizationInfo calls DeviceGetProcessesUtilizationInfoFunc.
-func (mock *Interface) DeviceGetProcessesUtilizationInfo(device nvml.Device) (nvml.ProcessesUtilizationInfo, nvml.Return) {
+func (mock *Interface) DeviceGetProcessesUtilizationInfo(device nvml.Device) (nvml.ProcessesUtilizationInfo, error) {
 	if mock.DeviceGetProcessesUtilizationInfoFunc == nil {
 		panic("Interface.DeviceGetProcessesUtilizationInfoFunc: method is nil but Interface.DeviceGetProcessesUtilizationInfo was just called")
 	}
@@ -9134,7 +9133,7 @@ func (mock *Interface) DeviceGetProcessesUtilizationInfoCalls() []struct {
 }
 
 // DeviceGetRemappedRows calls DeviceGetRemappedRowsFunc.
-func (mock *Interface) DeviceGetRemappedRows(device nvml.Device) (int, int, bool, bool, nvml.Return) {
+func (mock *Interface) DeviceGetRemappedRows(device nvml.Device) (int, int, bool, bool, error) {
 	if mock.DeviceGetRemappedRowsFunc == nil {
 		panic("Interface.DeviceGetRemappedRowsFunc: method is nil but Interface.DeviceGetRemappedRows was just called")
 	}
@@ -9166,7 +9165,7 @@ func (mock *Interface) DeviceGetRemappedRowsCalls() []struct {
 }
 
 // DeviceGetRetiredPages calls DeviceGetRetiredPagesFunc.
-func (mock *Interface) DeviceGetRetiredPages(device nvml.Device, pageRetirementCause nvml.PageRetirementCause) ([]uint64, nvml.Return) {
+func (mock *Interface) DeviceGetRetiredPages(device nvml.Device, pageRetirementCause nvml.PageRetirementCause) ([]uint64, error) {
 	if mock.DeviceGetRetiredPagesFunc == nil {
 		panic("Interface.DeviceGetRetiredPagesFunc: method is nil but Interface.DeviceGetRetiredPages was just called")
 	}
@@ -9202,7 +9201,7 @@ func (mock *Interface) DeviceGetRetiredPagesCalls() []struct {
 }
 
 // DeviceGetRetiredPagesPendingStatus calls DeviceGetRetiredPagesPendingStatusFunc.
-func (mock *Interface) DeviceGetRetiredPagesPendingStatus(device nvml.Device) (nvml.EnableState, nvml.Return) {
+func (mock *Interface) DeviceGetRetiredPagesPendingStatus(device nvml.Device) (nvml.EnableState, error) {
 	if mock.DeviceGetRetiredPagesPendingStatusFunc == nil {
 		panic("Interface.DeviceGetRetiredPagesPendingStatusFunc: method is nil but Interface.DeviceGetRetiredPagesPendingStatus was just called")
 	}
@@ -9234,7 +9233,7 @@ func (mock *Interface) DeviceGetRetiredPagesPendingStatusCalls() []struct {
 }
 
 // DeviceGetRetiredPages_v2 calls DeviceGetRetiredPages_v2Func.
-func (mock *Interface) DeviceGetRetiredPages_v2(device nvml.Device, pageRetirementCause nvml.PageRetirementCause) ([]uint64, []uint64, nvml.Return) {
+func (mock *Interface) DeviceGetRetiredPages_v2(device nvml.Device, pageRetirementCause nvml.PageRetirementCause) ([]uint64, []uint64, error) {
 	if mock.DeviceGetRetiredPages_v2Func == nil {
 		panic("Interface.DeviceGetRetiredPages_v2Func: method is nil but Interface.DeviceGetRetiredPages_v2 was just called")
 	}
@@ -9270,7 +9269,7 @@ func (mock *Interface) DeviceGetRetiredPages_v2Calls() []struct {
 }
 
 // DeviceGetRowRemapperHistogram calls DeviceGetRowRemapperHistogramFunc.
-func (mock *Interface) DeviceGetRowRemapperHistogram(device nvml.Device) (nvml.RowRemapperHistogramValues, nvml.Return) {
+func (mock *Interface) DeviceGetRowRemapperHistogram(device nvml.Device) (nvml.RowRemapperHistogramValues, error) {
 	if mock.DeviceGetRowRemapperHistogramFunc == nil {
 		panic("Interface.DeviceGetRowRemapperHistogramFunc: method is nil but Interface.DeviceGetRowRemapperHistogram was just called")
 	}
@@ -9302,7 +9301,7 @@ func (mock *Interface) DeviceGetRowRemapperHistogramCalls() []struct {
 }
 
 // DeviceGetRunningProcessDetailList calls DeviceGetRunningProcessDetailListFunc.
-func (mock *Interface) DeviceGetRunningProcessDetailList(device nvml.Device) (nvml.ProcessDetailList, nvml.Return) {
+func (mock *Interface) DeviceGetRunningProcessDetailList(device nvml.Device) (nvml.ProcessDetailList, error) {
 	if mock.DeviceGetRunningProcessDetailListFunc == nil {
 		panic("Interface.DeviceGetRunningProcessDetailListFunc: method is nil but Interface.DeviceGetRunningProcessDetailList was just called")
 	}
@@ -9334,7 +9333,7 @@ func (mock *Interface) DeviceGetRunningProcessDetailListCalls() []struct {
 }
 
 // DeviceGetSamples calls DeviceGetSamplesFunc.
-func (mock *Interface) DeviceGetSamples(device nvml.Device, samplingType nvml.SamplingType, v uint64) (nvml.ValueType, []nvml.Sample, nvml.Return) {
+func (mock *Interface) DeviceGetSamples(device nvml.Device, samplingType nvml.SamplingType, v uint64) (nvml.ValueType, []nvml.Sample, error) {
 	if mock.DeviceGetSamplesFunc == nil {
 		panic("Interface.DeviceGetSamplesFunc: method is nil but Interface.DeviceGetSamples was just called")
 	}
@@ -9374,7 +9373,7 @@ func (mock *Interface) DeviceGetSamplesCalls() []struct {
 }
 
 // DeviceGetSerial calls DeviceGetSerialFunc.
-func (mock *Interface) DeviceGetSerial(device nvml.Device) (string, nvml.Return) {
+func (mock *Interface) DeviceGetSerial(device nvml.Device) (string, error) {
 	if mock.DeviceGetSerialFunc == nil {
 		panic("Interface.DeviceGetSerialFunc: method is nil but Interface.DeviceGetSerial was just called")
 	}
@@ -9406,7 +9405,7 @@ func (mock *Interface) DeviceGetSerialCalls() []struct {
 }
 
 // DeviceGetSramEccErrorStatus calls DeviceGetSramEccErrorStatusFunc.
-func (mock *Interface) DeviceGetSramEccErrorStatus(device nvml.Device) (nvml.EccSramErrorStatus, nvml.Return) {
+func (mock *Interface) DeviceGetSramEccErrorStatus(device nvml.Device) (nvml.EccSramErrorStatus, error) {
 	if mock.DeviceGetSramEccErrorStatusFunc == nil {
 		panic("Interface.DeviceGetSramEccErrorStatusFunc: method is nil but Interface.DeviceGetSramEccErrorStatus was just called")
 	}
@@ -9438,7 +9437,7 @@ func (mock *Interface) DeviceGetSramEccErrorStatusCalls() []struct {
 }
 
 // DeviceGetSupportedClocksEventReasons calls DeviceGetSupportedClocksEventReasonsFunc.
-func (mock *Interface) DeviceGetSupportedClocksEventReasons(device nvml.Device) (uint64, nvml.Return) {
+func (mock *Interface) DeviceGetSupportedClocksEventReasons(device nvml.Device) (uint64, error) {
 	if mock.DeviceGetSupportedClocksEventReasonsFunc == nil {
 		panic("Interface.DeviceGetSupportedClocksEventReasonsFunc: method is nil but Interface.DeviceGetSupportedClocksEventReasons was just called")
 	}
@@ -9470,7 +9469,7 @@ func (mock *Interface) DeviceGetSupportedClocksEventReasonsCalls() []struct {
 }
 
 // DeviceGetSupportedClocksThrottleReasons calls DeviceGetSupportedClocksThrottleReasonsFunc.
-func (mock *Interface) DeviceGetSupportedClocksThrottleReasons(device nvml.Device) (uint64, nvml.Return) {
+func (mock *Interface) DeviceGetSupportedClocksThrottleReasons(device nvml.Device) (uint64, error) {
 	if mock.DeviceGetSupportedClocksThrottleReasonsFunc == nil {
 		panic("Interface.DeviceGetSupportedClocksThrottleReasonsFunc: method is nil but Interface.DeviceGetSupportedClocksThrottleReasons was just called")
 	}
@@ -9502,7 +9501,7 @@ func (mock *Interface) DeviceGetSupportedClocksThrottleReasonsCalls() []struct {
 }
 
 // DeviceGetSupportedEventTypes calls DeviceGetSupportedEventTypesFunc.
-func (mock *Interface) DeviceGetSupportedEventTypes(device nvml.Device) (uint64, nvml.Return) {
+func (mock *Interface) DeviceGetSupportedEventTypes(device nvml.Device) (uint64, error) {
 	if mock.DeviceGetSupportedEventTypesFunc == nil {
 		panic("Interface.DeviceGetSupportedEventTypesFunc: method is nil but Interface.DeviceGetSupportedEventTypes was just called")
 	}
@@ -9534,7 +9533,7 @@ func (mock *Interface) DeviceGetSupportedEventTypesCalls() []struct {
 }
 
 // DeviceGetSupportedGraphicsClocks calls DeviceGetSupportedGraphicsClocksFunc.
-func (mock *Interface) DeviceGetSupportedGraphicsClocks(device nvml.Device, n int) (int, uint32, nvml.Return) {
+func (mock *Interface) DeviceGetSupportedGraphicsClocks(device nvml.Device, n int) (int, uint32, error) {
 	if mock.DeviceGetSupportedGraphicsClocksFunc == nil {
 		panic("Interface.DeviceGetSupportedGraphicsClocksFunc: method is nil but Interface.DeviceGetSupportedGraphicsClocks was just called")
 	}
@@ -9570,7 +9569,7 @@ func (mock *Interface) DeviceGetSupportedGraphicsClocksCalls() []struct {
 }
 
 // DeviceGetSupportedMemoryClocks calls DeviceGetSupportedMemoryClocksFunc.
-func (mock *Interface) DeviceGetSupportedMemoryClocks(device nvml.Device) (int, uint32, nvml.Return) {
+func (mock *Interface) DeviceGetSupportedMemoryClocks(device nvml.Device) (int, uint32, error) {
 	if mock.DeviceGetSupportedMemoryClocksFunc == nil {
 		panic("Interface.DeviceGetSupportedMemoryClocksFunc: method is nil but Interface.DeviceGetSupportedMemoryClocks was just called")
 	}
@@ -9602,7 +9601,7 @@ func (mock *Interface) DeviceGetSupportedMemoryClocksCalls() []struct {
 }
 
 // DeviceGetSupportedPerformanceStates calls DeviceGetSupportedPerformanceStatesFunc.
-func (mock *Interface) DeviceGetSupportedPerformanceStates(device nvml.Device) ([]nvml.Pstates, nvml.Return) {
+func (mock *Interface) DeviceGetSupportedPerformanceStates(device nvml.Device) ([]nvml.Pstates, error) {
 	if mock.DeviceGetSupportedPerformanceStatesFunc == nil {
 		panic("Interface.DeviceGetSupportedPerformanceStatesFunc: method is nil but Interface.DeviceGetSupportedPerformanceStates was just called")
 	}
@@ -9634,7 +9633,7 @@ func (mock *Interface) DeviceGetSupportedPerformanceStatesCalls() []struct {
 }
 
 // DeviceGetSupportedVgpus calls DeviceGetSupportedVgpusFunc.
-func (mock *Interface) DeviceGetSupportedVgpus(device nvml.Device) ([]nvml.VgpuTypeId, nvml.Return) {
+func (mock *Interface) DeviceGetSupportedVgpus(device nvml.Device) ([]nvml.VgpuTypeId, error) {
 	if mock.DeviceGetSupportedVgpusFunc == nil {
 		panic("Interface.DeviceGetSupportedVgpusFunc: method is nil but Interface.DeviceGetSupportedVgpus was just called")
 	}
@@ -9666,7 +9665,7 @@ func (mock *Interface) DeviceGetSupportedVgpusCalls() []struct {
 }
 
 // DeviceGetTargetFanSpeed calls DeviceGetTargetFanSpeedFunc.
-func (mock *Interface) DeviceGetTargetFanSpeed(device nvml.Device, n int) (int, nvml.Return) {
+func (mock *Interface) DeviceGetTargetFanSpeed(device nvml.Device, n int) (int, error) {
 	if mock.DeviceGetTargetFanSpeedFunc == nil {
 		panic("Interface.DeviceGetTargetFanSpeedFunc: method is nil but Interface.DeviceGetTargetFanSpeed was just called")
 	}
@@ -9702,7 +9701,7 @@ func (mock *Interface) DeviceGetTargetFanSpeedCalls() []struct {
 }
 
 // DeviceGetTemperature calls DeviceGetTemperatureFunc.
-func (mock *Interface) DeviceGetTemperature(device nvml.Device, temperatureSensors nvml.TemperatureSensors) (uint32, nvml.Return) {
+func (mock *Interface) DeviceGetTemperature(device nvml.Device, temperatureSensors nvml.TemperatureSensors) (uint32, error) {
 	if mock.DeviceGetTemperatureFunc == nil {
 		panic("Interface.DeviceGetTemperatureFunc: method is nil but Interface.DeviceGetTemperature was just called")
 	}
@@ -9738,7 +9737,7 @@ func (mock *Interface) DeviceGetTemperatureCalls() []struct {
 }
 
 // DeviceGetTemperatureThreshold calls DeviceGetTemperatureThresholdFunc.
-func (mock *Interface) DeviceGetTemperatureThreshold(device nvml.Device, temperatureThresholds nvml.TemperatureThresholds) (uint32, nvml.Return) {
+func (mock *Interface) DeviceGetTemperatureThreshold(device nvml.Device, temperatureThresholds nvml.TemperatureThresholds) (uint32, error) {
 	if mock.DeviceGetTemperatureThresholdFunc == nil {
 		panic("Interface.DeviceGetTemperatureThresholdFunc: method is nil but Interface.DeviceGetTemperatureThreshold was just called")
 	}
@@ -9774,7 +9773,7 @@ func (mock *Interface) DeviceGetTemperatureThresholdCalls() []struct {
 }
 
 // DeviceGetThermalSettings calls DeviceGetThermalSettingsFunc.
-func (mock *Interface) DeviceGetThermalSettings(device nvml.Device, v uint32) (nvml.GpuThermalSettings, nvml.Return) {
+func (mock *Interface) DeviceGetThermalSettings(device nvml.Device, v uint32) (nvml.GpuThermalSettings, error) {
 	if mock.DeviceGetThermalSettingsFunc == nil {
 		panic("Interface.DeviceGetThermalSettingsFunc: method is nil but Interface.DeviceGetThermalSettings was just called")
 	}
@@ -9810,7 +9809,7 @@ func (mock *Interface) DeviceGetThermalSettingsCalls() []struct {
 }
 
 // DeviceGetTopologyCommonAncestor calls DeviceGetTopologyCommonAncestorFunc.
-func (mock *Interface) DeviceGetTopologyCommonAncestor(device1 nvml.Device, device2 nvml.Device) (nvml.GpuTopologyLevel, nvml.Return) {
+func (mock *Interface) DeviceGetTopologyCommonAncestor(device1 nvml.Device, device2 nvml.Device) (nvml.GpuTopologyLevel, error) {
 	if mock.DeviceGetTopologyCommonAncestorFunc == nil {
 		panic("Interface.DeviceGetTopologyCommonAncestorFunc: method is nil but Interface.DeviceGetTopologyCommonAncestor was just called")
 	}
@@ -9846,7 +9845,7 @@ func (mock *Interface) DeviceGetTopologyCommonAncestorCalls() []struct {
 }
 
 // DeviceGetTopologyNearestGpus calls DeviceGetTopologyNearestGpusFunc.
-func (mock *Interface) DeviceGetTopologyNearestGpus(device nvml.Device, gpuTopologyLevel nvml.GpuTopologyLevel) ([]nvml.Device, nvml.Return) {
+func (mock *Interface) DeviceGetTopologyNearestGpus(device nvml.Device, gpuTopologyLevel nvml.GpuTopologyLevel) ([]nvml.Device, error) {
 	if mock.DeviceGetTopologyNearestGpusFunc == nil {
 		panic("Interface.DeviceGetTopologyNearestGpusFunc: method is nil but Interface.DeviceGetTopologyNearestGpus was just called")
 	}
@@ -9882,7 +9881,7 @@ func (mock *Interface) DeviceGetTopologyNearestGpusCalls() []struct {
 }
 
 // DeviceGetTotalEccErrors calls DeviceGetTotalEccErrorsFunc.
-func (mock *Interface) DeviceGetTotalEccErrors(device nvml.Device, memoryErrorType nvml.MemoryErrorType, eccCounterType nvml.EccCounterType) (uint64, nvml.Return) {
+func (mock *Interface) DeviceGetTotalEccErrors(device nvml.Device, memoryErrorType nvml.MemoryErrorType, eccCounterType nvml.EccCounterType) (uint64, error) {
 	if mock.DeviceGetTotalEccErrorsFunc == nil {
 		panic("Interface.DeviceGetTotalEccErrorsFunc: method is nil but Interface.DeviceGetTotalEccErrors was just called")
 	}
@@ -9922,7 +9921,7 @@ func (mock *Interface) DeviceGetTotalEccErrorsCalls() []struct {
 }
 
 // DeviceGetTotalEnergyConsumption calls DeviceGetTotalEnergyConsumptionFunc.
-func (mock *Interface) DeviceGetTotalEnergyConsumption(device nvml.Device) (uint64, nvml.Return) {
+func (mock *Interface) DeviceGetTotalEnergyConsumption(device nvml.Device) (uint64, error) {
 	if mock.DeviceGetTotalEnergyConsumptionFunc == nil {
 		panic("Interface.DeviceGetTotalEnergyConsumptionFunc: method is nil but Interface.DeviceGetTotalEnergyConsumption was just called")
 	}
@@ -9954,7 +9953,7 @@ func (mock *Interface) DeviceGetTotalEnergyConsumptionCalls() []struct {
 }
 
 // DeviceGetUUID calls DeviceGetUUIDFunc.
-func (mock *Interface) DeviceGetUUID(device nvml.Device) (string, nvml.Return) {
+func (mock *Interface) DeviceGetUUID(device nvml.Device) (string, error) {
 	if mock.DeviceGetUUIDFunc == nil {
 		panic("Interface.DeviceGetUUIDFunc: method is nil but Interface.DeviceGetUUID was just called")
 	}
@@ -9986,7 +9985,7 @@ func (mock *Interface) DeviceGetUUIDCalls() []struct {
 }
 
 // DeviceGetUtilizationRates calls DeviceGetUtilizationRatesFunc.
-func (mock *Interface) DeviceGetUtilizationRates(device nvml.Device) (nvml.Utilization, nvml.Return) {
+func (mock *Interface) DeviceGetUtilizationRates(device nvml.Device) (nvml.Utilization, error) {
 	if mock.DeviceGetUtilizationRatesFunc == nil {
 		panic("Interface.DeviceGetUtilizationRatesFunc: method is nil but Interface.DeviceGetUtilizationRates was just called")
 	}
@@ -10018,7 +10017,7 @@ func (mock *Interface) DeviceGetUtilizationRatesCalls() []struct {
 }
 
 // DeviceGetVbiosVersion calls DeviceGetVbiosVersionFunc.
-func (mock *Interface) DeviceGetVbiosVersion(device nvml.Device) (string, nvml.Return) {
+func (mock *Interface) DeviceGetVbiosVersion(device nvml.Device) (string, error) {
 	if mock.DeviceGetVbiosVersionFunc == nil {
 		panic("Interface.DeviceGetVbiosVersionFunc: method is nil but Interface.DeviceGetVbiosVersion was just called")
 	}
@@ -10050,7 +10049,7 @@ func (mock *Interface) DeviceGetVbiosVersionCalls() []struct {
 }
 
 // DeviceGetVgpuCapabilities calls DeviceGetVgpuCapabilitiesFunc.
-func (mock *Interface) DeviceGetVgpuCapabilities(device nvml.Device, deviceVgpuCapability nvml.DeviceVgpuCapability) (bool, nvml.Return) {
+func (mock *Interface) DeviceGetVgpuCapabilities(device nvml.Device, deviceVgpuCapability nvml.DeviceVgpuCapability) (bool, error) {
 	if mock.DeviceGetVgpuCapabilitiesFunc == nil {
 		panic("Interface.DeviceGetVgpuCapabilitiesFunc: method is nil but Interface.DeviceGetVgpuCapabilities was just called")
 	}
@@ -10086,7 +10085,7 @@ func (mock *Interface) DeviceGetVgpuCapabilitiesCalls() []struct {
 }
 
 // DeviceGetVgpuHeterogeneousMode calls DeviceGetVgpuHeterogeneousModeFunc.
-func (mock *Interface) DeviceGetVgpuHeterogeneousMode(device nvml.Device) (nvml.VgpuHeterogeneousMode, nvml.Return) {
+func (mock *Interface) DeviceGetVgpuHeterogeneousMode(device nvml.Device) (nvml.VgpuHeterogeneousMode, error) {
 	if mock.DeviceGetVgpuHeterogeneousModeFunc == nil {
 		panic("Interface.DeviceGetVgpuHeterogeneousModeFunc: method is nil but Interface.DeviceGetVgpuHeterogeneousMode was just called")
 	}
@@ -10118,7 +10117,7 @@ func (mock *Interface) DeviceGetVgpuHeterogeneousModeCalls() []struct {
 }
 
 // DeviceGetVgpuInstancesUtilizationInfo calls DeviceGetVgpuInstancesUtilizationInfoFunc.
-func (mock *Interface) DeviceGetVgpuInstancesUtilizationInfo(device nvml.Device) (nvml.VgpuInstancesUtilizationInfo, nvml.Return) {
+func (mock *Interface) DeviceGetVgpuInstancesUtilizationInfo(device nvml.Device) (nvml.VgpuInstancesUtilizationInfo, error) {
 	if mock.DeviceGetVgpuInstancesUtilizationInfoFunc == nil {
 		panic("Interface.DeviceGetVgpuInstancesUtilizationInfoFunc: method is nil but Interface.DeviceGetVgpuInstancesUtilizationInfo was just called")
 	}
@@ -10150,7 +10149,7 @@ func (mock *Interface) DeviceGetVgpuInstancesUtilizationInfoCalls() []struct {
 }
 
 // DeviceGetVgpuMetadata calls DeviceGetVgpuMetadataFunc.
-func (mock *Interface) DeviceGetVgpuMetadata(device nvml.Device) (nvml.VgpuPgpuMetadata, nvml.Return) {
+func (mock *Interface) DeviceGetVgpuMetadata(device nvml.Device) (nvml.VgpuPgpuMetadata, error) {
 	if mock.DeviceGetVgpuMetadataFunc == nil {
 		panic("Interface.DeviceGetVgpuMetadataFunc: method is nil but Interface.DeviceGetVgpuMetadata was just called")
 	}
@@ -10182,7 +10181,7 @@ func (mock *Interface) DeviceGetVgpuMetadataCalls() []struct {
 }
 
 // DeviceGetVgpuProcessUtilization calls DeviceGetVgpuProcessUtilizationFunc.
-func (mock *Interface) DeviceGetVgpuProcessUtilization(device nvml.Device, v uint64) ([]nvml.VgpuProcessUtilizationSample, nvml.Return) {
+func (mock *Interface) DeviceGetVgpuProcessUtilization(device nvml.Device, v uint64) ([]nvml.VgpuProcessUtilizationSample, error) {
 	if mock.DeviceGetVgpuProcessUtilizationFunc == nil {
 		panic("Interface.DeviceGetVgpuProcessUtilizationFunc: method is nil but Interface.DeviceGetVgpuProcessUtilization was just called")
 	}
@@ -10218,7 +10217,7 @@ func (mock *Interface) DeviceGetVgpuProcessUtilizationCalls() []struct {
 }
 
 // DeviceGetVgpuProcessesUtilizationInfo calls DeviceGetVgpuProcessesUtilizationInfoFunc.
-func (mock *Interface) DeviceGetVgpuProcessesUtilizationInfo(device nvml.Device) (nvml.VgpuProcessesUtilizationInfo, nvml.Return) {
+func (mock *Interface) DeviceGetVgpuProcessesUtilizationInfo(device nvml.Device) (nvml.VgpuProcessesUtilizationInfo, error) {
 	if mock.DeviceGetVgpuProcessesUtilizationInfoFunc == nil {
 		panic("Interface.DeviceGetVgpuProcessesUtilizationInfoFunc: method is nil but Interface.DeviceGetVgpuProcessesUtilizationInfo was just called")
 	}
@@ -10250,7 +10249,7 @@ func (mock *Interface) DeviceGetVgpuProcessesUtilizationInfoCalls() []struct {
 }
 
 // DeviceGetVgpuSchedulerCapabilities calls DeviceGetVgpuSchedulerCapabilitiesFunc.
-func (mock *Interface) DeviceGetVgpuSchedulerCapabilities(device nvml.Device) (nvml.VgpuSchedulerCapabilities, nvml.Return) {
+func (mock *Interface) DeviceGetVgpuSchedulerCapabilities(device nvml.Device) (nvml.VgpuSchedulerCapabilities, error) {
 	if mock.DeviceGetVgpuSchedulerCapabilitiesFunc == nil {
 		panic("Interface.DeviceGetVgpuSchedulerCapabilitiesFunc: method is nil but Interface.DeviceGetVgpuSchedulerCapabilities was just called")
 	}
@@ -10282,7 +10281,7 @@ func (mock *Interface) DeviceGetVgpuSchedulerCapabilitiesCalls() []struct {
 }
 
 // DeviceGetVgpuSchedulerLog calls DeviceGetVgpuSchedulerLogFunc.
-func (mock *Interface) DeviceGetVgpuSchedulerLog(device nvml.Device) (nvml.VgpuSchedulerLog, nvml.Return) {
+func (mock *Interface) DeviceGetVgpuSchedulerLog(device nvml.Device) (nvml.VgpuSchedulerLog, error) {
 	if mock.DeviceGetVgpuSchedulerLogFunc == nil {
 		panic("Interface.DeviceGetVgpuSchedulerLogFunc: method is nil but Interface.DeviceGetVgpuSchedulerLog was just called")
 	}
@@ -10314,7 +10313,7 @@ func (mock *Interface) DeviceGetVgpuSchedulerLogCalls() []struct {
 }
 
 // DeviceGetVgpuSchedulerState calls DeviceGetVgpuSchedulerStateFunc.
-func (mock *Interface) DeviceGetVgpuSchedulerState(device nvml.Device) (nvml.VgpuSchedulerGetState, nvml.Return) {
+func (mock *Interface) DeviceGetVgpuSchedulerState(device nvml.Device) (nvml.VgpuSchedulerGetState, error) {
 	if mock.DeviceGetVgpuSchedulerStateFunc == nil {
 		panic("Interface.DeviceGetVgpuSchedulerStateFunc: method is nil but Interface.DeviceGetVgpuSchedulerState was just called")
 	}
@@ -10346,7 +10345,7 @@ func (mock *Interface) DeviceGetVgpuSchedulerStateCalls() []struct {
 }
 
 // DeviceGetVgpuTypeCreatablePlacements calls DeviceGetVgpuTypeCreatablePlacementsFunc.
-func (mock *Interface) DeviceGetVgpuTypeCreatablePlacements(device nvml.Device, vgpuTypeId nvml.VgpuTypeId) (nvml.VgpuPlacementList, nvml.Return) {
+func (mock *Interface) DeviceGetVgpuTypeCreatablePlacements(device nvml.Device, vgpuTypeId nvml.VgpuTypeId) (nvml.VgpuPlacementList, error) {
 	if mock.DeviceGetVgpuTypeCreatablePlacementsFunc == nil {
 		panic("Interface.DeviceGetVgpuTypeCreatablePlacementsFunc: method is nil but Interface.DeviceGetVgpuTypeCreatablePlacements was just called")
 	}
@@ -10382,7 +10381,7 @@ func (mock *Interface) DeviceGetVgpuTypeCreatablePlacementsCalls() []struct {
 }
 
 // DeviceGetVgpuTypeSupportedPlacements calls DeviceGetVgpuTypeSupportedPlacementsFunc.
-func (mock *Interface) DeviceGetVgpuTypeSupportedPlacements(device nvml.Device, vgpuTypeId nvml.VgpuTypeId) (nvml.VgpuPlacementList, nvml.Return) {
+func (mock *Interface) DeviceGetVgpuTypeSupportedPlacements(device nvml.Device, vgpuTypeId nvml.VgpuTypeId) (nvml.VgpuPlacementList, error) {
 	if mock.DeviceGetVgpuTypeSupportedPlacementsFunc == nil {
 		panic("Interface.DeviceGetVgpuTypeSupportedPlacementsFunc: method is nil but Interface.DeviceGetVgpuTypeSupportedPlacements was just called")
 	}
@@ -10418,7 +10417,7 @@ func (mock *Interface) DeviceGetVgpuTypeSupportedPlacementsCalls() []struct {
 }
 
 // DeviceGetVgpuUtilization calls DeviceGetVgpuUtilizationFunc.
-func (mock *Interface) DeviceGetVgpuUtilization(device nvml.Device, v uint64) (nvml.ValueType, []nvml.VgpuInstanceUtilizationSample, nvml.Return) {
+func (mock *Interface) DeviceGetVgpuUtilization(device nvml.Device, v uint64) (nvml.ValueType, []nvml.VgpuInstanceUtilizationSample, error) {
 	if mock.DeviceGetVgpuUtilizationFunc == nil {
 		panic("Interface.DeviceGetVgpuUtilizationFunc: method is nil but Interface.DeviceGetVgpuUtilization was just called")
 	}
@@ -10454,7 +10453,7 @@ func (mock *Interface) DeviceGetVgpuUtilizationCalls() []struct {
 }
 
 // DeviceGetViolationStatus calls DeviceGetViolationStatusFunc.
-func (mock *Interface) DeviceGetViolationStatus(device nvml.Device, perfPolicyType nvml.PerfPolicyType) (nvml.ViolationTime, nvml.Return) {
+func (mock *Interface) DeviceGetViolationStatus(device nvml.Device, perfPolicyType nvml.PerfPolicyType) (nvml.ViolationTime, error) {
 	if mock.DeviceGetViolationStatusFunc == nil {
 		panic("Interface.DeviceGetViolationStatusFunc: method is nil but Interface.DeviceGetViolationStatus was just called")
 	}
@@ -10490,7 +10489,7 @@ func (mock *Interface) DeviceGetViolationStatusCalls() []struct {
 }
 
 // DeviceGetVirtualizationMode calls DeviceGetVirtualizationModeFunc.
-func (mock *Interface) DeviceGetVirtualizationMode(device nvml.Device) (nvml.GpuVirtualizationMode, nvml.Return) {
+func (mock *Interface) DeviceGetVirtualizationMode(device nvml.Device) (nvml.GpuVirtualizationMode, error) {
 	if mock.DeviceGetVirtualizationModeFunc == nil {
 		panic("Interface.DeviceGetVirtualizationModeFunc: method is nil but Interface.DeviceGetVirtualizationMode was just called")
 	}
@@ -10522,7 +10521,7 @@ func (mock *Interface) DeviceGetVirtualizationModeCalls() []struct {
 }
 
 // DeviceIsMigDeviceHandle calls DeviceIsMigDeviceHandleFunc.
-func (mock *Interface) DeviceIsMigDeviceHandle(device nvml.Device) (bool, nvml.Return) {
+func (mock *Interface) DeviceIsMigDeviceHandle(device nvml.Device) (bool, error) {
 	if mock.DeviceIsMigDeviceHandleFunc == nil {
 		panic("Interface.DeviceIsMigDeviceHandleFunc: method is nil but Interface.DeviceIsMigDeviceHandle was just called")
 	}
@@ -10554,7 +10553,7 @@ func (mock *Interface) DeviceIsMigDeviceHandleCalls() []struct {
 }
 
 // DeviceModifyDrainState calls DeviceModifyDrainStateFunc.
-func (mock *Interface) DeviceModifyDrainState(pciInfo *nvml.PciInfo, enableState nvml.EnableState) nvml.Return {
+func (mock *Interface) DeviceModifyDrainState(pciInfo *nvml.PciInfo, enableState nvml.EnableState) error {
 	if mock.DeviceModifyDrainStateFunc == nil {
 		panic("Interface.DeviceModifyDrainStateFunc: method is nil but Interface.DeviceModifyDrainState was just called")
 	}
@@ -10590,7 +10589,7 @@ func (mock *Interface) DeviceModifyDrainStateCalls() []struct {
 }
 
 // DeviceOnSameBoard calls DeviceOnSameBoardFunc.
-func (mock *Interface) DeviceOnSameBoard(device1 nvml.Device, device2 nvml.Device) (int, nvml.Return) {
+func (mock *Interface) DeviceOnSameBoard(device1 nvml.Device, device2 nvml.Device) (int, error) {
 	if mock.DeviceOnSameBoardFunc == nil {
 		panic("Interface.DeviceOnSameBoardFunc: method is nil but Interface.DeviceOnSameBoard was just called")
 	}
@@ -10626,7 +10625,7 @@ func (mock *Interface) DeviceOnSameBoardCalls() []struct {
 }
 
 // DeviceQueryDrainState calls DeviceQueryDrainStateFunc.
-func (mock *Interface) DeviceQueryDrainState(pciInfo *nvml.PciInfo) (nvml.EnableState, nvml.Return) {
+func (mock *Interface) DeviceQueryDrainState(pciInfo *nvml.PciInfo) (nvml.EnableState, error) {
 	if mock.DeviceQueryDrainStateFunc == nil {
 		panic("Interface.DeviceQueryDrainStateFunc: method is nil but Interface.DeviceQueryDrainState was just called")
 	}
@@ -10658,7 +10657,7 @@ func (mock *Interface) DeviceQueryDrainStateCalls() []struct {
 }
 
 // DeviceRegisterEvents calls DeviceRegisterEventsFunc.
-func (mock *Interface) DeviceRegisterEvents(device nvml.Device, v uint64, eventSet nvml.EventSet) nvml.Return {
+func (mock *Interface) DeviceRegisterEvents(device nvml.Device, v uint64, eventSet nvml.EventSet) error {
 	if mock.DeviceRegisterEventsFunc == nil {
 		panic("Interface.DeviceRegisterEventsFunc: method is nil but Interface.DeviceRegisterEvents was just called")
 	}
@@ -10698,7 +10697,7 @@ func (mock *Interface) DeviceRegisterEventsCalls() []struct {
 }
 
 // DeviceRemoveGpu calls DeviceRemoveGpuFunc.
-func (mock *Interface) DeviceRemoveGpu(pciInfo *nvml.PciInfo) nvml.Return {
+func (mock *Interface) DeviceRemoveGpu(pciInfo *nvml.PciInfo) error {
 	if mock.DeviceRemoveGpuFunc == nil {
 		panic("Interface.DeviceRemoveGpuFunc: method is nil but Interface.DeviceRemoveGpu was just called")
 	}
@@ -10730,7 +10729,7 @@ func (mock *Interface) DeviceRemoveGpuCalls() []struct {
 }
 
 // DeviceRemoveGpu_v2 calls DeviceRemoveGpu_v2Func.
-func (mock *Interface) DeviceRemoveGpu_v2(pciInfo *nvml.PciInfo, detachGpuState nvml.DetachGpuState, pcieLinkState nvml.PcieLinkState) nvml.Return {
+func (mock *Interface) DeviceRemoveGpu_v2(pciInfo *nvml.PciInfo, detachGpuState nvml.DetachGpuState, pcieLinkState nvml.PcieLinkState) error {
 	if mock.DeviceRemoveGpu_v2Func == nil {
 		panic("Interface.DeviceRemoveGpu_v2Func: method is nil but Interface.DeviceRemoveGpu_v2 was just called")
 	}
@@ -10770,7 +10769,7 @@ func (mock *Interface) DeviceRemoveGpu_v2Calls() []struct {
 }
 
 // DeviceResetApplicationsClocks calls DeviceResetApplicationsClocksFunc.
-func (mock *Interface) DeviceResetApplicationsClocks(device nvml.Device) nvml.Return {
+func (mock *Interface) DeviceResetApplicationsClocks(device nvml.Device) error {
 	if mock.DeviceResetApplicationsClocksFunc == nil {
 		panic("Interface.DeviceResetApplicationsClocksFunc: method is nil but Interface.DeviceResetApplicationsClocks was just called")
 	}
@@ -10802,7 +10801,7 @@ func (mock *Interface) DeviceResetApplicationsClocksCalls() []struct {
 }
 
 // DeviceResetGpuLockedClocks calls DeviceResetGpuLockedClocksFunc.
-func (mock *Interface) DeviceResetGpuLockedClocks(device nvml.Device) nvml.Return {
+func (mock *Interface) DeviceResetGpuLockedClocks(device nvml.Device) error {
 	if mock.DeviceResetGpuLockedClocksFunc == nil {
 		panic("Interface.DeviceResetGpuLockedClocksFunc: method is nil but Interface.DeviceResetGpuLockedClocks was just called")
 	}
@@ -10834,7 +10833,7 @@ func (mock *Interface) DeviceResetGpuLockedClocksCalls() []struct {
 }
 
 // DeviceResetMemoryLockedClocks calls DeviceResetMemoryLockedClocksFunc.
-func (mock *Interface) DeviceResetMemoryLockedClocks(device nvml.Device) nvml.Return {
+func (mock *Interface) DeviceResetMemoryLockedClocks(device nvml.Device) error {
 	if mock.DeviceResetMemoryLockedClocksFunc == nil {
 		panic("Interface.DeviceResetMemoryLockedClocksFunc: method is nil but Interface.DeviceResetMemoryLockedClocks was just called")
 	}
@@ -10866,7 +10865,7 @@ func (mock *Interface) DeviceResetMemoryLockedClocksCalls() []struct {
 }
 
 // DeviceResetNvLinkErrorCounters calls DeviceResetNvLinkErrorCountersFunc.
-func (mock *Interface) DeviceResetNvLinkErrorCounters(device nvml.Device, n int) nvml.Return {
+func (mock *Interface) DeviceResetNvLinkErrorCounters(device nvml.Device, n int) error {
 	if mock.DeviceResetNvLinkErrorCountersFunc == nil {
 		panic("Interface.DeviceResetNvLinkErrorCountersFunc: method is nil but Interface.DeviceResetNvLinkErrorCounters was just called")
 	}
@@ -10902,7 +10901,7 @@ func (mock *Interface) DeviceResetNvLinkErrorCountersCalls() []struct {
 }
 
 // DeviceResetNvLinkUtilizationCounter calls DeviceResetNvLinkUtilizationCounterFunc.
-func (mock *Interface) DeviceResetNvLinkUtilizationCounter(device nvml.Device, n1 int, n2 int) nvml.Return {
+func (mock *Interface) DeviceResetNvLinkUtilizationCounter(device nvml.Device, n1 int, n2 int) error {
 	if mock.DeviceResetNvLinkUtilizationCounterFunc == nil {
 		panic("Interface.DeviceResetNvLinkUtilizationCounterFunc: method is nil but Interface.DeviceResetNvLinkUtilizationCounter was just called")
 	}
@@ -10942,7 +10941,7 @@ func (mock *Interface) DeviceResetNvLinkUtilizationCounterCalls() []struct {
 }
 
 // DeviceSetAPIRestriction calls DeviceSetAPIRestrictionFunc.
-func (mock *Interface) DeviceSetAPIRestriction(device nvml.Device, restrictedAPI nvml.RestrictedAPI, enableState nvml.EnableState) nvml.Return {
+func (mock *Interface) DeviceSetAPIRestriction(device nvml.Device, restrictedAPI nvml.RestrictedAPI, enableState nvml.EnableState) error {
 	if mock.DeviceSetAPIRestrictionFunc == nil {
 		panic("Interface.DeviceSetAPIRestrictionFunc: method is nil but Interface.DeviceSetAPIRestriction was just called")
 	}
@@ -10982,7 +10981,7 @@ func (mock *Interface) DeviceSetAPIRestrictionCalls() []struct {
 }
 
 // DeviceSetAccountingMode calls DeviceSetAccountingModeFunc.
-func (mock *Interface) DeviceSetAccountingMode(device nvml.Device, enableState nvml.EnableState) nvml.Return {
+func (mock *Interface) DeviceSetAccountingMode(device nvml.Device, enableState nvml.EnableState) error {
 	if mock.DeviceSetAccountingModeFunc == nil {
 		panic("Interface.DeviceSetAccountingModeFunc: method is nil but Interface.DeviceSetAccountingMode was just called")
 	}
@@ -11018,7 +11017,7 @@ func (mock *Interface) DeviceSetAccountingModeCalls() []struct {
 }
 
 // DeviceSetApplicationsClocks calls DeviceSetApplicationsClocksFunc.
-func (mock *Interface) DeviceSetApplicationsClocks(device nvml.Device, v1 uint32, v2 uint32) nvml.Return {
+func (mock *Interface) DeviceSetApplicationsClocks(device nvml.Device, v1 uint32, v2 uint32) error {
 	if mock.DeviceSetApplicationsClocksFunc == nil {
 		panic("Interface.DeviceSetApplicationsClocksFunc: method is nil but Interface.DeviceSetApplicationsClocks was just called")
 	}
@@ -11058,7 +11057,7 @@ func (mock *Interface) DeviceSetApplicationsClocksCalls() []struct {
 }
 
 // DeviceSetAutoBoostedClocksEnabled calls DeviceSetAutoBoostedClocksEnabledFunc.
-func (mock *Interface) DeviceSetAutoBoostedClocksEnabled(device nvml.Device, enableState nvml.EnableState) nvml.Return {
+func (mock *Interface) DeviceSetAutoBoostedClocksEnabled(device nvml.Device, enableState nvml.EnableState) error {
 	if mock.DeviceSetAutoBoostedClocksEnabledFunc == nil {
 		panic("Interface.DeviceSetAutoBoostedClocksEnabledFunc: method is nil but Interface.DeviceSetAutoBoostedClocksEnabled was just called")
 	}
@@ -11094,7 +11093,7 @@ func (mock *Interface) DeviceSetAutoBoostedClocksEnabledCalls() []struct {
 }
 
 // DeviceSetComputeMode calls DeviceSetComputeModeFunc.
-func (mock *Interface) DeviceSetComputeMode(device nvml.Device, computeMode nvml.ComputeMode) nvml.Return {
+func (mock *Interface) DeviceSetComputeMode(device nvml.Device, computeMode nvml.ComputeMode) error {
 	if mock.DeviceSetComputeModeFunc == nil {
 		panic("Interface.DeviceSetComputeModeFunc: method is nil but Interface.DeviceSetComputeMode was just called")
 	}
@@ -11130,7 +11129,7 @@ func (mock *Interface) DeviceSetComputeModeCalls() []struct {
 }
 
 // DeviceSetConfComputeUnprotectedMemSize calls DeviceSetConfComputeUnprotectedMemSizeFunc.
-func (mock *Interface) DeviceSetConfComputeUnprotectedMemSize(device nvml.Device, v uint64) nvml.Return {
+func (mock *Interface) DeviceSetConfComputeUnprotectedMemSize(device nvml.Device, v uint64) error {
 	if mock.DeviceSetConfComputeUnprotectedMemSizeFunc == nil {
 		panic("Interface.DeviceSetConfComputeUnprotectedMemSizeFunc: method is nil but Interface.DeviceSetConfComputeUnprotectedMemSize was just called")
 	}
@@ -11166,7 +11165,7 @@ func (mock *Interface) DeviceSetConfComputeUnprotectedMemSizeCalls() []struct {
 }
 
 // DeviceSetCpuAffinity calls DeviceSetCpuAffinityFunc.
-func (mock *Interface) DeviceSetCpuAffinity(device nvml.Device) nvml.Return {
+func (mock *Interface) DeviceSetCpuAffinity(device nvml.Device) error {
 	if mock.DeviceSetCpuAffinityFunc == nil {
 		panic("Interface.DeviceSetCpuAffinityFunc: method is nil but Interface.DeviceSetCpuAffinity was just called")
 	}
@@ -11198,7 +11197,7 @@ func (mock *Interface) DeviceSetCpuAffinityCalls() []struct {
 }
 
 // DeviceSetDefaultAutoBoostedClocksEnabled calls DeviceSetDefaultAutoBoostedClocksEnabledFunc.
-func (mock *Interface) DeviceSetDefaultAutoBoostedClocksEnabled(device nvml.Device, enableState nvml.EnableState, v uint32) nvml.Return {
+func (mock *Interface) DeviceSetDefaultAutoBoostedClocksEnabled(device nvml.Device, enableState nvml.EnableState, v uint32) error {
 	if mock.DeviceSetDefaultAutoBoostedClocksEnabledFunc == nil {
 		panic("Interface.DeviceSetDefaultAutoBoostedClocksEnabledFunc: method is nil but Interface.DeviceSetDefaultAutoBoostedClocksEnabled was just called")
 	}
@@ -11238,7 +11237,7 @@ func (mock *Interface) DeviceSetDefaultAutoBoostedClocksEnabledCalls() []struct 
 }
 
 // DeviceSetDefaultFanSpeed_v2 calls DeviceSetDefaultFanSpeed_v2Func.
-func (mock *Interface) DeviceSetDefaultFanSpeed_v2(device nvml.Device, n int) nvml.Return {
+func (mock *Interface) DeviceSetDefaultFanSpeed_v2(device nvml.Device, n int) error {
 	if mock.DeviceSetDefaultFanSpeed_v2Func == nil {
 		panic("Interface.DeviceSetDefaultFanSpeed_v2Func: method is nil but Interface.DeviceSetDefaultFanSpeed_v2 was just called")
 	}
@@ -11274,7 +11273,7 @@ func (mock *Interface) DeviceSetDefaultFanSpeed_v2Calls() []struct {
 }
 
 // DeviceSetDriverModel calls DeviceSetDriverModelFunc.
-func (mock *Interface) DeviceSetDriverModel(device nvml.Device, driverModel nvml.DriverModel, v uint32) nvml.Return {
+func (mock *Interface) DeviceSetDriverModel(device nvml.Device, driverModel nvml.DriverModel, v uint32) error {
 	if mock.DeviceSetDriverModelFunc == nil {
 		panic("Interface.DeviceSetDriverModelFunc: method is nil but Interface.DeviceSetDriverModel was just called")
 	}
@@ -11314,7 +11313,7 @@ func (mock *Interface) DeviceSetDriverModelCalls() []struct {
 }
 
 // DeviceSetEccMode calls DeviceSetEccModeFunc.
-func (mock *Interface) DeviceSetEccMode(device nvml.Device, enableState nvml.EnableState) nvml.Return {
+func (mock *Interface) DeviceSetEccMode(device nvml.Device, enableState nvml.EnableState) error {
 	if mock.DeviceSetEccModeFunc == nil {
 		panic("Interface.DeviceSetEccModeFunc: method is nil but Interface.DeviceSetEccMode was just called")
 	}
@@ -11350,7 +11349,7 @@ func (mock *Interface) DeviceSetEccModeCalls() []struct {
 }
 
 // DeviceSetFanControlPolicy calls DeviceSetFanControlPolicyFunc.
-func (mock *Interface) DeviceSetFanControlPolicy(device nvml.Device, n int, fanControlPolicy nvml.FanControlPolicy) nvml.Return {
+func (mock *Interface) DeviceSetFanControlPolicy(device nvml.Device, n int, fanControlPolicy nvml.FanControlPolicy) error {
 	if mock.DeviceSetFanControlPolicyFunc == nil {
 		panic("Interface.DeviceSetFanControlPolicyFunc: method is nil but Interface.DeviceSetFanControlPolicy was just called")
 	}
@@ -11390,7 +11389,7 @@ func (mock *Interface) DeviceSetFanControlPolicyCalls() []struct {
 }
 
 // DeviceSetFanSpeed_v2 calls DeviceSetFanSpeed_v2Func.
-func (mock *Interface) DeviceSetFanSpeed_v2(device nvml.Device, n1 int, n2 int) nvml.Return {
+func (mock *Interface) DeviceSetFanSpeed_v2(device nvml.Device, n1 int, n2 int) error {
 	if mock.DeviceSetFanSpeed_v2Func == nil {
 		panic("Interface.DeviceSetFanSpeed_v2Func: method is nil but Interface.DeviceSetFanSpeed_v2 was just called")
 	}
@@ -11430,7 +11429,7 @@ func (mock *Interface) DeviceSetFanSpeed_v2Calls() []struct {
 }
 
 // DeviceSetGpcClkVfOffset calls DeviceSetGpcClkVfOffsetFunc.
-func (mock *Interface) DeviceSetGpcClkVfOffset(device nvml.Device, n int) nvml.Return {
+func (mock *Interface) DeviceSetGpcClkVfOffset(device nvml.Device, n int) error {
 	if mock.DeviceSetGpcClkVfOffsetFunc == nil {
 		panic("Interface.DeviceSetGpcClkVfOffsetFunc: method is nil but Interface.DeviceSetGpcClkVfOffset was just called")
 	}
@@ -11466,7 +11465,7 @@ func (mock *Interface) DeviceSetGpcClkVfOffsetCalls() []struct {
 }
 
 // DeviceSetGpuLockedClocks calls DeviceSetGpuLockedClocksFunc.
-func (mock *Interface) DeviceSetGpuLockedClocks(device nvml.Device, v1 uint32, v2 uint32) nvml.Return {
+func (mock *Interface) DeviceSetGpuLockedClocks(device nvml.Device, v1 uint32, v2 uint32) error {
 	if mock.DeviceSetGpuLockedClocksFunc == nil {
 		panic("Interface.DeviceSetGpuLockedClocksFunc: method is nil but Interface.DeviceSetGpuLockedClocks was just called")
 	}
@@ -11506,7 +11505,7 @@ func (mock *Interface) DeviceSetGpuLockedClocksCalls() []struct {
 }
 
 // DeviceSetGpuOperationMode calls DeviceSetGpuOperationModeFunc.
-func (mock *Interface) DeviceSetGpuOperationMode(device nvml.Device, gpuOperationMode nvml.GpuOperationMode) nvml.Return {
+func (mock *Interface) DeviceSetGpuOperationMode(device nvml.Device, gpuOperationMode nvml.GpuOperationMode) error {
 	if mock.DeviceSetGpuOperationModeFunc == nil {
 		panic("Interface.DeviceSetGpuOperationModeFunc: method is nil but Interface.DeviceSetGpuOperationMode was just called")
 	}
@@ -11542,7 +11541,7 @@ func (mock *Interface) DeviceSetGpuOperationModeCalls() []struct {
 }
 
 // DeviceSetMemClkVfOffset calls DeviceSetMemClkVfOffsetFunc.
-func (mock *Interface) DeviceSetMemClkVfOffset(device nvml.Device, n int) nvml.Return {
+func (mock *Interface) DeviceSetMemClkVfOffset(device nvml.Device, n int) error {
 	if mock.DeviceSetMemClkVfOffsetFunc == nil {
 		panic("Interface.DeviceSetMemClkVfOffsetFunc: method is nil but Interface.DeviceSetMemClkVfOffset was just called")
 	}
@@ -11578,7 +11577,7 @@ func (mock *Interface) DeviceSetMemClkVfOffsetCalls() []struct {
 }
 
 // DeviceSetMemoryLockedClocks calls DeviceSetMemoryLockedClocksFunc.
-func (mock *Interface) DeviceSetMemoryLockedClocks(device nvml.Device, v1 uint32, v2 uint32) nvml.Return {
+func (mock *Interface) DeviceSetMemoryLockedClocks(device nvml.Device, v1 uint32, v2 uint32) error {
 	if mock.DeviceSetMemoryLockedClocksFunc == nil {
 		panic("Interface.DeviceSetMemoryLockedClocksFunc: method is nil but Interface.DeviceSetMemoryLockedClocks was just called")
 	}
@@ -11618,7 +11617,7 @@ func (mock *Interface) DeviceSetMemoryLockedClocksCalls() []struct {
 }
 
 // DeviceSetMigMode calls DeviceSetMigModeFunc.
-func (mock *Interface) DeviceSetMigMode(device nvml.Device, n int) (nvml.Return, nvml.Return) {
+func (mock *Interface) DeviceSetMigMode(device nvml.Device, n int) (error, error) {
 	if mock.DeviceSetMigModeFunc == nil {
 		panic("Interface.DeviceSetMigModeFunc: method is nil but Interface.DeviceSetMigMode was just called")
 	}
@@ -11654,7 +11653,7 @@ func (mock *Interface) DeviceSetMigModeCalls() []struct {
 }
 
 // DeviceSetNvLinkDeviceLowPowerThreshold calls DeviceSetNvLinkDeviceLowPowerThresholdFunc.
-func (mock *Interface) DeviceSetNvLinkDeviceLowPowerThreshold(device nvml.Device, nvLinkPowerThres *nvml.NvLinkPowerThres) nvml.Return {
+func (mock *Interface) DeviceSetNvLinkDeviceLowPowerThreshold(device nvml.Device, nvLinkPowerThres *nvml.NvLinkPowerThres) error {
 	if mock.DeviceSetNvLinkDeviceLowPowerThresholdFunc == nil {
 		panic("Interface.DeviceSetNvLinkDeviceLowPowerThresholdFunc: method is nil but Interface.DeviceSetNvLinkDeviceLowPowerThreshold was just called")
 	}
@@ -11690,7 +11689,7 @@ func (mock *Interface) DeviceSetNvLinkDeviceLowPowerThresholdCalls() []struct {
 }
 
 // DeviceSetNvLinkUtilizationControl calls DeviceSetNvLinkUtilizationControlFunc.
-func (mock *Interface) DeviceSetNvLinkUtilizationControl(device nvml.Device, n1 int, n2 int, nvLinkUtilizationControl *nvml.NvLinkUtilizationControl, b bool) nvml.Return {
+func (mock *Interface) DeviceSetNvLinkUtilizationControl(device nvml.Device, n1 int, n2 int, nvLinkUtilizationControl *nvml.NvLinkUtilizationControl, b bool) error {
 	if mock.DeviceSetNvLinkUtilizationControlFunc == nil {
 		panic("Interface.DeviceSetNvLinkUtilizationControlFunc: method is nil but Interface.DeviceSetNvLinkUtilizationControl was just called")
 	}
@@ -11738,7 +11737,7 @@ func (mock *Interface) DeviceSetNvLinkUtilizationControlCalls() []struct {
 }
 
 // DeviceSetPersistenceMode calls DeviceSetPersistenceModeFunc.
-func (mock *Interface) DeviceSetPersistenceMode(device nvml.Device, enableState nvml.EnableState) nvml.Return {
+func (mock *Interface) DeviceSetPersistenceMode(device nvml.Device, enableState nvml.EnableState) error {
 	if mock.DeviceSetPersistenceModeFunc == nil {
 		panic("Interface.DeviceSetPersistenceModeFunc: method is nil but Interface.DeviceSetPersistenceMode was just called")
 	}
@@ -11774,7 +11773,7 @@ func (mock *Interface) DeviceSetPersistenceModeCalls() []struct {
 }
 
 // DeviceSetPowerManagementLimit calls DeviceSetPowerManagementLimitFunc.
-func (mock *Interface) DeviceSetPowerManagementLimit(device nvml.Device, v uint32) nvml.Return {
+func (mock *Interface) DeviceSetPowerManagementLimit(device nvml.Device, v uint32) error {
 	if mock.DeviceSetPowerManagementLimitFunc == nil {
 		panic("Interface.DeviceSetPowerManagementLimitFunc: method is nil but Interface.DeviceSetPowerManagementLimit was just called")
 	}
@@ -11810,7 +11809,7 @@ func (mock *Interface) DeviceSetPowerManagementLimitCalls() []struct {
 }
 
 // DeviceSetPowerManagementLimit_v2 calls DeviceSetPowerManagementLimit_v2Func.
-func (mock *Interface) DeviceSetPowerManagementLimit_v2(device nvml.Device, powerValue_v2 *nvml.PowerValue_v2) nvml.Return {
+func (mock *Interface) DeviceSetPowerManagementLimit_v2(device nvml.Device, powerValue_v2 *nvml.PowerValue_v2) error {
 	if mock.DeviceSetPowerManagementLimit_v2Func == nil {
 		panic("Interface.DeviceSetPowerManagementLimit_v2Func: method is nil but Interface.DeviceSetPowerManagementLimit_v2 was just called")
 	}
@@ -11846,7 +11845,7 @@ func (mock *Interface) DeviceSetPowerManagementLimit_v2Calls() []struct {
 }
 
 // DeviceSetTemperatureThreshold calls DeviceSetTemperatureThresholdFunc.
-func (mock *Interface) DeviceSetTemperatureThreshold(device nvml.Device, temperatureThresholds nvml.TemperatureThresholds, n int) nvml.Return {
+func (mock *Interface) DeviceSetTemperatureThreshold(device nvml.Device, temperatureThresholds nvml.TemperatureThresholds, n int) error {
 	if mock.DeviceSetTemperatureThresholdFunc == nil {
 		panic("Interface.DeviceSetTemperatureThresholdFunc: method is nil but Interface.DeviceSetTemperatureThreshold was just called")
 	}
@@ -11886,7 +11885,7 @@ func (mock *Interface) DeviceSetTemperatureThresholdCalls() []struct {
 }
 
 // DeviceSetVgpuCapabilities calls DeviceSetVgpuCapabilitiesFunc.
-func (mock *Interface) DeviceSetVgpuCapabilities(device nvml.Device, deviceVgpuCapability nvml.DeviceVgpuCapability, enableState nvml.EnableState) nvml.Return {
+func (mock *Interface) DeviceSetVgpuCapabilities(device nvml.Device, deviceVgpuCapability nvml.DeviceVgpuCapability, enableState nvml.EnableState) error {
 	if mock.DeviceSetVgpuCapabilitiesFunc == nil {
 		panic("Interface.DeviceSetVgpuCapabilitiesFunc: method is nil but Interface.DeviceSetVgpuCapabilities was just called")
 	}
@@ -11926,7 +11925,7 @@ func (mock *Interface) DeviceSetVgpuCapabilitiesCalls() []struct {
 }
 
 // DeviceSetVgpuHeterogeneousMode calls DeviceSetVgpuHeterogeneousModeFunc.
-func (mock *Interface) DeviceSetVgpuHeterogeneousMode(device nvml.Device, vgpuHeterogeneousMode nvml.VgpuHeterogeneousMode) nvml.Return {
+func (mock *Interface) DeviceSetVgpuHeterogeneousMode(device nvml.Device, vgpuHeterogeneousMode nvml.VgpuHeterogeneousMode) error {
 	if mock.DeviceSetVgpuHeterogeneousModeFunc == nil {
 		panic("Interface.DeviceSetVgpuHeterogeneousModeFunc: method is nil but Interface.DeviceSetVgpuHeterogeneousMode was just called")
 	}
@@ -11962,7 +11961,7 @@ func (mock *Interface) DeviceSetVgpuHeterogeneousModeCalls() []struct {
 }
 
 // DeviceSetVgpuSchedulerState calls DeviceSetVgpuSchedulerStateFunc.
-func (mock *Interface) DeviceSetVgpuSchedulerState(device nvml.Device, vgpuSchedulerSetState *nvml.VgpuSchedulerSetState) nvml.Return {
+func (mock *Interface) DeviceSetVgpuSchedulerState(device nvml.Device, vgpuSchedulerSetState *nvml.VgpuSchedulerSetState) error {
 	if mock.DeviceSetVgpuSchedulerStateFunc == nil {
 		panic("Interface.DeviceSetVgpuSchedulerStateFunc: method is nil but Interface.DeviceSetVgpuSchedulerState was just called")
 	}
@@ -11998,7 +11997,7 @@ func (mock *Interface) DeviceSetVgpuSchedulerStateCalls() []struct {
 }
 
 // DeviceSetVirtualizationMode calls DeviceSetVirtualizationModeFunc.
-func (mock *Interface) DeviceSetVirtualizationMode(device nvml.Device, gpuVirtualizationMode nvml.GpuVirtualizationMode) nvml.Return {
+func (mock *Interface) DeviceSetVirtualizationMode(device nvml.Device, gpuVirtualizationMode nvml.GpuVirtualizationMode) error {
 	if mock.DeviceSetVirtualizationModeFunc == nil {
 		panic("Interface.DeviceSetVirtualizationModeFunc: method is nil but Interface.DeviceSetVirtualizationMode was just called")
 	}
@@ -12034,7 +12033,7 @@ func (mock *Interface) DeviceSetVirtualizationModeCalls() []struct {
 }
 
 // DeviceValidateInforom calls DeviceValidateInforomFunc.
-func (mock *Interface) DeviceValidateInforom(device nvml.Device) nvml.Return {
+func (mock *Interface) DeviceValidateInforom(device nvml.Device) error {
 	if mock.DeviceValidateInforomFunc == nil {
 		panic("Interface.DeviceValidateInforomFunc: method is nil but Interface.DeviceValidateInforom was just called")
 	}
@@ -12098,7 +12097,7 @@ func (mock *Interface) ErrorStringCalls() []struct {
 }
 
 // EventSetCreate calls EventSetCreateFunc.
-func (mock *Interface) EventSetCreate() (nvml.EventSet, nvml.Return) {
+func (mock *Interface) EventSetCreate() (nvml.EventSet, error) {
 	if mock.EventSetCreateFunc == nil {
 		panic("Interface.EventSetCreateFunc: method is nil but Interface.EventSetCreate was just called")
 	}
@@ -12125,7 +12124,7 @@ func (mock *Interface) EventSetCreateCalls() []struct {
 }
 
 // EventSetFree calls EventSetFreeFunc.
-func (mock *Interface) EventSetFree(eventSet nvml.EventSet) nvml.Return {
+func (mock *Interface) EventSetFree(eventSet nvml.EventSet) error {
 	if mock.EventSetFreeFunc == nil {
 		panic("Interface.EventSetFreeFunc: method is nil but Interface.EventSetFree was just called")
 	}
@@ -12157,7 +12156,7 @@ func (mock *Interface) EventSetFreeCalls() []struct {
 }
 
 // EventSetWait calls EventSetWaitFunc.
-func (mock *Interface) EventSetWait(eventSet nvml.EventSet, v uint32) (nvml.EventData, nvml.Return) {
+func (mock *Interface) EventSetWait(eventSet nvml.EventSet, v uint32) (nvml.EventData, error) {
 	if mock.EventSetWaitFunc == nil {
 		panic("Interface.EventSetWaitFunc: method is nil but Interface.EventSetWait was just called")
 	}
@@ -12220,7 +12219,7 @@ func (mock *Interface) ExtensionsCalls() []struct {
 }
 
 // GetExcludedDeviceCount calls GetExcludedDeviceCountFunc.
-func (mock *Interface) GetExcludedDeviceCount() (int, nvml.Return) {
+func (mock *Interface) GetExcludedDeviceCount() (int, error) {
 	if mock.GetExcludedDeviceCountFunc == nil {
 		panic("Interface.GetExcludedDeviceCountFunc: method is nil but Interface.GetExcludedDeviceCount was just called")
 	}
@@ -12247,7 +12246,7 @@ func (mock *Interface) GetExcludedDeviceCountCalls() []struct {
 }
 
 // GetExcludedDeviceInfoByIndex calls GetExcludedDeviceInfoByIndexFunc.
-func (mock *Interface) GetExcludedDeviceInfoByIndex(n int) (nvml.ExcludedDeviceInfo, nvml.Return) {
+func (mock *Interface) GetExcludedDeviceInfoByIndex(n int) (nvml.ExcludedDeviceInfo, error) {
 	if mock.GetExcludedDeviceInfoByIndexFunc == nil {
 		panic("Interface.GetExcludedDeviceInfoByIndexFunc: method is nil but Interface.GetExcludedDeviceInfoByIndex was just called")
 	}
@@ -12279,7 +12278,7 @@ func (mock *Interface) GetExcludedDeviceInfoByIndexCalls() []struct {
 }
 
 // GetVgpuCompatibility calls GetVgpuCompatibilityFunc.
-func (mock *Interface) GetVgpuCompatibility(vgpuMetadata *nvml.VgpuMetadata, vgpuPgpuMetadata *nvml.VgpuPgpuMetadata) (nvml.VgpuPgpuCompatibility, nvml.Return) {
+func (mock *Interface) GetVgpuCompatibility(vgpuMetadata *nvml.VgpuMetadata, vgpuPgpuMetadata *nvml.VgpuPgpuMetadata) (nvml.VgpuPgpuCompatibility, error) {
 	if mock.GetVgpuCompatibilityFunc == nil {
 		panic("Interface.GetVgpuCompatibilityFunc: method is nil but Interface.GetVgpuCompatibility was just called")
 	}
@@ -12315,7 +12314,7 @@ func (mock *Interface) GetVgpuCompatibilityCalls() []struct {
 }
 
 // GetVgpuDriverCapabilities calls GetVgpuDriverCapabilitiesFunc.
-func (mock *Interface) GetVgpuDriverCapabilities(vgpuDriverCapability nvml.VgpuDriverCapability) (bool, nvml.Return) {
+func (mock *Interface) GetVgpuDriverCapabilities(vgpuDriverCapability nvml.VgpuDriverCapability) (bool, error) {
 	if mock.GetVgpuDriverCapabilitiesFunc == nil {
 		panic("Interface.GetVgpuDriverCapabilitiesFunc: method is nil but Interface.GetVgpuDriverCapabilities was just called")
 	}
@@ -12347,7 +12346,7 @@ func (mock *Interface) GetVgpuDriverCapabilitiesCalls() []struct {
 }
 
 // GetVgpuVersion calls GetVgpuVersionFunc.
-func (mock *Interface) GetVgpuVersion() (nvml.VgpuVersion, nvml.VgpuVersion, nvml.Return) {
+func (mock *Interface) GetVgpuVersion() (nvml.VgpuVersion, nvml.VgpuVersion, error) {
 	if mock.GetVgpuVersionFunc == nil {
 		panic("Interface.GetVgpuVersionFunc: method is nil but Interface.GetVgpuVersion was just called")
 	}
@@ -12374,7 +12373,7 @@ func (mock *Interface) GetVgpuVersionCalls() []struct {
 }
 
 // GpmMetricsGet calls GpmMetricsGetFunc.
-func (mock *Interface) GpmMetricsGet(gpmMetricsGetType *nvml.GpmMetricsGetType) nvml.Return {
+func (mock *Interface) GpmMetricsGet(gpmMetricsGetType *nvml.GpmMetricsGetType) error {
 	if mock.GpmMetricsGetFunc == nil {
 		panic("Interface.GpmMetricsGetFunc: method is nil but Interface.GpmMetricsGet was just called")
 	}
@@ -12438,7 +12437,7 @@ func (mock *Interface) GpmMetricsGetVCalls() []struct {
 }
 
 // GpmMigSampleGet calls GpmMigSampleGetFunc.
-func (mock *Interface) GpmMigSampleGet(device nvml.Device, n int, gpmSample nvml.GpmSample) nvml.Return {
+func (mock *Interface) GpmMigSampleGet(device nvml.Device, n int, gpmSample nvml.GpmSample) error {
 	if mock.GpmMigSampleGetFunc == nil {
 		panic("Interface.GpmMigSampleGetFunc: method is nil but Interface.GpmMigSampleGet was just called")
 	}
@@ -12478,7 +12477,7 @@ func (mock *Interface) GpmMigSampleGetCalls() []struct {
 }
 
 // GpmQueryDeviceSupport calls GpmQueryDeviceSupportFunc.
-func (mock *Interface) GpmQueryDeviceSupport(device nvml.Device) (nvml.GpmSupport, nvml.Return) {
+func (mock *Interface) GpmQueryDeviceSupport(device nvml.Device) (nvml.GpmSupport, error) {
 	if mock.GpmQueryDeviceSupportFunc == nil {
 		panic("Interface.GpmQueryDeviceSupportFunc: method is nil but Interface.GpmQueryDeviceSupport was just called")
 	}
@@ -12542,7 +12541,7 @@ func (mock *Interface) GpmQueryDeviceSupportVCalls() []struct {
 }
 
 // GpmQueryIfStreamingEnabled calls GpmQueryIfStreamingEnabledFunc.
-func (mock *Interface) GpmQueryIfStreamingEnabled(device nvml.Device) (uint32, nvml.Return) {
+func (mock *Interface) GpmQueryIfStreamingEnabled(device nvml.Device) (uint32, error) {
 	if mock.GpmQueryIfStreamingEnabledFunc == nil {
 		panic("Interface.GpmQueryIfStreamingEnabledFunc: method is nil but Interface.GpmQueryIfStreamingEnabled was just called")
 	}
@@ -12574,7 +12573,7 @@ func (mock *Interface) GpmQueryIfStreamingEnabledCalls() []struct {
 }
 
 // GpmSampleAlloc calls GpmSampleAllocFunc.
-func (mock *Interface) GpmSampleAlloc() (nvml.GpmSample, nvml.Return) {
+func (mock *Interface) GpmSampleAlloc() (nvml.GpmSample, error) {
 	if mock.GpmSampleAllocFunc == nil {
 		panic("Interface.GpmSampleAllocFunc: method is nil but Interface.GpmSampleAlloc was just called")
 	}
@@ -12601,7 +12600,7 @@ func (mock *Interface) GpmSampleAllocCalls() []struct {
 }
 
 // GpmSampleFree calls GpmSampleFreeFunc.
-func (mock *Interface) GpmSampleFree(gpmSample nvml.GpmSample) nvml.Return {
+func (mock *Interface) GpmSampleFree(gpmSample nvml.GpmSample) error {
 	if mock.GpmSampleFreeFunc == nil {
 		panic("Interface.GpmSampleFreeFunc: method is nil but Interface.GpmSampleFree was just called")
 	}
@@ -12633,7 +12632,7 @@ func (mock *Interface) GpmSampleFreeCalls() []struct {
 }
 
 // GpmSampleGet calls GpmSampleGetFunc.
-func (mock *Interface) GpmSampleGet(device nvml.Device, gpmSample nvml.GpmSample) nvml.Return {
+func (mock *Interface) GpmSampleGet(device nvml.Device, gpmSample nvml.GpmSample) error {
 	if mock.GpmSampleGetFunc == nil {
 		panic("Interface.GpmSampleGetFunc: method is nil but Interface.GpmSampleGet was just called")
 	}
@@ -12669,7 +12668,7 @@ func (mock *Interface) GpmSampleGetCalls() []struct {
 }
 
 // GpmSetStreamingEnabled calls GpmSetStreamingEnabledFunc.
-func (mock *Interface) GpmSetStreamingEnabled(device nvml.Device, v uint32) nvml.Return {
+func (mock *Interface) GpmSetStreamingEnabled(device nvml.Device, v uint32) error {
 	if mock.GpmSetStreamingEnabledFunc == nil {
 		panic("Interface.GpmSetStreamingEnabledFunc: method is nil but Interface.GpmSetStreamingEnabled was just called")
 	}
@@ -12705,7 +12704,7 @@ func (mock *Interface) GpmSetStreamingEnabledCalls() []struct {
 }
 
 // GpuInstanceCreateComputeInstance calls GpuInstanceCreateComputeInstanceFunc.
-func (mock *Interface) GpuInstanceCreateComputeInstance(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) (nvml.ComputeInstance, nvml.Return) {
+func (mock *Interface) GpuInstanceCreateComputeInstance(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) (nvml.ComputeInstance, error) {
 	if mock.GpuInstanceCreateComputeInstanceFunc == nil {
 		panic("Interface.GpuInstanceCreateComputeInstanceFunc: method is nil but Interface.GpuInstanceCreateComputeInstance was just called")
 	}
@@ -12741,7 +12740,7 @@ func (mock *Interface) GpuInstanceCreateComputeInstanceCalls() []struct {
 }
 
 // GpuInstanceCreateComputeInstanceWithPlacement calls GpuInstanceCreateComputeInstanceWithPlacementFunc.
-func (mock *Interface) GpuInstanceCreateComputeInstanceWithPlacement(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo, computeInstancePlacement *nvml.ComputeInstancePlacement) (nvml.ComputeInstance, nvml.Return) {
+func (mock *Interface) GpuInstanceCreateComputeInstanceWithPlacement(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo, computeInstancePlacement *nvml.ComputeInstancePlacement) (nvml.ComputeInstance, error) {
 	if mock.GpuInstanceCreateComputeInstanceWithPlacementFunc == nil {
 		panic("Interface.GpuInstanceCreateComputeInstanceWithPlacementFunc: method is nil but Interface.GpuInstanceCreateComputeInstanceWithPlacement was just called")
 	}
@@ -12781,7 +12780,7 @@ func (mock *Interface) GpuInstanceCreateComputeInstanceWithPlacementCalls() []st
 }
 
 // GpuInstanceDestroy calls GpuInstanceDestroyFunc.
-func (mock *Interface) GpuInstanceDestroy(gpuInstance nvml.GpuInstance) nvml.Return {
+func (mock *Interface) GpuInstanceDestroy(gpuInstance nvml.GpuInstance) error {
 	if mock.GpuInstanceDestroyFunc == nil {
 		panic("Interface.GpuInstanceDestroyFunc: method is nil but Interface.GpuInstanceDestroy was just called")
 	}
@@ -12813,7 +12812,7 @@ func (mock *Interface) GpuInstanceDestroyCalls() []struct {
 }
 
 // GpuInstanceGetComputeInstanceById calls GpuInstanceGetComputeInstanceByIdFunc.
-func (mock *Interface) GpuInstanceGetComputeInstanceById(gpuInstance nvml.GpuInstance, n int) (nvml.ComputeInstance, nvml.Return) {
+func (mock *Interface) GpuInstanceGetComputeInstanceById(gpuInstance nvml.GpuInstance, n int) (nvml.ComputeInstance, error) {
 	if mock.GpuInstanceGetComputeInstanceByIdFunc == nil {
 		panic("Interface.GpuInstanceGetComputeInstanceByIdFunc: method is nil but Interface.GpuInstanceGetComputeInstanceById was just called")
 	}
@@ -12849,7 +12848,7 @@ func (mock *Interface) GpuInstanceGetComputeInstanceByIdCalls() []struct {
 }
 
 // GpuInstanceGetComputeInstancePossiblePlacements calls GpuInstanceGetComputeInstancePossiblePlacementsFunc.
-func (mock *Interface) GpuInstanceGetComputeInstancePossiblePlacements(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) ([]nvml.ComputeInstancePlacement, nvml.Return) {
+func (mock *Interface) GpuInstanceGetComputeInstancePossiblePlacements(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) ([]nvml.ComputeInstancePlacement, error) {
 	if mock.GpuInstanceGetComputeInstancePossiblePlacementsFunc == nil {
 		panic("Interface.GpuInstanceGetComputeInstancePossiblePlacementsFunc: method is nil but Interface.GpuInstanceGetComputeInstancePossiblePlacements was just called")
 	}
@@ -12885,7 +12884,7 @@ func (mock *Interface) GpuInstanceGetComputeInstancePossiblePlacementsCalls() []
 }
 
 // GpuInstanceGetComputeInstanceProfileInfo calls GpuInstanceGetComputeInstanceProfileInfoFunc.
-func (mock *Interface) GpuInstanceGetComputeInstanceProfileInfo(gpuInstance nvml.GpuInstance, n1 int, n2 int) (nvml.ComputeInstanceProfileInfo, nvml.Return) {
+func (mock *Interface) GpuInstanceGetComputeInstanceProfileInfo(gpuInstance nvml.GpuInstance, n1 int, n2 int) (nvml.ComputeInstanceProfileInfo, error) {
 	if mock.GpuInstanceGetComputeInstanceProfileInfoFunc == nil {
 		panic("Interface.GpuInstanceGetComputeInstanceProfileInfoFunc: method is nil but Interface.GpuInstanceGetComputeInstanceProfileInfo was just called")
 	}
@@ -12965,7 +12964,7 @@ func (mock *Interface) GpuInstanceGetComputeInstanceProfileInfoVCalls() []struct
 }
 
 // GpuInstanceGetComputeInstanceRemainingCapacity calls GpuInstanceGetComputeInstanceRemainingCapacityFunc.
-func (mock *Interface) GpuInstanceGetComputeInstanceRemainingCapacity(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) (int, nvml.Return) {
+func (mock *Interface) GpuInstanceGetComputeInstanceRemainingCapacity(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) (int, error) {
 	if mock.GpuInstanceGetComputeInstanceRemainingCapacityFunc == nil {
 		panic("Interface.GpuInstanceGetComputeInstanceRemainingCapacityFunc: method is nil but Interface.GpuInstanceGetComputeInstanceRemainingCapacity was just called")
 	}
@@ -13001,7 +13000,7 @@ func (mock *Interface) GpuInstanceGetComputeInstanceRemainingCapacityCalls() []s
 }
 
 // GpuInstanceGetComputeInstances calls GpuInstanceGetComputeInstancesFunc.
-func (mock *Interface) GpuInstanceGetComputeInstances(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) ([]nvml.ComputeInstance, nvml.Return) {
+func (mock *Interface) GpuInstanceGetComputeInstances(gpuInstance nvml.GpuInstance, computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) ([]nvml.ComputeInstance, error) {
 	if mock.GpuInstanceGetComputeInstancesFunc == nil {
 		panic("Interface.GpuInstanceGetComputeInstancesFunc: method is nil but Interface.GpuInstanceGetComputeInstances was just called")
 	}
@@ -13037,7 +13036,7 @@ func (mock *Interface) GpuInstanceGetComputeInstancesCalls() []struct {
 }
 
 // GpuInstanceGetInfo calls GpuInstanceGetInfoFunc.
-func (mock *Interface) GpuInstanceGetInfo(gpuInstance nvml.GpuInstance) (nvml.GpuInstanceInfo, nvml.Return) {
+func (mock *Interface) GpuInstanceGetInfo(gpuInstance nvml.GpuInstance) (nvml.GpuInstanceInfo, error) {
 	if mock.GpuInstanceGetInfoFunc == nil {
 		panic("Interface.GpuInstanceGetInfoFunc: method is nil but Interface.GpuInstanceGetInfo was just called")
 	}
@@ -13069,7 +13068,7 @@ func (mock *Interface) GpuInstanceGetInfoCalls() []struct {
 }
 
 // Init calls InitFunc.
-func (mock *Interface) Init() nvml.Return {
+func (mock *Interface) Init() error {
 	if mock.InitFunc == nil {
 		panic("Interface.InitFunc: method is nil but Interface.Init was just called")
 	}
@@ -13096,7 +13095,7 @@ func (mock *Interface) InitCalls() []struct {
 }
 
 // InitWithFlags calls InitWithFlagsFunc.
-func (mock *Interface) InitWithFlags(v uint32) nvml.Return {
+func (mock *Interface) InitWithFlags(v uint32) error {
 	if mock.InitWithFlagsFunc == nil {
 		panic("Interface.InitWithFlagsFunc: method is nil but Interface.InitWithFlags was just called")
 	}
@@ -13128,7 +13127,7 @@ func (mock *Interface) InitWithFlagsCalls() []struct {
 }
 
 // SetVgpuVersion calls SetVgpuVersionFunc.
-func (mock *Interface) SetVgpuVersion(vgpuVersion *nvml.VgpuVersion) nvml.Return {
+func (mock *Interface) SetVgpuVersion(vgpuVersion *nvml.VgpuVersion) error {
 	if mock.SetVgpuVersionFunc == nil {
 		panic("Interface.SetVgpuVersionFunc: method is nil but Interface.SetVgpuVersion was just called")
 	}
@@ -13160,7 +13159,7 @@ func (mock *Interface) SetVgpuVersionCalls() []struct {
 }
 
 // Shutdown calls ShutdownFunc.
-func (mock *Interface) Shutdown() nvml.Return {
+func (mock *Interface) Shutdown() error {
 	if mock.ShutdownFunc == nil {
 		panic("Interface.ShutdownFunc: method is nil but Interface.Shutdown was just called")
 	}
@@ -13187,7 +13186,7 @@ func (mock *Interface) ShutdownCalls() []struct {
 }
 
 // SystemGetConfComputeCapabilities calls SystemGetConfComputeCapabilitiesFunc.
-func (mock *Interface) SystemGetConfComputeCapabilities() (nvml.ConfComputeSystemCaps, nvml.Return) {
+func (mock *Interface) SystemGetConfComputeCapabilities() (nvml.ConfComputeSystemCaps, error) {
 	if mock.SystemGetConfComputeCapabilitiesFunc == nil {
 		panic("Interface.SystemGetConfComputeCapabilitiesFunc: method is nil but Interface.SystemGetConfComputeCapabilities was just called")
 	}
@@ -13214,7 +13213,7 @@ func (mock *Interface) SystemGetConfComputeCapabilitiesCalls() []struct {
 }
 
 // SystemGetConfComputeKeyRotationThresholdInfo calls SystemGetConfComputeKeyRotationThresholdInfoFunc.
-func (mock *Interface) SystemGetConfComputeKeyRotationThresholdInfo() (nvml.ConfComputeGetKeyRotationThresholdInfo, nvml.Return) {
+func (mock *Interface) SystemGetConfComputeKeyRotationThresholdInfo() (nvml.ConfComputeGetKeyRotationThresholdInfo, error) {
 	if mock.SystemGetConfComputeKeyRotationThresholdInfoFunc == nil {
 		panic("Interface.SystemGetConfComputeKeyRotationThresholdInfoFunc: method is nil but Interface.SystemGetConfComputeKeyRotationThresholdInfo was just called")
 	}
@@ -13241,7 +13240,7 @@ func (mock *Interface) SystemGetConfComputeKeyRotationThresholdInfoCalls() []str
 }
 
 // SystemGetConfComputeSettings calls SystemGetConfComputeSettingsFunc.
-func (mock *Interface) SystemGetConfComputeSettings() (nvml.SystemConfComputeSettings, nvml.Return) {
+func (mock *Interface) SystemGetConfComputeSettings() (nvml.SystemConfComputeSettings, error) {
 	if mock.SystemGetConfComputeSettingsFunc == nil {
 		panic("Interface.SystemGetConfComputeSettingsFunc: method is nil but Interface.SystemGetConfComputeSettings was just called")
 	}
@@ -13268,7 +13267,7 @@ func (mock *Interface) SystemGetConfComputeSettingsCalls() []struct {
 }
 
 // SystemGetCudaDriverVersion calls SystemGetCudaDriverVersionFunc.
-func (mock *Interface) SystemGetCudaDriverVersion() (int, nvml.Return) {
+func (mock *Interface) SystemGetCudaDriverVersion() (int, error) {
 	if mock.SystemGetCudaDriverVersionFunc == nil {
 		panic("Interface.SystemGetCudaDriverVersionFunc: method is nil but Interface.SystemGetCudaDriverVersion was just called")
 	}
@@ -13295,7 +13294,7 @@ func (mock *Interface) SystemGetCudaDriverVersionCalls() []struct {
 }
 
 // SystemGetCudaDriverVersion_v2 calls SystemGetCudaDriverVersion_v2Func.
-func (mock *Interface) SystemGetCudaDriverVersion_v2() (int, nvml.Return) {
+func (mock *Interface) SystemGetCudaDriverVersion_v2() (int, error) {
 	if mock.SystemGetCudaDriverVersion_v2Func == nil {
 		panic("Interface.SystemGetCudaDriverVersion_v2Func: method is nil but Interface.SystemGetCudaDriverVersion_v2 was just called")
 	}
@@ -13322,7 +13321,7 @@ func (mock *Interface) SystemGetCudaDriverVersion_v2Calls() []struct {
 }
 
 // SystemGetDriverVersion calls SystemGetDriverVersionFunc.
-func (mock *Interface) SystemGetDriverVersion() (string, nvml.Return) {
+func (mock *Interface) SystemGetDriverVersion() (string, error) {
 	if mock.SystemGetDriverVersionFunc == nil {
 		panic("Interface.SystemGetDriverVersionFunc: method is nil but Interface.SystemGetDriverVersion was just called")
 	}
@@ -13349,7 +13348,7 @@ func (mock *Interface) SystemGetDriverVersionCalls() []struct {
 }
 
 // SystemGetHicVersion calls SystemGetHicVersionFunc.
-func (mock *Interface) SystemGetHicVersion() ([]nvml.HwbcEntry, nvml.Return) {
+func (mock *Interface) SystemGetHicVersion() ([]nvml.HwbcEntry, error) {
 	if mock.SystemGetHicVersionFunc == nil {
 		panic("Interface.SystemGetHicVersionFunc: method is nil but Interface.SystemGetHicVersion was just called")
 	}
@@ -13376,7 +13375,7 @@ func (mock *Interface) SystemGetHicVersionCalls() []struct {
 }
 
 // SystemGetNVMLVersion calls SystemGetNVMLVersionFunc.
-func (mock *Interface) SystemGetNVMLVersion() (string, nvml.Return) {
+func (mock *Interface) SystemGetNVMLVersion() (string, error) {
 	if mock.SystemGetNVMLVersionFunc == nil {
 		panic("Interface.SystemGetNVMLVersionFunc: method is nil but Interface.SystemGetNVMLVersion was just called")
 	}
@@ -13403,7 +13402,7 @@ func (mock *Interface) SystemGetNVMLVersionCalls() []struct {
 }
 
 // SystemGetProcessName calls SystemGetProcessNameFunc.
-func (mock *Interface) SystemGetProcessName(n int) (string, nvml.Return) {
+func (mock *Interface) SystemGetProcessName(n int) (string, error) {
 	if mock.SystemGetProcessNameFunc == nil {
 		panic("Interface.SystemGetProcessNameFunc: method is nil but Interface.SystemGetProcessName was just called")
 	}
@@ -13435,7 +13434,7 @@ func (mock *Interface) SystemGetProcessNameCalls() []struct {
 }
 
 // SystemGetTopologyGpuSet calls SystemGetTopologyGpuSetFunc.
-func (mock *Interface) SystemGetTopologyGpuSet(n int) ([]nvml.Device, nvml.Return) {
+func (mock *Interface) SystemGetTopologyGpuSet(n int) ([]nvml.Device, error) {
 	if mock.SystemGetTopologyGpuSetFunc == nil {
 		panic("Interface.SystemGetTopologyGpuSetFunc: method is nil but Interface.SystemGetTopologyGpuSet was just called")
 	}
@@ -13467,7 +13466,7 @@ func (mock *Interface) SystemGetTopologyGpuSetCalls() []struct {
 }
 
 // SystemSetConfComputeKeyRotationThresholdInfo calls SystemSetConfComputeKeyRotationThresholdInfoFunc.
-func (mock *Interface) SystemSetConfComputeKeyRotationThresholdInfo(confComputeSetKeyRotationThresholdInfo nvml.ConfComputeSetKeyRotationThresholdInfo) nvml.Return {
+func (mock *Interface) SystemSetConfComputeKeyRotationThresholdInfo(confComputeSetKeyRotationThresholdInfo nvml.ConfComputeSetKeyRotationThresholdInfo) error {
 	if mock.SystemSetConfComputeKeyRotationThresholdInfoFunc == nil {
 		panic("Interface.SystemSetConfComputeKeyRotationThresholdInfoFunc: method is nil but Interface.SystemSetConfComputeKeyRotationThresholdInfo was just called")
 	}
@@ -13499,7 +13498,7 @@ func (mock *Interface) SystemSetConfComputeKeyRotationThresholdInfoCalls() []str
 }
 
 // UnitGetCount calls UnitGetCountFunc.
-func (mock *Interface) UnitGetCount() (int, nvml.Return) {
+func (mock *Interface) UnitGetCount() (int, error) {
 	if mock.UnitGetCountFunc == nil {
 		panic("Interface.UnitGetCountFunc: method is nil but Interface.UnitGetCount was just called")
 	}
@@ -13526,7 +13525,7 @@ func (mock *Interface) UnitGetCountCalls() []struct {
 }
 
 // UnitGetDevices calls UnitGetDevicesFunc.
-func (mock *Interface) UnitGetDevices(unit nvml.Unit) ([]nvml.Device, nvml.Return) {
+func (mock *Interface) UnitGetDevices(unit nvml.Unit) ([]nvml.Device, error) {
 	if mock.UnitGetDevicesFunc == nil {
 		panic("Interface.UnitGetDevicesFunc: method is nil but Interface.UnitGetDevices was just called")
 	}
@@ -13558,7 +13557,7 @@ func (mock *Interface) UnitGetDevicesCalls() []struct {
 }
 
 // UnitGetFanSpeedInfo calls UnitGetFanSpeedInfoFunc.
-func (mock *Interface) UnitGetFanSpeedInfo(unit nvml.Unit) (nvml.UnitFanSpeeds, nvml.Return) {
+func (mock *Interface) UnitGetFanSpeedInfo(unit nvml.Unit) (nvml.UnitFanSpeeds, error) {
 	if mock.UnitGetFanSpeedInfoFunc == nil {
 		panic("Interface.UnitGetFanSpeedInfoFunc: method is nil but Interface.UnitGetFanSpeedInfo was just called")
 	}
@@ -13590,7 +13589,7 @@ func (mock *Interface) UnitGetFanSpeedInfoCalls() []struct {
 }
 
 // UnitGetHandleByIndex calls UnitGetHandleByIndexFunc.
-func (mock *Interface) UnitGetHandleByIndex(n int) (nvml.Unit, nvml.Return) {
+func (mock *Interface) UnitGetHandleByIndex(n int) (nvml.Unit, error) {
 	if mock.UnitGetHandleByIndexFunc == nil {
 		panic("Interface.UnitGetHandleByIndexFunc: method is nil but Interface.UnitGetHandleByIndex was just called")
 	}
@@ -13622,7 +13621,7 @@ func (mock *Interface) UnitGetHandleByIndexCalls() []struct {
 }
 
 // UnitGetLedState calls UnitGetLedStateFunc.
-func (mock *Interface) UnitGetLedState(unit nvml.Unit) (nvml.LedState, nvml.Return) {
+func (mock *Interface) UnitGetLedState(unit nvml.Unit) (nvml.LedState, error) {
 	if mock.UnitGetLedStateFunc == nil {
 		panic("Interface.UnitGetLedStateFunc: method is nil but Interface.UnitGetLedState was just called")
 	}
@@ -13654,7 +13653,7 @@ func (mock *Interface) UnitGetLedStateCalls() []struct {
 }
 
 // UnitGetPsuInfo calls UnitGetPsuInfoFunc.
-func (mock *Interface) UnitGetPsuInfo(unit nvml.Unit) (nvml.PSUInfo, nvml.Return) {
+func (mock *Interface) UnitGetPsuInfo(unit nvml.Unit) (nvml.PSUInfo, error) {
 	if mock.UnitGetPsuInfoFunc == nil {
 		panic("Interface.UnitGetPsuInfoFunc: method is nil but Interface.UnitGetPsuInfo was just called")
 	}
@@ -13686,7 +13685,7 @@ func (mock *Interface) UnitGetPsuInfoCalls() []struct {
 }
 
 // UnitGetTemperature calls UnitGetTemperatureFunc.
-func (mock *Interface) UnitGetTemperature(unit nvml.Unit, n int) (uint32, nvml.Return) {
+func (mock *Interface) UnitGetTemperature(unit nvml.Unit, n int) (uint32, error) {
 	if mock.UnitGetTemperatureFunc == nil {
 		panic("Interface.UnitGetTemperatureFunc: method is nil but Interface.UnitGetTemperature was just called")
 	}
@@ -13722,7 +13721,7 @@ func (mock *Interface) UnitGetTemperatureCalls() []struct {
 }
 
 // UnitGetUnitInfo calls UnitGetUnitInfoFunc.
-func (mock *Interface) UnitGetUnitInfo(unit nvml.Unit) (nvml.UnitInfo, nvml.Return) {
+func (mock *Interface) UnitGetUnitInfo(unit nvml.Unit) (nvml.UnitInfo, error) {
 	if mock.UnitGetUnitInfoFunc == nil {
 		panic("Interface.UnitGetUnitInfoFunc: method is nil but Interface.UnitGetUnitInfo was just called")
 	}
@@ -13754,7 +13753,7 @@ func (mock *Interface) UnitGetUnitInfoCalls() []struct {
 }
 
 // UnitSetLedState calls UnitSetLedStateFunc.
-func (mock *Interface) UnitSetLedState(unit nvml.Unit, ledColor nvml.LedColor) nvml.Return {
+func (mock *Interface) UnitSetLedState(unit nvml.Unit, ledColor nvml.LedColor) error {
 	if mock.UnitSetLedStateFunc == nil {
 		panic("Interface.UnitSetLedStateFunc: method is nil but Interface.UnitSetLedState was just called")
 	}
@@ -13790,7 +13789,7 @@ func (mock *Interface) UnitSetLedStateCalls() []struct {
 }
 
 // VgpuInstanceClearAccountingPids calls VgpuInstanceClearAccountingPidsFunc.
-func (mock *Interface) VgpuInstanceClearAccountingPids(vgpuInstance nvml.VgpuInstance) nvml.Return {
+func (mock *Interface) VgpuInstanceClearAccountingPids(vgpuInstance nvml.VgpuInstance) error {
 	if mock.VgpuInstanceClearAccountingPidsFunc == nil {
 		panic("Interface.VgpuInstanceClearAccountingPidsFunc: method is nil but Interface.VgpuInstanceClearAccountingPids was just called")
 	}
@@ -13822,7 +13821,7 @@ func (mock *Interface) VgpuInstanceClearAccountingPidsCalls() []struct {
 }
 
 // VgpuInstanceGetAccountingMode calls VgpuInstanceGetAccountingModeFunc.
-func (mock *Interface) VgpuInstanceGetAccountingMode(vgpuInstance nvml.VgpuInstance) (nvml.EnableState, nvml.Return) {
+func (mock *Interface) VgpuInstanceGetAccountingMode(vgpuInstance nvml.VgpuInstance) (nvml.EnableState, error) {
 	if mock.VgpuInstanceGetAccountingModeFunc == nil {
 		panic("Interface.VgpuInstanceGetAccountingModeFunc: method is nil but Interface.VgpuInstanceGetAccountingMode was just called")
 	}
@@ -13854,7 +13853,7 @@ func (mock *Interface) VgpuInstanceGetAccountingModeCalls() []struct {
 }
 
 // VgpuInstanceGetAccountingPids calls VgpuInstanceGetAccountingPidsFunc.
-func (mock *Interface) VgpuInstanceGetAccountingPids(vgpuInstance nvml.VgpuInstance) ([]int, nvml.Return) {
+func (mock *Interface) VgpuInstanceGetAccountingPids(vgpuInstance nvml.VgpuInstance) ([]int, error) {
 	if mock.VgpuInstanceGetAccountingPidsFunc == nil {
 		panic("Interface.VgpuInstanceGetAccountingPidsFunc: method is nil but Interface.VgpuInstanceGetAccountingPids was just called")
 	}
@@ -13886,7 +13885,7 @@ func (mock *Interface) VgpuInstanceGetAccountingPidsCalls() []struct {
 }
 
 // VgpuInstanceGetAccountingStats calls VgpuInstanceGetAccountingStatsFunc.
-func (mock *Interface) VgpuInstanceGetAccountingStats(vgpuInstance nvml.VgpuInstance, n int) (nvml.AccountingStats, nvml.Return) {
+func (mock *Interface) VgpuInstanceGetAccountingStats(vgpuInstance nvml.VgpuInstance, n int) (nvml.AccountingStats, error) {
 	if mock.VgpuInstanceGetAccountingStatsFunc == nil {
 		panic("Interface.VgpuInstanceGetAccountingStatsFunc: method is nil but Interface.VgpuInstanceGetAccountingStats was just called")
 	}
@@ -13922,7 +13921,7 @@ func (mock *Interface) VgpuInstanceGetAccountingStatsCalls() []struct {
 }
 
 // VgpuInstanceGetEccMode calls VgpuInstanceGetEccModeFunc.
-func (mock *Interface) VgpuInstanceGetEccMode(vgpuInstance nvml.VgpuInstance) (nvml.EnableState, nvml.Return) {
+func (mock *Interface) VgpuInstanceGetEccMode(vgpuInstance nvml.VgpuInstance) (nvml.EnableState, error) {
 	if mock.VgpuInstanceGetEccModeFunc == nil {
 		panic("Interface.VgpuInstanceGetEccModeFunc: method is nil but Interface.VgpuInstanceGetEccMode was just called")
 	}
@@ -13954,7 +13953,7 @@ func (mock *Interface) VgpuInstanceGetEccModeCalls() []struct {
 }
 
 // VgpuInstanceGetEncoderCapacity calls VgpuInstanceGetEncoderCapacityFunc.
-func (mock *Interface) VgpuInstanceGetEncoderCapacity(vgpuInstance nvml.VgpuInstance) (int, nvml.Return) {
+func (mock *Interface) VgpuInstanceGetEncoderCapacity(vgpuInstance nvml.VgpuInstance) (int, error) {
 	if mock.VgpuInstanceGetEncoderCapacityFunc == nil {
 		panic("Interface.VgpuInstanceGetEncoderCapacityFunc: method is nil but Interface.VgpuInstanceGetEncoderCapacity was just called")
 	}
@@ -13986,7 +13985,7 @@ func (mock *Interface) VgpuInstanceGetEncoderCapacityCalls() []struct {
 }
 
 // VgpuInstanceGetEncoderSessions calls VgpuInstanceGetEncoderSessionsFunc.
-func (mock *Interface) VgpuInstanceGetEncoderSessions(vgpuInstance nvml.VgpuInstance) (int, nvml.EncoderSessionInfo, nvml.Return) {
+func (mock *Interface) VgpuInstanceGetEncoderSessions(vgpuInstance nvml.VgpuInstance) (int, nvml.EncoderSessionInfo, error) {
 	if mock.VgpuInstanceGetEncoderSessionsFunc == nil {
 		panic("Interface.VgpuInstanceGetEncoderSessionsFunc: method is nil but Interface.VgpuInstanceGetEncoderSessions was just called")
 	}
@@ -14018,7 +14017,7 @@ func (mock *Interface) VgpuInstanceGetEncoderSessionsCalls() []struct {
 }
 
 // VgpuInstanceGetEncoderStats calls VgpuInstanceGetEncoderStatsFunc.
-func (mock *Interface) VgpuInstanceGetEncoderStats(vgpuInstance nvml.VgpuInstance) (int, uint32, uint32, nvml.Return) {
+func (mock *Interface) VgpuInstanceGetEncoderStats(vgpuInstance nvml.VgpuInstance) (int, uint32, uint32, error) {
 	if mock.VgpuInstanceGetEncoderStatsFunc == nil {
 		panic("Interface.VgpuInstanceGetEncoderStatsFunc: method is nil but Interface.VgpuInstanceGetEncoderStats was just called")
 	}
@@ -14050,7 +14049,7 @@ func (mock *Interface) VgpuInstanceGetEncoderStatsCalls() []struct {
 }
 
 // VgpuInstanceGetFBCSessions calls VgpuInstanceGetFBCSessionsFunc.
-func (mock *Interface) VgpuInstanceGetFBCSessions(vgpuInstance nvml.VgpuInstance) (int, nvml.FBCSessionInfo, nvml.Return) {
+func (mock *Interface) VgpuInstanceGetFBCSessions(vgpuInstance nvml.VgpuInstance) (int, nvml.FBCSessionInfo, error) {
 	if mock.VgpuInstanceGetFBCSessionsFunc == nil {
 		panic("Interface.VgpuInstanceGetFBCSessionsFunc: method is nil but Interface.VgpuInstanceGetFBCSessions was just called")
 	}
@@ -14082,7 +14081,7 @@ func (mock *Interface) VgpuInstanceGetFBCSessionsCalls() []struct {
 }
 
 // VgpuInstanceGetFBCStats calls VgpuInstanceGetFBCStatsFunc.
-func (mock *Interface) VgpuInstanceGetFBCStats(vgpuInstance nvml.VgpuInstance) (nvml.FBCStats, nvml.Return) {
+func (mock *Interface) VgpuInstanceGetFBCStats(vgpuInstance nvml.VgpuInstance) (nvml.FBCStats, error) {
 	if mock.VgpuInstanceGetFBCStatsFunc == nil {
 		panic("Interface.VgpuInstanceGetFBCStatsFunc: method is nil but Interface.VgpuInstanceGetFBCStats was just called")
 	}
@@ -14114,7 +14113,7 @@ func (mock *Interface) VgpuInstanceGetFBCStatsCalls() []struct {
 }
 
 // VgpuInstanceGetFbUsage calls VgpuInstanceGetFbUsageFunc.
-func (mock *Interface) VgpuInstanceGetFbUsage(vgpuInstance nvml.VgpuInstance) (uint64, nvml.Return) {
+func (mock *Interface) VgpuInstanceGetFbUsage(vgpuInstance nvml.VgpuInstance) (uint64, error) {
 	if mock.VgpuInstanceGetFbUsageFunc == nil {
 		panic("Interface.VgpuInstanceGetFbUsageFunc: method is nil but Interface.VgpuInstanceGetFbUsage was just called")
 	}
@@ -14146,7 +14145,7 @@ func (mock *Interface) VgpuInstanceGetFbUsageCalls() []struct {
 }
 
 // VgpuInstanceGetFrameRateLimit calls VgpuInstanceGetFrameRateLimitFunc.
-func (mock *Interface) VgpuInstanceGetFrameRateLimit(vgpuInstance nvml.VgpuInstance) (uint32, nvml.Return) {
+func (mock *Interface) VgpuInstanceGetFrameRateLimit(vgpuInstance nvml.VgpuInstance) (uint32, error) {
 	if mock.VgpuInstanceGetFrameRateLimitFunc == nil {
 		panic("Interface.VgpuInstanceGetFrameRateLimitFunc: method is nil but Interface.VgpuInstanceGetFrameRateLimit was just called")
 	}
@@ -14178,7 +14177,7 @@ func (mock *Interface) VgpuInstanceGetFrameRateLimitCalls() []struct {
 }
 
 // VgpuInstanceGetGpuInstanceId calls VgpuInstanceGetGpuInstanceIdFunc.
-func (mock *Interface) VgpuInstanceGetGpuInstanceId(vgpuInstance nvml.VgpuInstance) (int, nvml.Return) {
+func (mock *Interface) VgpuInstanceGetGpuInstanceId(vgpuInstance nvml.VgpuInstance) (int, error) {
 	if mock.VgpuInstanceGetGpuInstanceIdFunc == nil {
 		panic("Interface.VgpuInstanceGetGpuInstanceIdFunc: method is nil but Interface.VgpuInstanceGetGpuInstanceId was just called")
 	}
@@ -14210,7 +14209,7 @@ func (mock *Interface) VgpuInstanceGetGpuInstanceIdCalls() []struct {
 }
 
 // VgpuInstanceGetGpuPciId calls VgpuInstanceGetGpuPciIdFunc.
-func (mock *Interface) VgpuInstanceGetGpuPciId(vgpuInstance nvml.VgpuInstance) (string, nvml.Return) {
+func (mock *Interface) VgpuInstanceGetGpuPciId(vgpuInstance nvml.VgpuInstance) (string, error) {
 	if mock.VgpuInstanceGetGpuPciIdFunc == nil {
 		panic("Interface.VgpuInstanceGetGpuPciIdFunc: method is nil but Interface.VgpuInstanceGetGpuPciId was just called")
 	}
@@ -14242,7 +14241,7 @@ func (mock *Interface) VgpuInstanceGetGpuPciIdCalls() []struct {
 }
 
 // VgpuInstanceGetLicenseInfo calls VgpuInstanceGetLicenseInfoFunc.
-func (mock *Interface) VgpuInstanceGetLicenseInfo(vgpuInstance nvml.VgpuInstance) (nvml.VgpuLicenseInfo, nvml.Return) {
+func (mock *Interface) VgpuInstanceGetLicenseInfo(vgpuInstance nvml.VgpuInstance) (nvml.VgpuLicenseInfo, error) {
 	if mock.VgpuInstanceGetLicenseInfoFunc == nil {
 		panic("Interface.VgpuInstanceGetLicenseInfoFunc: method is nil but Interface.VgpuInstanceGetLicenseInfo was just called")
 	}
@@ -14274,7 +14273,7 @@ func (mock *Interface) VgpuInstanceGetLicenseInfoCalls() []struct {
 }
 
 // VgpuInstanceGetLicenseStatus calls VgpuInstanceGetLicenseStatusFunc.
-func (mock *Interface) VgpuInstanceGetLicenseStatus(vgpuInstance nvml.VgpuInstance) (int, nvml.Return) {
+func (mock *Interface) VgpuInstanceGetLicenseStatus(vgpuInstance nvml.VgpuInstance) (int, error) {
 	if mock.VgpuInstanceGetLicenseStatusFunc == nil {
 		panic("Interface.VgpuInstanceGetLicenseStatusFunc: method is nil but Interface.VgpuInstanceGetLicenseStatus was just called")
 	}
@@ -14306,7 +14305,7 @@ func (mock *Interface) VgpuInstanceGetLicenseStatusCalls() []struct {
 }
 
 // VgpuInstanceGetMdevUUID calls VgpuInstanceGetMdevUUIDFunc.
-func (mock *Interface) VgpuInstanceGetMdevUUID(vgpuInstance nvml.VgpuInstance) (string, nvml.Return) {
+func (mock *Interface) VgpuInstanceGetMdevUUID(vgpuInstance nvml.VgpuInstance) (string, error) {
 	if mock.VgpuInstanceGetMdevUUIDFunc == nil {
 		panic("Interface.VgpuInstanceGetMdevUUIDFunc: method is nil but Interface.VgpuInstanceGetMdevUUID was just called")
 	}
@@ -14338,7 +14337,7 @@ func (mock *Interface) VgpuInstanceGetMdevUUIDCalls() []struct {
 }
 
 // VgpuInstanceGetMetadata calls VgpuInstanceGetMetadataFunc.
-func (mock *Interface) VgpuInstanceGetMetadata(vgpuInstance nvml.VgpuInstance) (nvml.VgpuMetadata, nvml.Return) {
+func (mock *Interface) VgpuInstanceGetMetadata(vgpuInstance nvml.VgpuInstance) (nvml.VgpuMetadata, error) {
 	if mock.VgpuInstanceGetMetadataFunc == nil {
 		panic("Interface.VgpuInstanceGetMetadataFunc: method is nil but Interface.VgpuInstanceGetMetadata was just called")
 	}
@@ -14370,7 +14369,7 @@ func (mock *Interface) VgpuInstanceGetMetadataCalls() []struct {
 }
 
 // VgpuInstanceGetType calls VgpuInstanceGetTypeFunc.
-func (mock *Interface) VgpuInstanceGetType(vgpuInstance nvml.VgpuInstance) (nvml.VgpuTypeId, nvml.Return) {
+func (mock *Interface) VgpuInstanceGetType(vgpuInstance nvml.VgpuInstance) (nvml.VgpuTypeId, error) {
 	if mock.VgpuInstanceGetTypeFunc == nil {
 		panic("Interface.VgpuInstanceGetTypeFunc: method is nil but Interface.VgpuInstanceGetType was just called")
 	}
@@ -14402,7 +14401,7 @@ func (mock *Interface) VgpuInstanceGetTypeCalls() []struct {
 }
 
 // VgpuInstanceGetUUID calls VgpuInstanceGetUUIDFunc.
-func (mock *Interface) VgpuInstanceGetUUID(vgpuInstance nvml.VgpuInstance) (string, nvml.Return) {
+func (mock *Interface) VgpuInstanceGetUUID(vgpuInstance nvml.VgpuInstance) (string, error) {
 	if mock.VgpuInstanceGetUUIDFunc == nil {
 		panic("Interface.VgpuInstanceGetUUIDFunc: method is nil but Interface.VgpuInstanceGetUUID was just called")
 	}
@@ -14434,7 +14433,7 @@ func (mock *Interface) VgpuInstanceGetUUIDCalls() []struct {
 }
 
 // VgpuInstanceGetVmDriverVersion calls VgpuInstanceGetVmDriverVersionFunc.
-func (mock *Interface) VgpuInstanceGetVmDriverVersion(vgpuInstance nvml.VgpuInstance) (string, nvml.Return) {
+func (mock *Interface) VgpuInstanceGetVmDriverVersion(vgpuInstance nvml.VgpuInstance) (string, error) {
 	if mock.VgpuInstanceGetVmDriverVersionFunc == nil {
 		panic("Interface.VgpuInstanceGetVmDriverVersionFunc: method is nil but Interface.VgpuInstanceGetVmDriverVersion was just called")
 	}
@@ -14466,7 +14465,7 @@ func (mock *Interface) VgpuInstanceGetVmDriverVersionCalls() []struct {
 }
 
 // VgpuInstanceGetVmID calls VgpuInstanceGetVmIDFunc.
-func (mock *Interface) VgpuInstanceGetVmID(vgpuInstance nvml.VgpuInstance) (string, nvml.VgpuVmIdType, nvml.Return) {
+func (mock *Interface) VgpuInstanceGetVmID(vgpuInstance nvml.VgpuInstance) (string, nvml.VgpuVmIdType, error) {
 	if mock.VgpuInstanceGetVmIDFunc == nil {
 		panic("Interface.VgpuInstanceGetVmIDFunc: method is nil but Interface.VgpuInstanceGetVmID was just called")
 	}
@@ -14498,7 +14497,7 @@ func (mock *Interface) VgpuInstanceGetVmIDCalls() []struct {
 }
 
 // VgpuInstanceSetEncoderCapacity calls VgpuInstanceSetEncoderCapacityFunc.
-func (mock *Interface) VgpuInstanceSetEncoderCapacity(vgpuInstance nvml.VgpuInstance, n int) nvml.Return {
+func (mock *Interface) VgpuInstanceSetEncoderCapacity(vgpuInstance nvml.VgpuInstance, n int) error {
 	if mock.VgpuInstanceSetEncoderCapacityFunc == nil {
 		panic("Interface.VgpuInstanceSetEncoderCapacityFunc: method is nil but Interface.VgpuInstanceSetEncoderCapacity was just called")
 	}
@@ -14534,7 +14533,7 @@ func (mock *Interface) VgpuInstanceSetEncoderCapacityCalls() []struct {
 }
 
 // VgpuTypeGetCapabilities calls VgpuTypeGetCapabilitiesFunc.
-func (mock *Interface) VgpuTypeGetCapabilities(vgpuTypeId nvml.VgpuTypeId, vgpuCapability nvml.VgpuCapability) (bool, nvml.Return) {
+func (mock *Interface) VgpuTypeGetCapabilities(vgpuTypeId nvml.VgpuTypeId, vgpuCapability nvml.VgpuCapability) (bool, error) {
 	if mock.VgpuTypeGetCapabilitiesFunc == nil {
 		panic("Interface.VgpuTypeGetCapabilitiesFunc: method is nil but Interface.VgpuTypeGetCapabilities was just called")
 	}
@@ -14570,7 +14569,7 @@ func (mock *Interface) VgpuTypeGetCapabilitiesCalls() []struct {
 }
 
 // VgpuTypeGetClass calls VgpuTypeGetClassFunc.
-func (mock *Interface) VgpuTypeGetClass(vgpuTypeId nvml.VgpuTypeId) (string, nvml.Return) {
+func (mock *Interface) VgpuTypeGetClass(vgpuTypeId nvml.VgpuTypeId) (string, error) {
 	if mock.VgpuTypeGetClassFunc == nil {
 		panic("Interface.VgpuTypeGetClassFunc: method is nil but Interface.VgpuTypeGetClass was just called")
 	}
@@ -14602,7 +14601,7 @@ func (mock *Interface) VgpuTypeGetClassCalls() []struct {
 }
 
 // VgpuTypeGetDeviceID calls VgpuTypeGetDeviceIDFunc.
-func (mock *Interface) VgpuTypeGetDeviceID(vgpuTypeId nvml.VgpuTypeId) (uint64, uint64, nvml.Return) {
+func (mock *Interface) VgpuTypeGetDeviceID(vgpuTypeId nvml.VgpuTypeId) (uint64, uint64, error) {
 	if mock.VgpuTypeGetDeviceIDFunc == nil {
 		panic("Interface.VgpuTypeGetDeviceIDFunc: method is nil but Interface.VgpuTypeGetDeviceID was just called")
 	}
@@ -14634,7 +14633,7 @@ func (mock *Interface) VgpuTypeGetDeviceIDCalls() []struct {
 }
 
 // VgpuTypeGetFrameRateLimit calls VgpuTypeGetFrameRateLimitFunc.
-func (mock *Interface) VgpuTypeGetFrameRateLimit(vgpuTypeId nvml.VgpuTypeId) (uint32, nvml.Return) {
+func (mock *Interface) VgpuTypeGetFrameRateLimit(vgpuTypeId nvml.VgpuTypeId) (uint32, error) {
 	if mock.VgpuTypeGetFrameRateLimitFunc == nil {
 		panic("Interface.VgpuTypeGetFrameRateLimitFunc: method is nil but Interface.VgpuTypeGetFrameRateLimit was just called")
 	}
@@ -14666,7 +14665,7 @@ func (mock *Interface) VgpuTypeGetFrameRateLimitCalls() []struct {
 }
 
 // VgpuTypeGetFramebufferSize calls VgpuTypeGetFramebufferSizeFunc.
-func (mock *Interface) VgpuTypeGetFramebufferSize(vgpuTypeId nvml.VgpuTypeId) (uint64, nvml.Return) {
+func (mock *Interface) VgpuTypeGetFramebufferSize(vgpuTypeId nvml.VgpuTypeId) (uint64, error) {
 	if mock.VgpuTypeGetFramebufferSizeFunc == nil {
 		panic("Interface.VgpuTypeGetFramebufferSizeFunc: method is nil but Interface.VgpuTypeGetFramebufferSize was just called")
 	}
@@ -14698,7 +14697,7 @@ func (mock *Interface) VgpuTypeGetFramebufferSizeCalls() []struct {
 }
 
 // VgpuTypeGetGpuInstanceProfileId calls VgpuTypeGetGpuInstanceProfileIdFunc.
-func (mock *Interface) VgpuTypeGetGpuInstanceProfileId(vgpuTypeId nvml.VgpuTypeId) (uint32, nvml.Return) {
+func (mock *Interface) VgpuTypeGetGpuInstanceProfileId(vgpuTypeId nvml.VgpuTypeId) (uint32, error) {
 	if mock.VgpuTypeGetGpuInstanceProfileIdFunc == nil {
 		panic("Interface.VgpuTypeGetGpuInstanceProfileIdFunc: method is nil but Interface.VgpuTypeGetGpuInstanceProfileId was just called")
 	}
@@ -14730,7 +14729,7 @@ func (mock *Interface) VgpuTypeGetGpuInstanceProfileIdCalls() []struct {
 }
 
 // VgpuTypeGetLicense calls VgpuTypeGetLicenseFunc.
-func (mock *Interface) VgpuTypeGetLicense(vgpuTypeId nvml.VgpuTypeId) (string, nvml.Return) {
+func (mock *Interface) VgpuTypeGetLicense(vgpuTypeId nvml.VgpuTypeId) (string, error) {
 	if mock.VgpuTypeGetLicenseFunc == nil {
 		panic("Interface.VgpuTypeGetLicenseFunc: method is nil but Interface.VgpuTypeGetLicense was just called")
 	}
@@ -14762,7 +14761,7 @@ func (mock *Interface) VgpuTypeGetLicenseCalls() []struct {
 }
 
 // VgpuTypeGetMaxInstances calls VgpuTypeGetMaxInstancesFunc.
-func (mock *Interface) VgpuTypeGetMaxInstances(device nvml.Device, vgpuTypeId nvml.VgpuTypeId) (int, nvml.Return) {
+func (mock *Interface) VgpuTypeGetMaxInstances(device nvml.Device, vgpuTypeId nvml.VgpuTypeId) (int, error) {
 	if mock.VgpuTypeGetMaxInstancesFunc == nil {
 		panic("Interface.VgpuTypeGetMaxInstancesFunc: method is nil but Interface.VgpuTypeGetMaxInstances was just called")
 	}
@@ -14798,7 +14797,7 @@ func (mock *Interface) VgpuTypeGetMaxInstancesCalls() []struct {
 }
 
 // VgpuTypeGetMaxInstancesPerVm calls VgpuTypeGetMaxInstancesPerVmFunc.
-func (mock *Interface) VgpuTypeGetMaxInstancesPerVm(vgpuTypeId nvml.VgpuTypeId) (int, nvml.Return) {
+func (mock *Interface) VgpuTypeGetMaxInstancesPerVm(vgpuTypeId nvml.VgpuTypeId) (int, error) {
 	if mock.VgpuTypeGetMaxInstancesPerVmFunc == nil {
 		panic("Interface.VgpuTypeGetMaxInstancesPerVmFunc: method is nil but Interface.VgpuTypeGetMaxInstancesPerVm was just called")
 	}
@@ -14830,7 +14829,7 @@ func (mock *Interface) VgpuTypeGetMaxInstancesPerVmCalls() []struct {
 }
 
 // VgpuTypeGetName calls VgpuTypeGetNameFunc.
-func (mock *Interface) VgpuTypeGetName(vgpuTypeId nvml.VgpuTypeId) (string, nvml.Return) {
+func (mock *Interface) VgpuTypeGetName(vgpuTypeId nvml.VgpuTypeId) (string, error) {
 	if mock.VgpuTypeGetNameFunc == nil {
 		panic("Interface.VgpuTypeGetNameFunc: method is nil but Interface.VgpuTypeGetName was just called")
 	}
@@ -14862,7 +14861,7 @@ func (mock *Interface) VgpuTypeGetNameCalls() []struct {
 }
 
 // VgpuTypeGetNumDisplayHeads calls VgpuTypeGetNumDisplayHeadsFunc.
-func (mock *Interface) VgpuTypeGetNumDisplayHeads(vgpuTypeId nvml.VgpuTypeId) (int, nvml.Return) {
+func (mock *Interface) VgpuTypeGetNumDisplayHeads(vgpuTypeId nvml.VgpuTypeId) (int, error) {
 	if mock.VgpuTypeGetNumDisplayHeadsFunc == nil {
 		panic("Interface.VgpuTypeGetNumDisplayHeadsFunc: method is nil but Interface.VgpuTypeGetNumDisplayHeads was just called")
 	}
@@ -14894,7 +14893,7 @@ func (mock *Interface) VgpuTypeGetNumDisplayHeadsCalls() []struct {
 }
 
 // VgpuTypeGetResolution calls VgpuTypeGetResolutionFunc.
-func (mock *Interface) VgpuTypeGetResolution(vgpuTypeId nvml.VgpuTypeId, n int) (uint32, uint32, nvml.Return) {
+func (mock *Interface) VgpuTypeGetResolution(vgpuTypeId nvml.VgpuTypeId, n int) (uint32, uint32, error) {
 	if mock.VgpuTypeGetResolutionFunc == nil {
 		panic("Interface.VgpuTypeGetResolutionFunc: method is nil but Interface.VgpuTypeGetResolution was just called")
 	}
