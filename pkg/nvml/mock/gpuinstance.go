@@ -4,9 +4,8 @@
 package mock
 
 import (
-	"sync"
-
 	"github.com/NVIDIA/go-nvml/pkg/nvml"
+	"sync"
 )
 
 // Ensure, that GpuInstance does implement nvml.GpuInstance.
@@ -19,34 +18,34 @@ var _ nvml.GpuInstance = &GpuInstance{}
 //
 //		// make and configure a mocked nvml.GpuInstance
 //		mockedGpuInstance := &GpuInstance{
-//			CreateComputeInstanceFunc: func(computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) (nvml.ComputeInstance, nvml.Return) {
+//			CreateComputeInstanceFunc: func(computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) (nvml.ComputeInstance, error) {
 //				panic("mock out the CreateComputeInstance method")
 //			},
-//			CreateComputeInstanceWithPlacementFunc: func(computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo, computeInstancePlacement *nvml.ComputeInstancePlacement) (nvml.ComputeInstance, nvml.Return) {
+//			CreateComputeInstanceWithPlacementFunc: func(computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo, computeInstancePlacement *nvml.ComputeInstancePlacement) (nvml.ComputeInstance, error) {
 //				panic("mock out the CreateComputeInstanceWithPlacement method")
 //			},
-//			DestroyFunc: func() nvml.Return {
+//			DestroyFunc: func() error {
 //				panic("mock out the Destroy method")
 //			},
-//			GetComputeInstanceByIdFunc: func(n int) (nvml.ComputeInstance, nvml.Return) {
+//			GetComputeInstanceByIdFunc: func(n int) (nvml.ComputeInstance, error) {
 //				panic("mock out the GetComputeInstanceById method")
 //			},
-//			GetComputeInstancePossiblePlacementsFunc: func(computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) ([]nvml.ComputeInstancePlacement, nvml.Return) {
+//			GetComputeInstancePossiblePlacementsFunc: func(computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) ([]nvml.ComputeInstancePlacement, error) {
 //				panic("mock out the GetComputeInstancePossiblePlacements method")
 //			},
-//			GetComputeInstanceProfileInfoFunc: func(n1 int, n2 int) (nvml.ComputeInstanceProfileInfo, nvml.Return) {
+//			GetComputeInstanceProfileInfoFunc: func(n1 int, n2 int) (nvml.ComputeInstanceProfileInfo, error) {
 //				panic("mock out the GetComputeInstanceProfileInfo method")
 //			},
 //			GetComputeInstanceProfileInfoVFunc: func(n1 int, n2 int) nvml.ComputeInstanceProfileInfoHandler {
 //				panic("mock out the GetComputeInstanceProfileInfoV method")
 //			},
-//			GetComputeInstanceRemainingCapacityFunc: func(computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) (int, nvml.Return) {
+//			GetComputeInstanceRemainingCapacityFunc: func(computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) (int, error) {
 //				panic("mock out the GetComputeInstanceRemainingCapacity method")
 //			},
-//			GetComputeInstancesFunc: func(computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) ([]nvml.ComputeInstance, nvml.Return) {
+//			GetComputeInstancesFunc: func(computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) ([]nvml.ComputeInstance, error) {
 //				panic("mock out the GetComputeInstances method")
 //			},
-//			GetInfoFunc: func() (nvml.GpuInstanceInfo, nvml.Return) {
+//			GetInfoFunc: func() (nvml.GpuInstanceInfo, error) {
 //				panic("mock out the GetInfo method")
 //			},
 //		}
@@ -57,34 +56,34 @@ var _ nvml.GpuInstance = &GpuInstance{}
 //	}
 type GpuInstance struct {
 	// CreateComputeInstanceFunc mocks the CreateComputeInstance method.
-	CreateComputeInstanceFunc func(computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) (nvml.ComputeInstance, nvml.Return)
+	CreateComputeInstanceFunc func(computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) (nvml.ComputeInstance, error)
 
 	// CreateComputeInstanceWithPlacementFunc mocks the CreateComputeInstanceWithPlacement method.
-	CreateComputeInstanceWithPlacementFunc func(computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo, computeInstancePlacement *nvml.ComputeInstancePlacement) (nvml.ComputeInstance, nvml.Return)
+	CreateComputeInstanceWithPlacementFunc func(computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo, computeInstancePlacement *nvml.ComputeInstancePlacement) (nvml.ComputeInstance, error)
 
 	// DestroyFunc mocks the Destroy method.
-	DestroyFunc func() nvml.Return
+	DestroyFunc func() error
 
 	// GetComputeInstanceByIdFunc mocks the GetComputeInstanceById method.
-	GetComputeInstanceByIdFunc func(n int) (nvml.ComputeInstance, nvml.Return)
+	GetComputeInstanceByIdFunc func(n int) (nvml.ComputeInstance, error)
 
 	// GetComputeInstancePossiblePlacementsFunc mocks the GetComputeInstancePossiblePlacements method.
-	GetComputeInstancePossiblePlacementsFunc func(computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) ([]nvml.ComputeInstancePlacement, nvml.Return)
+	GetComputeInstancePossiblePlacementsFunc func(computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) ([]nvml.ComputeInstancePlacement, error)
 
 	// GetComputeInstanceProfileInfoFunc mocks the GetComputeInstanceProfileInfo method.
-	GetComputeInstanceProfileInfoFunc func(n1 int, n2 int) (nvml.ComputeInstanceProfileInfo, nvml.Return)
+	GetComputeInstanceProfileInfoFunc func(n1 int, n2 int) (nvml.ComputeInstanceProfileInfo, error)
 
 	// GetComputeInstanceProfileInfoVFunc mocks the GetComputeInstanceProfileInfoV method.
 	GetComputeInstanceProfileInfoVFunc func(n1 int, n2 int) nvml.ComputeInstanceProfileInfoHandler
 
 	// GetComputeInstanceRemainingCapacityFunc mocks the GetComputeInstanceRemainingCapacity method.
-	GetComputeInstanceRemainingCapacityFunc func(computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) (int, nvml.Return)
+	GetComputeInstanceRemainingCapacityFunc func(computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) (int, error)
 
 	// GetComputeInstancesFunc mocks the GetComputeInstances method.
-	GetComputeInstancesFunc func(computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) ([]nvml.ComputeInstance, nvml.Return)
+	GetComputeInstancesFunc func(computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) ([]nvml.ComputeInstance, error)
 
 	// GetInfoFunc mocks the GetInfo method.
-	GetInfoFunc func() (nvml.GpuInstanceInfo, nvml.Return)
+	GetInfoFunc func() (nvml.GpuInstanceInfo, error)
 
 	// calls tracks calls to the methods.
 	calls struct {
@@ -154,7 +153,7 @@ type GpuInstance struct {
 }
 
 // CreateComputeInstance calls CreateComputeInstanceFunc.
-func (mock *GpuInstance) CreateComputeInstance(computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) (nvml.ComputeInstance, nvml.Return) {
+func (mock *GpuInstance) CreateComputeInstance(computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) (nvml.ComputeInstance, error) {
 	if mock.CreateComputeInstanceFunc == nil {
 		panic("GpuInstance.CreateComputeInstanceFunc: method is nil but GpuInstance.CreateComputeInstance was just called")
 	}
@@ -186,7 +185,7 @@ func (mock *GpuInstance) CreateComputeInstanceCalls() []struct {
 }
 
 // CreateComputeInstanceWithPlacement calls CreateComputeInstanceWithPlacementFunc.
-func (mock *GpuInstance) CreateComputeInstanceWithPlacement(computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo, computeInstancePlacement *nvml.ComputeInstancePlacement) (nvml.ComputeInstance, nvml.Return) {
+func (mock *GpuInstance) CreateComputeInstanceWithPlacement(computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo, computeInstancePlacement *nvml.ComputeInstancePlacement) (nvml.ComputeInstance, error) {
 	if mock.CreateComputeInstanceWithPlacementFunc == nil {
 		panic("GpuInstance.CreateComputeInstanceWithPlacementFunc: method is nil but GpuInstance.CreateComputeInstanceWithPlacement was just called")
 	}
@@ -222,7 +221,7 @@ func (mock *GpuInstance) CreateComputeInstanceWithPlacementCalls() []struct {
 }
 
 // Destroy calls DestroyFunc.
-func (mock *GpuInstance) Destroy() nvml.Return {
+func (mock *GpuInstance) Destroy() error {
 	if mock.DestroyFunc == nil {
 		panic("GpuInstance.DestroyFunc: method is nil but GpuInstance.Destroy was just called")
 	}
@@ -249,7 +248,7 @@ func (mock *GpuInstance) DestroyCalls() []struct {
 }
 
 // GetComputeInstanceById calls GetComputeInstanceByIdFunc.
-func (mock *GpuInstance) GetComputeInstanceById(n int) (nvml.ComputeInstance, nvml.Return) {
+func (mock *GpuInstance) GetComputeInstanceById(n int) (nvml.ComputeInstance, error) {
 	if mock.GetComputeInstanceByIdFunc == nil {
 		panic("GpuInstance.GetComputeInstanceByIdFunc: method is nil but GpuInstance.GetComputeInstanceById was just called")
 	}
@@ -281,7 +280,7 @@ func (mock *GpuInstance) GetComputeInstanceByIdCalls() []struct {
 }
 
 // GetComputeInstancePossiblePlacements calls GetComputeInstancePossiblePlacementsFunc.
-func (mock *GpuInstance) GetComputeInstancePossiblePlacements(computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) ([]nvml.ComputeInstancePlacement, nvml.Return) {
+func (mock *GpuInstance) GetComputeInstancePossiblePlacements(computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) ([]nvml.ComputeInstancePlacement, error) {
 	if mock.GetComputeInstancePossiblePlacementsFunc == nil {
 		panic("GpuInstance.GetComputeInstancePossiblePlacementsFunc: method is nil but GpuInstance.GetComputeInstancePossiblePlacements was just called")
 	}
@@ -313,7 +312,7 @@ func (mock *GpuInstance) GetComputeInstancePossiblePlacementsCalls() []struct {
 }
 
 // GetComputeInstanceProfileInfo calls GetComputeInstanceProfileInfoFunc.
-func (mock *GpuInstance) GetComputeInstanceProfileInfo(n1 int, n2 int) (nvml.ComputeInstanceProfileInfo, nvml.Return) {
+func (mock *GpuInstance) GetComputeInstanceProfileInfo(n1 int, n2 int) (nvml.ComputeInstanceProfileInfo, error) {
 	if mock.GetComputeInstanceProfileInfoFunc == nil {
 		panic("GpuInstance.GetComputeInstanceProfileInfoFunc: method is nil but GpuInstance.GetComputeInstanceProfileInfo was just called")
 	}
@@ -385,7 +384,7 @@ func (mock *GpuInstance) GetComputeInstanceProfileInfoVCalls() []struct {
 }
 
 // GetComputeInstanceRemainingCapacity calls GetComputeInstanceRemainingCapacityFunc.
-func (mock *GpuInstance) GetComputeInstanceRemainingCapacity(computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) (int, nvml.Return) {
+func (mock *GpuInstance) GetComputeInstanceRemainingCapacity(computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) (int, error) {
 	if mock.GetComputeInstanceRemainingCapacityFunc == nil {
 		panic("GpuInstance.GetComputeInstanceRemainingCapacityFunc: method is nil but GpuInstance.GetComputeInstanceRemainingCapacity was just called")
 	}
@@ -417,7 +416,7 @@ func (mock *GpuInstance) GetComputeInstanceRemainingCapacityCalls() []struct {
 }
 
 // GetComputeInstances calls GetComputeInstancesFunc.
-func (mock *GpuInstance) GetComputeInstances(computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) ([]nvml.ComputeInstance, nvml.Return) {
+func (mock *GpuInstance) GetComputeInstances(computeInstanceProfileInfo *nvml.ComputeInstanceProfileInfo) ([]nvml.ComputeInstance, error) {
 	if mock.GetComputeInstancesFunc == nil {
 		panic("GpuInstance.GetComputeInstancesFunc: method is nil but GpuInstance.GetComputeInstances was just called")
 	}
@@ -449,7 +448,7 @@ func (mock *GpuInstance) GetComputeInstancesCalls() []struct {
 }
 
 // GetInfo calls GetInfoFunc.
-func (mock *GpuInstance) GetInfo() (nvml.GpuInstanceInfo, nvml.Return) {
+func (mock *GpuInstance) GetInfo() (nvml.GpuInstanceInfo, error) {
 	if mock.GetInfoFunc == nil {
 		panic("GpuInstance.GetInfoFunc: method is nil but GpuInstance.GetInfo was just called")
 	}

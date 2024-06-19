@@ -91,7 +91,7 @@ func setNvmlDeviceGetTopologyCommonAncestorStubForTest(ret Return) func() {
 	original := nvmlDeviceGetTopologyCommonAncestorStub
 
 	nvmlDeviceGetTopologyCommonAncestorStub = func(Device1, Device2 nvmlDevice, PathInfo *GpuTopologyLevel) Return {
-		return ret
+		return ret.error()
 	}
 	return func() {
 		nvmlDeviceGetTopologyCommonAncestorStub = original

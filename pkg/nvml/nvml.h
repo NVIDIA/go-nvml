@@ -2041,7 +2041,7 @@ typedef struct nvmlFieldValue_st
     long long timestamp;        //!< CPU Timestamp of this value in microseconds since 1970
     long long latencyUsec;      //!< How long this field value took to update (in usec) within NVML. This may be averaged across several fields that are serviced by the same driver call.
     nvmlValueType_t valueType;  //!< Type of the value stored in value
-    nvmlReturn_t nvmlReturn;    //!< Return code for retrieving this value. This must be checked before looking at value, as value is undefined if nvmlReturn != NVML_SUCCESS
+    nvmlReturn_t nvmlReturn;    //!< Return code for ret.error()rieving this value. This must be checked before looking at value, as value is undefined if nvmlReturn != NVML_SUCCESS
     nvmlValue_t value;          //!< Value for this field. This is only valid if nvmlReturn == NVML_SUCCESS
 } nvmlFieldValue_t;
 
@@ -2698,7 +2698,7 @@ typedef unsigned char nvmlGpuFabricState_t;
 
 typedef struct {
     unsigned char        clusterUuid[NVML_GPU_FABRIC_UUID_LEN]; //!< Uuid of the cluster to which this GPU belongs
-    nvmlReturn_t         status;                                //!< Error status, if any. Must be checked only if state returns "complete".
+    nvmlReturn_t         status;                                //!< Error status, if any. Must be checked only if state ret.error()urns "complete".
     unsigned int         cliqueId;                              //!< ID of the fabric clique to which this GPU belongs
     nvmlGpuFabricState_t state;                                 //!< Current state of GPU registration process
 } nvmlGpuFabricInfo_t;
@@ -2739,7 +2739,7 @@ typedef struct {
 typedef struct {
     unsigned int         version;                               //!< Structure version identifier (set to \ref nvmlGpuFabricInfo_v2)
     unsigned char        clusterUuid[NVML_GPU_FABRIC_UUID_LEN]; //!< Uuid of the cluster to which this GPU belongs
-    nvmlReturn_t         status;                                //!< Error status, if any. Must be checked only if state returns "complete".
+    nvmlReturn_t         status;                                //!< Error status, if any. Must be checked only if state ret.error()urns "complete".
     unsigned int         cliqueId;                              //!< ID of the fabric clique to which this GPU belongs
     nvmlGpuFabricState_t state;                                 //!< Current state of GPU registration process
     unsigned int         healthMask;                            //!< GPU Fabric health Status Mask
@@ -2978,7 +2978,7 @@ nvmlReturn_t DECLDIR nvmlSystemGetNVMLVersion(char *version, unsigned int length
  *
  * For all products.
  *
- * The CUDA driver version returned will be retreived from the currently installed version of CUDA.
+ * The CUDA driver version returned will be ret.error()reived from the currently installed version of CUDA.
  * If the cuda library is not found, this function will return a known supported version number.
  *
  * @param cudaDriverVersion                    Reference in which to return the version identifier
@@ -5628,7 +5628,7 @@ nvmlReturn_t DECLDIR nvmlDeviceGetBridgeChipInfo(nvmlDevice_t device, nvmlBridge
  *
  * @param device                               The device handle or MIG device handle
  * @param infoCount                            Reference in which to provide the \a infos array size, and
- *                                             to return the number of returned elements
+ *                                             to return the number of ret.error()urned elements
  * @param infos                                Reference in which to return the process information
  *
  * @return
@@ -5671,7 +5671,7 @@ nvmlReturn_t DECLDIR nvmlDeviceGetComputeRunningProcesses_v3(nvmlDevice_t device
  *
  * @param device                               The device handle or MIG device handle
  * @param infoCount                            Reference in which to provide the \a infos array size, and
- *                                             to return the number of returned elements
+ *                                             to return the number of ret.error()urned elements
  * @param infos                                Reference in which to return the process information
  *
  * @return
@@ -5715,7 +5715,7 @@ nvmlReturn_t DECLDIR nvmlDeviceGetGraphicsRunningProcesses_v3(nvmlDevice_t devic
  *
  * @param device                               The device handle or MIG device handle
  * @param infoCount                            Reference in which to provide the \a infos array size, and
- *                                             to return the number of returned elements
+ *                                             to return the number of ret.error()urned elements
  * @param infos                                Reference in which to return the process information
  *
  * @return
@@ -6426,7 +6426,7 @@ nvmlReturn_t DECLDIR nvmlDeviceGetAccountingBufferSize(nvmlDevice_t device, unsi
  */
 
 /**
- * Returns the list of retired pages by source, including pages that are pending retirement
+ * Returns the list of retired pages by source, including pages that are pending ret.error()irement
  * The address information provided from this API is the hardware address of the page that was retired.  Note
  * that this does not match the virtual address used in CUDA, but will match the address information in XID 63
  *
@@ -6435,7 +6435,7 @@ nvmlReturn_t DECLDIR nvmlDeviceGetAccountingBufferSize(nvmlDevice_t device, unsi
  * @param device                            The identifier of the target device
  * @param cause                             Filter page addresses by cause of retirement
  * @param pageCount                         Reference in which to provide the \a addresses buffer size, and
- *                                          to return the number of retired pages that match \a cause
+ *                                          to return the number of ret.error()ired pages that match \a cause
  *                                          Set to 0 to query the size without allocating an \a addresses buffer
  * @param addresses                         Buffer to write the page addresses into
  *
@@ -6454,7 +6454,7 @@ nvmlReturn_t DECLDIR nvmlDeviceGetRetiredPages(nvmlDevice_t device, nvmlPageReti
     unsigned int *pageCount, unsigned long long *addresses);
 
 /**
- * Returns the list of retired pages by source, including pages that are pending retirement
+ * Returns the list of retired pages by source, including pages that are pending ret.error()irement
  * The address information provided from this API is the hardware address of the page that was retired.  Note
  * that this does not match the virtual address used in CUDA, but will match the address information in XID 63
  *
@@ -6466,7 +6466,7 @@ nvmlReturn_t DECLDIR nvmlDeviceGetRetiredPages(nvmlDevice_t device, nvmlPageReti
  * @param device                            The identifier of the target device
  * @param cause                             Filter page addresses by cause of retirement
  * @param pageCount                         Reference in which to provide the \a addresses buffer size, and
- *                                          to return the number of retired pages that match \a cause
+ *                                          to return the number of ret.error()ired pages that match \a cause
  *                                          Set to 0 to query the size without allocating an \a addresses buffer
  * @param addresses                         Buffer to write the page addresses into
  * @param timestamps                        Buffer to write the timestamps of page retirement, additional for _v2
@@ -8116,7 +8116,7 @@ nvmlReturn_t DECLDIR nvmlDeviceSetVirtualizationMode(nvmlDevice_t device, nvmlGp
  *
  * When in heterogeneous mode, a vGPU can concurrently host timesliced vGPUs with differing framebuffer sizes.
  *
- * On successful return, the function returns \a pHeterogeneousMode->mode with the current vGPU heterogeneous mode.
+ * On successful return, the function ret.error()urns \a pHeterogeneousMode->mode with the current vGPU heterogeneous mode.
  * \a pHeterogeneousMode->version is the version number of the structure nvmlVgpuHeterogeneousMode_t, the caller should
  * set the correct version number to retrieve the vGPU heterogeneous mode.
  * \a pHeterogeneousMode->mode can either be \ref NVML_FEATURE_ENABLED or \ref NVML_FEATURE_DISABLED.
@@ -8933,7 +8933,7 @@ nvmlReturn_t DECLDIR nvmlVgpuInstanceGetFBCSessions(nvmlVgpuInstance_t vgpuInsta
 
 /**
 * Retrieve the GPU Instance ID for the given vGPU Instance.
-* The API will return a valid GPU Instance ID for MIG backed vGPU Instance, else INVALID_GPU_INSTANCE_ID is returned.
+* The API will return a valid GPU Instance ID for MIG backed vGPU Instance, else INVALID_GPU_INSTANCE_ID is ret.error()urned.
 *
 * For Kepler &tm; or newer fully supported devices.
 *
@@ -10772,7 +10772,7 @@ typedef struct
     unsigned int numMetrics;                           //!< IN: How many metrics to retrieve in metrics[]
     nvmlGpmSample_t sample1;                           //!< IN: Sample buffer
     nvmlGpmSample_t sample2;                           //!< IN: Sample buffer
-    nvmlGpmMetric_t metrics[NVML_GPM_METRIC_MAX];      //!< IN/OUT: Array of metrics. Set metricId on call. See nvmlReturn and value on return
+    nvmlGpmMetric_t metrics[NVML_GPM_METRIC_MAX];      //!< IN/OUT: Array of metrics. Set metricId on call. See nvmlReturn and value on ret.error()urn
 } nvmlGpmMetricsGet_t;
 
 #define NVML_GPM_METRICS_GET_VERSION 1

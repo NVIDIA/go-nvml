@@ -47,28 +47,28 @@ func (e nvmlEventData) convert() EventData {
 }
 
 // nvml.EventSetCreate()
-func (l *library) EventSetCreate() (EventSet, Return) {
+func (l *library) EventSetCreate() (EventSet, error) {
 	var Set nvmlEventSet
 	ret := nvmlEventSetCreate(&Set)
-	return Set, ret
+	return Set, ret.error()
 }
 
 // nvml.EventSetWait()
-func (l *library) EventSetWait(set EventSet, timeoutms uint32) (EventData, Return) {
+func (l *library) EventSetWait(set EventSet, timeoutms uint32) (EventData, error) {
 	return set.Wait(timeoutms)
 }
 
-func (set nvmlEventSet) Wait(timeoutms uint32) (EventData, Return) {
+func (set nvmlEventSet) Wait(timeoutms uint32) (EventData, error) {
 	var data nvmlEventData
 	ret := nvmlEventSetWait(set, &data, timeoutms)
-	return data.convert(), ret
+	return data.convert(), ret.error()
 }
 
 // nvml.EventSetFree()
-func (l *library) EventSetFree(set EventSet) Return {
+func (l *library) EventSetFree(set EventSet) error {
 	return set.Free()
 }
 
-func (set nvmlEventSet) Free() Return {
-	return nvmlEventSetFree(set)
+func (set nvmlEventSet) Free() error {
+	return nvmlEventSetFree(set).error()
 }

@@ -4,9 +4,8 @@
 package mock
 
 import (
-	"sync"
-
 	"github.com/NVIDIA/go-nvml/pkg/nvml"
+	"sync"
 )
 
 // Ensure, that EventSet does implement nvml.EventSet.
@@ -19,10 +18,10 @@ var _ nvml.EventSet = &EventSet{}
 //
 //		// make and configure a mocked nvml.EventSet
 //		mockedEventSet := &EventSet{
-//			FreeFunc: func() nvml.Return {
+//			FreeFunc: func() error {
 //				panic("mock out the Free method")
 //			},
-//			WaitFunc: func(v uint32) (nvml.EventData, nvml.Return) {
+//			WaitFunc: func(v uint32) (nvml.EventData, error) {
 //				panic("mock out the Wait method")
 //			},
 //		}
@@ -33,10 +32,10 @@ var _ nvml.EventSet = &EventSet{}
 //	}
 type EventSet struct {
 	// FreeFunc mocks the Free method.
-	FreeFunc func() nvml.Return
+	FreeFunc func() error
 
 	// WaitFunc mocks the Wait method.
-	WaitFunc func(v uint32) (nvml.EventData, nvml.Return)
+	WaitFunc func(v uint32) (nvml.EventData, error)
 
 	// calls tracks calls to the methods.
 	calls struct {
@@ -54,7 +53,7 @@ type EventSet struct {
 }
 
 // Free calls FreeFunc.
-func (mock *EventSet) Free() nvml.Return {
+func (mock *EventSet) Free() error {
 	if mock.FreeFunc == nil {
 		panic("EventSet.FreeFunc: method is nil but EventSet.Free was just called")
 	}
@@ -81,7 +80,7 @@ func (mock *EventSet) FreeCalls() []struct {
 }
 
 // Wait calls WaitFunc.
-func (mock *EventSet) Wait(v uint32) (nvml.EventData, nvml.Return) {
+func (mock *EventSet) Wait(v uint32) (nvml.EventData, error) {
 	if mock.WaitFunc == nil {
 		panic("EventSet.WaitFunc: method is nil but EventSet.Wait was just called")
 	}

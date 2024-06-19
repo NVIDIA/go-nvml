@@ -4,9 +4,8 @@
 package mock
 
 import (
-	"sync"
-
 	"github.com/NVIDIA/go-nvml/pkg/nvml"
+	"sync"
 )
 
 // Ensure, that ExtendedInterface does implement nvml.ExtendedInterface.

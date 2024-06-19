@@ -15,124 +15,124 @@
 package nvml
 
 // nvml.SystemGetDriverVersion()
-func (l *library) SystemGetDriverVersion() (string, Return) {
+func (l *library) SystemGetDriverVersion() (string, error) {
 	Version := make([]byte, SYSTEM_DRIVER_VERSION_BUFFER_SIZE)
 	ret := nvmlSystemGetDriverVersion(&Version[0], SYSTEM_DRIVER_VERSION_BUFFER_SIZE)
-	return string(Version[:clen(Version)]), ret
+	return string(Version[:clen(Version)]), ret.error()
 }
 
 // nvml.SystemGetNVMLVersion()
-func (l *library) SystemGetNVMLVersion() (string, Return) {
+func (l *library) SystemGetNVMLVersion() (string, error) {
 	Version := make([]byte, SYSTEM_NVML_VERSION_BUFFER_SIZE)
 	ret := nvmlSystemGetNVMLVersion(&Version[0], SYSTEM_NVML_VERSION_BUFFER_SIZE)
-	return string(Version[:clen(Version)]), ret
+	return string(Version[:clen(Version)]), ret.error()
 }
 
 // nvml.SystemGetCudaDriverVersion()
-func (l *library) SystemGetCudaDriverVersion() (int, Return) {
+func (l *library) SystemGetCudaDriverVersion() (int, error) {
 	var CudaDriverVersion int32
 	ret := nvmlSystemGetCudaDriverVersion(&CudaDriverVersion)
-	return int(CudaDriverVersion), ret
+	return int(CudaDriverVersion), ret.error()
 }
 
 // nvml.SystemGetCudaDriverVersion_v2()
-func (l *library) SystemGetCudaDriverVersion_v2() (int, Return) {
+func (l *library) SystemGetCudaDriverVersion_v2() (int, error) {
 	var CudaDriverVersion int32
 	ret := nvmlSystemGetCudaDriverVersion_v2(&CudaDriverVersion)
-	return int(CudaDriverVersion), ret
+	return int(CudaDriverVersion), ret.error()
 }
 
 // nvml.SystemGetProcessName()
-func (l *library) SystemGetProcessName(pid int) (string, Return) {
+func (l *library) SystemGetProcessName(pid int) (string, error) {
 	name := make([]byte, SYSTEM_PROCESS_NAME_BUFFER_SIZE)
 	ret := nvmlSystemGetProcessName(uint32(pid), &name[0], SYSTEM_PROCESS_NAME_BUFFER_SIZE)
-	return string(name[:clen(name)]), ret
+	return string(name[:clen(name)]), ret.error()
 }
 
 // nvml.SystemGetHicVersion()
-func (l *library) SystemGetHicVersion() ([]HwbcEntry, Return) {
+func (l *library) SystemGetHicVersion() ([]HwbcEntry, error) {
 	var hwbcCount uint32 = 1 // Will be reduced upon returning
 	for {
 		hwbcEntries := make([]HwbcEntry, hwbcCount)
 		ret := nvmlSystemGetHicVersion(&hwbcCount, &hwbcEntries[0])
-		if ret == SUCCESS {
-			return hwbcEntries[:hwbcCount], ret
+		if ret == nvmlSUCCESS {
+			return hwbcEntries[:hwbcCount], ret.error()
 		}
-		if ret != ERROR_INSUFFICIENT_SIZE {
-			return nil, ret
+		if ret != nvmlERROR_INSUFFICIENT_SIZE {
+			return nil, ret.error()
 		}
 		hwbcCount *= 2
 	}
 }
 
 // nvml.SystemGetTopologyGpuSet()
-func (l *library) SystemGetTopologyGpuSet(cpuNumber int) ([]Device, Return) {
+func (l *library) SystemGetTopologyGpuSet(cpuNumber int) ([]Device, error) {
 	var count uint32
 	ret := nvmlSystemGetTopologyGpuSet(uint32(cpuNumber), &count, nil)
-	if ret != SUCCESS {
-		return nil, ret
+	if ret != nvmlSUCCESS {
+		return nil, ret.error()
 	}
 	if count == 0 {
-		return []Device{}, ret
+		return []Device{}, ret.error()
 	}
 	deviceArray := make([]nvmlDevice, count)
 	ret = nvmlSystemGetTopologyGpuSet(uint32(cpuNumber), &count, &deviceArray[0])
-	return convertSlice[nvmlDevice, Device](deviceArray), ret
+	return convertSlice[nvmlDevice, Device](deviceArray), ret.error()
 }
 
 // nvml.SystemGetConfComputeCapabilities()
-func (l *library) SystemGetConfComputeCapabilities() (ConfComputeSystemCaps, Return) {
+func (l *library) SystemGetConfComputeCapabilities() (ConfComputeSystemCaps, error) {
 	var capabilities ConfComputeSystemCaps
 	ret := nvmlSystemGetConfComputeCapabilities(&capabilities)
-	return capabilities, ret
+	return capabilities, ret.error()
 }
 
 // nvml.SystemGetConfComputeState()
-func SystemGetConfComputeState() (ConfComputeSystemState, Return) {
+func SystemGetConfComputeState() (ConfComputeSystemState, error) {
 	var state ConfComputeSystemState
 	ret := nvmlSystemGetConfComputeState(&state)
-	return state, ret
+	return state, ret.error()
 }
 
 // nvml.SystemGetConfComputeGpusReadyState()
-func SystemGetConfComputeGpusReadyState() (uint32, Return) {
+func SystemGetConfComputeGpusReadyState() (uint32, error) {
 	var isAcceptingWork uint32
 	ret := nvmlSystemGetConfComputeGpusReadyState(&isAcceptingWork)
-	return isAcceptingWork, ret
+	return isAcceptingWork, ret.error()
 }
 
 // nvml.SystemSetConfComputeGpusReadyState()
-func SystemSetConfComputeGpusReadyState(isAcceptingWork uint32) Return {
-	return nvmlSystemSetConfComputeGpusReadyState(isAcceptingWork)
+func SystemSetConfComputeGpusReadyState(isAcceptingWork uint32) error {
+	return nvmlSystemSetConfComputeGpusReadyState(isAcceptingWork).error()
 }
 
 // nvml.SystemSetNvlinkBwMode()
-func SystemSetNvlinkBwMode(nvlinkBwMode uint32) Return {
-	return nvmlSystemSetNvlinkBwMode(nvlinkBwMode)
+func SystemSetNvlinkBwMode(nvlinkBwMode uint32) error {
+	return nvmlSystemSetNvlinkBwMode(nvlinkBwMode).error()
 }
 
 // nvml.SystemGetNvlinkBwMode()
-func SystemGetNvlinkBwMode() (uint32, Return) {
+func SystemGetNvlinkBwMode() (uint32, error) {
 	var nvlinkBwMode uint32
 	ret := nvmlSystemGetNvlinkBwMode(&nvlinkBwMode)
-	return nvlinkBwMode, ret
+	return nvlinkBwMode, ret.error()
 }
 
 // nvml.SystemGetConfComputeKeyRotationThresholdInfo()
-func (l *library) SystemGetConfComputeKeyRotationThresholdInfo() (ConfComputeGetKeyRotationThresholdInfo, Return) {
+func (l *library) SystemGetConfComputeKeyRotationThresholdInfo() (ConfComputeGetKeyRotationThresholdInfo, error) {
 	var keyRotationThresholdInfo ConfComputeGetKeyRotationThresholdInfo
 	ret := nvmlSystemGetConfComputeKeyRotationThresholdInfo(&keyRotationThresholdInfo)
-	return keyRotationThresholdInfo, ret
+	return keyRotationThresholdInfo, ret.error()
 }
 
 // nvml.SystemGetConfComputeSettings()
-func (l *library) SystemGetConfComputeSettings() (SystemConfComputeSettings, Return) {
+func (l *library) SystemGetConfComputeSettings() (SystemConfComputeSettings, error) {
 	var settings SystemConfComputeSettings
 	ret := nvmlSystemGetConfComputeSettings(&settings)
-	return settings, ret
+	return settings, ret.error()
 }
 
 // nvml.SystemSetConfComputeKeyRotationThresholdInfo()
-func (l *library) SystemSetConfComputeKeyRotationThresholdInfo(keyRotationThresholdInfo ConfComputeSetKeyRotationThresholdInfo) Return {
-	return nvmlSystemSetConfComputeKeyRotationThresholdInfo(&keyRotationThresholdInfo)
+func (l *library) SystemSetConfComputeKeyRotationThresholdInfo(keyRotationThresholdInfo ConfComputeSetKeyRotationThresholdInfo) error {
+	return nvmlSystemSetConfComputeKeyRotationThresholdInfo(&keyRotationThresholdInfo).error()
 }
