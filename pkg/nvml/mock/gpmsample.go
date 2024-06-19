@@ -18,13 +18,13 @@ var _ nvml.GpmSample = &GpmSample{}
 //
 //		// make and configure a mocked nvml.GpmSample
 //		mockedGpmSample := &GpmSample{
-//			FreeFunc: func() nvml.Return {
+//			FreeFunc: func() error {
 //				panic("mock out the Free method")
 //			},
-//			GetFunc: func(device nvml.Device) nvml.Return {
+//			GetFunc: func(device nvml.Device) error {
 //				panic("mock out the Get method")
 //			},
-//			MigGetFunc: func(device nvml.Device, n int) nvml.Return {
+//			MigGetFunc: func(device nvml.Device, n int) error {
 //				panic("mock out the MigGet method")
 //			},
 //		}
@@ -35,13 +35,13 @@ var _ nvml.GpmSample = &GpmSample{}
 //	}
 type GpmSample struct {
 	// FreeFunc mocks the Free method.
-	FreeFunc func() nvml.Return
+	FreeFunc func() error
 
 	// GetFunc mocks the Get method.
-	GetFunc func(device nvml.Device) nvml.Return
+	GetFunc func(device nvml.Device) error
 
 	// MigGetFunc mocks the MigGet method.
-	MigGetFunc func(device nvml.Device, n int) nvml.Return
+	MigGetFunc func(device nvml.Device, n int) error
 
 	// calls tracks calls to the methods.
 	calls struct {
@@ -67,7 +67,7 @@ type GpmSample struct {
 }
 
 // Free calls FreeFunc.
-func (mock *GpmSample) Free() nvml.Return {
+func (mock *GpmSample) Free() error {
 	if mock.FreeFunc == nil {
 		panic("GpmSample.FreeFunc: method is nil but GpmSample.Free was just called")
 	}
@@ -94,7 +94,7 @@ func (mock *GpmSample) FreeCalls() []struct {
 }
 
 // Get calls GetFunc.
-func (mock *GpmSample) Get(device nvml.Device) nvml.Return {
+func (mock *GpmSample) Get(device nvml.Device) error {
 	if mock.GetFunc == nil {
 		panic("GpmSample.GetFunc: method is nil but GpmSample.Get was just called")
 	}
@@ -126,7 +126,7 @@ func (mock *GpmSample) GetCalls() []struct {
 }
 
 // MigGet calls MigGetFunc.
-func (mock *GpmSample) MigGet(device nvml.Device, n int) nvml.Return {
+func (mock *GpmSample) MigGet(device nvml.Device, n int) error {
 	if mock.MigGetFunc == nil {
 		panic("GpmSample.MigGetFunc: method is nil but GpmSample.MigGet was just called")
 	}

@@ -18,10 +18,10 @@ var _ nvml.ComputeInstance = &ComputeInstance{}
 //
 //		// make and configure a mocked nvml.ComputeInstance
 //		mockedComputeInstance := &ComputeInstance{
-//			DestroyFunc: func() nvml.Return {
+//			DestroyFunc: func() error {
 //				panic("mock out the Destroy method")
 //			},
-//			GetInfoFunc: func() (nvml.ComputeInstanceInfo, nvml.Return) {
+//			GetInfoFunc: func() (nvml.ComputeInstanceInfo, error) {
 //				panic("mock out the GetInfo method")
 //			},
 //		}
@@ -32,10 +32,10 @@ var _ nvml.ComputeInstance = &ComputeInstance{}
 //	}
 type ComputeInstance struct {
 	// DestroyFunc mocks the Destroy method.
-	DestroyFunc func() nvml.Return
+	DestroyFunc func() error
 
 	// GetInfoFunc mocks the GetInfo method.
-	GetInfoFunc func() (nvml.ComputeInstanceInfo, nvml.Return)
+	GetInfoFunc func() (nvml.ComputeInstanceInfo, error)
 
 	// calls tracks calls to the methods.
 	calls struct {
@@ -51,7 +51,7 @@ type ComputeInstance struct {
 }
 
 // Destroy calls DestroyFunc.
-func (mock *ComputeInstance) Destroy() nvml.Return {
+func (mock *ComputeInstance) Destroy() error {
 	if mock.DestroyFunc == nil {
 		panic("ComputeInstance.DestroyFunc: method is nil but ComputeInstance.Destroy was just called")
 	}
@@ -78,7 +78,7 @@ func (mock *ComputeInstance) DestroyCalls() []struct {
 }
 
 // GetInfo calls GetInfoFunc.
-func (mock *ComputeInstance) GetInfo() (nvml.ComputeInstanceInfo, nvml.Return) {
+func (mock *ComputeInstance) GetInfo() (nvml.ComputeInstanceInfo, error) {
 	if mock.GetInfoFunc == nil {
 		panic("ComputeInstance.GetInfoFunc: method is nil but ComputeInstance.GetInfo was just called")
 	}

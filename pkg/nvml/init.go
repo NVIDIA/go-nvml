@@ -17,26 +17,26 @@ package nvml
 import "C"
 
 // nvml.Init()
-func (l *library) Init() Return {
+func (l *library) Init() error {
 	if err := l.load(); err != nil {
 		return ERROR_LIBRARY_NOT_FOUND
 	}
-	return nvmlInit()
+	return nvmlInit().error()
 }
 
 // nvml.InitWithFlags()
-func (l *library) InitWithFlags(flags uint32) Return {
+func (l *library) InitWithFlags(flags uint32) error {
 	if err := l.load(); err != nil {
 		return ERROR_LIBRARY_NOT_FOUND
 	}
-	return nvmlInitWithFlags(flags)
+	return nvmlInitWithFlags(flags).error()
 }
 
 // nvml.Shutdown()
-func (l *library) Shutdown() Return {
+func (l *library) Shutdown() error {
 	ret := nvmlShutdown()
-	if ret != SUCCESS {
-		return ret
+	if ret != nvmlSUCCESS {
+		return ret.error()
 	}
 
 	err := l.close()
@@ -44,5 +44,5 @@ func (l *library) Shutdown() Return {
 		return ERROR_UNKNOWN
 	}
 
-	return ret
+	return ret.error()
 }
