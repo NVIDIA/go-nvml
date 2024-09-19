@@ -1224,6 +1224,7 @@ func nvmlDeviceGetMPSComputeRunningProcesses_v3(nvmlDevice nvmlDevice, InfoCount
 // nvmlDeviceGetRunningProcessDetailList function as declared in nvml/nvml.h
 func nvmlDeviceGetRunningProcessDetailList(nvmlDevice nvmlDevice, Plist *ProcessDetailList) Return {
 	cnvmlDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&nvmlDevice)), cgoAllocsUnknown
+	Plist.Version = C.nvmlProcessDetailList_v1
 	cPlist, _ := (*C.nvmlProcessDetailList_t)(unsafe.Pointer(Plist)), cgoAllocsUnknown
 	__ret := C.nvmlDeviceGetRunningProcessDetailList(cnvmlDevice, cPlist)
 	__v := (Return)(__ret)
