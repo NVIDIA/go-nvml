@@ -2808,6 +2808,7 @@ func (l *library) DeviceGetRunningProcessDetailList(device Device) (ProcessDetai
 
 func (device nvmlDevice) GetRunningProcessDetailList() (ProcessDetailList, Return) {
 	var plist ProcessDetailList
+	plist.Version = STRUCT_VERSION(plist, 1)
 	ret := nvmlDeviceGetRunningProcessDetailList(device, &plist)
 	return plist, ret
 }
@@ -3052,6 +3053,7 @@ func (l *library) DeviceGetSramEccErrorStatus(device Device) (EccSramErrorStatus
 
 func (device nvmlDevice) GetSramEccErrorStatus() (EccSramErrorStatus, Return) {
 	var status EccSramErrorStatus
+	status.Version = STRUCT_VERSION(status, 1)
 	ret := nvmlDeviceGetSramEccErrorStatus(device, &status)
 	return status, ret
 }

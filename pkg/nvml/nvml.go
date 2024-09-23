@@ -1224,7 +1224,6 @@ func nvmlDeviceGetMPSComputeRunningProcesses_v3(nvmlDevice nvmlDevice, InfoCount
 // nvmlDeviceGetRunningProcessDetailList function as declared in nvml/nvml.h
 func nvmlDeviceGetRunningProcessDetailList(nvmlDevice nvmlDevice, Plist *ProcessDetailList) Return {
 	cnvmlDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&nvmlDevice)), cgoAllocsUnknown
-	Plist.Version = C.nvmlProcessDetailList_v1
 	cPlist, _ := (*C.nvmlProcessDetailList_t)(unsafe.Pointer(Plist)), cgoAllocsUnknown
 	__ret := C.nvmlDeviceGetRunningProcessDetailList(cnvmlDevice, cPlist)
 	__v := (Return)(__ret)
@@ -3100,7 +3099,6 @@ func nvmlDeviceSetPowerManagementLimit_v2(nvmlDevice nvmlDevice, PowerValue *Pow
 // nvmlDeviceGetSramEccErrorStatus function as declared in nvml/nvml.h
 func nvmlDeviceGetSramEccErrorStatus(nvmlDevice nvmlDevice, Status *EccSramErrorStatus) Return {
 	cnvmlDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&nvmlDevice)), cgoAllocsUnknown
-	Status.Version = C.nvmlEccSramErrorStatus_v1
 	cStatus, _ := (*C.nvmlEccSramErrorStatus_t)(unsafe.Pointer(Status)), cgoAllocsUnknown
 	__ret := C.nvmlDeviceGetSramEccErrorStatus(cnvmlDevice, cStatus)
 	__v := (Return)(__ret)
