@@ -583,7 +583,6 @@ type Interface interface {
 	EventSetCreate() (EventSet, Return)
 	EventSetFree(EventSet) Return
 	EventSetWait(EventSet, uint32) (EventData, Return)
-	Extensions() ExtendedInterface
 	GetExcludedDeviceCount() (int, Return)
 	GetExcludedDeviceInfoByIndex(int) (ExcludedDeviceInfo, Return)
 	GetVgpuCompatibility(*VgpuMetadata, *VgpuPgpuMetadata) (VgpuPgpuCompatibility, Return)
@@ -668,6 +667,7 @@ type Interface interface {
 	VgpuTypeGetName(VgpuTypeId) (string, Return)
 	VgpuTypeGetNumDisplayHeads(VgpuTypeId) (int, Return)
 	VgpuTypeGetResolution(VgpuTypeId, int) (uint32, uint32, Return)
+	Extensions() ExtendedInterface
 }
 
 // Device represents the interface for the nvmlDevice type.
@@ -990,7 +990,6 @@ type VgpuInstance interface {
 //
 //go:generate moq -out mock/vgputypeid.go -pkg mock . VgpuTypeId:VgpuTypeId
 type VgpuTypeId interface {
-	Extensions() ExtendedVgpuTypeId
 	GetCapabilities(VgpuCapability) (bool, Return)
 	GetClass() (string, Return)
 	GetCreatablePlacements(Device) (VgpuPlacementList, Return)
@@ -1005,4 +1004,5 @@ type VgpuTypeId interface {
 	GetNumDisplayHeads() (int, Return)
 	GetResolution(int) (uint32, uint32, Return)
 	GetSupportedPlacements(Device) (VgpuPlacementList, Return)
+	Extensions() ExtendedVgpuTypeId
 }

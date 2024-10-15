@@ -240,7 +240,18 @@ func generateInterface(sourceDir string, input GeneratableInterfacePoperties) (s
 		return "", err
 	}
 
+	// We separate the methods into two sets to ensure that extensions are always included last.
+	var generatedMethods []*ast.FuncDecl
+	var extensions []*ast.FuncDecl
 	for _, method := range methods {
+		if method.Name.Name == "Extensions" {
+			extensions = append(extensions, method)
+			continue
+		}
+		generatedMethods = append(generatedMethods, method)
+	}
+
+	for _, method := range append(generatedMethods, extensions...) {
 		formatted := fmt.Sprintf("\t%s\n", formatMethodSignature(method))
 		signature.WriteString(formatted)
 	}
