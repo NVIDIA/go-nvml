@@ -77,6 +77,7 @@ var GeneratableInterfaces = []GeneratableInterfacePoperties{
 	{
 		Type:      "nvmlVgpuTypeId",
 		Interface: "VgpuTypeId",
+		Exclude:   []string{"ID"},
 	},
 }
 

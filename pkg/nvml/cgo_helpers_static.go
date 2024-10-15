@@ -73,7 +73,3 @@ func unpackPCharString(str string) (*C.char, *struct{}) {
 	h := (*stringHeader)(unsafe.Pointer(&str))
 	return (*C.char)(h.Data), cgoAllocsUnknown
 }
-
-func VgpuTypeIdToUint32(typeId VgpuTypeId) uint32 {
-	return uint32(typeId.(nvmlVgpuTypeId))
-}

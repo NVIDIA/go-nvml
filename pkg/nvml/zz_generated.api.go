@@ -990,6 +990,7 @@ type VgpuInstance interface {
 //
 //go:generate moq -out mock/vgputypeid.go -pkg mock . VgpuTypeId:VgpuTypeId
 type VgpuTypeId interface {
+	Extensions() ExtendedVgpuTypeId
 	GetCapabilities(VgpuCapability) (bool, Return)
 	GetClass() (string, Return)
 	GetCreatablePlacements(Device) (VgpuPlacementList, Return)
