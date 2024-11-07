@@ -557,24 +557,34 @@ func (device nvmlDevice) GetMaxCustomerBoostClock(clockType ClockType) (uint32, 
 }
 
 // nvml.DeviceGetSupportedMemoryClocks()
-func (l *library) DeviceGetSupportedMemoryClocks(device Device) (int, uint32, Return) {
+func (l *library) DeviceGetSupportedMemoryClocks(device Device) (int, []uint32, Return) {
 	return device.GetSupportedMemoryClocks()
 }
 
-func (device nvmlDevice) GetSupportedMemoryClocks() (int, uint32, Return) {
-	var count, clocksMHz uint32
-	ret := nvmlDeviceGetSupportedMemoryClocks(device, &count, &clocksMHz)
+func (device nvmlDevice) GetSupportedMemoryClocks() (int, []uint32, Return) {
+	var count uint32
+	ret := nvmlDeviceGetSupportedMemoryClocks(device, &count, nil)
+
+	clocksMHz := make([]uint32, count)
+
+	ret = nvmlDeviceGetSupportedMemoryClocks(device, &count, &clocksMHz[0])
+
 	return int(count), clocksMHz, ret
 }
 
 // nvml.DeviceGetSupportedGraphicsClocks()
-func (l *library) DeviceGetSupportedGraphicsClocks(device Device, memoryClockMHz int) (int, uint32, Return) {
+func (l *library) DeviceGetSupportedGraphicsClocks(device Device, memoryClockMHz int) (int, []uint32, Return) {
 	return device.GetSupportedGraphicsClocks(memoryClockMHz)
 }
 
-func (device nvmlDevice) GetSupportedGraphicsClocks(memoryClockMHz int) (int, uint32, Return) {
-	var count, clocksMHz uint32
-	ret := nvmlDeviceGetSupportedGraphicsClocks(device, uint32(memoryClockMHz), &count, &clocksMHz)
+func (device nvmlDevice) GetSupportedGraphicsClocks(memoryClockMHz int) (int, []uint32, Return) {
+	var count uint32
+	ret := nvmlDeviceGetSupportedGraphicsClocks(device, uint32(memoryClockMHz), &count, nil)
+
+	clocksMHz := make([]uint32, count)
+
+	ret = nvmlDeviceGetSupportedGraphicsClocks(device, uint32(memoryClockMHz), &count, &clocksMHz[0])
+
 	return int(count), clocksMHz, ret
 }
 
