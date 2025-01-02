@@ -2856,6 +2856,20 @@ func (device nvmlDevice) GetConfComputeGpuAttestationReport() (ConfComputeGpuAtt
 	return gpuAtstReport, ret
 }
 
+func (l *library) DeviceGetConfComputeGpuAttestationReportWithNonce(device Device, nonce []byte) (ConfComputeGpuAttestationReport, Return) {
+	return device.GetConfComputeGpuAttestationReportWithNonce(nonce)
+}
+
+func (device nvmlDevice) GetConfComputeGpuAttestationReportWithNonce(nonce []byte) (ConfComputeGpuAttestationReport, Return) {
+	if len(nonce) != CC_GPU_CEC_NONCE_SIZE {
+		return ConfComputeGpuAttestationReport{}, ERROR_INVALID_ARGUMENT
+	}
+	var gpuAtstReport ConfComputeGpuAttestationReport
+	copy(gpuAtstReport.Nonce[:], nonce)
+	ret := nvmlDeviceGetConfComputeGpuAttestationReport(device, &gpuAtstReport)
+	return gpuAtstReport, ret
+}
+
 // nvml.DeviceSetConfComputeUnprotectedMemSize()
 func (l *library) DeviceSetConfComputeUnprotectedMemSize(device Device, sizeKiB uint64) Return {
 	return device.SetConfComputeUnprotectedMemSize(sizeKiB)
