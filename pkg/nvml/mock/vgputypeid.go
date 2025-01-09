@@ -18,46 +18,46 @@ var _ nvml.VgpuTypeId = &VgpuTypeId{}
 //
 //		// make and configure a mocked nvml.VgpuTypeId
 //		mockedVgpuTypeId := &VgpuTypeId{
-//			GetCapabilitiesFunc: func(vgpuCapability nvml.VgpuCapability) (bool, nvml.Return) {
+//			GetCapabilitiesFunc: func(vgpuCapability nvml.VgpuCapability) (bool, error) {
 //				panic("mock out the GetCapabilities method")
 //			},
-//			GetClassFunc: func() (string, nvml.Return) {
+//			GetClassFunc: func() (string, error) {
 //				panic("mock out the GetClass method")
 //			},
-//			GetCreatablePlacementsFunc: func(device nvml.Device) (nvml.VgpuPlacementList, nvml.Return) {
+//			GetCreatablePlacementsFunc: func(device nvml.Device) (nvml.VgpuPlacementList, error) {
 //				panic("mock out the GetCreatablePlacements method")
 //			},
-//			GetDeviceIDFunc: func() (uint64, uint64, nvml.Return) {
+//			GetDeviceIDFunc: func() (uint64, uint64, error) {
 //				panic("mock out the GetDeviceID method")
 //			},
-//			GetFrameRateLimitFunc: func() (uint32, nvml.Return) {
+//			GetFrameRateLimitFunc: func() (uint32, error) {
 //				panic("mock out the GetFrameRateLimit method")
 //			},
-//			GetFramebufferSizeFunc: func() (uint64, nvml.Return) {
+//			GetFramebufferSizeFunc: func() (uint64, error) {
 //				panic("mock out the GetFramebufferSize method")
 //			},
-//			GetGpuInstanceProfileIdFunc: func() (uint32, nvml.Return) {
+//			GetGpuInstanceProfileIdFunc: func() (uint32, error) {
 //				panic("mock out the GetGpuInstanceProfileId method")
 //			},
-//			GetLicenseFunc: func() (string, nvml.Return) {
+//			GetLicenseFunc: func() (string, error) {
 //				panic("mock out the GetLicense method")
 //			},
-//			GetMaxInstancesFunc: func(device nvml.Device) (int, nvml.Return) {
+//			GetMaxInstancesFunc: func(device nvml.Device) (int, error) {
 //				panic("mock out the GetMaxInstances method")
 //			},
-//			GetMaxInstancesPerVmFunc: func() (int, nvml.Return) {
+//			GetMaxInstancesPerVmFunc: func() (int, error) {
 //				panic("mock out the GetMaxInstancesPerVm method")
 //			},
-//			GetNameFunc: func() (string, nvml.Return) {
+//			GetNameFunc: func() (string, error) {
 //				panic("mock out the GetName method")
 //			},
-//			GetNumDisplayHeadsFunc: func() (int, nvml.Return) {
+//			GetNumDisplayHeadsFunc: func() (int, error) {
 //				panic("mock out the GetNumDisplayHeads method")
 //			},
-//			GetResolutionFunc: func(n int) (uint32, uint32, nvml.Return) {
+//			GetResolutionFunc: func(n int) (uint32, uint32, error) {
 //				panic("mock out the GetResolution method")
 //			},
-//			GetSupportedPlacementsFunc: func(device nvml.Device) (nvml.VgpuPlacementList, nvml.Return) {
+//			GetSupportedPlacementsFunc: func(device nvml.Device) (nvml.VgpuPlacementList, error) {
 //				panic("mock out the GetSupportedPlacements method")
 //			},
 //		}
@@ -68,46 +68,46 @@ var _ nvml.VgpuTypeId = &VgpuTypeId{}
 //	}
 type VgpuTypeId struct {
 	// GetCapabilitiesFunc mocks the GetCapabilities method.
-	GetCapabilitiesFunc func(vgpuCapability nvml.VgpuCapability) (bool, nvml.Return)
+	GetCapabilitiesFunc func(vgpuCapability nvml.VgpuCapability) (bool, error)
 
 	// GetClassFunc mocks the GetClass method.
-	GetClassFunc func() (string, nvml.Return)
+	GetClassFunc func() (string, error)
 
 	// GetCreatablePlacementsFunc mocks the GetCreatablePlacements method.
-	GetCreatablePlacementsFunc func(device nvml.Device) (nvml.VgpuPlacementList, nvml.Return)
+	GetCreatablePlacementsFunc func(device nvml.Device) (nvml.VgpuPlacementList, error)
 
 	// GetDeviceIDFunc mocks the GetDeviceID method.
-	GetDeviceIDFunc func() (uint64, uint64, nvml.Return)
+	GetDeviceIDFunc func() (uint64, uint64, error)
 
 	// GetFrameRateLimitFunc mocks the GetFrameRateLimit method.
-	GetFrameRateLimitFunc func() (uint32, nvml.Return)
+	GetFrameRateLimitFunc func() (uint32, error)
 
 	// GetFramebufferSizeFunc mocks the GetFramebufferSize method.
-	GetFramebufferSizeFunc func() (uint64, nvml.Return)
+	GetFramebufferSizeFunc func() (uint64, error)
 
 	// GetGpuInstanceProfileIdFunc mocks the GetGpuInstanceProfileId method.
-	GetGpuInstanceProfileIdFunc func() (uint32, nvml.Return)
+	GetGpuInstanceProfileIdFunc func() (uint32, error)
 
 	// GetLicenseFunc mocks the GetLicense method.
-	GetLicenseFunc func() (string, nvml.Return)
+	GetLicenseFunc func() (string, error)
 
 	// GetMaxInstancesFunc mocks the GetMaxInstances method.
-	GetMaxInstancesFunc func(device nvml.Device) (int, nvml.Return)
+	GetMaxInstancesFunc func(device nvml.Device) (int, error)
 
 	// GetMaxInstancesPerVmFunc mocks the GetMaxInstancesPerVm method.
-	GetMaxInstancesPerVmFunc func() (int, nvml.Return)
+	GetMaxInstancesPerVmFunc func() (int, error)
 
 	// GetNameFunc mocks the GetName method.
-	GetNameFunc func() (string, nvml.Return)
+	GetNameFunc func() (string, error)
 
 	// GetNumDisplayHeadsFunc mocks the GetNumDisplayHeads method.
-	GetNumDisplayHeadsFunc func() (int, nvml.Return)
+	GetNumDisplayHeadsFunc func() (int, error)
 
 	// GetResolutionFunc mocks the GetResolution method.
-	GetResolutionFunc func(n int) (uint32, uint32, nvml.Return)
+	GetResolutionFunc func(n int) (uint32, uint32, error)
 
 	// GetSupportedPlacementsFunc mocks the GetSupportedPlacements method.
-	GetSupportedPlacementsFunc func(device nvml.Device) (nvml.VgpuPlacementList, nvml.Return)
+	GetSupportedPlacementsFunc func(device nvml.Device) (nvml.VgpuPlacementList, error)
 
 	// calls tracks calls to the methods.
 	calls struct {
@@ -181,7 +181,7 @@ type VgpuTypeId struct {
 }
 
 // GetCapabilities calls GetCapabilitiesFunc.
-func (mock *VgpuTypeId) GetCapabilities(vgpuCapability nvml.VgpuCapability) (bool, nvml.Return) {
+func (mock *VgpuTypeId) GetCapabilities(vgpuCapability nvml.VgpuCapability) (bool, error) {
 	if mock.GetCapabilitiesFunc == nil {
 		panic("VgpuTypeId.GetCapabilitiesFunc: method is nil but VgpuTypeId.GetCapabilities was just called")
 	}
@@ -213,7 +213,7 @@ func (mock *VgpuTypeId) GetCapabilitiesCalls() []struct {
 }
 
 // GetClass calls GetClassFunc.
-func (mock *VgpuTypeId) GetClass() (string, nvml.Return) {
+func (mock *VgpuTypeId) GetClass() (string, error) {
 	if mock.GetClassFunc == nil {
 		panic("VgpuTypeId.GetClassFunc: method is nil but VgpuTypeId.GetClass was just called")
 	}
@@ -240,7 +240,7 @@ func (mock *VgpuTypeId) GetClassCalls() []struct {
 }
 
 // GetCreatablePlacements calls GetCreatablePlacementsFunc.
-func (mock *VgpuTypeId) GetCreatablePlacements(device nvml.Device) (nvml.VgpuPlacementList, nvml.Return) {
+func (mock *VgpuTypeId) GetCreatablePlacements(device nvml.Device) (nvml.VgpuPlacementList, error) {
 	if mock.GetCreatablePlacementsFunc == nil {
 		panic("VgpuTypeId.GetCreatablePlacementsFunc: method is nil but VgpuTypeId.GetCreatablePlacements was just called")
 	}
@@ -272,7 +272,7 @@ func (mock *VgpuTypeId) GetCreatablePlacementsCalls() []struct {
 }
 
 // GetDeviceID calls GetDeviceIDFunc.
-func (mock *VgpuTypeId) GetDeviceID() (uint64, uint64, nvml.Return) {
+func (mock *VgpuTypeId) GetDeviceID() (uint64, uint64, error) {
 	if mock.GetDeviceIDFunc == nil {
 		panic("VgpuTypeId.GetDeviceIDFunc: method is nil but VgpuTypeId.GetDeviceID was just called")
 	}
@@ -299,7 +299,7 @@ func (mock *VgpuTypeId) GetDeviceIDCalls() []struct {
 }
 
 // GetFrameRateLimit calls GetFrameRateLimitFunc.
-func (mock *VgpuTypeId) GetFrameRateLimit() (uint32, nvml.Return) {
+func (mock *VgpuTypeId) GetFrameRateLimit() (uint32, error) {
 	if mock.GetFrameRateLimitFunc == nil {
 		panic("VgpuTypeId.GetFrameRateLimitFunc: method is nil but VgpuTypeId.GetFrameRateLimit was just called")
 	}
@@ -326,7 +326,7 @@ func (mock *VgpuTypeId) GetFrameRateLimitCalls() []struct {
 }
 
 // GetFramebufferSize calls GetFramebufferSizeFunc.
-func (mock *VgpuTypeId) GetFramebufferSize() (uint64, nvml.Return) {
+func (mock *VgpuTypeId) GetFramebufferSize() (uint64, error) {
 	if mock.GetFramebufferSizeFunc == nil {
 		panic("VgpuTypeId.GetFramebufferSizeFunc: method is nil but VgpuTypeId.GetFramebufferSize was just called")
 	}
@@ -353,7 +353,7 @@ func (mock *VgpuTypeId) GetFramebufferSizeCalls() []struct {
 }
 
 // GetGpuInstanceProfileId calls GetGpuInstanceProfileIdFunc.
-func (mock *VgpuTypeId) GetGpuInstanceProfileId() (uint32, nvml.Return) {
+func (mock *VgpuTypeId) GetGpuInstanceProfileId() (uint32, error) {
 	if mock.GetGpuInstanceProfileIdFunc == nil {
 		panic("VgpuTypeId.GetGpuInstanceProfileIdFunc: method is nil but VgpuTypeId.GetGpuInstanceProfileId was just called")
 	}
@@ -380,7 +380,7 @@ func (mock *VgpuTypeId) GetGpuInstanceProfileIdCalls() []struct {
 }
 
 // GetLicense calls GetLicenseFunc.
-func (mock *VgpuTypeId) GetLicense() (string, nvml.Return) {
+func (mock *VgpuTypeId) GetLicense() (string, error) {
 	if mock.GetLicenseFunc == nil {
 		panic("VgpuTypeId.GetLicenseFunc: method is nil but VgpuTypeId.GetLicense was just called")
 	}
@@ -407,7 +407,7 @@ func (mock *VgpuTypeId) GetLicenseCalls() []struct {
 }
 
 // GetMaxInstances calls GetMaxInstancesFunc.
-func (mock *VgpuTypeId) GetMaxInstances(device nvml.Device) (int, nvml.Return) {
+func (mock *VgpuTypeId) GetMaxInstances(device nvml.Device) (int, error) {
 	if mock.GetMaxInstancesFunc == nil {
 		panic("VgpuTypeId.GetMaxInstancesFunc: method is nil but VgpuTypeId.GetMaxInstances was just called")
 	}
@@ -439,7 +439,7 @@ func (mock *VgpuTypeId) GetMaxInstancesCalls() []struct {
 }
 
 // GetMaxInstancesPerVm calls GetMaxInstancesPerVmFunc.
-func (mock *VgpuTypeId) GetMaxInstancesPerVm() (int, nvml.Return) {
+func (mock *VgpuTypeId) GetMaxInstancesPerVm() (int, error) {
 	if mock.GetMaxInstancesPerVmFunc == nil {
 		panic("VgpuTypeId.GetMaxInstancesPerVmFunc: method is nil but VgpuTypeId.GetMaxInstancesPerVm was just called")
 	}
@@ -466,7 +466,7 @@ func (mock *VgpuTypeId) GetMaxInstancesPerVmCalls() []struct {
 }
 
 // GetName calls GetNameFunc.
-func (mock *VgpuTypeId) GetName() (string, nvml.Return) {
+func (mock *VgpuTypeId) GetName() (string, error) {
 	if mock.GetNameFunc == nil {
 		panic("VgpuTypeId.GetNameFunc: method is nil but VgpuTypeId.GetName was just called")
 	}
@@ -493,7 +493,7 @@ func (mock *VgpuTypeId) GetNameCalls() []struct {
 }
 
 // GetNumDisplayHeads calls GetNumDisplayHeadsFunc.
-func (mock *VgpuTypeId) GetNumDisplayHeads() (int, nvml.Return) {
+func (mock *VgpuTypeId) GetNumDisplayHeads() (int, error) {
 	if mock.GetNumDisplayHeadsFunc == nil {
 		panic("VgpuTypeId.GetNumDisplayHeadsFunc: method is nil but VgpuTypeId.GetNumDisplayHeads was just called")
 	}
@@ -520,7 +520,7 @@ func (mock *VgpuTypeId) GetNumDisplayHeadsCalls() []struct {
 }
 
 // GetResolution calls GetResolutionFunc.
-func (mock *VgpuTypeId) GetResolution(n int) (uint32, uint32, nvml.Return) {
+func (mock *VgpuTypeId) GetResolution(n int) (uint32, uint32, error) {
 	if mock.GetResolutionFunc == nil {
 		panic("VgpuTypeId.GetResolutionFunc: method is nil but VgpuTypeId.GetResolution was just called")
 	}
@@ -552,7 +552,7 @@ func (mock *VgpuTypeId) GetResolutionCalls() []struct {
 }
 
 // GetSupportedPlacements calls GetSupportedPlacementsFunc.
-func (mock *VgpuTypeId) GetSupportedPlacements(device nvml.Device) (nvml.VgpuPlacementList, nvml.Return) {
+func (mock *VgpuTypeId) GetSupportedPlacements(device nvml.Device) (nvml.VgpuPlacementList, error) {
 	if mock.GetSupportedPlacementsFunc == nil {
 		panic("VgpuTypeId.GetSupportedPlacementsFunc: method is nil but VgpuTypeId.GetSupportedPlacements was just called")
 	}

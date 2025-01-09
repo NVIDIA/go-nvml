@@ -18,25 +18,25 @@ var _ nvml.Unit = &Unit{}
 //
 //		// make and configure a mocked nvml.Unit
 //		mockedUnit := &Unit{
-//			GetDevicesFunc: func() ([]nvml.Device, nvml.Return) {
+//			GetDevicesFunc: func() ([]nvml.Device, error) {
 //				panic("mock out the GetDevices method")
 //			},
-//			GetFanSpeedInfoFunc: func() (nvml.UnitFanSpeeds, nvml.Return) {
+//			GetFanSpeedInfoFunc: func() (nvml.UnitFanSpeeds, error) {
 //				panic("mock out the GetFanSpeedInfo method")
 //			},
-//			GetLedStateFunc: func() (nvml.LedState, nvml.Return) {
+//			GetLedStateFunc: func() (nvml.LedState, error) {
 //				panic("mock out the GetLedState method")
 //			},
-//			GetPsuInfoFunc: func() (nvml.PSUInfo, nvml.Return) {
+//			GetPsuInfoFunc: func() (nvml.PSUInfo, error) {
 //				panic("mock out the GetPsuInfo method")
 //			},
-//			GetTemperatureFunc: func(n int) (uint32, nvml.Return) {
+//			GetTemperatureFunc: func(n int) (uint32, error) {
 //				panic("mock out the GetTemperature method")
 //			},
-//			GetUnitInfoFunc: func() (nvml.UnitInfo, nvml.Return) {
+//			GetUnitInfoFunc: func() (nvml.UnitInfo, error) {
 //				panic("mock out the GetUnitInfo method")
 //			},
-//			SetLedStateFunc: func(ledColor nvml.LedColor) nvml.Return {
+//			SetLedStateFunc: func(ledColor nvml.LedColor) error {
 //				panic("mock out the SetLedState method")
 //			},
 //		}
@@ -47,25 +47,25 @@ var _ nvml.Unit = &Unit{}
 //	}
 type Unit struct {
 	// GetDevicesFunc mocks the GetDevices method.
-	GetDevicesFunc func() ([]nvml.Device, nvml.Return)
+	GetDevicesFunc func() ([]nvml.Device, error)
 
 	// GetFanSpeedInfoFunc mocks the GetFanSpeedInfo method.
-	GetFanSpeedInfoFunc func() (nvml.UnitFanSpeeds, nvml.Return)
+	GetFanSpeedInfoFunc func() (nvml.UnitFanSpeeds, error)
 
 	// GetLedStateFunc mocks the GetLedState method.
-	GetLedStateFunc func() (nvml.LedState, nvml.Return)
+	GetLedStateFunc func() (nvml.LedState, error)
 
 	// GetPsuInfoFunc mocks the GetPsuInfo method.
-	GetPsuInfoFunc func() (nvml.PSUInfo, nvml.Return)
+	GetPsuInfoFunc func() (nvml.PSUInfo, error)
 
 	// GetTemperatureFunc mocks the GetTemperature method.
-	GetTemperatureFunc func(n int) (uint32, nvml.Return)
+	GetTemperatureFunc func(n int) (uint32, error)
 
 	// GetUnitInfoFunc mocks the GetUnitInfo method.
-	GetUnitInfoFunc func() (nvml.UnitInfo, nvml.Return)
+	GetUnitInfoFunc func() (nvml.UnitInfo, error)
 
 	// SetLedStateFunc mocks the SetLedState method.
-	SetLedStateFunc func(ledColor nvml.LedColor) nvml.Return
+	SetLedStateFunc func(ledColor nvml.LedColor) error
 
 	// calls tracks calls to the methods.
 	calls struct {
@@ -105,7 +105,7 @@ type Unit struct {
 }
 
 // GetDevices calls GetDevicesFunc.
-func (mock *Unit) GetDevices() ([]nvml.Device, nvml.Return) {
+func (mock *Unit) GetDevices() ([]nvml.Device, error) {
 	if mock.GetDevicesFunc == nil {
 		panic("Unit.GetDevicesFunc: method is nil but Unit.GetDevices was just called")
 	}
@@ -132,7 +132,7 @@ func (mock *Unit) GetDevicesCalls() []struct {
 }
 
 // GetFanSpeedInfo calls GetFanSpeedInfoFunc.
-func (mock *Unit) GetFanSpeedInfo() (nvml.UnitFanSpeeds, nvml.Return) {
+func (mock *Unit) GetFanSpeedInfo() (nvml.UnitFanSpeeds, error) {
 	if mock.GetFanSpeedInfoFunc == nil {
 		panic("Unit.GetFanSpeedInfoFunc: method is nil but Unit.GetFanSpeedInfo was just called")
 	}
@@ -159,7 +159,7 @@ func (mock *Unit) GetFanSpeedInfoCalls() []struct {
 }
 
 // GetLedState calls GetLedStateFunc.
-func (mock *Unit) GetLedState() (nvml.LedState, nvml.Return) {
+func (mock *Unit) GetLedState() (nvml.LedState, error) {
 	if mock.GetLedStateFunc == nil {
 		panic("Unit.GetLedStateFunc: method is nil but Unit.GetLedState was just called")
 	}
@@ -186,7 +186,7 @@ func (mock *Unit) GetLedStateCalls() []struct {
 }
 
 // GetPsuInfo calls GetPsuInfoFunc.
-func (mock *Unit) GetPsuInfo() (nvml.PSUInfo, nvml.Return) {
+func (mock *Unit) GetPsuInfo() (nvml.PSUInfo, error) {
 	if mock.GetPsuInfoFunc == nil {
 		panic("Unit.GetPsuInfoFunc: method is nil but Unit.GetPsuInfo was just called")
 	}
@@ -213,7 +213,7 @@ func (mock *Unit) GetPsuInfoCalls() []struct {
 }
 
 // GetTemperature calls GetTemperatureFunc.
-func (mock *Unit) GetTemperature(n int) (uint32, nvml.Return) {
+func (mock *Unit) GetTemperature(n int) (uint32, error) {
 	if mock.GetTemperatureFunc == nil {
 		panic("Unit.GetTemperatureFunc: method is nil but Unit.GetTemperature was just called")
 	}
@@ -245,7 +245,7 @@ func (mock *Unit) GetTemperatureCalls() []struct {
 }
 
 // GetUnitInfo calls GetUnitInfoFunc.
-func (mock *Unit) GetUnitInfo() (nvml.UnitInfo, nvml.Return) {
+func (mock *Unit) GetUnitInfo() (nvml.UnitInfo, error) {
 	if mock.GetUnitInfoFunc == nil {
 		panic("Unit.GetUnitInfoFunc: method is nil but Unit.GetUnitInfo was just called")
 	}
@@ -272,7 +272,7 @@ func (mock *Unit) GetUnitInfoCalls() []struct {
 }
 
 // SetLedState calls SetLedStateFunc.
-func (mock *Unit) SetLedState(ledColor nvml.LedColor) nvml.Return {
+func (mock *Unit) SetLedState(ledColor nvml.LedColor) error {
 	if mock.SetLedStateFunc == nil {
 		panic("Unit.SetLedStateFunc: method is nil but Unit.SetLedState was just called")
 	}

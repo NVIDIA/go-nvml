@@ -30,7 +30,7 @@ func TestGpmMetricsGet(t *testing.T) {
 	}
 	defer setNvmlGpmMetricsGetStubForTest(func(metricsGet *nvmlGpmMetricsGetType) Return {
 		metricsGet.Metrics = overrideMetrics
-		return SUCCESS
+		return nvmlSUCCESS
 	})()
 
 	metrics := GpmMetricsGetType{
@@ -53,7 +53,7 @@ func TestGpmMetricsGetV(t *testing.T) {
 	}
 	defer setNvmlGpmMetricsGetStubForTest(func(metricsGet *nvmlGpmMetricsGetType) Return {
 		metricsGet.Metrics = overrideMetrics
-		return SUCCESS
+		return nvmlSUCCESS
 	})()
 
 	metrics := GpmMetricsGetType{

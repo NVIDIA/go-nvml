@@ -79,7 +79,7 @@ func TestGetTopologyCommonAncestor(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.description, func(t *testing.T) {
-			defer setNvmlDeviceGetTopologyCommonAncestorStubForTest(SUCCESS)()
+			defer setNvmlDeviceGetTopologyCommonAncestorStubForTest(nvmlSUCCESS)()
 
 			_, ret := nvmlDevice{}.GetTopologyCommonAncestor(tc.device)
 			require.Equal(t, SUCCESS, ret)
