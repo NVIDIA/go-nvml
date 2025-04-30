@@ -68,16 +68,6 @@ type GpuInstanceInfo struct {
 	Placement GpuInstancePlacement
 }
 
-func (g GpuInstanceInfo) convert() nvmlGpuInstanceInfo {
-	out := nvmlGpuInstanceInfo{
-		Device:    g.Device.(nvmlDevice),
-		Id:        g.Id,
-		ProfileId: g.ProfileId,
-		Placement: g.Placement,
-	}
-	return out
-}
-
 func (g nvmlGpuInstanceInfo) convert() GpuInstanceInfo {
 	out := GpuInstanceInfo{
 		Device:    g.Device,
@@ -95,17 +85,6 @@ type ComputeInstanceInfo struct {
 	Id          uint32
 	ProfileId   uint32
 	Placement   ComputeInstancePlacement
-}
-
-func (c ComputeInstanceInfo) convert() nvmlComputeInstanceInfo {
-	out := nvmlComputeInstanceInfo{
-		Device:      c.Device.(nvmlDevice),
-		GpuInstance: c.GpuInstance.(nvmlGpuInstance),
-		Id:          c.Id,
-		ProfileId:   c.ProfileId,
-		Placement:   c.Placement,
-	}
-	return out
 }
 
 func (c nvmlComputeInstanceInfo) convert() ComputeInstanceInfo {

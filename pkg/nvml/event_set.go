@@ -23,17 +23,6 @@ type EventData struct {
 	ComputeInstanceId uint32
 }
 
-func (e EventData) convert() nvmlEventData {
-	out := nvmlEventData{
-		Device:            e.Device.(nvmlDevice),
-		EventType:         e.EventType,
-		EventData:         e.EventData,
-		GpuInstanceId:     e.GpuInstanceId,
-		ComputeInstanceId: e.ComputeInstanceId,
-	}
-	return out
-}
-
 func (e nvmlEventData) convert() EventData {
 	out := EventData{
 		Device:            e.Device,

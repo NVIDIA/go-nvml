@@ -103,7 +103,7 @@ func main() {
 		fmt.Printf("Error: %v", err)
 		return
 	}
-	fmt.Fprintf(writer, header)
+	fmt.Fprint(writer, header)
 
 	for i, p := range GeneratableInterfaces {
 		if p.PackageMethodsAliasedFrom != "" {
@@ -112,7 +112,7 @@ func main() {
 				fmt.Printf("Error: %v", err)
 				return
 			}
-			fmt.Fprintf(writer, comment)
+			fmt.Fprint(writer, comment)
 
 			output, err := generatePackageMethods(*sourceDir, p)
 			if err != nil {
@@ -127,17 +127,17 @@ func main() {
 			fmt.Printf("Error: %v", err)
 			return
 		}
-		fmt.Fprintf(writer, comment)
+		fmt.Fprint(writer, comment)
 
 		output, err := generateInterface(*sourceDir, p)
 		if err != nil {
 			fmt.Printf("Error: %v", err)
 			return
 		}
-		fmt.Fprintf(writer, output)
+		fmt.Fprint(writer, output)
 
 		if i < (len(GeneratableInterfaces) - 1) {
-			fmt.Fprintf(writer, "\n")
+			fmt.Fprint(writer, "\n")
 		}
 	}
 }
@@ -270,7 +270,7 @@ func getGoFiles(sourceDir string) (map[string][]byte, error) {
 		return nil
 	})
 	if err != nil {
-		return nil, fmt.Errorf("walking %s: %w\n", sourceDir, err)
+		return nil, fmt.Errorf("walking %s: %w", sourceDir, err)
 	}
 
 	return gofiles, nil
