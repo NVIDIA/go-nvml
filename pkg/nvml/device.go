@@ -2191,7 +2191,7 @@ func (device nvmlDevice) GetGpuInstances(info *GpuInstanceProfileInfo) ([]GpuIns
 	if info == nil {
 		return nil, ERROR_INVALID_ARGUMENT
 	}
-	var count uint32 = info.InstanceCount
+	var count = info.InstanceCount
 	gpuInstances := make([]nvmlGpuInstance, count)
 	ret := nvmlDeviceGetGpuInstances(device, info.Id, &gpuInstances[0], &count)
 	return convertSlice[nvmlGpuInstance, GpuInstance](gpuInstances[:count]), ret
@@ -2302,7 +2302,7 @@ func (gpuInstance nvmlGpuInstance) GetComputeInstances(info *ComputeInstanceProf
 	if info == nil {
 		return nil, ERROR_INVALID_ARGUMENT
 	}
-	var count uint32 = info.InstanceCount
+	var count = info.InstanceCount
 	computeInstances := make([]nvmlComputeInstance, count)
 	ret := nvmlGpuInstanceGetComputeInstances(gpuInstance, info.Id, &computeInstances[0], &count)
 	return convertSlice[nvmlComputeInstance, ComputeInstance](computeInstances[:count]), ret
