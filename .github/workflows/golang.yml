@@ -26,8 +26,6 @@ on:
 
 jobs:
   check:
-    # TODO: We disable checks for the time being since we need to address the linter errors.
-    if: false
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4

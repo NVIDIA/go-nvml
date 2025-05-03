@@ -33,7 +33,7 @@ EXAMPLE_TARGETS := $(patsubst %,example-%, $(EXAMPLES))
 CMDS := $(patsubst ./cmd/%/,%,$(sort $(dir $(wildcard ./cmd/*/))))
 CMD_TARGETS := $(patsubst %,cmd-%, $(CMDS))
 
-CHECK_TARGETS := golangci-lint
+CHECK_TARGETS := validate-modules golangci-lint
 
 MAKE_TARGETS := binary build all fmt generate test coverage check examples update-nvml-h
 
@@ -71,6 +71,13 @@ test: build
 coverage: test
 	cat $(COVERAGE_FILE) | grep -v "_mock.go" > $(COVERAGE_FILE).no-mocks
 	go tool cover -func=$(COVERAGE_FILE).no-mocks
+
+validate-modules:
+	@echo "- Verifying that the dependencies have expected content..."
+	go mod verify
+	@echo "- Checking for any unused/missing packages in go.mod..."
+	go mod tidy
+	git diff --exit-code HEAD -- go.mod go.sum
 
 # Generate an image for containerized builds
 # Note: This image is local only
