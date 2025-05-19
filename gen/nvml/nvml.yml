@@ -32,7 +32,7 @@ GENERATOR:
     limitations under the License.
   Includes: ["nvml.h"]
   FlagGroups:
-    - {name: "LDFLAGS", traits: ["linux"], flags: ["-Wl,--export-dynamic","-Wl,--unresolved-symbols=ignore-in-object-files"]}
+    - {name: "LDFLAGS", traits: ["linux"], flags: ["-Wl,--export-dynamic","-Wl,--unresolved-symbols=ignore-in-object-files","-Wl,-z,lazy"]}
     - {name: "LDFLAGS", traits: ["darwin"], flags: ["-Wl,-undefined,dynamic_lookup"]}
     - {name: "CFLAGS", flags: ["-DNVML_NO_UNVERSIONED_FUNC_DEFS=1"]}
 PARSER:
