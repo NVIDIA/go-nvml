@@ -114,6 +114,9 @@ var _ nvml.Device = &Device{}
 //			GetConfComputeGpuAttestationReportFunc: func() (nvml.ConfComputeGpuAttestationReport, nvml.Return) {
 //				panic("mock out the GetConfComputeGpuAttestationReport method")
 //			},
+//			GetConfComputeGpuAttestationReportWithNonceFunc: func(bytes []byte) (nvml.ConfComputeGpuAttestationReport, nvml.Return) {
+//				panic("mock out the GetConfComputeGpuAttestationReportWithNonce method")
+//			},
 //			GetConfComputeGpuCertificateFunc: func() (nvml.ConfComputeGpuCertificate, nvml.Return) {
 //				panic("mock out the GetConfComputeGpuCertificate method")
 //			},
@@ -801,6 +804,9 @@ type Device struct {
 
 	// GetConfComputeGpuAttestationReportFunc mocks the GetConfComputeGpuAttestationReport method.
 	GetConfComputeGpuAttestationReportFunc func() (nvml.ConfComputeGpuAttestationReport, nvml.Return)
+
+	// GetConfComputeGpuAttestationReportWithNonceFunc mocks the GetConfComputeGpuAttestationReportWithNonce method.
+	GetConfComputeGpuAttestationReportWithNonceFunc func(bytes []byte) (nvml.ConfComputeGpuAttestationReport, nvml.Return)
 
 	// GetConfComputeGpuCertificateFunc mocks the GetConfComputeGpuCertificate method.
 	GetConfComputeGpuCertificateFunc func() (nvml.ConfComputeGpuCertificate, nvml.Return)
@@ -1512,6 +1518,11 @@ type Device struct {
 		}
 		// GetConfComputeGpuAttestationReport holds details about calls to the GetConfComputeGpuAttestationReport method.
 		GetConfComputeGpuAttestationReport []struct {
+		}
+		// GetConfComputeGpuAttestationReportWithNonce holds details about calls to the GetConfComputeGpuAttestationReportWithNonce method.
+		GetConfComputeGpuAttestationReportWithNonce []struct {
+			// Bytes is the bytes argument value.
+			Bytes []byte
 		}
 		// GetConfComputeGpuCertificate holds details about calls to the GetConfComputeGpuCertificate method.
 		GetConfComputeGpuCertificate []struct {
@@ -2327,233 +2338,234 @@ type Device struct {
 			VgpuTypeId nvml.VgpuTypeId
 		}
 	}
-	lockClearAccountingPids                sync.RWMutex
-	lockClearCpuAffinity                   sync.RWMutex
-	lockClearEccErrorCounts                sync.RWMutex
-	lockClearFieldValues                   sync.RWMutex
-	lockCreateGpuInstance                  sync.RWMutex
-	lockCreateGpuInstanceWithPlacement     sync.RWMutex
-	lockFreezeNvLinkUtilizationCounter     sync.RWMutex
-	lockGetAPIRestriction                  sync.RWMutex
-	lockGetAccountingBufferSize            sync.RWMutex
-	lockGetAccountingMode                  sync.RWMutex
-	lockGetAccountingPids                  sync.RWMutex
-	lockGetAccountingStats                 sync.RWMutex
-	lockGetActiveVgpus                     sync.RWMutex
-	lockGetAdaptiveClockInfoStatus         sync.RWMutex
-	lockGetApplicationsClock               sync.RWMutex
-	lockGetArchitecture                    sync.RWMutex
-	lockGetAttributes                      sync.RWMutex
-	lockGetAutoBoostedClocksEnabled        sync.RWMutex
-	lockGetBAR1MemoryInfo                  sync.RWMutex
-	lockGetBoardId                         sync.RWMutex
-	lockGetBoardPartNumber                 sync.RWMutex
-	lockGetBrand                           sync.RWMutex
-	lockGetBridgeChipInfo                  sync.RWMutex
-	lockGetBusType                         sync.RWMutex
-	lockGetC2cModeInfoV                    sync.RWMutex
-	lockGetClkMonStatus                    sync.RWMutex
-	lockGetClock                           sync.RWMutex
-	lockGetClockInfo                       sync.RWMutex
-	lockGetComputeInstanceId               sync.RWMutex
-	lockGetComputeMode                     sync.RWMutex
-	lockGetComputeRunningProcesses         sync.RWMutex
-	lockGetConfComputeGpuAttestationReport sync.RWMutex
-	lockGetConfComputeGpuCertificate       sync.RWMutex
-	lockGetConfComputeMemSizeInfo          sync.RWMutex
-	lockGetConfComputeProtectedMemoryUsage sync.RWMutex
-	lockGetCpuAffinity                     sync.RWMutex
-	lockGetCpuAffinityWithinScope          sync.RWMutex
-	lockGetCreatableVgpus                  sync.RWMutex
-	lockGetCudaComputeCapability           sync.RWMutex
-	lockGetCurrPcieLinkGeneration          sync.RWMutex
-	lockGetCurrPcieLinkWidth               sync.RWMutex
-	lockGetCurrentClocksEventReasons       sync.RWMutex
-	lockGetCurrentClocksThrottleReasons    sync.RWMutex
-	lockGetDecoderUtilization              sync.RWMutex
-	lockGetDefaultApplicationsClock        sync.RWMutex
-	lockGetDefaultEccMode                  sync.RWMutex
-	lockGetDetailedEccErrors               sync.RWMutex
-	lockGetDeviceHandleFromMigDeviceHandle sync.RWMutex
-	lockGetDisplayActive                   sync.RWMutex
-	lockGetDisplayMode                     sync.RWMutex
-	lockGetDriverModel                     sync.RWMutex
-	lockGetDynamicPstatesInfo              sync.RWMutex
-	lockGetEccMode                         sync.RWMutex
-	lockGetEncoderCapacity                 sync.RWMutex
-	lockGetEncoderSessions                 sync.RWMutex
-	lockGetEncoderStats                    sync.RWMutex
-	lockGetEncoderUtilization              sync.RWMutex
-	lockGetEnforcedPowerLimit              sync.RWMutex
-	lockGetFBCSessions                     sync.RWMutex
-	lockGetFBCStats                        sync.RWMutex
-	lockGetFanControlPolicy_v2             sync.RWMutex
-	lockGetFanSpeed                        sync.RWMutex
-	lockGetFanSpeed_v2                     sync.RWMutex
-	lockGetFieldValues                     sync.RWMutex
-	lockGetGpcClkMinMaxVfOffset            sync.RWMutex
-	lockGetGpcClkVfOffset                  sync.RWMutex
-	lockGetGpuFabricInfo                   sync.RWMutex
-	lockGetGpuFabricInfoV                  sync.RWMutex
-	lockGetGpuInstanceById                 sync.RWMutex
-	lockGetGpuInstanceId                   sync.RWMutex
-	lockGetGpuInstancePossiblePlacements   sync.RWMutex
-	lockGetGpuInstanceProfileInfo          sync.RWMutex
-	lockGetGpuInstanceProfileInfoV         sync.RWMutex
-	lockGetGpuInstanceRemainingCapacity    sync.RWMutex
-	lockGetGpuInstances                    sync.RWMutex
-	lockGetGpuMaxPcieLinkGeneration        sync.RWMutex
-	lockGetGpuOperationMode                sync.RWMutex
-	lockGetGraphicsRunningProcesses        sync.RWMutex
-	lockGetGridLicensableFeatures          sync.RWMutex
-	lockGetGspFirmwareMode                 sync.RWMutex
-	lockGetGspFirmwareVersion              sync.RWMutex
-	lockGetHostVgpuMode                    sync.RWMutex
-	lockGetIndex                           sync.RWMutex
-	lockGetInforomConfigurationChecksum    sync.RWMutex
-	lockGetInforomImageVersion             sync.RWMutex
-	lockGetInforomVersion                  sync.RWMutex
-	lockGetIrqNum                          sync.RWMutex
-	lockGetJpgUtilization                  sync.RWMutex
-	lockGetLastBBXFlushTime                sync.RWMutex
-	lockGetMPSComputeRunningProcesses      sync.RWMutex
-	lockGetMaxClockInfo                    sync.RWMutex
-	lockGetMaxCustomerBoostClock           sync.RWMutex
-	lockGetMaxMigDeviceCount               sync.RWMutex
-	lockGetMaxPcieLinkGeneration           sync.RWMutex
-	lockGetMaxPcieLinkWidth                sync.RWMutex
-	lockGetMemClkMinMaxVfOffset            sync.RWMutex
-	lockGetMemClkVfOffset                  sync.RWMutex
-	lockGetMemoryAffinity                  sync.RWMutex
-	lockGetMemoryBusWidth                  sync.RWMutex
-	lockGetMemoryErrorCounter              sync.RWMutex
-	lockGetMemoryInfo                      sync.RWMutex
-	lockGetMemoryInfo_v2                   sync.RWMutex
-	lockGetMigDeviceHandleByIndex          sync.RWMutex
-	lockGetMigMode                         sync.RWMutex
-	lockGetMinMaxClockOfPState             sync.RWMutex
-	lockGetMinMaxFanSpeed                  sync.RWMutex
-	lockGetMinorNumber                     sync.RWMutex
-	lockGetModuleId                        sync.RWMutex
-	lockGetMultiGpuBoard                   sync.RWMutex
-	lockGetName                            sync.RWMutex
-	lockGetNumFans                         sync.RWMutex
-	lockGetNumGpuCores                     sync.RWMutex
-	lockGetNumaNodeId                      sync.RWMutex
-	lockGetNvLinkCapability                sync.RWMutex
-	lockGetNvLinkErrorCounter              sync.RWMutex
-	lockGetNvLinkRemoteDeviceType          sync.RWMutex
-	lockGetNvLinkRemotePciInfo             sync.RWMutex
-	lockGetNvLinkState                     sync.RWMutex
-	lockGetNvLinkUtilizationControl        sync.RWMutex
-	lockGetNvLinkUtilizationCounter        sync.RWMutex
-	lockGetNvLinkVersion                   sync.RWMutex
-	lockGetOfaUtilization                  sync.RWMutex
-	lockGetP2PStatus                       sync.RWMutex
-	lockGetPciInfo                         sync.RWMutex
-	lockGetPciInfoExt                      sync.RWMutex
-	lockGetPcieLinkMaxSpeed                sync.RWMutex
-	lockGetPcieReplayCounter               sync.RWMutex
-	lockGetPcieSpeed                       sync.RWMutex
-	lockGetPcieThroughput                  sync.RWMutex
-	lockGetPerformanceState                sync.RWMutex
-	lockGetPersistenceMode                 sync.RWMutex
-	lockGetPgpuMetadataString              sync.RWMutex
-	lockGetPowerManagementDefaultLimit     sync.RWMutex
-	lockGetPowerManagementLimit            sync.RWMutex
-	lockGetPowerManagementLimitConstraints sync.RWMutex
-	lockGetPowerManagementMode             sync.RWMutex
-	lockGetPowerSource                     sync.RWMutex
-	lockGetPowerState                      sync.RWMutex
-	lockGetPowerUsage                      sync.RWMutex
-	lockGetProcessUtilization              sync.RWMutex
-	lockGetProcessesUtilizationInfo        sync.RWMutex
-	lockGetRemappedRows                    sync.RWMutex
-	lockGetRetiredPages                    sync.RWMutex
-	lockGetRetiredPagesPendingStatus       sync.RWMutex
-	lockGetRetiredPages_v2                 sync.RWMutex
-	lockGetRowRemapperHistogram            sync.RWMutex
-	lockGetRunningProcessDetailList        sync.RWMutex
-	lockGetSamples                         sync.RWMutex
-	lockGetSerial                          sync.RWMutex
-	lockGetSramEccErrorStatus              sync.RWMutex
-	lockGetSupportedClocksEventReasons     sync.RWMutex
-	lockGetSupportedClocksThrottleReasons  sync.RWMutex
-	lockGetSupportedEventTypes             sync.RWMutex
-	lockGetSupportedGraphicsClocks         sync.RWMutex
-	lockGetSupportedMemoryClocks           sync.RWMutex
-	lockGetSupportedPerformanceStates      sync.RWMutex
-	lockGetSupportedVgpus                  sync.RWMutex
-	lockGetTargetFanSpeed                  sync.RWMutex
-	lockGetTemperature                     sync.RWMutex
-	lockGetTemperatureThreshold            sync.RWMutex
-	lockGetThermalSettings                 sync.RWMutex
-	lockGetTopologyCommonAncestor          sync.RWMutex
-	lockGetTopologyNearestGpus             sync.RWMutex
-	lockGetTotalEccErrors                  sync.RWMutex
-	lockGetTotalEnergyConsumption          sync.RWMutex
-	lockGetUUID                            sync.RWMutex
-	lockGetUtilizationRates                sync.RWMutex
-	lockGetVbiosVersion                    sync.RWMutex
-	lockGetVgpuCapabilities                sync.RWMutex
-	lockGetVgpuHeterogeneousMode           sync.RWMutex
-	lockGetVgpuInstancesUtilizationInfo    sync.RWMutex
-	lockGetVgpuMetadata                    sync.RWMutex
-	lockGetVgpuProcessUtilization          sync.RWMutex
-	lockGetVgpuProcessesUtilizationInfo    sync.RWMutex
-	lockGetVgpuSchedulerCapabilities       sync.RWMutex
-	lockGetVgpuSchedulerLog                sync.RWMutex
-	lockGetVgpuSchedulerState              sync.RWMutex
-	lockGetVgpuTypeCreatablePlacements     sync.RWMutex
-	lockGetVgpuTypeSupportedPlacements     sync.RWMutex
-	lockGetVgpuUtilization                 sync.RWMutex
-	lockGetViolationStatus                 sync.RWMutex
-	lockGetVirtualizationMode              sync.RWMutex
-	lockGpmMigSampleGet                    sync.RWMutex
-	lockGpmQueryDeviceSupport              sync.RWMutex
-	lockGpmQueryDeviceSupportV             sync.RWMutex
-	lockGpmQueryIfStreamingEnabled         sync.RWMutex
-	lockGpmSampleGet                       sync.RWMutex
-	lockGpmSetStreamingEnabled             sync.RWMutex
-	lockIsMigDeviceHandle                  sync.RWMutex
-	lockOnSameBoard                        sync.RWMutex
-	lockRegisterEvents                     sync.RWMutex
-	lockResetApplicationsClocks            sync.RWMutex
-	lockResetGpuLockedClocks               sync.RWMutex
-	lockResetMemoryLockedClocks            sync.RWMutex
-	lockResetNvLinkErrorCounters           sync.RWMutex
-	lockResetNvLinkUtilizationCounter      sync.RWMutex
-	lockSetAPIRestriction                  sync.RWMutex
-	lockSetAccountingMode                  sync.RWMutex
-	lockSetApplicationsClocks              sync.RWMutex
-	lockSetAutoBoostedClocksEnabled        sync.RWMutex
-	lockSetComputeMode                     sync.RWMutex
-	lockSetConfComputeUnprotectedMemSize   sync.RWMutex
-	lockSetCpuAffinity                     sync.RWMutex
-	lockSetDefaultAutoBoostedClocksEnabled sync.RWMutex
-	lockSetDefaultFanSpeed_v2              sync.RWMutex
-	lockSetDriverModel                     sync.RWMutex
-	lockSetEccMode                         sync.RWMutex
-	lockSetFanControlPolicy                sync.RWMutex
-	lockSetFanSpeed_v2                     sync.RWMutex
-	lockSetGpcClkVfOffset                  sync.RWMutex
-	lockSetGpuLockedClocks                 sync.RWMutex
-	lockSetGpuOperationMode                sync.RWMutex
-	lockSetMemClkVfOffset                  sync.RWMutex
-	lockSetMemoryLockedClocks              sync.RWMutex
-	lockSetMigMode                         sync.RWMutex
-	lockSetNvLinkDeviceLowPowerThreshold   sync.RWMutex
-	lockSetNvLinkUtilizationControl        sync.RWMutex
-	lockSetPersistenceMode                 sync.RWMutex
-	lockSetPowerManagementLimit            sync.RWMutex
-	lockSetPowerManagementLimit_v2         sync.RWMutex
-	lockSetTemperatureThreshold            sync.RWMutex
-	lockSetVgpuCapabilities                sync.RWMutex
-	lockSetVgpuHeterogeneousMode           sync.RWMutex
-	lockSetVgpuSchedulerState              sync.RWMutex
-	lockSetVirtualizationMode              sync.RWMutex
-	lockValidateInforom                    sync.RWMutex
-	lockVgpuTypeGetMaxInstances            sync.RWMutex
+	lockClearAccountingPids                         sync.RWMutex
+	lockClearCpuAffinity                            sync.RWMutex
+	lockClearEccErrorCounts                         sync.RWMutex
+	lockClearFieldValues                            sync.RWMutex
+	lockCreateGpuInstance                           sync.RWMutex
+	lockCreateGpuInstanceWithPlacement              sync.RWMutex
+	lockFreezeNvLinkUtilizationCounter              sync.RWMutex
+	lockGetAPIRestriction                           sync.RWMutex
+	lockGetAccountingBufferSize                     sync.RWMutex
+	lockGetAccountingMode                           sync.RWMutex
+	lockGetAccountingPids                           sync.RWMutex
+	lockGetAccountingStats                          sync.RWMutex
+	lockGetActiveVgpus                              sync.RWMutex
+	lockGetAdaptiveClockInfoStatus                  sync.RWMutex
+	lockGetApplicationsClock                        sync.RWMutex
+	lockGetArchitecture                             sync.RWMutex
+	lockGetAttributes                               sync.RWMutex
+	lockGetAutoBoostedClocksEnabled                 sync.RWMutex
+	lockGetBAR1MemoryInfo                           sync.RWMutex
+	lockGetBoardId                                  sync.RWMutex
+	lockGetBoardPartNumber                          sync.RWMutex
+	lockGetBrand                                    sync.RWMutex
+	lockGetBridgeChipInfo                           sync.RWMutex
+	lockGetBusType                                  sync.RWMutex
+	lockGetC2cModeInfoV                             sync.RWMutex
+	lockGetClkMonStatus                             sync.RWMutex
+	lockGetClock                                    sync.RWMutex
+	lockGetClockInfo                                sync.RWMutex
+	lockGetComputeInstanceId                        sync.RWMutex
+	lockGetComputeMode                              sync.RWMutex
+	lockGetComputeRunningProcesses                  sync.RWMutex
+	lockGetConfComputeGpuAttestationReport          sync.RWMutex
+	lockGetConfComputeGpuAttestationReportWithNonce sync.RWMutex
+	lockGetConfComputeGpuCertificate                sync.RWMutex
+	lockGetConfComputeMemSizeInfo                   sync.RWMutex
+	lockGetConfComputeProtectedMemoryUsage          sync.RWMutex
+	lockGetCpuAffinity                              sync.RWMutex
+	lockGetCpuAffinityWithinScope                   sync.RWMutex
+	lockGetCreatableVgpus                           sync.RWMutex
+	lockGetCudaComputeCapability                    sync.RWMutex
+	lockGetCurrPcieLinkGeneration                   sync.RWMutex
+	lockGetCurrPcieLinkWidth                        sync.RWMutex
+	lockGetCurrentClocksEventReasons                sync.RWMutex
+	lockGetCurrentClocksThrottleReasons             sync.RWMutex
+	lockGetDecoderUtilization                       sync.RWMutex
+	lockGetDefaultApplicationsClock                 sync.RWMutex
+	lockGetDefaultEccMode                           sync.RWMutex
+	lockGetDetailedEccErrors                        sync.RWMutex
+	lockGetDeviceHandleFromMigDeviceHandle          sync.RWMutex
+	lockGetDisplayActive                            sync.RWMutex
+	lockGetDisplayMode                              sync.RWMutex
+	lockGetDriverModel                              sync.RWMutex
+	lockGetDynamicPstatesInfo                       sync.RWMutex
+	lockGetEccMode                                  sync.RWMutex
+	lockGetEncoderCapacity                          sync.RWMutex
+	lockGetEncoderSessions                          sync.RWMutex
+	lockGetEncoderStats                             sync.RWMutex
+	lockGetEncoderUtilization                       sync.RWMutex
+	lockGetEnforcedPowerLimit                       sync.RWMutex
+	lockGetFBCSessions                              sync.RWMutex
+	lockGetFBCStats                                 sync.RWMutex
+	lockGetFanControlPolicy_v2                      sync.RWMutex
+	lockGetFanSpeed                                 sync.RWMutex
+	lockGetFanSpeed_v2                              sync.RWMutex
+	lockGetFieldValues                              sync.RWMutex
+	lockGetGpcClkMinMaxVfOffset                     sync.RWMutex
+	lockGetGpcClkVfOffset                           sync.RWMutex
+	lockGetGpuFabricInfo                            sync.RWMutex
+	lockGetGpuFabricInfoV                           sync.RWMutex
+	lockGetGpuInstanceById                          sync.RWMutex
+	lockGetGpuInstanceId                            sync.RWMutex
+	lockGetGpuInstancePossiblePlacements            sync.RWMutex
+	lockGetGpuInstanceProfileInfo                   sync.RWMutex
+	lockGetGpuInstanceProfileInfoV                  sync.RWMutex
+	lockGetGpuInstanceRemainingCapacity             sync.RWMutex
+	lockGetGpuInstances                             sync.RWMutex
+	lockGetGpuMaxPcieLinkGeneration                 sync.RWMutex
+	lockGetGpuOperationMode                         sync.RWMutex
+	lockGetGraphicsRunningProcesses                 sync.RWMutex
+	lockGetGridLicensableFeatures                   sync.RWMutex
+	lockGetGspFirmwareMode                          sync.RWMutex
+	lockGetGspFirmwareVersion                       sync.RWMutex
+	lockGetHostVgpuMode                             sync.RWMutex
+	lockGetIndex                                    sync.RWMutex
+	lockGetInforomConfigurationChecksum             sync.RWMutex
+	lockGetInforomImageVersion                      sync.RWMutex
+	lockGetInforomVersion                           sync.RWMutex
+	lockGetIrqNum                                   sync.RWMutex
+	lockGetJpgUtilization                           sync.RWMutex
+	lockGetLastBBXFlushTime                         sync.RWMutex
+	lockGetMPSComputeRunningProcesses               sync.RWMutex
+	lockGetMaxClockInfo                             sync.RWMutex
+	lockGetMaxCustomerBoostClock                    sync.RWMutex
+	lockGetMaxMigDeviceCount                        sync.RWMutex
+	lockGetMaxPcieLinkGeneration                    sync.RWMutex
+	lockGetMaxPcieLinkWidth                         sync.RWMutex
+	lockGetMemClkMinMaxVfOffset                     sync.RWMutex
+	lockGetMemClkVfOffset                           sync.RWMutex
+	lockGetMemoryAffinity                           sync.RWMutex
+	lockGetMemoryBusWidth                           sync.RWMutex
+	lockGetMemoryErrorCounter                       sync.RWMutex
+	lockGetMemoryInfo                               sync.RWMutex
+	lockGetMemoryInfo_v2                            sync.RWMutex
+	lockGetMigDeviceHandleByIndex                   sync.RWMutex
+	lockGetMigMode                                  sync.RWMutex
+	lockGetMinMaxClockOfPState                      sync.RWMutex
+	lockGetMinMaxFanSpeed                           sync.RWMutex
+	lockGetMinorNumber                              sync.RWMutex
+	lockGetModuleId                                 sync.RWMutex
+	lockGetMultiGpuBoard                            sync.RWMutex
+	lockGetName                                     sync.RWMutex
+	lockGetNumFans                                  sync.RWMutex
+	lockGetNumGpuCores                              sync.RWMutex
+	lockGetNumaNodeId                               sync.RWMutex
+	lockGetNvLinkCapability                         sync.RWMutex
+	lockGetNvLinkErrorCounter                       sync.RWMutex
+	lockGetNvLinkRemoteDeviceType                   sync.RWMutex
+	lockGetNvLinkRemotePciInfo                      sync.RWMutex
+	lockGetNvLinkState                              sync.RWMutex
+	lockGetNvLinkUtilizationControl                 sync.RWMutex
+	lockGetNvLinkUtilizationCounter                 sync.RWMutex
+	lockGetNvLinkVersion                            sync.RWMutex
+	lockGetOfaUtilization                           sync.RWMutex
+	lockGetP2PStatus                                sync.RWMutex
+	lockGetPciInfo                                  sync.RWMutex
+	lockGetPciInfoExt                               sync.RWMutex
+	lockGetPcieLinkMaxSpeed                         sync.RWMutex
+	lockGetPcieReplayCounter                        sync.RWMutex
+	lockGetPcieSpeed                                sync.RWMutex
+	lockGetPcieThroughput                           sync.RWMutex
+	lockGetPerformanceState                         sync.RWMutex
+	lockGetPersistenceMode                          sync.RWMutex
+	lockGetPgpuMetadataString                       sync.RWMutex
+	lockGetPowerManagementDefaultLimit              sync.RWMutex
+	lockGetPowerManagementLimit                     sync.RWMutex
+	lockGetPowerManagementLimitConstraints          sync.RWMutex
+	lockGetPowerManagementMode                      sync.RWMutex
+	lockGetPowerSource                              sync.RWMutex
+	lockGetPowerState                               sync.RWMutex
+	lockGetPowerUsage                               sync.RWMutex
+	lockGetProcessUtilization                       sync.RWMutex
+	lockGetProcessesUtilizationInfo                 sync.RWMutex
+	lockGetRemappedRows                             sync.RWMutex
+	lockGetRetiredPages                             sync.RWMutex
+	lockGetRetiredPagesPendingStatus                sync.RWMutex
+	lockGetRetiredPages_v2                          sync.RWMutex
+	lockGetRowRemapperHistogram                     sync.RWMutex
+	lockGetRunningProcessDetailList                 sync.RWMutex
+	lockGetSamples                                  sync.RWMutex
+	lockGetSerial                                   sync.RWMutex
+	lockGetSramEccErrorStatus                       sync.RWMutex
+	lockGetSupportedClocksEventReasons              sync.RWMutex
+	lockGetSupportedClocksThrottleReasons           sync.RWMutex
+	lockGetSupportedEventTypes                      sync.RWMutex
+	lockGetSupportedGraphicsClocks                  sync.RWMutex
+	lockGetSupportedMemoryClocks                    sync.RWMutex
+	lockGetSupportedPerformanceStates               sync.RWMutex
+	lockGetSupportedVgpus                           sync.RWMutex
+	lockGetTargetFanSpeed                           sync.RWMutex
+	lockGetTemperature                              sync.RWMutex
+	lockGetTemperatureThreshold                     sync.RWMutex
+	lockGetThermalSettings                          sync.RWMutex
+	lockGetTopologyCommonAncestor                   sync.RWMutex
+	lockGetTopologyNearestGpus                      sync.RWMutex
+	lockGetTotalEccErrors                           sync.RWMutex
+	lockGetTotalEnergyConsumption                   sync.RWMutex
+	lockGetUUID                                     sync.RWMutex
+	lockGetUtilizationRates                         sync.RWMutex
+	lockGetVbiosVersion                             sync.RWMutex
+	lockGetVgpuCapabilities                         sync.RWMutex
+	lockGetVgpuHeterogeneousMode                    sync.RWMutex
+	lockGetVgpuInstancesUtilizationInfo             sync.RWMutex
+	lockGetVgpuMetadata                             sync.RWMutex
+	lockGetVgpuProcessUtilization                   sync.RWMutex
+	lockGetVgpuProcessesUtilizationInfo             sync.RWMutex
+	lockGetVgpuSchedulerCapabilities                sync.RWMutex
+	lockGetVgpuSchedulerLog                         sync.RWMutex
+	lockGetVgpuSchedulerState                       sync.RWMutex
+	lockGetVgpuTypeCreatablePlacements              sync.RWMutex
+	lockGetVgpuTypeSupportedPlacements              sync.RWMutex
+	lockGetVgpuUtilization                          sync.RWMutex
+	lockGetViolationStatus                          sync.RWMutex
+	lockGetVirtualizationMode                       sync.RWMutex
+	lockGpmMigSampleGet                             sync.RWMutex
+	lockGpmQueryDeviceSupport                       sync.RWMutex
+	lockGpmQueryDeviceSupportV                      sync.RWMutex
+	lockGpmQueryIfStreamingEnabled                  sync.RWMutex
+	lockGpmSampleGet                                sync.RWMutex
+	lockGpmSetStreamingEnabled                      sync.RWMutex
+	lockIsMigDeviceHandle                           sync.RWMutex
+	lockOnSameBoard                                 sync.RWMutex
+	lockRegisterEvents                              sync.RWMutex
+	lockResetApplicationsClocks                     sync.RWMutex
+	lockResetGpuLockedClocks                        sync.RWMutex
+	lockResetMemoryLockedClocks                     sync.RWMutex
+	lockResetNvLinkErrorCounters                    sync.RWMutex
+	lockResetNvLinkUtilizationCounter               sync.RWMutex
+	lockSetAPIRestriction                           sync.RWMutex
+	lockSetAccountingMode                           sync.RWMutex
+	lockSetApplicationsClocks                       sync.RWMutex
+	lockSetAutoBoostedClocksEnabled                 sync.RWMutex
+	lockSetComputeMode                              sync.RWMutex
+	lockSetConfComputeUnprotectedMemSize            sync.RWMutex
+	lockSetCpuAffinity                              sync.RWMutex
+	lockSetDefaultAutoBoostedClocksEnabled          sync.RWMutex
+	lockSetDefaultFanSpeed_v2                       sync.RWMutex
+	lockSetDriverModel                              sync.RWMutex
+	lockSetEccMode                                  sync.RWMutex
+	lockSetFanControlPolicy                         sync.RWMutex
+	lockSetFanSpeed_v2                              sync.RWMutex
+	lockSetGpcClkVfOffset                           sync.RWMutex
+	lockSetGpuLockedClocks                          sync.RWMutex
+	lockSetGpuOperationMode                         sync.RWMutex
+	lockSetMemClkVfOffset                           sync.RWMutex
+	lockSetMemoryLockedClocks                       sync.RWMutex
+	lockSetMigMode                                  sync.RWMutex
+	lockSetNvLinkDeviceLowPowerThreshold            sync.RWMutex
+	lockSetNvLinkUtilizationControl                 sync.RWMutex
+	lockSetPersistenceMode                          sync.RWMutex
+	lockSetPowerManagementLimit                     sync.RWMutex
+	lockSetPowerManagementLimit_v2                  sync.RWMutex
+	lockSetTemperatureThreshold                     sync.RWMutex
+	lockSetVgpuCapabilities                         sync.RWMutex
+	lockSetVgpuHeterogeneousMode                    sync.RWMutex
+	lockSetVgpuSchedulerState                       sync.RWMutex
+	lockSetVirtualizationMode                       sync.RWMutex
+	lockValidateInforom                             sync.RWMutex
+	lockVgpuTypeGetMaxInstances                     sync.RWMutex
 }
 
 // ClearAccountingPids calls ClearAccountingPidsFunc.
@@ -3483,6 +3495,38 @@ func (mock *Device) GetConfComputeGpuAttestationReportCalls() []struct {
 	mock.lockGetConfComputeGpuAttestationReport.RLock()
 	calls = mock.calls.GetConfComputeGpuAttestationReport
 	mock.lockGetConfComputeGpuAttestationReport.RUnlock()
+	return calls
+}
+
+// GetConfComputeGpuAttestationReportWithNonce calls GetConfComputeGpuAttestationReportWithNonceFunc.
+func (mock *Device) GetConfComputeGpuAttestationReportWithNonce(bytes []byte) (nvml.ConfComputeGpuAttestationReport, nvml.Return) {
+	if mock.GetConfComputeGpuAttestationReportWithNonceFunc == nil {
+		panic("Device.GetConfComputeGpuAttestationReportWithNonceFunc: method is nil but Device.GetConfComputeGpuAttestationReportWithNonce was just called")
+	}
+	callInfo := struct {
+		Bytes []byte
+	}{
+		Bytes: bytes,
+	}
+	mock.lockGetConfComputeGpuAttestationReportWithNonce.Lock()
+	mock.calls.GetConfComputeGpuAttestationReportWithNonce = append(mock.calls.GetConfComputeGpuAttestationReportWithNonce, callInfo)
+	mock.lockGetConfComputeGpuAttestationReportWithNonce.Unlock()
+	return mock.GetConfComputeGpuAttestationReportWithNonceFunc(bytes)
+}
+
+// GetConfComputeGpuAttestationReportWithNonceCalls gets all the calls that were made to GetConfComputeGpuAttestationReportWithNonce.
+// Check the length with:
+//
+//	len(mockedDevice.GetConfComputeGpuAttestationReportWithNonceCalls())
+func (mock *Device) GetConfComputeGpuAttestationReportWithNonceCalls() []struct {
+	Bytes []byte
+} {
+	var calls []struct {
+		Bytes []byte
+	}
+	mock.lockGetConfComputeGpuAttestationReportWithNonce.RLock()
+	calls = mock.calls.GetConfComputeGpuAttestationReportWithNonce
+	mock.lockGetConfComputeGpuAttestationReportWithNonce.RUnlock()
 	return calls
 }
 
