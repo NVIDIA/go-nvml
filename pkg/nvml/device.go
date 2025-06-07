@@ -2080,6 +2080,13 @@ func (handler GpuInstanceProfileInfoHandler) V2() (GpuInstanceProfileInfo_v2, Re
 	return info, ret
 }
 
+func (handler GpuInstanceProfileInfoHandler) V3() (GpuInstanceProfileInfo_v3, Return) {
+	var info GpuInstanceProfileInfo_v3
+	info.Version = STRUCT_VERSION(info, 3)
+	ret := nvmlDeviceGetGpuInstanceProfileInfoV(handler.device, uint32(handler.profile), (*GpuInstanceProfileInfo_v2)(unsafe.Pointer(&info)))
+	return info, ret
+}
+
 func (l *library) DeviceGetGpuInstanceProfileInfoV(device Device, profile int) GpuInstanceProfileInfoHandler {
 	return device.GetGpuInstanceProfileInfoV(profile)
 }
@@ -2224,6 +2231,13 @@ func (handler ComputeInstanceProfileInfoHandler) V2() (ComputeInstanceProfileInf
 	var info ComputeInstanceProfileInfo_v2
 	info.Version = STRUCT_VERSION(info, 2)
 	ret := nvmlGpuInstanceGetComputeInstanceProfileInfoV(handler.gpuInstance, uint32(handler.profile), uint32(handler.engProfile), &info)
+	return info, ret
+}
+
+func (handler ComputeInstanceProfileInfoHandler) V3() (ComputeInstanceProfileInfo_v3, Return) {
+	var info ComputeInstanceProfileInfo_v3
+	info.Version = STRUCT_VERSION(info, 3)
+	ret := nvmlGpuInstanceGetComputeInstanceProfileInfoV(handler.gpuInstance, uint32(handler.profile), uint32(handler.engProfile), (*ComputeInstanceProfileInfo_v2)(unsafe.Pointer(&info)))
 	return info, ret
 }
 
