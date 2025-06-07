@@ -287,16 +287,21 @@ var (
 	SetVgpuVersion                                  = libnvml.SetVgpuVersion
 	Shutdown                                        = libnvml.Shutdown
 	SystemGetConfComputeCapabilities                = libnvml.SystemGetConfComputeCapabilities
+	SystemGetConfComputeGpusReadyState              = libnvml.SystemGetConfComputeGpusReadyState
 	SystemGetConfComputeKeyRotationThresholdInfo    = libnvml.SystemGetConfComputeKeyRotationThresholdInfo
 	SystemGetConfComputeSettings                    = libnvml.SystemGetConfComputeSettings
+	SystemGetConfComputeState                       = libnvml.SystemGetConfComputeState
 	SystemGetCudaDriverVersion                      = libnvml.SystemGetCudaDriverVersion
 	SystemGetCudaDriverVersion_v2                   = libnvml.SystemGetCudaDriverVersion_v2
 	SystemGetDriverVersion                          = libnvml.SystemGetDriverVersion
 	SystemGetHicVersion                             = libnvml.SystemGetHicVersion
 	SystemGetNVMLVersion                            = libnvml.SystemGetNVMLVersion
+	SystemGetNvlinkBwMode                           = libnvml.SystemGetNvlinkBwMode
 	SystemGetProcessName                            = libnvml.SystemGetProcessName
 	SystemGetTopologyGpuSet                         = libnvml.SystemGetTopologyGpuSet
+	SystemSetConfComputeGpusReadyState              = libnvml.SystemSetConfComputeGpusReadyState
 	SystemSetConfComputeKeyRotationThresholdInfo    = libnvml.SystemSetConfComputeKeyRotationThresholdInfo
+	SystemSetNvlinkBwMode                           = libnvml.SystemSetNvlinkBwMode
 	UnitGetCount                                    = libnvml.UnitGetCount
 	UnitGetDevices                                  = libnvml.UnitGetDevices
 	UnitGetFanSpeedInfo                             = libnvml.UnitGetFanSpeedInfo
@@ -614,16 +619,21 @@ type Interface interface {
 	SetVgpuVersion(*VgpuVersion) Return
 	Shutdown() Return
 	SystemGetConfComputeCapabilities() (ConfComputeSystemCaps, Return)
+	SystemGetConfComputeGpusReadyState() (uint32, Return)
 	SystemGetConfComputeKeyRotationThresholdInfo() (ConfComputeGetKeyRotationThresholdInfo, Return)
 	SystemGetConfComputeSettings() (SystemConfComputeSettings, Return)
+	SystemGetConfComputeState() (ConfComputeSystemState, Return)
 	SystemGetCudaDriverVersion() (int, Return)
 	SystemGetCudaDriverVersion_v2() (int, Return)
 	SystemGetDriverVersion() (string, Return)
 	SystemGetHicVersion() ([]HwbcEntry, Return)
 	SystemGetNVMLVersion() (string, Return)
+	SystemGetNvlinkBwMode() (uint32, Return)
 	SystemGetProcessName(int) (string, Return)
 	SystemGetTopologyGpuSet(int) ([]Device, Return)
+	SystemSetConfComputeGpusReadyState(uint32) Return
 	SystemSetConfComputeKeyRotationThresholdInfo(ConfComputeSetKeyRotationThresholdInfo) Return
+	SystemSetNvlinkBwMode(uint32) Return
 	UnitGetCount() (int, Return)
 	UnitGetDevices(Unit) ([]Device, Return)
 	UnitGetFanSpeedInfo(Unit) (UnitFanSpeeds, Return)
