@@ -193,6 +193,24 @@ type ClkMonStatus struct {
 	ClkMonList     [32]ClkMonFaultInfo
 }
 
+type ClockOffset_v1 struct {
+	Version           uint32
+	Type              uint32
+	Pstate            uint32
+	ClockOffsetMHz    int32
+	MinClockOffsetMHz int32
+	MaxClockOffsetMHz int32
+}
+
+type ClockOffset struct {
+	Version           uint32
+	Type              uint32
+	Pstate            uint32
+	ClockOffsetMHz    int32
+	MinClockOffsetMHz int32
+	MaxClockOffsetMHz int32
+}
+
 type nvmlVgpuTypeId uint32
 
 type nvmlVgpuInstance uint32
@@ -905,4 +923,14 @@ type GpmSupport struct {
 
 type NvLinkPowerThres struct {
 	LowPwrThreshold uint32
+}
+
+type DeviceCapabilities_v1 struct {
+	Version uint32
+	CapMask uint32
+}
+
+type DeviceCapabilities struct {
+	Version uint32
+	CapMask uint32
 }

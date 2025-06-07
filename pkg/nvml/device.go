@@ -3055,3 +3055,47 @@ func (device nvmlDevice) GetSramEccErrorStatus() (EccSramErrorStatus, Return) {
 	ret := nvmlDeviceGetSramEccErrorStatus(device, &status)
 	return status, ret
 }
+
+// nvml.DeviceGetClockOffsets()
+func (l *library) DeviceGetClockOffsets(device Device) (ClockOffset, Return) {
+	return device.GetClockOffsets()
+}
+
+func (device nvmlDevice) GetClockOffsets() (ClockOffset, Return) {
+	var info ClockOffset
+	info.Version = STRUCT_VERSION(info, 1)
+	ret := nvmlDeviceGetClockOffsets(device, &info)
+	return info, ret
+}
+
+// nvml.DeviceSetClockOffsets()
+func (l *library) DeviceSetClockOffsets(device Device, info ClockOffset) Return {
+	return device.SetClockOffsets(info)
+}
+
+func (device nvmlDevice) SetClockOffsets(info ClockOffset) Return {
+	return nvmlDeviceSetClockOffsets(device, &info)
+}
+
+// nvml.DeviceGetDriverModel_v2()
+func (l *library) DeviceGetDriverModel_v2(device Device) (DriverModel, DriverModel, Return) {
+	return device.GetDriverModel_v2()
+}
+
+func (device nvmlDevice) GetDriverModel_v2() (DriverModel, DriverModel, Return) {
+	var current, pending DriverModel
+	ret := nvmlDeviceGetDriverModel_v2(device, &current, &pending)
+	return current, pending, ret
+}
+
+// nvml.DeviceGetCapabilities()
+func (l *library) DeviceGetCapabilities(device Device) (DeviceCapabilities, Return) {
+	return device.GetCapabilities()
+}
+
+func (device nvmlDevice) GetCapabilities() (DeviceCapabilities, Return) {
+	var caps DeviceCapabilities
+	caps.Version = STRUCT_VERSION(caps, 1)
+	ret := nvmlDeviceGetCapabilities(device, &caps)
+	return caps, ret
+}

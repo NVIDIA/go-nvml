@@ -96,4 +96,5 @@ TRANSLATOR:
       - {action: replace, from: "^nvmlDeviceGetMPSComputeRunningProcesses$", to: "nvmlDeviceGetMPSComputeRunningProcesses_v1"}
       - {action: replace, from: "^nvmlDeviceGetGpuInstancePossiblePlacements$", to: "nvmlDeviceGetGpuInstancePossiblePlacements_v1"}
       - {action: replace, from: "^nvmlVgpuInstanceGetLicenseInfo$", to: "nvmlVgpuInstanceGetLicenseInfo_v1"}
+      - {action: replace, from: "^nvmlDeviceGetDriverModel$", to: "nvmlDeviceGetDriverModel_v1"}
       - {transform: unexport}

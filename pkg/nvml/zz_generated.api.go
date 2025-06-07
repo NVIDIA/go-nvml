@@ -48,9 +48,11 @@ var (
 	DeviceGetBridgeChipInfo                         = libnvml.DeviceGetBridgeChipInfo
 	DeviceGetBusType                                = libnvml.DeviceGetBusType
 	DeviceGetC2cModeInfoV                           = libnvml.DeviceGetC2cModeInfoV
+	DeviceGetCapabilities                           = libnvml.DeviceGetCapabilities
 	DeviceGetClkMonStatus                           = libnvml.DeviceGetClkMonStatus
 	DeviceGetClock                                  = libnvml.DeviceGetClock
 	DeviceGetClockInfo                              = libnvml.DeviceGetClockInfo
+	DeviceGetClockOffsets                           = libnvml.DeviceGetClockOffsets
 	DeviceGetComputeInstanceId                      = libnvml.DeviceGetComputeInstanceId
 	DeviceGetComputeMode                            = libnvml.DeviceGetComputeMode
 	DeviceGetComputeRunningProcesses                = libnvml.DeviceGetComputeRunningProcesses
@@ -75,6 +77,7 @@ var (
 	DeviceGetDisplayActive                          = libnvml.DeviceGetDisplayActive
 	DeviceGetDisplayMode                            = libnvml.DeviceGetDisplayMode
 	DeviceGetDriverModel                            = libnvml.DeviceGetDriverModel
+	DeviceGetDriverModel_v2                         = libnvml.DeviceGetDriverModel_v2
 	DeviceGetDynamicPstatesInfo                     = libnvml.DeviceGetDynamicPstatesInfo
 	DeviceGetEccMode                                = libnvml.DeviceGetEccMode
 	DeviceGetEncoderCapacity                        = libnvml.DeviceGetEncoderCapacity
@@ -226,6 +229,7 @@ var (
 	DeviceSetAccountingMode                         = libnvml.DeviceSetAccountingMode
 	DeviceSetApplicationsClocks                     = libnvml.DeviceSetApplicationsClocks
 	DeviceSetAutoBoostedClocksEnabled               = libnvml.DeviceSetAutoBoostedClocksEnabled
+	DeviceSetClockOffsets                           = libnvml.DeviceSetClockOffsets
 	DeviceSetComputeMode                            = libnvml.DeviceSetComputeMode
 	DeviceSetConfComputeUnprotectedMemSize          = libnvml.DeviceSetConfComputeUnprotectedMemSize
 	DeviceSetCpuAffinity                            = libnvml.DeviceSetCpuAffinity
@@ -380,9 +384,11 @@ type Interface interface {
 	DeviceGetBridgeChipInfo(Device) (BridgeChipHierarchy, Return)
 	DeviceGetBusType(Device) (BusType, Return)
 	DeviceGetC2cModeInfoV(Device) C2cModeInfoHandler
+	DeviceGetCapabilities(Device) (DeviceCapabilities, Return)
 	DeviceGetClkMonStatus(Device) (ClkMonStatus, Return)
 	DeviceGetClock(Device, ClockType, ClockId) (uint32, Return)
 	DeviceGetClockInfo(Device, ClockType) (uint32, Return)
+	DeviceGetClockOffsets(Device) (ClockOffset, Return)
 	DeviceGetComputeInstanceId(Device) (int, Return)
 	DeviceGetComputeMode(Device) (ComputeMode, Return)
 	DeviceGetComputeRunningProcesses(Device) ([]ProcessInfo, Return)
@@ -407,6 +413,7 @@ type Interface interface {
 	DeviceGetDisplayActive(Device) (EnableState, Return)
 	DeviceGetDisplayMode(Device) (EnableState, Return)
 	DeviceGetDriverModel(Device) (DriverModel, DriverModel, Return)
+	DeviceGetDriverModel_v2(Device) (DriverModel, DriverModel, Return)
 	DeviceGetDynamicPstatesInfo(Device) (GpuDynamicPstatesInfo, Return)
 	DeviceGetEccMode(Device) (EnableState, EnableState, Return)
 	DeviceGetEncoderCapacity(Device, EncoderType) (int, Return)
@@ -558,6 +565,7 @@ type Interface interface {
 	DeviceSetAccountingMode(Device, EnableState) Return
 	DeviceSetApplicationsClocks(Device, uint32, uint32) Return
 	DeviceSetAutoBoostedClocksEnabled(Device, EnableState) Return
+	DeviceSetClockOffsets(Device, ClockOffset) Return
 	DeviceSetComputeMode(Device, ComputeMode) Return
 	DeviceSetConfComputeUnprotectedMemSize(Device, uint64) Return
 	DeviceSetCpuAffinity(Device) Return
@@ -709,9 +717,11 @@ type Device interface {
 	GetBridgeChipInfo() (BridgeChipHierarchy, Return)
 	GetBusType() (BusType, Return)
 	GetC2cModeInfoV() C2cModeInfoHandler
+	GetCapabilities() (DeviceCapabilities, Return)
 	GetClkMonStatus() (ClkMonStatus, Return)
 	GetClock(ClockType, ClockId) (uint32, Return)
 	GetClockInfo(ClockType) (uint32, Return)
+	GetClockOffsets() (ClockOffset, Return)
 	GetComputeInstanceId() (int, Return)
 	GetComputeMode() (ComputeMode, Return)
 	GetComputeRunningProcesses() ([]ProcessInfo, Return)
@@ -735,6 +745,7 @@ type Device interface {
 	GetDisplayActive() (EnableState, Return)
 	GetDisplayMode() (EnableState, Return)
 	GetDriverModel() (DriverModel, DriverModel, Return)
+	GetDriverModel_v2() (DriverModel, DriverModel, Return)
 	GetDynamicPstatesInfo() (GpuDynamicPstatesInfo, Return)
 	GetEccMode() (EnableState, EnableState, Return)
 	GetEncoderCapacity(EncoderType) (int, Return)
@@ -884,6 +895,7 @@ type Device interface {
 	SetAccountingMode(EnableState) Return
 	SetApplicationsClocks(uint32, uint32) Return
 	SetAutoBoostedClocksEnabled(EnableState) Return
+	SetClockOffsets(ClockOffset) Return
 	SetComputeMode(ComputeMode) Return
 	SetConfComputeUnprotectedMemSize(uint64) Return
 	SetCpuAffinity() Return

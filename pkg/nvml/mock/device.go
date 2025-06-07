@@ -93,6 +93,9 @@ var _ nvml.Device = &Device{}
 //			GetC2cModeInfoVFunc: func() nvml.C2cModeInfoHandler {
 //				panic("mock out the GetC2cModeInfoV method")
 //			},
+//			GetCapabilitiesFunc: func() (nvml.DeviceCapabilities, nvml.Return) {
+//				panic("mock out the GetCapabilities method")
+//			},
 //			GetClkMonStatusFunc: func() (nvml.ClkMonStatus, nvml.Return) {
 //				panic("mock out the GetClkMonStatus method")
 //			},
@@ -101,6 +104,9 @@ var _ nvml.Device = &Device{}
 //			},
 //			GetClockInfoFunc: func(clockType nvml.ClockType) (uint32, nvml.Return) {
 //				panic("mock out the GetClockInfo method")
+//			},
+//			GetClockOffsetsFunc: func() (nvml.ClockOffset, nvml.Return) {
+//				panic("mock out the GetClockOffsets method")
 //			},
 //			GetComputeInstanceIdFunc: func() (int, nvml.Return) {
 //				panic("mock out the GetComputeInstanceId method")
@@ -170,6 +176,9 @@ var _ nvml.Device = &Device{}
 //			},
 //			GetDriverModelFunc: func() (nvml.DriverModel, nvml.DriverModel, nvml.Return) {
 //				panic("mock out the GetDriverModel method")
+//			},
+//			GetDriverModel_v2Func: func() (nvml.DriverModel, nvml.DriverModel, nvml.Return) {
+//				panic("mock out the GetDriverModel_v2 method")
 //			},
 //			GetDynamicPstatesInfoFunc: func() (nvml.GpuDynamicPstatesInfo, nvml.Return) {
 //				panic("mock out the GetDynamicPstatesInfo method")
@@ -618,6 +627,9 @@ var _ nvml.Device = &Device{}
 //			SetAutoBoostedClocksEnabledFunc: func(enableState nvml.EnableState) nvml.Return {
 //				panic("mock out the SetAutoBoostedClocksEnabled method")
 //			},
+//			SetClockOffsetsFunc: func(clockOffset nvml.ClockOffset) nvml.Return {
+//				panic("mock out the SetClockOffsets method")
+//			},
 //			SetComputeModeFunc: func(computeMode nvml.ComputeMode) nvml.Return {
 //				panic("mock out the SetComputeMode method")
 //			},
@@ -781,6 +793,9 @@ type Device struct {
 	// GetC2cModeInfoVFunc mocks the GetC2cModeInfoV method.
 	GetC2cModeInfoVFunc func() nvml.C2cModeInfoHandler
 
+	// GetCapabilitiesFunc mocks the GetCapabilities method.
+	GetCapabilitiesFunc func() (nvml.DeviceCapabilities, nvml.Return)
+
 	// GetClkMonStatusFunc mocks the GetClkMonStatus method.
 	GetClkMonStatusFunc func() (nvml.ClkMonStatus, nvml.Return)
 
@@ -789,6 +804,9 @@ type Device struct {
 
 	// GetClockInfoFunc mocks the GetClockInfo method.
 	GetClockInfoFunc func(clockType nvml.ClockType) (uint32, nvml.Return)
+
+	// GetClockOffsetsFunc mocks the GetClockOffsets method.
+	GetClockOffsetsFunc func() (nvml.ClockOffset, nvml.Return)
 
 	// GetComputeInstanceIdFunc mocks the GetComputeInstanceId method.
 	GetComputeInstanceIdFunc func() (int, nvml.Return)
@@ -858,6 +876,9 @@ type Device struct {
 
 	// GetDriverModelFunc mocks the GetDriverModel method.
 	GetDriverModelFunc func() (nvml.DriverModel, nvml.DriverModel, nvml.Return)
+
+	// GetDriverModel_v2Func mocks the GetDriverModel_v2 method.
+	GetDriverModel_v2Func func() (nvml.DriverModel, nvml.DriverModel, nvml.Return)
 
 	// GetDynamicPstatesInfoFunc mocks the GetDynamicPstatesInfo method.
 	GetDynamicPstatesInfoFunc func() (nvml.GpuDynamicPstatesInfo, nvml.Return)
@@ -1306,6 +1327,9 @@ type Device struct {
 	// SetAutoBoostedClocksEnabledFunc mocks the SetAutoBoostedClocksEnabled method.
 	SetAutoBoostedClocksEnabledFunc func(enableState nvml.EnableState) nvml.Return
 
+	// SetClockOffsetsFunc mocks the SetClockOffsets method.
+	SetClockOffsetsFunc func(clockOffset nvml.ClockOffset) nvml.Return
+
 	// SetComputeModeFunc mocks the SetComputeMode method.
 	SetComputeModeFunc func(computeMode nvml.ComputeMode) nvml.Return
 
@@ -1486,6 +1510,9 @@ type Device struct {
 		// GetC2cModeInfoV holds details about calls to the GetC2cModeInfoV method.
 		GetC2cModeInfoV []struct {
 		}
+		// GetCapabilities holds details about calls to the GetCapabilities method.
+		GetCapabilities []struct {
+		}
 		// GetClkMonStatus holds details about calls to the GetClkMonStatus method.
 		GetClkMonStatus []struct {
 		}
@@ -1500,6 +1527,9 @@ type Device struct {
 		GetClockInfo []struct {
 			// ClockType is the clockType argument value.
 			ClockType nvml.ClockType
+		}
+		// GetClockOffsets holds details about calls to the GetClockOffsets method.
+		GetClockOffsets []struct {
 		}
 		// GetComputeInstanceId holds details about calls to the GetComputeInstanceId method.
 		GetComputeInstanceId []struct {
@@ -1581,6 +1611,9 @@ type Device struct {
 		}
 		// GetDriverModel holds details about calls to the GetDriverModel method.
 		GetDriverModel []struct {
+		}
+		// GetDriverModel_v2 holds details about calls to the GetDriverModel_v2 method.
+		GetDriverModel_v2 []struct {
 		}
 		// GetDynamicPstatesInfo holds details about calls to the GetDynamicPstatesInfo method.
 		GetDynamicPstatesInfo []struct {
@@ -2173,6 +2206,11 @@ type Device struct {
 			// EnableState is the enableState argument value.
 			EnableState nvml.EnableState
 		}
+		// SetClockOffsets holds details about calls to the SetClockOffsets method.
+		SetClockOffsets []struct {
+			// ClockOffset is the clockOffset argument value.
+			ClockOffset nvml.ClockOffset
+		}
 		// SetComputeMode holds details about calls to the SetComputeMode method.
 		SetComputeMode []struct {
 			// ComputeMode is the computeMode argument value.
@@ -2352,9 +2390,11 @@ type Device struct {
 	lockGetBridgeChipInfo                  sync.RWMutex
 	lockGetBusType                         sync.RWMutex
 	lockGetC2cModeInfoV                    sync.RWMutex
+	lockGetCapabilities                    sync.RWMutex
 	lockGetClkMonStatus                    sync.RWMutex
 	lockGetClock                           sync.RWMutex
 	lockGetClockInfo                       sync.RWMutex
+	lockGetClockOffsets                    sync.RWMutex
 	lockGetComputeInstanceId               sync.RWMutex
 	lockGetComputeMode                     sync.RWMutex
 	lockGetComputeRunningProcesses         sync.RWMutex
@@ -2378,6 +2418,7 @@ type Device struct {
 	lockGetDisplayActive                   sync.RWMutex
 	lockGetDisplayMode                     sync.RWMutex
 	lockGetDriverModel                     sync.RWMutex
+	lockGetDriverModel_v2                  sync.RWMutex
 	lockGetDynamicPstatesInfo              sync.RWMutex
 	lockGetEccMode                         sync.RWMutex
 	lockGetEncoderCapacity                 sync.RWMutex
@@ -2527,6 +2568,7 @@ type Device struct {
 	lockSetAccountingMode                  sync.RWMutex
 	lockSetApplicationsClocks              sync.RWMutex
 	lockSetAutoBoostedClocksEnabled        sync.RWMutex
+	lockSetClockOffsets                    sync.RWMutex
 	lockSetComputeMode                     sync.RWMutex
 	lockSetConfComputeUnprotectedMemSize   sync.RWMutex
 	lockSetCpuAffinity                     sync.RWMutex
@@ -3283,6 +3325,33 @@ func (mock *Device) GetC2cModeInfoVCalls() []struct {
 	return calls
 }
 
+// GetCapabilities calls GetCapabilitiesFunc.
+func (mock *Device) GetCapabilities() (nvml.DeviceCapabilities, nvml.Return) {
+	if mock.GetCapabilitiesFunc == nil {
+		panic("Device.GetCapabilitiesFunc: method is nil but Device.GetCapabilities was just called")
+	}
+	callInfo := struct {
+	}{}
+	mock.lockGetCapabilities.Lock()
+	mock.calls.GetCapabilities = append(mock.calls.GetCapabilities, callInfo)
+	mock.lockGetCapabilities.Unlock()
+	return mock.GetCapabilitiesFunc()
+}
+
+// GetCapabilitiesCalls gets all the calls that were made to GetCapabilities.
+// Check the length with:
+//
+//	len(mockedDevice.GetCapabilitiesCalls())
+func (mock *Device) GetCapabilitiesCalls() []struct {
+} {
+	var calls []struct {
+	}
+	mock.lockGetCapabilities.RLock()
+	calls = mock.calls.GetCapabilities
+	mock.lockGetCapabilities.RUnlock()
+	return calls
+}
+
 // GetClkMonStatus calls GetClkMonStatusFunc.
 func (mock *Device) GetClkMonStatus() (nvml.ClkMonStatus, nvml.Return) {
 	if mock.GetClkMonStatusFunc == nil {
@@ -3375,6 +3444,33 @@ func (mock *Device) GetClockInfoCalls() []struct {
 	mock.lockGetClockInfo.RLock()
 	calls = mock.calls.GetClockInfo
 	mock.lockGetClockInfo.RUnlock()
+	return calls
+}
+
+// GetClockOffsets calls GetClockOffsetsFunc.
+func (mock *Device) GetClockOffsets() (nvml.ClockOffset, nvml.Return) {
+	if mock.GetClockOffsetsFunc == nil {
+		panic("Device.GetClockOffsetsFunc: method is nil but Device.GetClockOffsets was just called")
+	}
+	callInfo := struct {
+	}{}
+	mock.lockGetClockOffsets.Lock()
+	mock.calls.GetClockOffsets = append(mock.calls.GetClockOffsets, callInfo)
+	mock.lockGetClockOffsets.Unlock()
+	return mock.GetClockOffsetsFunc()
+}
+
+// GetClockOffsetsCalls gets all the calls that were made to GetClockOffsets.
+// Check the length with:
+//
+//	len(mockedDevice.GetClockOffsetsCalls())
+func (mock *Device) GetClockOffsetsCalls() []struct {
+} {
+	var calls []struct {
+	}
+	mock.lockGetClockOffsets.RLock()
+	calls = mock.calls.GetClockOffsets
+	mock.lockGetClockOffsets.RUnlock()
 	return calls
 }
 
@@ -4024,6 +4120,33 @@ func (mock *Device) GetDriverModelCalls() []struct {
 	mock.lockGetDriverModel.RLock()
 	calls = mock.calls.GetDriverModel
 	mock.lockGetDriverModel.RUnlock()
+	return calls
+}
+
+// GetDriverModel_v2 calls GetDriverModel_v2Func.
+func (mock *Device) GetDriverModel_v2() (nvml.DriverModel, nvml.DriverModel, nvml.Return) {
+	if mock.GetDriverModel_v2Func == nil {
+		panic("Device.GetDriverModel_v2Func: method is nil but Device.GetDriverModel_v2 was just called")
+	}
+	callInfo := struct {
+	}{}
+	mock.lockGetDriverModel_v2.Lock()
+	mock.calls.GetDriverModel_v2 = append(mock.calls.GetDriverModel_v2, callInfo)
+	mock.lockGetDriverModel_v2.Unlock()
+	return mock.GetDriverModel_v2Func()
+}
+
+// GetDriverModel_v2Calls gets all the calls that were made to GetDriverModel_v2.
+// Check the length with:
+//
+//	len(mockedDevice.GetDriverModel_v2Calls())
+func (mock *Device) GetDriverModel_v2Calls() []struct {
+} {
+	var calls []struct {
+	}
+	mock.lockGetDriverModel_v2.RLock()
+	calls = mock.calls.GetDriverModel_v2
+	mock.lockGetDriverModel_v2.RUnlock()
 	return calls
 }
 
@@ -8391,6 +8514,38 @@ func (mock *Device) SetAutoBoostedClocksEnabledCalls() []struct {
 	mock.lockSetAutoBoostedClocksEnabled.RLock()
 	calls = mock.calls.SetAutoBoostedClocksEnabled
 	mock.lockSetAutoBoostedClocksEnabled.RUnlock()
+	return calls
+}
+
+// SetClockOffsets calls SetClockOffsetsFunc.
+func (mock *Device) SetClockOffsets(clockOffset nvml.ClockOffset) nvml.Return {
+	if mock.SetClockOffsetsFunc == nil {
+		panic("Device.SetClockOffsetsFunc: method is nil but Device.SetClockOffsets was just called")
+	}
+	callInfo := struct {
+		ClockOffset nvml.ClockOffset
+	}{
+		ClockOffset: clockOffset,
+	}
+	mock.lockSetClockOffsets.Lock()
+	mock.calls.SetClockOffsets = append(mock.calls.SetClockOffsets, callInfo)
+	mock.lockSetClockOffsets.Unlock()
+	return mock.SetClockOffsetsFunc(clockOffset)
+}
+
+// SetClockOffsetsCalls gets all the calls that were made to SetClockOffsets.
+// Check the length with:
+//
+//	len(mockedDevice.SetClockOffsetsCalls())
+func (mock *Device) SetClockOffsetsCalls() []struct {
+	ClockOffset nvml.ClockOffset
+} {
+	var calls []struct {
+		ClockOffset nvml.ClockOffset
+	}
+	mock.lockSetClockOffsets.RLock()
+	calls = mock.calls.SetClockOffsets
+	mock.lockSetClockOffsets.RUnlock()
 	return calls
 }
 

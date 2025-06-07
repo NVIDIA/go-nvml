@@ -128,6 +128,8 @@ const (
 	DEVICE_ARCH_ADA = 8
 	// DEVICE_ARCH_HOPPER as defined in nvml/nvml.h
 	DEVICE_ARCH_HOPPER = 9
+	// DEVICE_ARCH_T23X as defined in nvml/nvml.h
+	DEVICE_ARCH_T23X = 11
 	// DEVICE_ARCH_UNKNOWN as defined in nvml/nvml.h
 	DEVICE_ARCH_UNKNOWN = 4294967295
 	// BUS_TYPE_UNKNOWN as defined in nvml/nvml.h
@@ -562,10 +564,16 @@ const (
 	FI_DEV_TEMPERATURE_MEM_MAX_TLIMIT = 195
 	// FI_DEV_TEMPERATURE_GPU_MAX_TLIMIT as defined in nvml/nvml.h
 	FI_DEV_TEMPERATURE_GPU_MAX_TLIMIT = 196
+	// FI_DEV_PCIE_COUNT_TX_BYTES as defined in nvml/nvml.h
+	FI_DEV_PCIE_COUNT_TX_BYTES = 197
+	// FI_DEV_PCIE_COUNT_RX_BYTES as defined in nvml/nvml.h
+	FI_DEV_PCIE_COUNT_RX_BYTES = 198
+	// FI_DEV_NVLINK_GET_POWER_THRESHOLD_MAX as defined in nvml/nvml.h
+	FI_DEV_NVLINK_GET_POWER_THRESHOLD_MAX = 199
 	// FI_DEV_IS_MIG_MODE_INDEPENDENT_MIG_QUERY_CAPABLE as defined in nvml/nvml.h
-	FI_DEV_IS_MIG_MODE_INDEPENDENT_MIG_QUERY_CAPABLE = 199
+	FI_DEV_IS_MIG_MODE_INDEPENDENT_MIG_QUERY_CAPABLE = 200
 	// FI_MAX as defined in nvml/nvml.h
-	FI_MAX = 200
+	FI_MAX = 223
 	// EventTypeSingleBitEccError as defined in nvml/nvml.h
 	EventTypeSingleBitEccError = 1
 	// EventTypeDoubleBitEccError as defined in nvml/nvml.h
@@ -802,6 +810,10 @@ const (
 	NVLINK_LOW_POWER_THRESHOLD_MAX = 8191
 	// NVLINK_LOW_POWER_THRESHOLD_RESET as defined in nvml/nvml.h
 	NVLINK_LOW_POWER_THRESHOLD_RESET = 4294967295
+	// NVLINK_LOW_POWER_THRESHOLD_DEFAULT as defined in nvml/nvml.h
+	NVLINK_LOW_POWER_THRESHOLD_DEFAULT = 4294967295
+	// DEV_CAP_EGM as defined in nvml/nvml.h
+	DEV_CAP_EGM = 1
 )
 
 // BridgeChipType as declared in nvml/nvml.h
@@ -1026,7 +1038,8 @@ const (
 	TEMPERATURE_THRESHOLD_ACOUSTIC_MIN  TemperatureThresholds = 4
 	TEMPERATURE_THRESHOLD_ACOUSTIC_CURR TemperatureThresholds = 5
 	TEMPERATURE_THRESHOLD_ACOUSTIC_MAX  TemperatureThresholds = 6
-	TEMPERATURE_THRESHOLD_COUNT         TemperatureThresholds = 7
+	TEMPERATURE_THRESHOLD_GPS_CURR      TemperatureThresholds = 7
+	TEMPERATURE_THRESHOLD_COUNT         TemperatureThresholds = 8
 )
 
 // TemperatureSensors as declared in nvml/nvml.h
@@ -1101,6 +1114,7 @@ type DriverModel int32
 const (
 	DRIVER_WDDM DriverModel = iota
 	DRIVER_WDM  DriverModel = 1
+	DRIVER_MCDM DriverModel = 2
 )
 
 // Pstates as declared in nvml/nvml.h
