@@ -478,3 +478,15 @@ func (l *library) GetVgpuDriverCapabilities(capability VgpuDriverCapability) (bo
 	ret := nvmlGetVgpuDriverCapabilities(capability, &capResult)
 	return (capResult != 0), ret
 }
+
+// nvml.VgpuTypeGetBAR1Info()
+func (l *library) VgpuTypeGetBAR1Info(vgpuTypeId VgpuTypeId) (VgpuTypeBar1Info, Return) {
+	return vgpuTypeId.GetBAR1Info()
+}
+
+func (vgpuTypeId nvmlVgpuTypeId) GetBAR1Info() (VgpuTypeBar1Info, Return) {
+	var bar1Info VgpuTypeBar1Info
+	bar1Info.Version = STRUCT_VERSION(bar1Info, 1)
+	ret := nvmlVgpuTypeGetBAR1Info(vgpuTypeId, &bar1Info)
+	return bar1Info, ret
+}

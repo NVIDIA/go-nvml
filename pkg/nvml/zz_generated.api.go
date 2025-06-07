@@ -297,6 +297,7 @@ var (
 	SystemGetConfComputeState                       = libnvml.SystemGetConfComputeState
 	SystemGetCudaDriverVersion                      = libnvml.SystemGetCudaDriverVersion
 	SystemGetCudaDriverVersion_v2                   = libnvml.SystemGetCudaDriverVersion_v2
+	SystemGetDriverBranch                           = libnvml.SystemGetDriverBranch
 	SystemGetDriverVersion                          = libnvml.SystemGetDriverVersion
 	SystemGetHicVersion                             = libnvml.SystemGetHicVersion
 	SystemGetNVMLVersion                            = libnvml.SystemGetNVMLVersion
@@ -338,6 +339,7 @@ var (
 	VgpuInstanceGetVmDriverVersion                  = libnvml.VgpuInstanceGetVmDriverVersion
 	VgpuInstanceGetVmID                             = libnvml.VgpuInstanceGetVmID
 	VgpuInstanceSetEncoderCapacity                  = libnvml.VgpuInstanceSetEncoderCapacity
+	VgpuTypeGetBAR1Info                             = libnvml.VgpuTypeGetBAR1Info
 	VgpuTypeGetCapabilities                         = libnvml.VgpuTypeGetCapabilities
 	VgpuTypeGetClass                                = libnvml.VgpuTypeGetClass
 	VgpuTypeGetDeviceID                             = libnvml.VgpuTypeGetDeviceID
@@ -633,6 +635,7 @@ type Interface interface {
 	SystemGetConfComputeState() (ConfComputeSystemState, Return)
 	SystemGetCudaDriverVersion() (int, Return)
 	SystemGetCudaDriverVersion_v2() (int, Return)
+	SystemGetDriverBranch() (SystemDriverBranchInfo, Return)
 	SystemGetDriverVersion() (string, Return)
 	SystemGetHicVersion() ([]HwbcEntry, Return)
 	SystemGetNVMLVersion() (string, Return)
@@ -674,6 +677,7 @@ type Interface interface {
 	VgpuInstanceGetVmDriverVersion(VgpuInstance) (string, Return)
 	VgpuInstanceGetVmID(VgpuInstance) (string, VgpuVmIdType, Return)
 	VgpuInstanceSetEncoderCapacity(VgpuInstance, int) Return
+	VgpuTypeGetBAR1Info(VgpuTypeId) (VgpuTypeBar1Info, Return)
 	VgpuTypeGetCapabilities(VgpuTypeId, VgpuCapability) (bool, Return)
 	VgpuTypeGetClass(VgpuTypeId) (string, Return)
 	VgpuTypeGetDeviceID(VgpuTypeId) (uint64, uint64, Return)
@@ -1012,6 +1016,7 @@ type VgpuInstance interface {
 //
 //go:generate moq -out mock/vgputypeid.go -pkg mock . VgpuTypeId:VgpuTypeId
 type VgpuTypeId interface {
+	GetBAR1Info() (VgpuTypeBar1Info, Return)
 	GetCapabilities(VgpuCapability) (bool, Return)
 	GetClass() (string, Return)
 	GetCreatablePlacements(Device) (VgpuPlacementList, Return)
