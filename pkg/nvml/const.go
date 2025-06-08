@@ -62,6 +62,8 @@ const (
 	DOUBLE_BIT_ECC = 0
 	// MAX_GPU_PERF_PSTATES as defined in nvml/nvml.h
 	MAX_GPU_PERF_PSTATES = 16
+	// PERF_MODES_BUFFER_SIZE as defined in nvml/nvml.h
+	PERF_MODES_BUFFER_SIZE = 2048
 	// GSP_FIRMWARE_VERSION_BUF_SIZE as defined in nvml/nvml.h
 	GSP_FIRMWARE_VERSION_BUF_SIZE = 64
 	// DEVICE_ARCH_KEPLER as defined in nvml/nvml.h
@@ -142,6 +144,12 @@ const (
 	PCIE_ATOMICS_CAP_CAS128 = 64
 	// PCIE_ATOMICS_OPS_MAX as defined in nvml/nvml.h
 	PCIE_ATOMICS_OPS_MAX = 7
+	// POWER_SCOPE_GPU as defined in nvml/nvml.h
+	POWER_SCOPE_GPU = 0
+	// POWER_SCOPE_MODULE as defined in nvml/nvml.h
+	POWER_SCOPE_MODULE = 1
+	// POWER_SCOPE_MEMORY as defined in nvml/nvml.h
+	POWER_SCOPE_MEMORY = 2
 	// GRID_LICENSE_EXPIRY_NOT_AVAILABLE as defined in nvml/nvml.h
 	GRID_LICENSE_EXPIRY_NOT_AVAILABLE = 0
 	// GRID_LICENSE_EXPIRY_INVALID as defined in nvml/nvml.h
@@ -160,6 +168,10 @@ const (
 	GRID_LICENSE_FEATURE_MAX_COUNT = 3
 	// INVALID_VGPU_PLACEMENT_ID as defined in nvml/nvml.h
 	INVALID_VGPU_PLACEMENT_ID = 65535
+	// VGPU_PGPU_HETEROGENEOUS_MODE as defined in nvml/nvml.h
+	VGPU_PGPU_HETEROGENEOUS_MODE = 0
+	// VGPU_PGPU_HOMOGENEOUS_MODE as defined in nvml/nvml.h
+	VGPU_PGPU_HOMOGENEOUS_MODE = 1
 	// VGPU_SCHEDULER_POLICY_UNKNOWN as defined in nvml/nvml.h
 	VGPU_SCHEDULER_POLICY_UNKNOWN = 0
 	// VGPU_SCHEDULER_POLICY_BEST_EFFORT as defined in nvml/nvml.h
@@ -586,10 +598,10 @@ const (
 	FI_DEV_PCIE_COUNT_TX_BYTES = 197
 	// FI_DEV_PCIE_COUNT_RX_BYTES as defined in nvml/nvml.h
 	FI_DEV_PCIE_COUNT_RX_BYTES = 198
-	// FI_DEV_NVLINK_GET_POWER_THRESHOLD_MAX as defined in nvml/nvml.h
-	FI_DEV_NVLINK_GET_POWER_THRESHOLD_MAX = 199
 	// FI_DEV_IS_MIG_MODE_INDEPENDENT_MIG_QUERY_CAPABLE as defined in nvml/nvml.h
-	FI_DEV_IS_MIG_MODE_INDEPENDENT_MIG_QUERY_CAPABLE = 200
+	FI_DEV_IS_MIG_MODE_INDEPENDENT_MIG_QUERY_CAPABLE = 199
+	// FI_DEV_NVLINK_GET_POWER_THRESHOLD_MAX as defined in nvml/nvml.h
+	FI_DEV_NVLINK_GET_POWER_THRESHOLD_MAX = 200
 	// FI_DEV_NVLINK_COUNT_XMIT_PACKETS as defined in nvml/nvml.h
 	FI_DEV_NVLINK_COUNT_XMIT_PACKETS = 201
 	// FI_DEV_NVLINK_COUNT_XMIT_BYTES as defined in nvml/nvml.h
@@ -648,8 +660,78 @@ const (
 	FI_DEV_PCIE_OUTBOUND_ATOMICS_MASK = 228
 	// FI_DEV_PCIE_INBOUND_ATOMICS_MASK as defined in nvml/nvml.h
 	FI_DEV_PCIE_INBOUND_ATOMICS_MASK = 229
+	// FI_DEV_GET_GPU_RECOVERY_ACTION as defined in nvml/nvml.h
+	FI_DEV_GET_GPU_RECOVERY_ACTION = 230
+	// FI_DEV_NVLINK_COUNT_FEC_HISTORY_0 as defined in nvml/nvml.h
+	FI_DEV_NVLINK_COUNT_FEC_HISTORY_0 = 235
+	// FI_DEV_NVLINK_COUNT_FEC_HISTORY_1 as defined in nvml/nvml.h
+	FI_DEV_NVLINK_COUNT_FEC_HISTORY_1 = 236
+	// FI_DEV_NVLINK_COUNT_FEC_HISTORY_2 as defined in nvml/nvml.h
+	FI_DEV_NVLINK_COUNT_FEC_HISTORY_2 = 237
+	// FI_DEV_NVLINK_COUNT_FEC_HISTORY_3 as defined in nvml/nvml.h
+	FI_DEV_NVLINK_COUNT_FEC_HISTORY_3 = 238
+	// FI_DEV_NVLINK_COUNT_FEC_HISTORY_4 as defined in nvml/nvml.h
+	FI_DEV_NVLINK_COUNT_FEC_HISTORY_4 = 239
+	// FI_DEV_NVLINK_COUNT_FEC_HISTORY_5 as defined in nvml/nvml.h
+	FI_DEV_NVLINK_COUNT_FEC_HISTORY_5 = 240
+	// FI_DEV_NVLINK_COUNT_FEC_HISTORY_6 as defined in nvml/nvml.h
+	FI_DEV_NVLINK_COUNT_FEC_HISTORY_6 = 241
+	// FI_DEV_NVLINK_COUNT_FEC_HISTORY_7 as defined in nvml/nvml.h
+	FI_DEV_NVLINK_COUNT_FEC_HISTORY_7 = 242
+	// FI_DEV_NVLINK_COUNT_FEC_HISTORY_8 as defined in nvml/nvml.h
+	FI_DEV_NVLINK_COUNT_FEC_HISTORY_8 = 243
+	// FI_DEV_NVLINK_COUNT_FEC_HISTORY_9 as defined in nvml/nvml.h
+	FI_DEV_NVLINK_COUNT_FEC_HISTORY_9 = 244
+	// FI_DEV_NVLINK_COUNT_FEC_HISTORY_10 as defined in nvml/nvml.h
+	FI_DEV_NVLINK_COUNT_FEC_HISTORY_10 = 245
+	// FI_DEV_NVLINK_COUNT_FEC_HISTORY_11 as defined in nvml/nvml.h
+	FI_DEV_NVLINK_COUNT_FEC_HISTORY_11 = 246
+	// FI_DEV_NVLINK_COUNT_FEC_HISTORY_12 as defined in nvml/nvml.h
+	FI_DEV_NVLINK_COUNT_FEC_HISTORY_12 = 247
+	// FI_DEV_NVLINK_COUNT_FEC_HISTORY_13 as defined in nvml/nvml.h
+	FI_DEV_NVLINK_COUNT_FEC_HISTORY_13 = 248
+	// FI_DEV_NVLINK_COUNT_FEC_HISTORY_14 as defined in nvml/nvml.h
+	FI_DEV_NVLINK_COUNT_FEC_HISTORY_14 = 249
+	// FI_DEV_NVLINK_COUNT_FEC_HISTORY_15 as defined in nvml/nvml.h
+	FI_DEV_NVLINK_COUNT_FEC_HISTORY_15 = 250
+	// FI_PWR_SMOOTHING_ENABLED as defined in nvml/nvml.h
+	FI_PWR_SMOOTHING_ENABLED = 251
+	// FI_PWR_SMOOTHING_PRIV_LVL as defined in nvml/nvml.h
+	FI_PWR_SMOOTHING_PRIV_LVL = 252
+	// FI_PWR_SMOOTHING_IMM_RAMP_DOWN_ENABLED as defined in nvml/nvml.h
+	FI_PWR_SMOOTHING_IMM_RAMP_DOWN_ENABLED = 253
+	// FI_PWR_SMOOTHING_APPLIED_TMP_CEIL as defined in nvml/nvml.h
+	FI_PWR_SMOOTHING_APPLIED_TMP_CEIL = 254
+	// FI_PWR_SMOOTHING_APPLIED_TMP_FLOOR as defined in nvml/nvml.h
+	FI_PWR_SMOOTHING_APPLIED_TMP_FLOOR = 255
+	// FI_PWR_SMOOTHING_MAX_PERCENT_TMP_FLOOR_SETTING as defined in nvml/nvml.h
+	FI_PWR_SMOOTHING_MAX_PERCENT_TMP_FLOOR_SETTING = 256
+	// FI_PWR_SMOOTHING_MIN_PERCENT_TMP_FLOOR_SETTING as defined in nvml/nvml.h
+	FI_PWR_SMOOTHING_MIN_PERCENT_TMP_FLOOR_SETTING = 257
+	// FI_PWR_SMOOTHING_HW_CIRCUITRY_PERCENT_LIFETIME_REMAINING as defined in nvml/nvml.h
+	FI_PWR_SMOOTHING_HW_CIRCUITRY_PERCENT_LIFETIME_REMAINING = 258
+	// FI_PWR_SMOOTHING_MAX_NUM_PRESET_PROFILES as defined in nvml/nvml.h
+	FI_PWR_SMOOTHING_MAX_NUM_PRESET_PROFILES = 259
+	// FI_PWR_SMOOTHING_PROFILE_PERCENT_TMP_FLOOR as defined in nvml/nvml.h
+	FI_PWR_SMOOTHING_PROFILE_PERCENT_TMP_FLOOR = 260
+	// FI_PWR_SMOOTHING_PROFILE_RAMP_UP_RATE as defined in nvml/nvml.h
+	FI_PWR_SMOOTHING_PROFILE_RAMP_UP_RATE = 261
+	// FI_PWR_SMOOTHING_PROFILE_RAMP_DOWN_RATE as defined in nvml/nvml.h
+	FI_PWR_SMOOTHING_PROFILE_RAMP_DOWN_RATE = 262
+	// FI_PWR_SMOOTHING_PROFILE_RAMP_DOWN_HYST_VAL as defined in nvml/nvml.h
+	FI_PWR_SMOOTHING_PROFILE_RAMP_DOWN_HYST_VAL = 263
+	// FI_PWR_SMOOTHING_ACTIVE_PRESET_PROFILE as defined in nvml/nvml.h
+	FI_PWR_SMOOTHING_ACTIVE_PRESET_PROFILE = 264
+	// FI_PWR_SMOOTHING_ADMIN_OVERRIDE_PERCENT_TMP_FLOOR as defined in nvml/nvml.h
+	FI_PWR_SMOOTHING_ADMIN_OVERRIDE_PERCENT_TMP_FLOOR = 265
+	// FI_PWR_SMOOTHING_ADMIN_OVERRIDE_RAMP_UP_RATE as defined in nvml/nvml.h
+	FI_PWR_SMOOTHING_ADMIN_OVERRIDE_RAMP_UP_RATE = 266
+	// FI_PWR_SMOOTHING_ADMIN_OVERRIDE_RAMP_DOWN_RATE as defined in nvml/nvml.h
+	FI_PWR_SMOOTHING_ADMIN_OVERRIDE_RAMP_DOWN_RATE = 267
+	// FI_PWR_SMOOTHING_ADMIN_OVERRIDE_RAMP_DOWN_HYST_VAL as defined in nvml/nvml.h
+	FI_PWR_SMOOTHING_ADMIN_OVERRIDE_RAMP_DOWN_HYST_VAL = 268
 	// FI_MAX as defined in nvml/nvml.h
-	FI_MAX = 230
+	FI_MAX = 269
 	// NVLINK_LOW_POWER_THRESHOLD_UNIT_100US as defined in nvml/nvml.h
 	NVLINK_LOW_POWER_THRESHOLD_UNIT_100US = 0
 	// NVLINK_LOW_POWER_THRESHOLD_UNIT_50US as defined in nvml/nvml.h
@@ -692,8 +774,12 @@ const (
 	EventTypeNonFatalPoisonError = 4096
 	// EventTypeFatalPoisonError as defined in nvml/nvml.h
 	EventTypeFatalPoisonError = 8192
+	// EventTypeGpuUnavailableError as defined in nvml/nvml.h
+	EventTypeGpuUnavailableError = 16384
+	// EventTypeGpuRecoveryAction as defined in nvml/nvml.h
+	EventTypeGpuRecoveryAction = 32768
 	// EventTypeAll as defined in nvml/nvml.h
-	EventTypeAll = 16287
+	EventTypeAll = 65439
 	// ClocksEventReasonGpuIdle as defined in nvml/nvml.h
 	ClocksEventReasonGpuIdle = 1
 	// ClocksEventReasonApplicationsClocksSetting as defined in nvml/nvml.h
@@ -750,6 +836,10 @@ const (
 	CC_SYSTEM_CPU_CAPS_AMD_SEV = 1
 	// CC_SYSTEM_CPU_CAPS_INTEL_TDX as defined in nvml/nvml.h
 	CC_SYSTEM_CPU_CAPS_INTEL_TDX = 2
+	// CC_SYSTEM_CPU_CAPS_AMD_SEV_SNP as defined in nvml/nvml.h
+	CC_SYSTEM_CPU_CAPS_AMD_SEV_SNP = 3
+	// CC_SYSTEM_CPU_CAPS_AMD_SNP_VTOM as defined in nvml/nvml.h
+	CC_SYSTEM_CPU_CAPS_AMD_SNP_VTOM = 4
 	// CC_SYSTEM_GPUS_CC_NOT_CAPABLE as defined in nvml/nvml.h
 	CC_SYSTEM_GPUS_CC_NOT_CAPABLE = 0
 	// CC_SYSTEM_GPUS_CC_CAPABLE as defined in nvml/nvml.h
@@ -793,7 +883,7 @@ const (
 	// CC_KEY_ROTATION_THRESHOLD_ATTACKER_ADVANTAGE_MIN as defined in nvml/nvml.h
 	CC_KEY_ROTATION_THRESHOLD_ATTACKER_ADVANTAGE_MIN = 50
 	// CC_KEY_ROTATION_THRESHOLD_ATTACKER_ADVANTAGE_MAX as defined in nvml/nvml.h
-	CC_KEY_ROTATION_THRESHOLD_ATTACKER_ADVANTAGE_MAX = 75
+	CC_KEY_ROTATION_THRESHOLD_ATTACKER_ADVANTAGE_MAX = 65
 	// GPU_FABRIC_UUID_LEN as defined in nvml/nvml.h
 	GPU_FABRIC_UUID_LEN = 16
 	// GPU_FABRIC_STATE_NOT_SUPPORTED as defined in nvml/nvml.h
@@ -813,13 +903,37 @@ const (
 	// GPU_FABRIC_HEALTH_MASK_SHIFT_DEGRADED_BW as defined in nvml/nvml.h
 	GPU_FABRIC_HEALTH_MASK_SHIFT_DEGRADED_BW = 0
 	// GPU_FABRIC_HEALTH_MASK_WIDTH_DEGRADED_BW as defined in nvml/nvml.h
-	GPU_FABRIC_HEALTH_MASK_WIDTH_DEGRADED_BW = 17
-	// POWER_SCOPE_GPU as defined in nvml/nvml.h
-	POWER_SCOPE_GPU = 0
-	// POWER_SCOPE_MODULE as defined in nvml/nvml.h
-	POWER_SCOPE_MODULE = 1
-	// POWER_SCOPE_MEMORY as defined in nvml/nvml.h
-	POWER_SCOPE_MEMORY = 2
+	GPU_FABRIC_HEALTH_MASK_WIDTH_DEGRADED_BW = 3
+	// GPU_FABRIC_HEALTH_MASK_ROUTE_RECOVERY_NOT_SUPPORTED as defined in nvml/nvml.h
+	GPU_FABRIC_HEALTH_MASK_ROUTE_RECOVERY_NOT_SUPPORTED = 0
+	// GPU_FABRIC_HEALTH_MASK_ROUTE_RECOVERY_TRUE as defined in nvml/nvml.h
+	GPU_FABRIC_HEALTH_MASK_ROUTE_RECOVERY_TRUE = 1
+	// GPU_FABRIC_HEALTH_MASK_ROUTE_RECOVERY_FALSE as defined in nvml/nvml.h
+	GPU_FABRIC_HEALTH_MASK_ROUTE_RECOVERY_FALSE = 2
+	// GPU_FABRIC_HEALTH_MASK_SHIFT_ROUTE_RECOVERY as defined in nvml/nvml.h
+	GPU_FABRIC_HEALTH_MASK_SHIFT_ROUTE_RECOVERY = 2
+	// GPU_FABRIC_HEALTH_MASK_WIDTH_ROUTE_RECOVERY as defined in nvml/nvml.h
+	GPU_FABRIC_HEALTH_MASK_WIDTH_ROUTE_RECOVERY = 3
+	// GPU_FABRIC_HEALTH_MASK_ROUTE_UNHEALTHY_NOT_SUPPORTED as defined in nvml/nvml.h
+	GPU_FABRIC_HEALTH_MASK_ROUTE_UNHEALTHY_NOT_SUPPORTED = 0
+	// GPU_FABRIC_HEALTH_MASK_ROUTE_UNHEALTHY_TRUE as defined in nvml/nvml.h
+	GPU_FABRIC_HEALTH_MASK_ROUTE_UNHEALTHY_TRUE = 1
+	// GPU_FABRIC_HEALTH_MASK_ROUTE_UNHEALTHY_FALSE as defined in nvml/nvml.h
+	GPU_FABRIC_HEALTH_MASK_ROUTE_UNHEALTHY_FALSE = 2
+	// GPU_FABRIC_HEALTH_MASK_SHIFT_ROUTE_UNHEALTHY as defined in nvml/nvml.h
+	GPU_FABRIC_HEALTH_MASK_SHIFT_ROUTE_UNHEALTHY = 4
+	// GPU_FABRIC_HEALTH_MASK_WIDTH_ROUTE_UNHEALTHY as defined in nvml/nvml.h
+	GPU_FABRIC_HEALTH_MASK_WIDTH_ROUTE_UNHEALTHY = 3
+	// GPU_FABRIC_HEALTH_MASK_ACCESS_TIMEOUT_RECOVERY_NOT_SUPPORTED as defined in nvml/nvml.h
+	GPU_FABRIC_HEALTH_MASK_ACCESS_TIMEOUT_RECOVERY_NOT_SUPPORTED = 0
+	// GPU_FABRIC_HEALTH_MASK_ACCESS_TIMEOUT_RECOVERY_TRUE as defined in nvml/nvml.h
+	GPU_FABRIC_HEALTH_MASK_ACCESS_TIMEOUT_RECOVERY_TRUE = 1
+	// GPU_FABRIC_HEALTH_MASK_ACCESS_TIMEOUT_RECOVERY_FALSE as defined in nvml/nvml.h
+	GPU_FABRIC_HEALTH_MASK_ACCESS_TIMEOUT_RECOVERY_FALSE = 2
+	// GPU_FABRIC_HEALTH_MASK_SHIFT_ACCESS_TIMEOUT_RECOVERY as defined in nvml/nvml.h
+	GPU_FABRIC_HEALTH_MASK_SHIFT_ACCESS_TIMEOUT_RECOVERY = 6
+	// GPU_FABRIC_HEALTH_MASK_WIDTH_ACCESS_TIMEOUT_RECOVERY as defined in nvml/nvml.h
+	GPU_FABRIC_HEALTH_MASK_WIDTH_ACCESS_TIMEOUT_RECOVERY = 3
 	// INIT_FLAG_NO_GPUS as defined in nvml/nvml.h
 	INIT_FLAG_NO_GPUS = 1
 	// INIT_FLAG_NO_ATTACH as defined in nvml/nvml.h
@@ -848,6 +962,22 @@ const (
 	AFFINITY_SCOPE_NODE = 0
 	// AFFINITY_SCOPE_SOCKET as defined in nvml/nvml.h
 	AFFINITY_SCOPE_SOCKET = 1
+	// NVLINK_BER_MANTISSA_SHIFT as defined in nvml/nvml.h
+	NVLINK_BER_MANTISSA_SHIFT = 8
+	// NVLINK_BER_MANTISSA_WIDTH as defined in nvml/nvml.h
+	NVLINK_BER_MANTISSA_WIDTH = 15
+	// NVLINK_BER_EXP_SHIFT as defined in nvml/nvml.h
+	NVLINK_BER_EXP_SHIFT = 0
+	// NVLINK_BER_EXP_WIDTH as defined in nvml/nvml.h
+	NVLINK_BER_EXP_WIDTH = 255
+	// NVLINK_STATE_INACTIVE as defined in nvml/nvml.h
+	NVLINK_STATE_INACTIVE = 0
+	// NVLINK_STATE_ACTIVE as defined in nvml/nvml.h
+	NVLINK_STATE_ACTIVE = 1
+	// NVLINK_STATE_SLEEP as defined in nvml/nvml.h
+	NVLINK_STATE_SLEEP = 2
+	// NVLINK_TOTAL_SUPPORTED_BW_MODES as defined in nvml/nvml.h
+	NVLINK_TOTAL_SUPPORTED_BW_MODES = 23
 	// DEVICE_MIG_DISABLE as defined in nvml/nvml.h
 	DEVICE_MIG_DISABLE = 0
 	// DEVICE_MIG_ENABLE as defined in nvml/nvml.h
@@ -872,10 +1002,22 @@ const (
 	GPU_INSTANCE_PROFILE_2_SLICE_REV1 = 8
 	// GPU_INSTANCE_PROFILE_1_SLICE_REV2 as defined in nvml/nvml.h
 	GPU_INSTANCE_PROFILE_1_SLICE_REV2 = 9
+	// GPU_INSTANCE_PROFILE_1_SLICE_GFX as defined in nvml/nvml.h
+	GPU_INSTANCE_PROFILE_1_SLICE_GFX = 10
+	// GPU_INSTANCE_PROFILE_2_SLICE_GFX as defined in nvml/nvml.h
+	GPU_INSTANCE_PROFILE_2_SLICE_GFX = 11
+	// GPU_INSTANCE_PROFILE_4_SLICE_GFX as defined in nvml/nvml.h
+	GPU_INSTANCE_PROFILE_4_SLICE_GFX = 12
 	// GPU_INSTANCE_PROFILE_COUNT as defined in nvml/nvml.h
-	GPU_INSTANCE_PROFILE_COUNT = 10
+	GPU_INSTANCE_PROFILE_COUNT = 13
+	// GPU_INSTANCE_PROFILE_CAPS_P2P as defined in nvml/nvml.h
+	GPU_INSTANCE_PROFILE_CAPS_P2P = 1
 	// GPU_INTSTANCE_PROFILE_CAPS_P2P as defined in nvml/nvml.h
 	GPU_INTSTANCE_PROFILE_CAPS_P2P = 1
+	// GPU_INSTANCE_PROFILE_CAPS_GFX as defined in nvml/nvml.h
+	GPU_INSTANCE_PROFILE_CAPS_GFX = 2
+	// COMPUTE_INSTANCE_PROFILE_CAPS_GFX as defined in nvml/nvml.h
+	COMPUTE_INSTANCE_PROFILE_CAPS_GFX = 1
 	// COMPUTE_INSTANCE_PROFILE_1_SLICE as defined in nvml/nvml.h
 	COMPUTE_INSTANCE_PROFILE_1_SLICE = 0
 	// COMPUTE_INSTANCE_PROFILE_2_SLICE as defined in nvml/nvml.h
@@ -904,6 +1046,22 @@ const (
 	GPM_SUPPORT_VERSION = 1
 	// DEV_CAP_EGM as defined in nvml/nvml.h
 	DEV_CAP_EGM = 1
+	// WORKLOAD_POWER_MAX_PROFILES as defined in nvml/nvml.h
+	WORKLOAD_POWER_MAX_PROFILES = 255
+	// POWER_SMOOTHING_MAX_NUM_PROFILES as defined in nvml/nvml.h
+	POWER_SMOOTHING_MAX_NUM_PROFILES = 5
+	// POWER_SMOOTHING_NUM_PROFILE_PARAMS as defined in nvml/nvml.h
+	POWER_SMOOTHING_NUM_PROFILE_PARAMS = 4
+	// POWER_SMOOTHING_ADMIN_OVERRIDE_NOT_SET as defined in nvml/nvml.h
+	POWER_SMOOTHING_ADMIN_OVERRIDE_NOT_SET = 4294967295
+	// POWER_SMOOTHING_PROFILE_PARAM_PERCENT_TMP_FLOOR as defined in nvml/nvml.h
+	POWER_SMOOTHING_PROFILE_PARAM_PERCENT_TMP_FLOOR = 0
+	// POWER_SMOOTHING_PROFILE_PARAM_RAMP_UP_RATE as defined in nvml/nvml.h
+	POWER_SMOOTHING_PROFILE_PARAM_RAMP_UP_RATE = 1
+	// POWER_SMOOTHING_PROFILE_PARAM_RAMP_DOWN_RATE as defined in nvml/nvml.h
+	POWER_SMOOTHING_PROFILE_PARAM_RAMP_DOWN_RATE = 2
+	// POWER_SMOOTHING_PROFILE_PARAM_RAMP_DOWN_HYSTERESIS as defined in nvml/nvml.h
+	POWER_SMOOTHING_PROFILE_PARAM_RAMP_DOWN_HYSTERESIS = 3
 )
 
 // BridgeChipType as declared in nvml/nvml.h
@@ -1082,6 +1240,29 @@ const (
 	PERF_POLICY_COUNT             PerfPolicyType = 12
 )
 
+// CoolerControl as declared in nvml/nvml.h
+type CoolerControl int32
+
+// CoolerControl enumeration from nvml/nvml.h
+const (
+	THERMAL_COOLER_SIGNAL_NONE     CoolerControl = iota
+	THERMAL_COOLER_SIGNAL_TOGGLE   CoolerControl = 1
+	THERMAL_COOLER_SIGNAL_VARIABLE CoolerControl = 2
+	THERMAL_COOLER_SIGNAL_COUNT    CoolerControl = 3
+)
+
+// CoolerTarget as declared in nvml/nvml.h
+type CoolerTarget int32
+
+// CoolerTarget enumeration from nvml/nvml.h
+const (
+	THERMAL_COOLER_TARGET_NONE         CoolerTarget = 1
+	THERMAL_COOLER_TARGET_GPU          CoolerTarget = 2
+	THERMAL_COOLER_TARGET_MEMORY       CoolerTarget = 4
+	THERMAL_COOLER_TARGET_POWER_SUPPLY CoolerTarget = 8
+	THERMAL_COOLER_TARGET_GPU_RELATED  CoolerTarget = 14
+)
+
 // EnableState as declared in nvml/nvml.h
 type EnableState int32
 
@@ -1162,6 +1343,21 @@ const (
 	MEMORY_ERROR_TYPE_CORRECTED   MemoryErrorType = iota
 	MEMORY_ERROR_TYPE_UNCORRECTED MemoryErrorType = 1
 	MEMORY_ERROR_TYPE_COUNT       MemoryErrorType = 2
+)
+
+// NvlinkVersion as declared in nvml/nvml.h
+type NvlinkVersion int32
+
+// NvlinkVersion enumeration from nvml/nvml.h
+const (
+	NVLINK_VERSION_INVALID NvlinkVersion = iota
+	NVLINK_VERSION_1_0     NvlinkVersion = 1
+	NVLINK_VERSION_2_0     NvlinkVersion = 2
+	NVLINK_VERSION_2_2     NvlinkVersion = 3
+	NVLINK_VERSION_3_0     NvlinkVersion = 4
+	NVLINK_VERSION_3_1     NvlinkVersion = 5
+	NVLINK_VERSION_4_0     NvlinkVersion = 6
+	NVLINK_VERSION_5_0     NvlinkVersion = 7
 )
 
 // EccCounterType as declared in nvml/nvml.h
@@ -1250,7 +1446,8 @@ const (
 	INFOROM_OEM   InforomObject = iota
 	INFOROM_ECC   InforomObject = 1
 	INFOROM_POWER InforomObject = 2
-	INFOROM_COUNT InforomObject = 3
+	INFOROM_DEN   InforomObject = 3
+	INFOROM_COUNT InforomObject = 4
 )
 
 // Return as declared in nvml/nvml.h
@@ -1415,7 +1612,20 @@ const (
 	DEVICE_VGPU_CAP_MINI_QUARTER_GPU                 DeviceVgpuCapability = 6
 	DEVICE_VGPU_CAP_COMPUTE_MEDIA_ENGINE_GPU         DeviceVgpuCapability = 7
 	DEVICE_VGPU_CAP_WARM_UPDATE                      DeviceVgpuCapability = 8
-	DEVICE_VGPU_CAP_COUNT                            DeviceVgpuCapability = 9
+	DEVICE_VGPU_CAP_HOMOGENEOUS_PLACEMENTS           DeviceVgpuCapability = 9
+	DEVICE_VGPU_CAP_COUNT                            DeviceVgpuCapability = 10
+)
+
+// DeviceGpuRecoveryAction as declared in nvml/nvml.h
+type DeviceGpuRecoveryAction int32
+
+// DeviceGpuRecoveryAction enumeration from nvml/nvml.h
+const (
+	GPU_RECOVERY_ACTION_NONE            DeviceGpuRecoveryAction = iota
+	GPU_RECOVERY_ACTION_GPU_RESET       DeviceGpuRecoveryAction = 1
+	GPU_RECOVERY_ACTION_NODE_REBOOT     DeviceGpuRecoveryAction = 2
+	GPU_RECOVERY_ACTION_DRAIN_P2P       DeviceGpuRecoveryAction = 3
+	GPU_RECOVERY_ACTION_DRAIN_AND_RESET DeviceGpuRecoveryAction = 4
 )
 
 // FanState as declared in nvml/nvml.h
@@ -1643,4 +1853,27 @@ const (
 	GPM_METRIC_NVLINK_L17_RX_PER_SEC   GpmMetricId = 96
 	GPM_METRIC_NVLINK_L17_TX_PER_SEC   GpmMetricId = 97
 	GPM_METRIC_MAX                     GpmMetricId = 98
+)
+
+// PowerProfileType as declared in nvml/nvml.h
+type PowerProfileType int32
+
+// PowerProfileType enumeration from nvml/nvml.h
+const (
+	POWER_PROFILE_MAX_P         PowerProfileType = iota
+	POWER_PROFILE_MAX_Q         PowerProfileType = 1
+	POWER_PROFILE_COMPUTE       PowerProfileType = 2
+	POWER_PROFILE_MEMORY_BOUND  PowerProfileType = 3
+	POWER_PROFILE_NETWORK       PowerProfileType = 4
+	POWER_PROFILE_BALANCED      PowerProfileType = 5
+	POWER_PROFILE_LLM_INFERENCE PowerProfileType = 6
+	POWER_PROFILE_LLM_TRAINING  PowerProfileType = 7
+	POWER_PROFILE_RBM           PowerProfileType = 8
+	POWER_PROFILE_DCPCIE        PowerProfileType = 9
+	POWER_PROFILE_HMMA_SPARSE   PowerProfileType = 10
+	POWER_PROFILE_HMMA_DENSE    PowerProfileType = 11
+	POWER_PROFILE_SYNC_BALANCED PowerProfileType = 12
+	POWER_PROFILE_HPC           PowerProfileType = 13
+	POWER_PROFILE_MIG           PowerProfileType = 14
+	POWER_PROFILE_MAX           PowerProfileType = 15
 )

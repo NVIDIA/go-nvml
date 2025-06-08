@@ -490,3 +490,15 @@ func (vgpuTypeId nvmlVgpuTypeId) GetBAR1Info() (VgpuTypeBar1Info, Return) {
 	ret := nvmlVgpuTypeGetBAR1Info(vgpuTypeId, &bar1Info)
 	return bar1Info, ret
 }
+
+// nvml.VgpuInstanceGetRuntimeStateSize()
+func (l *library) VgpuInstanceGetRuntimeStateSize(vgpuInstance VgpuInstance) (VgpuRuntimeState, Return) {
+	return vgpuInstance.GetRuntimeStateSize()
+}
+
+func (vgpuInstance nvmlVgpuInstance) GetRuntimeStateSize() (VgpuRuntimeState, Return) {
+	var pState VgpuRuntimeState
+	pState.Version = STRUCT_VERSION(pState, 1)
+	ret := nvmlVgpuInstanceGetRuntimeStateSize(vgpuInstance, &pState)
+	return pState, ret
+}
