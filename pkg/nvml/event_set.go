@@ -60,3 +60,23 @@ func (l *library) EventSetFree(set EventSet) Return {
 func (set nvmlEventSet) Free() Return {
 	return nvmlEventSetFree(set)
 }
+
+// nvml.SystemEventSetCreate()
+func (l *library) SystemEventSetCreate(request *SystemEventSetCreateRequest) Return {
+	return nvmlSystemEventSetCreate(request)
+}
+
+// nvml.SystemEventSetFree()
+func (l *library) SystemEventSetFree(request *SystemEventSetFreeRequest) Return {
+	return nvmlSystemEventSetFree(request)
+}
+
+// nvml.SystemRegisterEvents()
+func (l *library) SystemRegisterEvents(request *SystemRegisterEventRequest) Return {
+	return nvmlSystemRegisterEvents(request)
+}
+
+// nvml.SystemEventSetWait()
+func (l *library) SystemEventSetWait(request *SystemEventSetWaitRequest) Return {
+	return nvmlSystemEventSetWait(request)
+}

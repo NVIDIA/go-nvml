@@ -9,6 +9,10 @@ type nvmlDevice struct {
 	Handle *_Ctype_struct_nvmlDevice_st
 }
 
+type nvmlGpuInstance struct {
+	Handle *_Ctype_struct_nvmlGpuInstance_st
+}
+
 type PciInfoExt_v1 struct {
 	Version        uint32
 	Domain         uint32
@@ -194,6 +198,24 @@ type CoolerInfo struct {
 	Index      uint32
 	SignalType uint32
 	Target     uint32
+}
+
+const sizeofUUIDValue = unsafe.Sizeof([41]byte{})
+
+type UUIDValue [sizeofUUIDValue]byte
+
+type UUID_v1 struct {
+	Version   uint32
+	Type      uint32
+	Value     [41]byte
+	Pad_cgo_0 [3]byte
+}
+
+type UUID struct {
+	Version   uint32
+	Type      uint32
+	Value     [41]byte
+	Pad_cgo_0 [3]byte
 }
 
 type DramEncryptionInfo_v1 struct {
@@ -664,6 +686,112 @@ type GridLicensableFeatures struct {
 	GridLicensableFeatures  [3]GridLicensableFeature
 }
 
+type VgpuTypeIdInfo_v1 struct {
+	Version     uint32
+	VgpuCount   uint32
+	VgpuTypeIds *uint32
+}
+
+type VgpuTypeIdInfo struct {
+	Version     uint32
+	VgpuCount   uint32
+	VgpuTypeIds *uint32
+}
+
+type VgpuTypeMaxInstance_v1 struct {
+	Version          uint32
+	VgpuTypeId       uint32
+	MaxInstancePerGI uint32
+}
+
+type VgpuTypeMaxInstance struct {
+	Version          uint32
+	VgpuTypeId       uint32
+	MaxInstancePerGI uint32
+}
+
+type ActiveVgpuInstanceInfo_v1 struct {
+	Version       uint32
+	VgpuCount     uint32
+	VgpuInstances *uint32
+}
+
+type ActiveVgpuInstanceInfo struct {
+	Version       uint32
+	VgpuCount     uint32
+	VgpuInstances *uint32
+}
+
+type VgpuSchedulerState_v1 struct {
+	Version         uint32
+	EngineId        uint32
+	SchedulerPolicy uint32
+	EnableARRMode   uint32
+	SchedulerParams [8]byte
+}
+
+type VgpuSchedulerState struct {
+	Version         uint32
+	EngineId        uint32
+	SchedulerPolicy uint32
+	EnableARRMode   uint32
+	SchedulerParams [8]byte
+}
+
+type VgpuSchedulerStateInfo_v1 struct {
+	Version         uint32
+	EngineId        uint32
+	SchedulerPolicy uint32
+	ArrMode         uint32
+	SchedulerParams [8]byte
+}
+
+type VgpuSchedulerStateInfo struct {
+	Version         uint32
+	EngineId        uint32
+	SchedulerPolicy uint32
+	ArrMode         uint32
+	SchedulerParams [8]byte
+}
+
+type VgpuSchedulerLogInfo_v1 struct {
+	Version         uint32
+	EngineId        uint32
+	SchedulerPolicy uint32
+	ArrMode         uint32
+	SchedulerParams [8]byte
+	EntriesCount    uint32
+	LogEntries      [200]VgpuSchedulerLogEntry
+}
+
+type VgpuSchedulerLogInfo struct {
+	Version         uint32
+	EngineId        uint32
+	SchedulerPolicy uint32
+	ArrMode         uint32
+	SchedulerParams [8]byte
+	EntriesCount    uint32
+	LogEntries      [200]VgpuSchedulerLogEntry
+}
+
+type VgpuCreatablePlacementInfo_v1 struct {
+	Version       uint32
+	VgpuTypeId    uint32
+	Count         uint32
+	PlacementIds  *uint32
+	PlacementSize uint32
+	Pad_cgo_0     [4]byte
+}
+
+type VgpuCreatablePlacementInfo struct {
+	Version       uint32
+	VgpuTypeId    uint32
+	Count         uint32
+	PlacementIds  *uint32
+	PlacementSize uint32
+	Pad_cgo_0     [4]byte
+}
+
 type NvLinkPowerThres struct {
 	LowPwrThreshold uint32
 }
@@ -726,6 +854,66 @@ type nvmlEventData struct {
 	EventData         uint64
 	GpuInstanceId     uint32
 	ComputeInstanceId uint32
+}
+
+type SystemEventSet struct {
+	Handle *_Ctype_struct_nvmlSystemEventSet_st
+}
+
+type SystemEventSetCreateRequest_v1 struct {
+	Version uint32
+	Set     SystemEventSet
+}
+
+type SystemEventSetCreateRequest struct {
+	Version uint32
+	Set     SystemEventSet
+}
+
+type SystemEventSetFreeRequest_v1 struct {
+	Version uint32
+	Set     SystemEventSet
+}
+
+type SystemEventSetFreeRequest struct {
+	Version uint32
+	Set     SystemEventSet
+}
+
+type SystemRegisterEventRequest_v1 struct {
+	Version    uint32
+	EventTypes uint64
+	Set        SystemEventSet
+}
+
+type SystemRegisterEventRequest struct {
+	Version    uint32
+	EventTypes uint64
+	Set        SystemEventSet
+}
+
+type SystemEventData_v1 struct {
+	EventType uint64
+	GpuId     uint32
+	Pad_cgo_0 [4]byte
+}
+
+type SystemEventSetWaitRequest_v1 struct {
+	Version   uint32
+	Timeoutms uint32
+	Set       SystemEventSet
+	Data      *SystemEventData_v1
+	DataSize  uint32
+	NumEvent  uint32
+}
+
+type SystemEventSetWaitRequest struct {
+	Version   uint32
+	Timeoutms uint32
+	Set       SystemEventSet
+	Data      *SystemEventData_v1
+	DataSize  uint32
+	NumEvent  uint32
 }
 
 type AccountingStats struct {
@@ -1028,10 +1216,6 @@ type nvmlGpuInstanceInfo struct {
 	Placement GpuInstancePlacement
 }
 
-type nvmlGpuInstance struct {
-	Handle *_Ctype_struct_nvmlGpuInstance_st
-}
-
 type ComputeInstancePlacement struct {
 	Start uint32
 	Size  uint32
@@ -1112,7 +1296,7 @@ type nvmlGpmMetricsGetType struct {
 	NumMetrics uint32
 	Sample1    nvmlGpmSample
 	Sample2    nvmlGpmSample
-	Metrics    [98]GpmMetric
+	Metrics    [210]GpmMetric
 }
 
 type GpmSupport struct {
