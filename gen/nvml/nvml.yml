@@ -54,6 +54,8 @@ TRANSLATOR:
       - {action: accept, from: "^nvml"}
       - {action: ignore, from: "NVML_VGPU_VIRTUALIZATION_CAP_MIGRATION"}
       - {action: ignore, from: "NVML_VGPU_PGPU_VIRTUALIZATION_CAP_MIGRATION"}
+      - {action: ignore, from: "NVML_255_MASK_BITS_PER_ELEM"}
+      - {action: ignore, from: "NVML_255_MASK_NUM_ELEMS"}
       - {action: ignore, from: "nvmlEccBitType_t"}
       - {action: replace, from: "^NVML_"}
       - {action: replace, from: "^nvml"}

@@ -3099,3 +3099,219 @@ func (device nvmlDevice) GetCapabilities() (DeviceCapabilities, Return) {
 	ret := nvmlDeviceGetCapabilities(device, &caps)
 	return caps, ret
 }
+
+// nvml.DeviceGetFanSpeedRPM()
+func (l *library) DeviceGetFanSpeedRPM(device Device) (FanSpeedInfo, Return) {
+	return device.GetFanSpeedRPM()
+}
+
+func (device nvmlDevice) GetFanSpeedRPM() (FanSpeedInfo, Return) {
+	var fanSpeed FanSpeedInfo
+	fanSpeed.Version = STRUCT_VERSION(fanSpeed, 1)
+	ret := nvmlDeviceGetFanSpeedRPM(device, &fanSpeed)
+	return fanSpeed, ret
+}
+
+// nvml.DeviceGetCoolerInfo()
+func (l *library) DeviceGetCoolerInfo(device Device) (CoolerInfo, Return) {
+	return device.GetCoolerInfo()
+}
+
+func (device nvmlDevice) GetCoolerInfo() (CoolerInfo, Return) {
+	var coolerInfo CoolerInfo
+	coolerInfo.Version = STRUCT_VERSION(coolerInfo, 1)
+	ret := nvmlDeviceGetCoolerInfo(device, &coolerInfo)
+	return coolerInfo, ret
+}
+
+// nvml.DeviceGetTemperatureV()
+type TemperatureHandler struct {
+	device nvmlDevice
+}
+
+func (handler TemperatureHandler) V1() (Temperature, Return) {
+	var temperature Temperature
+	temperature.Version = STRUCT_VERSION(temperature, 1)
+	ret := nvmlDeviceGetTemperatureV(handler.device, &temperature)
+	return temperature, ret
+}
+
+func (l *library) DeviceGetTemperatureV(device Device) TemperatureHandler {
+	return device.GetTemperatureV()
+}
+
+func (device nvmlDevice) GetTemperatureV() TemperatureHandler {
+	return TemperatureHandler{device}
+}
+
+// nvml.DeviceGetMarginTemperature()
+func (l *library) DeviceGetMarginTemperature(device Device) (MarginTemperature, Return) {
+	return device.GetMarginTemperature()
+}
+
+func (device nvmlDevice) GetMarginTemperature() (MarginTemperature, Return) {
+	var marginTemp MarginTemperature
+	marginTemp.Version = STRUCT_VERSION(marginTemp, 1)
+	ret := nvmlDeviceGetMarginTemperature(device, &marginTemp)
+	return marginTemp, ret
+}
+
+// nvml.DeviceGetPerformanceModes()
+func (l *library) DeviceGetPerformanceModes(device Device) (DevicePerfModes, Return) {
+	return device.GetPerformanceModes()
+}
+
+func (device nvmlDevice) GetPerformanceModes() (DevicePerfModes, Return) {
+	var perfModes DevicePerfModes
+	perfModes.Version = STRUCT_VERSION(perfModes, 1)
+	ret := nvmlDeviceGetPerformanceModes(device, &perfModes)
+	return perfModes, ret
+}
+
+// nvml.DeviceGetCurrentClockFreqs()
+func (l *library) DeviceGetCurrentClockFreqs(device Device) (DeviceCurrentClockFreqs, Return) {
+	return device.GetCurrentClockFreqs()
+}
+
+func (device nvmlDevice) GetCurrentClockFreqs() (DeviceCurrentClockFreqs, Return) {
+	var currentClockFreqs DeviceCurrentClockFreqs
+	currentClockFreqs.Version = STRUCT_VERSION(currentClockFreqs, 1)
+	ret := nvmlDeviceGetCurrentClockFreqs(device, &currentClockFreqs)
+	return currentClockFreqs, ret
+}
+
+// nvml.DeviceGetDramEncryptionMode()
+func (l *library) DeviceGetDramEncryptionMode(device Device) (DramEncryptionInfo, DramEncryptionInfo, Return) {
+	return device.GetDramEncryptionMode()
+}
+
+func (device nvmlDevice) GetDramEncryptionMode() (DramEncryptionInfo, DramEncryptionInfo, Return) {
+	var current, pending DramEncryptionInfo
+	current.Version = STRUCT_VERSION(current, 1)
+	pending.Version = STRUCT_VERSION(pending, 1)
+	ret := nvmlDeviceGetDramEncryptionMode(device, &current, &pending)
+	return current, pending, ret
+}
+
+// nvml.DeviceSetDramEncryptionMode()
+func (l *library) DeviceSetDramEncryptionMode(device Device, dramEncryption *DramEncryptionInfo) Return {
+	return device.SetDramEncryptionMode(dramEncryption)
+}
+
+func (device nvmlDevice) SetDramEncryptionMode(dramEncryption *DramEncryptionInfo) Return {
+	return nvmlDeviceSetDramEncryptionMode(device, dramEncryption)
+}
+
+// nvml.DeviceGetPlatformInfo()
+func (l *library) DeviceGetPlatformInfo(device Device) (PlatformInfo, Return) {
+	return device.GetPlatformInfo()
+}
+
+func (device nvmlDevice) GetPlatformInfo() (PlatformInfo, Return) {
+	var platformInfo PlatformInfo
+	platformInfo.Version = STRUCT_VERSION(platformInfo, 1)
+	ret := nvmlDeviceGetPlatformInfo(device, &platformInfo)
+	return platformInfo, ret
+}
+
+// nvml.DeviceGetNvlinkSupportedBwModes()
+func (l *library) DeviceGetNvlinkSupportedBwModes(device Device) (NvlinkSupportedBwModes, Return) {
+	return device.GetNvlinkSupportedBwModes()
+}
+
+func (device nvmlDevice) GetNvlinkSupportedBwModes() (NvlinkSupportedBwModes, Return) {
+	var supportedBwMode NvlinkSupportedBwModes
+	supportedBwMode.Version = STRUCT_VERSION(supportedBwMode, 1)
+	ret := nvmlDeviceGetNvlinkSupportedBwModes(device, &supportedBwMode)
+	return supportedBwMode, ret
+}
+
+// nvml.DeviceGetNvlinkBwMode()
+func (l *library) DeviceGetNvlinkBwMode(device Device) (NvlinkGetBwMode, Return) {
+	return device.GetNvlinkBwMode()
+}
+
+func (device nvmlDevice) GetNvlinkBwMode() (NvlinkGetBwMode, Return) {
+	var getBwMode NvlinkGetBwMode
+	getBwMode.Version = STRUCT_VERSION(getBwMode, 1)
+	ret := nvmlDeviceGetNvlinkBwMode(device, &getBwMode)
+	return getBwMode, ret
+}
+
+// nvml.DeviceSetNvlinkBwMode()
+func (l *library) DeviceSetNvlinkBwMode(device Device, setBwMode *NvlinkSetBwMode) Return {
+	return device.SetNvlinkBwMode(setBwMode)
+}
+
+func (device nvmlDevice) SetNvlinkBwMode(setBwMode *NvlinkSetBwMode) Return {
+	return nvmlDeviceSetNvlinkBwMode(device, setBwMode)
+}
+
+// nvml.DeviceWorkloadPowerProfileGetProfilesInfo()
+func (l *library) DeviceWorkloadPowerProfileGetProfilesInfo(device Device) (WorkloadPowerProfileProfilesInfo, Return) {
+	return device.WorkloadPowerProfileGetProfilesInfo()
+}
+
+func (device nvmlDevice) WorkloadPowerProfileGetProfilesInfo() (WorkloadPowerProfileProfilesInfo, Return) {
+	var profilesInfo WorkloadPowerProfileProfilesInfo
+	profilesInfo.Version = STRUCT_VERSION(profilesInfo, 1)
+	ret := nvmlDeviceWorkloadPowerProfileGetProfilesInfo(device, &profilesInfo)
+	return profilesInfo, ret
+}
+
+// nvml.DeviceWorkloadPowerProfileGetCurrentProfiles()
+func (l *library) DeviceWorkloadPowerProfileGetCurrentProfiles(device Device) (WorkloadPowerProfileCurrentProfiles, Return) {
+	return device.WorkloadPowerProfileGetCurrentProfiles()
+}
+
+func (device nvmlDevice) WorkloadPowerProfileGetCurrentProfiles() (WorkloadPowerProfileCurrentProfiles, Return) {
+	var currentProfiles WorkloadPowerProfileCurrentProfiles
+	currentProfiles.Version = STRUCT_VERSION(currentProfiles, 1)
+	ret := nvmlDeviceWorkloadPowerProfileGetCurrentProfiles(device, &currentProfiles)
+	return currentProfiles, ret
+}
+
+// nvml.DeviceWorkloadPowerProfileSetRequestedProfiles()
+func (l *library) DeviceWorkloadPowerProfileSetRequestedProfiles(device Device, requestedProfiles *WorkloadPowerProfileRequestedProfiles) Return {
+	return device.WorkloadPowerProfileSetRequestedProfiles(requestedProfiles)
+}
+
+func (device nvmlDevice) WorkloadPowerProfileSetRequestedProfiles(requestedProfiles *WorkloadPowerProfileRequestedProfiles) Return {
+	return nvmlDeviceWorkloadPowerProfileSetRequestedProfiles(device, requestedProfiles)
+}
+
+// nvml.DeviceWorkloadPowerProfileClearRequestedProfiles()
+func (l *library) DeviceWorkloadPowerProfileClearRequestedProfiles(device Device, requestedProfiles *WorkloadPowerProfileRequestedProfiles) Return {
+	return device.WorkloadPowerProfileClearRequestedProfiles(requestedProfiles)
+}
+
+func (device nvmlDevice) WorkloadPowerProfileClearRequestedProfiles(requestedProfiles *WorkloadPowerProfileRequestedProfiles) Return {
+	return nvmlDeviceWorkloadPowerProfileClearRequestedProfiles(device, requestedProfiles)
+}
+
+// nvml.DevicePowerSmoothingActivatePresetProfile()
+func (l *library) DevicePowerSmoothingActivatePresetProfile(device Device, profile *PowerSmoothingProfile) Return {
+	return device.PowerSmoothingActivatePresetProfile(profile)
+}
+
+func (device nvmlDevice) PowerSmoothingActivatePresetProfile(profile *PowerSmoothingProfile) Return {
+	return nvmlDevicePowerSmoothingActivatePresetProfile(device, profile)
+}
+
+// nvml.DevicePowerSmoothingUpdatePresetProfileParam()
+func (l *library) DevicePowerSmoothingUpdatePresetProfileParam(device Device, profile *PowerSmoothingProfile) Return {
+	return device.PowerSmoothingUpdatePresetProfileParam(profile)
+}
+
+func (device nvmlDevice) PowerSmoothingUpdatePresetProfileParam(profile *PowerSmoothingProfile) Return {
+	return nvmlDevicePowerSmoothingUpdatePresetProfileParam(device, profile)
+}
+
+// nvml.DevicePowerSmoothingSetState()
+func (l *library) DevicePowerSmoothingSetState(device Device, state *PowerSmoothingState) Return {
+	return device.PowerSmoothingSetState(state)
+}
+
+func (device nvmlDevice) PowerSmoothingSetState(state *PowerSmoothingState) Return {
+	return nvmlDevicePowerSmoothingSetState(device, state)
+}

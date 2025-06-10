@@ -182,6 +182,40 @@ type GpuThermalSettings struct {
 	Sensor [3]GpuThermalSettingsSensor
 }
 
+type CoolerInfo_v1 struct {
+	Version    uint32
+	Index      uint32
+	SignalType uint32
+	Target     uint32
+}
+
+type CoolerInfo struct {
+	Version    uint32
+	Index      uint32
+	SignalType uint32
+	Target     uint32
+}
+
+type DramEncryptionInfo_v1 struct {
+	Version         uint32
+	EncryptionState uint32
+}
+
+type DramEncryptionInfo struct {
+	Version         uint32
+	EncryptionState uint32
+}
+
+type MarginTemperature_v1 struct {
+	Version           uint32
+	MarginTemperature int32
+}
+
+type MarginTemperature struct {
+	Version           uint32
+	MarginTemperature int32
+}
+
 type ClkMonFaultInfo struct {
 	ClkApiDomain       uint32
 	ClkDomainFaultMask uint32
@@ -209,6 +243,38 @@ type ClockOffset struct {
 	ClockOffsetMHz    int32
 	MinClockOffsetMHz int32
 	MaxClockOffsetMHz int32
+}
+
+type FanSpeedInfo_v1 struct {
+	Version uint32
+	Fan     uint32
+	Speed   uint32
+}
+
+type FanSpeedInfo struct {
+	Version uint32
+	Fan     uint32
+	Speed   uint32
+}
+
+type DevicePerfModes_v1 struct {
+	Version uint32
+	Str     [2048]int8
+}
+
+type DevicePerfModes struct {
+	Version uint32
+	Str     [2048]int8
+}
+
+type DeviceCurrentClockFreqs_v1 struct {
+	Version uint32
+	Str     [2048]int8
+}
+
+type DeviceCurrentClockFreqs struct {
+	Version uint32
+	Str     [2048]int8
 }
 
 type ProcessUtilizationSample struct {
@@ -280,6 +346,42 @@ type EccSramErrorStatus struct {
 	Pad_cgo_0               [4]byte
 }
 
+type PlatformInfo_v1 struct {
+	Version                   uint32
+	IbGuid                    [16]uint8
+	RackGuid                  [16]uint8
+	ChassisPhysicalSlotNumber uint8
+	ComputeSlotIndex          uint8
+	NodeIndex                 uint8
+	PeerType                  uint8
+	ModuleId                  uint8
+	Pad_cgo_0                 [3]byte
+}
+
+type PlatformInfo_v2 struct {
+	Version             uint32
+	IbGuid              [16]uint8
+	ChassisSerialNumber [16]uint8
+	SlotNumber          uint8
+	TrayIndex           uint8
+	HostId              uint8
+	PeerType            uint8
+	ModuleId            uint8
+	Pad_cgo_0           [3]byte
+}
+
+type PlatformInfo struct {
+	Version             uint32
+	IbGuid              [16]uint8
+	ChassisSerialNumber [16]uint8
+	SlotNumber          uint8
+	TrayIndex           uint8
+	HostId              uint8
+	PeerType            uint8
+	ModuleId            uint8
+	Pad_cgo_0           [3]byte
+}
+
 type DeviceArchitecture uint32
 
 type BusType uint32
@@ -298,6 +400,14 @@ type GpuDynamicPstatesInfoUtilization struct {
 type GpuDynamicPstatesInfo struct {
 	Flags       uint32
 	Utilization [8]GpuDynamicPstatesInfoUtilization
+}
+
+type PowerScopeType byte
+
+type PowerValue_v2 struct {
+	Version      uint32
+	PowerScope   uint8
+	PowerValueMw uint32
 }
 
 type nvmlVgpuTypeId uint32
@@ -331,11 +441,22 @@ type VgpuPlacementList_v1 struct {
 	PlacementIds  *uint32
 }
 
+type VgpuPlacementList_v2 struct {
+	Version       uint32
+	PlacementSize uint32
+	Count         uint32
+	PlacementIds  *uint32
+	Mode          uint32
+	Pad_cgo_0     [4]byte
+}
+
 type VgpuPlacementList struct {
 	Version       uint32
 	PlacementSize uint32
 	Count         uint32
 	PlacementIds  *uint32
+	Mode          uint32
+	Pad_cgo_0     [4]byte
 }
 
 type VgpuTypeBar1Info_v1 struct {
@@ -421,6 +542,16 @@ type VgpuProcessesUtilizationInfo struct {
 	VgpuProcessCount  uint32
 	LastSeenTimeStamp uint64
 	VgpuProcUtilArray *VgpuProcessUtilizationInfo_v1
+}
+
+type VgpuRuntimeState_v1 struct {
+	Version uint32
+	Size    uint64
+}
+
+type VgpuRuntimeState struct {
+	Version uint32
+	Size    uint64
 }
 
 type VgpuSchedulerParamsVgpuSchedDataWithARR struct {
@@ -735,14 +866,6 @@ type GpuFabricInfoV struct {
 	HealthMask  uint32
 }
 
-type PowerScopeType byte
-
-type PowerValue_v2 struct {
-	Version      uint32
-	PowerScope   uint8
-	PowerValueMw uint32
-}
-
 type SystemDriverBranchInfo_v1 struct {
 	Version uint32
 	Branch  [80]int8
@@ -754,6 +877,58 @@ type SystemDriverBranchInfo struct {
 }
 
 type AffinityScope uint32
+
+type Temperature_v1 struct {
+	Version     uint32
+	SensorType  uint32
+	Temperature int32
+}
+
+type Temperature struct {
+	Version     uint32
+	SensorType  uint32
+	Temperature int32
+}
+
+type NvlinkSupportedBwModes_v1 struct {
+	Version      uint32
+	BwModes      [23]uint8
+	TotalBwModes uint8
+}
+
+type NvlinkSupportedBwModes struct {
+	Version      uint32
+	BwModes      [23]uint8
+	TotalBwModes uint8
+}
+
+type NvlinkGetBwMode_v1 struct {
+	Version   uint32
+	BIsBest   uint32
+	BwMode    uint8
+	Pad_cgo_0 [3]byte
+}
+
+type NvlinkGetBwMode struct {
+	Version   uint32
+	BIsBest   uint32
+	BwMode    uint8
+	Pad_cgo_0 [3]byte
+}
+
+type NvlinkSetBwMode_v1 struct {
+	Version   uint32
+	BSetBest  uint32
+	BwMode    uint8
+	Pad_cgo_0 [3]byte
+}
+
+type NvlinkSetBwMode struct {
+	Version   uint32
+	BSetBest  uint32
+	BwMode    uint8
+	Pad_cgo_0 [3]byte
+}
 
 type VgpuVersion struct {
 	MinVersion uint32
@@ -953,4 +1128,82 @@ type DeviceCapabilities_v1 struct {
 type DeviceCapabilities struct {
 	Version uint32
 	CapMask uint32
+}
+
+type Mask255 struct {
+	Mask [8]uint32
+}
+
+type WorkloadPowerProfileInfo_v1 struct {
+	Version         uint32
+	ProfileId       uint32
+	Priority        uint32
+	ConflictingMask Mask255
+}
+
+type WorkloadPowerProfileInfo struct {
+	Version         uint32
+	ProfileId       uint32
+	Priority        uint32
+	ConflictingMask Mask255
+}
+
+type WorkloadPowerProfileProfilesInfo_v1 struct {
+	Version          uint32
+	PerfProfilesMask Mask255
+	PerfProfile      [255]WorkloadPowerProfileInfo
+}
+
+type WorkloadPowerProfileProfilesInfo struct {
+	Version          uint32
+	PerfProfilesMask Mask255
+	PerfProfile      [255]WorkloadPowerProfileInfo
+}
+
+type WorkloadPowerProfileCurrentProfiles_v1 struct {
+	Version               uint32
+	PerfProfilesMask      Mask255
+	RequestedProfilesMask Mask255
+	EnforcedProfilesMask  Mask255
+}
+
+type WorkloadPowerProfileCurrentProfiles struct {
+	Version               uint32
+	PerfProfilesMask      Mask255
+	RequestedProfilesMask Mask255
+	EnforcedProfilesMask  Mask255
+}
+
+type WorkloadPowerProfileRequestedProfiles_v1 struct {
+	Version               uint32
+	RequestedProfilesMask Mask255
+}
+
+type WorkloadPowerProfileRequestedProfiles struct {
+	Version               uint32
+	RequestedProfilesMask Mask255
+}
+
+type PowerSmoothingProfile_v1 struct {
+	Version   uint32
+	ProfileId uint32
+	ParamId   uint32
+	Value     float64
+}
+
+type PowerSmoothingProfile struct {
+	Version   uint32
+	ProfileId uint32
+	ParamId   uint32
+	Value     float64
+}
+
+type PowerSmoothingState_v1 struct {
+	Version uint32
+	State   uint32
+}
+
+type PowerSmoothingState struct {
+	Version uint32
+	State   uint32
 }
