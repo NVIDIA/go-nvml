@@ -881,6 +881,24 @@ func nvmlDeviceGetMemClkMinMaxVfOffset(nvmlDevice nvmlDevice, MinOffset *int32, 
 	return __v
 }
 
+// nvmlDeviceGetClockOffsets function as declared in nvml/nvml.h
+func nvmlDeviceGetClockOffsets(nvmlDevice nvmlDevice, Info *ClockOffset) Return {
+	cnvmlDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&nvmlDevice)), cgoAllocsUnknown
+	cInfo, _ := (*C.nvmlClockOffset_t)(unsafe.Pointer(Info)), cgoAllocsUnknown
+	__ret := C.nvmlDeviceGetClockOffsets(cnvmlDevice, cInfo)
+	__v := (Return)(__ret)
+	return __v
+}
+
+// nvmlDeviceSetClockOffsets function as declared in nvml/nvml.h
+func nvmlDeviceSetClockOffsets(nvmlDevice nvmlDevice, Info *ClockOffset) Return {
+	cnvmlDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&nvmlDevice)), cgoAllocsUnknown
+	cInfo, _ := (*C.nvmlClockOffset_t)(unsafe.Pointer(Info)), cgoAllocsUnknown
+	__ret := C.nvmlDeviceSetClockOffsets(cnvmlDevice, cInfo)
+	__v := (Return)(__ret)
+	return __v
+}
+
 // nvmlDeviceGetPowerManagementMode function as declared in nvml/nvml.h
 func nvmlDeviceGetPowerManagementMode(nvmlDevice nvmlDevice, Mode *EnableState) Return {
 	cnvmlDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&nvmlDevice)), cgoAllocsUnknown
@@ -1162,12 +1180,12 @@ func nvmlDeviceGetFBCSessions(nvmlDevice nvmlDevice, SessionCount *uint32, Sessi
 	return __v
 }
 
-// nvmlDeviceGetDriverModel function as declared in nvml/nvml.h
-func nvmlDeviceGetDriverModel(nvmlDevice nvmlDevice, Current *DriverModel, Pending *DriverModel) Return {
+// nvmlDeviceGetDriverModel_v2 function as declared in nvml/nvml.h
+func nvmlDeviceGetDriverModel_v2(nvmlDevice nvmlDevice, Current *DriverModel, Pending *DriverModel) Return {
 	cnvmlDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&nvmlDevice)), cgoAllocsUnknown
 	cCurrent, _ := (*C.nvmlDriverModel_t)(unsafe.Pointer(Current)), cgoAllocsUnknown
 	cPending, _ := (*C.nvmlDriverModel_t)(unsafe.Pointer(Pending)), cgoAllocsUnknown
-	__ret := C.nvmlDeviceGetDriverModel(cnvmlDevice, cCurrent, cPending)
+	__ret := C.nvmlDeviceGetDriverModel_v2(cnvmlDevice, cCurrent, cPending)
 	__v := (Return)(__ret)
 	return __v
 }
@@ -1436,6 +1454,31 @@ func nvmlDeviceGetConfComputeGpuAttestationReport(nvmlDevice nvmlDevice, GpuAtst
 func nvmlSystemGetConfComputeKeyRotationThresholdInfo(PKeyRotationThrInfo *ConfComputeGetKeyRotationThresholdInfo) Return {
 	cPKeyRotationThrInfo, _ := (*C.nvmlConfComputeGetKeyRotationThresholdInfo_t)(unsafe.Pointer(PKeyRotationThrInfo)), cgoAllocsUnknown
 	__ret := C.nvmlSystemGetConfComputeKeyRotationThresholdInfo(cPKeyRotationThrInfo)
+	__v := (Return)(__ret)
+	return __v
+}
+
+// nvmlDeviceSetConfComputeUnprotectedMemSize function as declared in nvml/nvml.h
+func nvmlDeviceSetConfComputeUnprotectedMemSize(nvmlDevice nvmlDevice, SizeKiB uint64) Return {
+	cnvmlDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&nvmlDevice)), cgoAllocsUnknown
+	cSizeKiB, _ := (C.ulonglong)(SizeKiB), cgoAllocsUnknown
+	__ret := C.nvmlDeviceSetConfComputeUnprotectedMemSize(cnvmlDevice, cSizeKiB)
+	__v := (Return)(__ret)
+	return __v
+}
+
+// nvmlSystemSetConfComputeGpusReadyState function as declared in nvml/nvml.h
+func nvmlSystemSetConfComputeGpusReadyState(IsAcceptingWork uint32) Return {
+	cIsAcceptingWork, _ := (C.uint)(IsAcceptingWork), cgoAllocsUnknown
+	__ret := C.nvmlSystemSetConfComputeGpusReadyState(cIsAcceptingWork)
+	__v := (Return)(__ret)
+	return __v
+}
+
+// nvmlSystemSetConfComputeKeyRotationThresholdInfo function as declared in nvml/nvml.h
+func nvmlSystemSetConfComputeKeyRotationThresholdInfo(PKeyRotationThrInfo *ConfComputeSetKeyRotationThresholdInfo) Return {
+	cPKeyRotationThrInfo, _ := (*C.nvmlConfComputeSetKeyRotationThresholdInfo_t)(unsafe.Pointer(PKeyRotationThrInfo)), cgoAllocsUnknown
+	__ret := C.nvmlSystemSetConfComputeKeyRotationThresholdInfo(cPKeyRotationThrInfo)
 	__v := (Return)(__ret)
 	return __v
 }
@@ -1805,31 +1848,6 @@ func nvmlDeviceSetMemClkVfOffset(nvmlDevice nvmlDevice, Offset int32) Return {
 	cnvmlDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&nvmlDevice)), cgoAllocsUnknown
 	cOffset, _ := (C.int)(Offset), cgoAllocsUnknown
 	__ret := C.nvmlDeviceSetMemClkVfOffset(cnvmlDevice, cOffset)
-	__v := (Return)(__ret)
-	return __v
-}
-
-// nvmlDeviceSetConfComputeUnprotectedMemSize function as declared in nvml/nvml.h
-func nvmlDeviceSetConfComputeUnprotectedMemSize(nvmlDevice nvmlDevice, SizeKiB uint64) Return {
-	cnvmlDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&nvmlDevice)), cgoAllocsUnknown
-	cSizeKiB, _ := (C.ulonglong)(SizeKiB), cgoAllocsUnknown
-	__ret := C.nvmlDeviceSetConfComputeUnprotectedMemSize(cnvmlDevice, cSizeKiB)
-	__v := (Return)(__ret)
-	return __v
-}
-
-// nvmlSystemSetConfComputeGpusReadyState function as declared in nvml/nvml.h
-func nvmlSystemSetConfComputeGpusReadyState(IsAcceptingWork uint32) Return {
-	cIsAcceptingWork, _ := (C.uint)(IsAcceptingWork), cgoAllocsUnknown
-	__ret := C.nvmlSystemSetConfComputeGpusReadyState(cIsAcceptingWork)
-	__v := (Return)(__ret)
-	return __v
-}
-
-// nvmlSystemSetConfComputeKeyRotationThresholdInfo function as declared in nvml/nvml.h
-func nvmlSystemSetConfComputeKeyRotationThresholdInfo(PKeyRotationThrInfo *ConfComputeSetKeyRotationThresholdInfo) Return {
-	cPKeyRotationThrInfo, _ := (*C.nvmlConfComputeSetKeyRotationThresholdInfo_t)(unsafe.Pointer(PKeyRotationThrInfo)), cgoAllocsUnknown
-	__ret := C.nvmlSystemSetConfComputeKeyRotationThresholdInfo(cPKeyRotationThrInfo)
 	__v := (Return)(__ret)
 	return __v
 }
@@ -3105,6 +3123,15 @@ func nvmlDeviceGetSramEccErrorStatus(nvmlDevice nvmlDevice, Status *EccSramError
 	return __v
 }
 
+// nvmlDeviceGetCapabilities function as declared in nvml/nvml.h
+func nvmlDeviceGetCapabilities(nvmlDevice nvmlDevice, Caps *DeviceCapabilities) Return {
+	cnvmlDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&nvmlDevice)), cgoAllocsUnknown
+	cCaps, _ := (*C.nvmlDeviceCapabilities_t)(unsafe.Pointer(Caps)), cgoAllocsUnknown
+	__ret := C.nvmlDeviceGetCapabilities(cnvmlDevice, cCaps)
+	__v := (Return)(__ret)
+	return __v
+}
+
 // nvmlInit_v1 function as declared in nvml/nvml.h
 func nvmlInit_v1() Return {
 	__ret := C.nvmlInit()
@@ -3305,6 +3332,16 @@ func nvmlVgpuInstanceGetLicenseInfo_v1(nvmlVgpuInstance nvmlVgpuInstance, Licens
 	cnvmlVgpuInstance, _ := (C.nvmlVgpuInstance_t)(nvmlVgpuInstance), cgoAllocsUnknown
 	cLicenseInfo, _ := (*C.nvmlVgpuLicenseInfo_t)(unsafe.Pointer(LicenseInfo)), cgoAllocsUnknown
 	__ret := C.nvmlVgpuInstanceGetLicenseInfo(cnvmlVgpuInstance, cLicenseInfo)
+	__v := (Return)(__ret)
+	return __v
+}
+
+// nvmlDeviceGetDriverModel_v1 function as declared in nvml/nvml.h
+func nvmlDeviceGetDriverModel_v1(nvmlDevice nvmlDevice, Current *DriverModel, Pending *DriverModel) Return {
+	cnvmlDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&nvmlDevice)), cgoAllocsUnknown
+	cCurrent, _ := (*C.nvmlDriverModel_t)(unsafe.Pointer(Current)), cgoAllocsUnknown
+	cPending, _ := (*C.nvmlDriverModel_t)(unsafe.Pointer(Pending)), cgoAllocsUnknown
+	__ret := C.nvmlDeviceGetDriverModel(cnvmlDevice, cCurrent, cPending)
 	__v := (Return)(__ret)
 	return __v
 }
