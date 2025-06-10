@@ -104,12 +104,16 @@ func (l *library) load() (rerr error) {
 	l.Lock()
 	defer l.Unlock()
 
-	defer func() { l.refcount.IncOnNoError(rerr) }()
+	defer func() {
+		fmt.Println("end nvmlLibrary.load()")
+		l.refcount.IncOnNoError(rerr)
+	}()
 	if l.refcount > 0 {
 		return nil
 	}
 
 	if err := l.dl.Open(); err != nil {
+		fmt.Printf("error calling dl.Open: %v\n", err)
 		return fmt.Errorf("error opening %s: %w", l.path, err)
 	}
 
@@ -118,6 +122,8 @@ func (l *library) load() (rerr error) {
 
 	// Update all versioned symbols
 	l.updateVersionedSymbols()
+
+	fmt.Println("finished calling nvmlLibrary updateVersionedSymbols")
 
 	return nil
 }

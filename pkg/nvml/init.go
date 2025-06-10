@@ -15,12 +15,17 @@
 package nvml
 
 import "C"
+import "fmt"
 
 // nvml.Init()
 func (l *library) Init() Return {
+	fmt.Println("Inside nvml.Init")
+	fmt.Println("Calling nvmlLibrary.load()")
 	if err := l.load(); err != nil {
 		return ERROR_LIBRARY_NOT_FOUND
 	}
+	fmt.Println("Finished nvmlLibrary.load()")
+	fmt.Println("Calling nvmlLibrary.nvmlInit()")
 	return nvmlInit()
 }
 
