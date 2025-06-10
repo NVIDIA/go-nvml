@@ -89,7 +89,7 @@ func collectGPMMetrics(i int) error {
 		NumMetrics: 1,
 		Sample1:    sample1,
 		Sample2:    sample2,
-		Metrics: [98]nvml.GpmMetric{
+		Metrics: [210]nvml.GpmMetric{
 			{
 				MetricId: uint32(nvml.GPM_METRIC_GRAPHICS_UTIL),
 			},

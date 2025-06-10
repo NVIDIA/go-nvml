@@ -247,6 +247,15 @@ func nvmlDeviceGetHandleByUUID(Uuid string, nvmlDevice *nvmlDevice) Return {
 	return __v
 }
 
+// nvmlDeviceGetHandleByUUIDV function as declared in nvml/nvml.h
+func nvmlDeviceGetHandleByUUIDV(Uuid *UUID, nvmlDevice *nvmlDevice) Return {
+	cUuid, _ := (*C.nvmlUUID_t)(unsafe.Pointer(Uuid)), cgoAllocsUnknown
+	cnvmlDevice, _ := (*C.nvmlDevice_t)(unsafe.Pointer(nvmlDevice)), cgoAllocsUnknown
+	__ret := C.nvmlDeviceGetHandleByUUIDV(cUuid, cnvmlDevice)
+	__v := (Return)(__ret)
+	return __v
+}
+
 // nvmlDeviceGetHandleByPciBusId_v2 function as declared in nvml/nvml.h
 func nvmlDeviceGetHandleByPciBusId_v2(PciBusId string, nvmlDevice *nvmlDevice) Return {
 	cPciBusId, _ := unpackPCharString(PciBusId)
@@ -2202,6 +2211,38 @@ func nvmlEventSetFree(Set nvmlEventSet) Return {
 	return __v
 }
 
+// nvmlSystemEventSetCreate function as declared in nvml/nvml.h
+func nvmlSystemEventSetCreate(Request *SystemEventSetCreateRequest) Return {
+	cRequest, _ := (*C.nvmlSystemEventSetCreateRequest_t)(unsafe.Pointer(Request)), cgoAllocsUnknown
+	__ret := C.nvmlSystemEventSetCreate(cRequest)
+	__v := (Return)(__ret)
+	return __v
+}
+
+// nvmlSystemEventSetFree function as declared in nvml/nvml.h
+func nvmlSystemEventSetFree(Request *SystemEventSetFreeRequest) Return {
+	cRequest, _ := (*C.nvmlSystemEventSetFreeRequest_t)(unsafe.Pointer(Request)), cgoAllocsUnknown
+	__ret := C.nvmlSystemEventSetFree(cRequest)
+	__v := (Return)(__ret)
+	return __v
+}
+
+// nvmlSystemRegisterEvents function as declared in nvml/nvml.h
+func nvmlSystemRegisterEvents(Request *SystemRegisterEventRequest) Return {
+	cRequest, _ := (*C.nvmlSystemRegisterEventRequest_t)(unsafe.Pointer(Request)), cgoAllocsUnknown
+	__ret := C.nvmlSystemRegisterEvents(cRequest)
+	__v := (Return)(__ret)
+	return __v
+}
+
+// nvmlSystemEventSetWait function as declared in nvml/nvml.h
+func nvmlSystemEventSetWait(Request *SystemEventSetWaitRequest) Return {
+	cRequest, _ := (*C.nvmlSystemEventSetWaitRequest_t)(unsafe.Pointer(Request)), cgoAllocsUnknown
+	__ret := C.nvmlSystemEventSetWait(cRequest)
+	__v := (Return)(__ret)
+	return __v
+}
+
 // nvmlDeviceModifyDrainState function as declared in nvml/nvml.h
 func nvmlDeviceModifyDrainState(PciInfo *PciInfo, NewState EnableState) Return {
 	cPciInfo, _ := (*C.nvmlPciInfo_t)(unsafe.Pointer(PciInfo)), cgoAllocsUnknown
@@ -2711,6 +2752,86 @@ func nvmlVgpuInstanceGetMdevUUID(nvmlVgpuInstance nvmlVgpuInstance, MdevUuid *by
 	cMdevUuid, _ := (*C.char)(unsafe.Pointer(MdevUuid)), cgoAllocsUnknown
 	cSize, _ := (C.uint)(Size), cgoAllocsUnknown
 	__ret := C.nvmlVgpuInstanceGetMdevUUID(cnvmlVgpuInstance, cMdevUuid, cSize)
+	__v := (Return)(__ret)
+	return __v
+}
+
+// nvmlGpuInstanceGetCreatableVgpus function as declared in nvml/nvml.h
+func nvmlGpuInstanceGetCreatableVgpus(nvmlGpuInstance nvmlGpuInstance, PVgpus *VgpuTypeIdInfo) Return {
+	cnvmlGpuInstance, _ := *(*C.nvmlGpuInstance_t)(unsafe.Pointer(&nvmlGpuInstance)), cgoAllocsUnknown
+	cPVgpus, _ := (*C.nvmlVgpuTypeIdInfo_t)(unsafe.Pointer(PVgpus)), cgoAllocsUnknown
+	__ret := C.nvmlGpuInstanceGetCreatableVgpus(cnvmlGpuInstance, cPVgpus)
+	__v := (Return)(__ret)
+	return __v
+}
+
+// nvmlVgpuTypeGetMaxInstancesPerGpuInstance function as declared in nvml/nvml.h
+func nvmlVgpuTypeGetMaxInstancesPerGpuInstance(PMaxInstance *VgpuTypeMaxInstance) Return {
+	cPMaxInstance, _ := (*C.nvmlVgpuTypeMaxInstance_t)(unsafe.Pointer(PMaxInstance)), cgoAllocsUnknown
+	__ret := C.nvmlVgpuTypeGetMaxInstancesPerGpuInstance(cPMaxInstance)
+	__v := (Return)(__ret)
+	return __v
+}
+
+// nvmlGpuInstanceGetActiveVgpus function as declared in nvml/nvml.h
+func nvmlGpuInstanceGetActiveVgpus(nvmlGpuInstance nvmlGpuInstance, PVgpuInstanceInfo *ActiveVgpuInstanceInfo) Return {
+	cnvmlGpuInstance, _ := *(*C.nvmlGpuInstance_t)(unsafe.Pointer(&nvmlGpuInstance)), cgoAllocsUnknown
+	cPVgpuInstanceInfo, _ := (*C.nvmlActiveVgpuInstanceInfo_t)(unsafe.Pointer(PVgpuInstanceInfo)), cgoAllocsUnknown
+	__ret := C.nvmlGpuInstanceGetActiveVgpus(cnvmlGpuInstance, cPVgpuInstanceInfo)
+	__v := (Return)(__ret)
+	return __v
+}
+
+// nvmlGpuInstanceSetVgpuSchedulerState function as declared in nvml/nvml.h
+func nvmlGpuInstanceSetVgpuSchedulerState(nvmlGpuInstance nvmlGpuInstance, PScheduler *VgpuSchedulerState) Return {
+	cnvmlGpuInstance, _ := *(*C.nvmlGpuInstance_t)(unsafe.Pointer(&nvmlGpuInstance)), cgoAllocsUnknown
+	cPScheduler, _ := (*C.nvmlVgpuSchedulerState_t)(unsafe.Pointer(PScheduler)), cgoAllocsUnknown
+	__ret := C.nvmlGpuInstanceSetVgpuSchedulerState(cnvmlGpuInstance, cPScheduler)
+	__v := (Return)(__ret)
+	return __v
+}
+
+// nvmlGpuInstanceGetVgpuSchedulerState function as declared in nvml/nvml.h
+func nvmlGpuInstanceGetVgpuSchedulerState(nvmlGpuInstance nvmlGpuInstance, PSchedulerStateInfo *VgpuSchedulerStateInfo) Return {
+	cnvmlGpuInstance, _ := *(*C.nvmlGpuInstance_t)(unsafe.Pointer(&nvmlGpuInstance)), cgoAllocsUnknown
+	cPSchedulerStateInfo, _ := (*C.nvmlVgpuSchedulerStateInfo_t)(unsafe.Pointer(PSchedulerStateInfo)), cgoAllocsUnknown
+	__ret := C.nvmlGpuInstanceGetVgpuSchedulerState(cnvmlGpuInstance, cPSchedulerStateInfo)
+	__v := (Return)(__ret)
+	return __v
+}
+
+// nvmlGpuInstanceGetVgpuSchedulerLog function as declared in nvml/nvml.h
+func nvmlGpuInstanceGetVgpuSchedulerLog(nvmlGpuInstance nvmlGpuInstance, PSchedulerLogInfo *VgpuSchedulerLogInfo) Return {
+	cnvmlGpuInstance, _ := *(*C.nvmlGpuInstance_t)(unsafe.Pointer(&nvmlGpuInstance)), cgoAllocsUnknown
+	cPSchedulerLogInfo, _ := (*C.nvmlVgpuSchedulerLogInfo_t)(unsafe.Pointer(PSchedulerLogInfo)), cgoAllocsUnknown
+	__ret := C.nvmlGpuInstanceGetVgpuSchedulerLog(cnvmlGpuInstance, cPSchedulerLogInfo)
+	__v := (Return)(__ret)
+	return __v
+}
+
+// nvmlGpuInstanceGetVgpuTypeCreatablePlacements function as declared in nvml/nvml.h
+func nvmlGpuInstanceGetVgpuTypeCreatablePlacements(nvmlGpuInstance nvmlGpuInstance, PCreatablePlacementInfo *VgpuCreatablePlacementInfo) Return {
+	cnvmlGpuInstance, _ := *(*C.nvmlGpuInstance_t)(unsafe.Pointer(&nvmlGpuInstance)), cgoAllocsUnknown
+	cPCreatablePlacementInfo, _ := (*C.nvmlVgpuCreatablePlacementInfo_t)(unsafe.Pointer(PCreatablePlacementInfo)), cgoAllocsUnknown
+	__ret := C.nvmlGpuInstanceGetVgpuTypeCreatablePlacements(cnvmlGpuInstance, cPCreatablePlacementInfo)
+	__v := (Return)(__ret)
+	return __v
+}
+
+// nvmlGpuInstanceGetVgpuHeterogeneousMode function as declared in nvml/nvml.h
+func nvmlGpuInstanceGetVgpuHeterogeneousMode(nvmlGpuInstance nvmlGpuInstance, PHeterogeneousMode *VgpuHeterogeneousMode) Return {
+	cnvmlGpuInstance, _ := *(*C.nvmlGpuInstance_t)(unsafe.Pointer(&nvmlGpuInstance)), cgoAllocsUnknown
+	cPHeterogeneousMode, _ := (*C.nvmlVgpuHeterogeneousMode_t)(unsafe.Pointer(PHeterogeneousMode)), cgoAllocsUnknown
+	__ret := C.nvmlGpuInstanceGetVgpuHeterogeneousMode(cnvmlGpuInstance, cPHeterogeneousMode)
+	__v := (Return)(__ret)
+	return __v
+}
+
+// nvmlGpuInstanceSetVgpuHeterogeneousMode function as declared in nvml/nvml.h
+func nvmlGpuInstanceSetVgpuHeterogeneousMode(nvmlGpuInstance nvmlGpuInstance, PHeterogeneousMode *VgpuHeterogeneousMode) Return {
+	cnvmlGpuInstance, _ := *(*C.nvmlGpuInstance_t)(unsafe.Pointer(&nvmlGpuInstance)), cgoAllocsUnknown
+	cPHeterogeneousMode, _ := (*C.nvmlVgpuHeterogeneousMode_t)(unsafe.Pointer(PHeterogeneousMode)), cgoAllocsUnknown
+	__ret := C.nvmlGpuInstanceSetVgpuHeterogeneousMode(cnvmlGpuInstance, cPHeterogeneousMode)
 	__v := (Return)(__ret)
 	return __v
 }

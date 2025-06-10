@@ -502,3 +502,8 @@ func (vgpuInstance nvmlVgpuInstance) GetRuntimeStateSize() (VgpuRuntimeState, Re
 	ret := nvmlVgpuInstanceGetRuntimeStateSize(vgpuInstance, &pState)
 	return pState, ret
 }
+
+// nvml.VgpuTypeGetMaxInstancesPerGpuInstance()
+func (l *library) VgpuTypeGetMaxInstancesPerGpuInstance(maxInstance *VgpuTypeMaxInstance) Return {
+	return nvmlVgpuTypeGetMaxInstancesPerGpuInstance(maxInstance)
+}

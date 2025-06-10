@@ -116,6 +116,7 @@ var (
 	DeviceGetHandleByPciBusId                        = libnvml.DeviceGetHandleByPciBusId
 	DeviceGetHandleBySerial                          = libnvml.DeviceGetHandleBySerial
 	DeviceGetHandleByUUID                            = libnvml.DeviceGetHandleByUUID
+	DeviceGetHandleByUUIDV                           = libnvml.DeviceGetHandleByUUIDV
 	DeviceGetHostVgpuMode                            = libnvml.DeviceGetHostVgpuMode
 	DeviceGetIndex                                   = libnvml.DeviceGetIndex
 	DeviceGetInforomConfigurationChecksum            = libnvml.DeviceGetInforomConfigurationChecksum
@@ -298,17 +299,28 @@ var (
 	GpuInstanceCreateComputeInstance                 = libnvml.GpuInstanceCreateComputeInstance
 	GpuInstanceCreateComputeInstanceWithPlacement    = libnvml.GpuInstanceCreateComputeInstanceWithPlacement
 	GpuInstanceDestroy                               = libnvml.GpuInstanceDestroy
+	GpuInstanceGetActiveVgpus                        = libnvml.GpuInstanceGetActiveVgpus
 	GpuInstanceGetComputeInstanceById                = libnvml.GpuInstanceGetComputeInstanceById
 	GpuInstanceGetComputeInstancePossiblePlacements  = libnvml.GpuInstanceGetComputeInstancePossiblePlacements
 	GpuInstanceGetComputeInstanceProfileInfo         = libnvml.GpuInstanceGetComputeInstanceProfileInfo
 	GpuInstanceGetComputeInstanceProfileInfoV        = libnvml.GpuInstanceGetComputeInstanceProfileInfoV
 	GpuInstanceGetComputeInstanceRemainingCapacity   = libnvml.GpuInstanceGetComputeInstanceRemainingCapacity
 	GpuInstanceGetComputeInstances                   = libnvml.GpuInstanceGetComputeInstances
+	GpuInstanceGetCreatableVgpus                     = libnvml.GpuInstanceGetCreatableVgpus
 	GpuInstanceGetInfo                               = libnvml.GpuInstanceGetInfo
+	GpuInstanceGetVgpuHeterogeneousMode              = libnvml.GpuInstanceGetVgpuHeterogeneousMode
+	GpuInstanceGetVgpuSchedulerLog                   = libnvml.GpuInstanceGetVgpuSchedulerLog
+	GpuInstanceGetVgpuSchedulerState                 = libnvml.GpuInstanceGetVgpuSchedulerState
+	GpuInstanceGetVgpuTypeCreatablePlacements        = libnvml.GpuInstanceGetVgpuTypeCreatablePlacements
+	GpuInstanceSetVgpuHeterogeneousMode              = libnvml.GpuInstanceSetVgpuHeterogeneousMode
+	GpuInstanceSetVgpuSchedulerState                 = libnvml.GpuInstanceSetVgpuSchedulerState
 	Init                                             = libnvml.Init
 	InitWithFlags                                    = libnvml.InitWithFlags
 	SetVgpuVersion                                   = libnvml.SetVgpuVersion
 	Shutdown                                         = libnvml.Shutdown
+	SystemEventSetCreate                             = libnvml.SystemEventSetCreate
+	SystemEventSetFree                               = libnvml.SystemEventSetFree
+	SystemEventSetWait                               = libnvml.SystemEventSetWait
 	SystemGetConfComputeCapabilities                 = libnvml.SystemGetConfComputeCapabilities
 	SystemGetConfComputeGpusReadyState               = libnvml.SystemGetConfComputeGpusReadyState
 	SystemGetConfComputeKeyRotationThresholdInfo     = libnvml.SystemGetConfComputeKeyRotationThresholdInfo
@@ -323,6 +335,7 @@ var (
 	SystemGetNvlinkBwMode                            = libnvml.SystemGetNvlinkBwMode
 	SystemGetProcessName                             = libnvml.SystemGetProcessName
 	SystemGetTopologyGpuSet                          = libnvml.SystemGetTopologyGpuSet
+	SystemRegisterEvents                             = libnvml.SystemRegisterEvents
 	SystemSetConfComputeGpusReadyState               = libnvml.SystemSetConfComputeGpusReadyState
 	SystemSetConfComputeKeyRotationThresholdInfo     = libnvml.SystemSetConfComputeKeyRotationThresholdInfo
 	SystemSetNvlinkBwMode                            = libnvml.SystemSetNvlinkBwMode
@@ -368,6 +381,7 @@ var (
 	VgpuTypeGetGpuInstanceProfileId                  = libnvml.VgpuTypeGetGpuInstanceProfileId
 	VgpuTypeGetLicense                               = libnvml.VgpuTypeGetLicense
 	VgpuTypeGetMaxInstances                          = libnvml.VgpuTypeGetMaxInstances
+	VgpuTypeGetMaxInstancesPerGpuInstance            = libnvml.VgpuTypeGetMaxInstancesPerGpuInstance
 	VgpuTypeGetMaxInstancesPerVm                     = libnvml.VgpuTypeGetMaxInstancesPerVm
 	VgpuTypeGetName                                  = libnvml.VgpuTypeGetName
 	VgpuTypeGetNumDisplayHeads                       = libnvml.VgpuTypeGetNumDisplayHeads
@@ -474,6 +488,7 @@ type Interface interface {
 	DeviceGetHandleByPciBusId(string) (Device, Return)
 	DeviceGetHandleBySerial(string) (Device, Return)
 	DeviceGetHandleByUUID(string) (Device, Return)
+	DeviceGetHandleByUUIDV(*UUID) (Device, Return)
 	DeviceGetHostVgpuMode(Device) (HostVgpuMode, Return)
 	DeviceGetIndex(Device) (int, Return)
 	DeviceGetInforomConfigurationChecksum(Device) (uint32, Return)
@@ -656,17 +671,28 @@ type Interface interface {
 	GpuInstanceCreateComputeInstance(GpuInstance, *ComputeInstanceProfileInfo) (ComputeInstance, Return)
 	GpuInstanceCreateComputeInstanceWithPlacement(GpuInstance, *ComputeInstanceProfileInfo, *ComputeInstancePlacement) (ComputeInstance, Return)
 	GpuInstanceDestroy(GpuInstance) Return
+	GpuInstanceGetActiveVgpus(GpuInstance) (ActiveVgpuInstanceInfo, Return)
 	GpuInstanceGetComputeInstanceById(GpuInstance, int) (ComputeInstance, Return)
 	GpuInstanceGetComputeInstancePossiblePlacements(GpuInstance, *ComputeInstanceProfileInfo) ([]ComputeInstancePlacement, Return)
 	GpuInstanceGetComputeInstanceProfileInfo(GpuInstance, int, int) (ComputeInstanceProfileInfo, Return)
 	GpuInstanceGetComputeInstanceProfileInfoV(GpuInstance, int, int) ComputeInstanceProfileInfoHandler
 	GpuInstanceGetComputeInstanceRemainingCapacity(GpuInstance, *ComputeInstanceProfileInfo) (int, Return)
 	GpuInstanceGetComputeInstances(GpuInstance, *ComputeInstanceProfileInfo) ([]ComputeInstance, Return)
+	GpuInstanceGetCreatableVgpus(GpuInstance) (VgpuTypeIdInfo, Return)
 	GpuInstanceGetInfo(GpuInstance) (GpuInstanceInfo, Return)
+	GpuInstanceGetVgpuHeterogeneousMode(GpuInstance) (VgpuHeterogeneousMode, Return)
+	GpuInstanceGetVgpuSchedulerLog(GpuInstance) (VgpuSchedulerLogInfo, Return)
+	GpuInstanceGetVgpuSchedulerState(GpuInstance) (VgpuSchedulerStateInfo, Return)
+	GpuInstanceGetVgpuTypeCreatablePlacements(GpuInstance) (VgpuCreatablePlacementInfo, Return)
+	GpuInstanceSetVgpuHeterogeneousMode(GpuInstance, *VgpuHeterogeneousMode) Return
+	GpuInstanceSetVgpuSchedulerState(GpuInstance, *VgpuSchedulerState) Return
 	Init() Return
 	InitWithFlags(uint32) Return
 	SetVgpuVersion(*VgpuVersion) Return
 	Shutdown() Return
+	SystemEventSetCreate(*SystemEventSetCreateRequest) Return
+	SystemEventSetFree(*SystemEventSetFreeRequest) Return
+	SystemEventSetWait(*SystemEventSetWaitRequest) Return
 	SystemGetConfComputeCapabilities() (ConfComputeSystemCaps, Return)
 	SystemGetConfComputeGpusReadyState() (uint32, Return)
 	SystemGetConfComputeKeyRotationThresholdInfo() (ConfComputeGetKeyRotationThresholdInfo, Return)
@@ -681,6 +707,7 @@ type Interface interface {
 	SystemGetNvlinkBwMode() (uint32, Return)
 	SystemGetProcessName(int) (string, Return)
 	SystemGetTopologyGpuSet(int) ([]Device, Return)
+	SystemRegisterEvents(*SystemRegisterEventRequest) Return
 	SystemSetConfComputeGpusReadyState(uint32) Return
 	SystemSetConfComputeKeyRotationThresholdInfo(ConfComputeSetKeyRotationThresholdInfo) Return
 	SystemSetNvlinkBwMode(uint32) Return
@@ -726,6 +753,7 @@ type Interface interface {
 	VgpuTypeGetGpuInstanceProfileId(VgpuTypeId) (uint32, Return)
 	VgpuTypeGetLicense(VgpuTypeId) (string, Return)
 	VgpuTypeGetMaxInstances(Device, VgpuTypeId) (int, Return)
+	VgpuTypeGetMaxInstancesPerGpuInstance(*VgpuTypeMaxInstance) Return
 	VgpuTypeGetMaxInstancesPerVm(VgpuTypeId) (int, Return)
 	VgpuTypeGetName(VgpuTypeId) (string, Return)
 	VgpuTypeGetNumDisplayHeads(VgpuTypeId) (int, Return)
@@ -995,13 +1023,21 @@ type GpuInstance interface {
 	CreateComputeInstance(*ComputeInstanceProfileInfo) (ComputeInstance, Return)
 	CreateComputeInstanceWithPlacement(*ComputeInstanceProfileInfo, *ComputeInstancePlacement) (ComputeInstance, Return)
 	Destroy() Return
+	GetActiveVgpus() (ActiveVgpuInstanceInfo, Return)
 	GetComputeInstanceById(int) (ComputeInstance, Return)
 	GetComputeInstancePossiblePlacements(*ComputeInstanceProfileInfo) ([]ComputeInstancePlacement, Return)
 	GetComputeInstanceProfileInfo(int, int) (ComputeInstanceProfileInfo, Return)
 	GetComputeInstanceProfileInfoV(int, int) ComputeInstanceProfileInfoHandler
 	GetComputeInstanceRemainingCapacity(*ComputeInstanceProfileInfo) (int, Return)
 	GetComputeInstances(*ComputeInstanceProfileInfo) ([]ComputeInstance, Return)
+	GetCreatableVgpus() (VgpuTypeIdInfo, Return)
 	GetInfo() (GpuInstanceInfo, Return)
+	GetVgpuHeterogeneousMode() (VgpuHeterogeneousMode, Return)
+	GetVgpuSchedulerLog() (VgpuSchedulerLogInfo, Return)
+	GetVgpuSchedulerState() (VgpuSchedulerStateInfo, Return)
+	GetVgpuTypeCreatablePlacements() (VgpuCreatablePlacementInfo, Return)
+	SetVgpuHeterogeneousMode(*VgpuHeterogeneousMode) Return
+	SetVgpuSchedulerState(*VgpuSchedulerState) Return
 }
 
 // ComputeInstance represents the interface for the nvmlComputeInstance type.

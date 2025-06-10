@@ -126,6 +126,13 @@ func (l *library) DeviceGetHandleByUUID(uuid string) (Device, Return) {
 	return device, ret
 }
 
+// nvml.DeviceGetHandleByUUIDV()
+func (l *library) DeviceGetHandleByUUIDV(uuid *UUID) (Device, Return) {
+	var device nvmlDevice
+	ret := nvmlDeviceGetHandleByUUIDV(uuid, &device)
+	return device, ret
+}
+
 // nvml.DeviceGetHandleByPciBusId()
 func (l *library) DeviceGetHandleByPciBusId(pciBusId string) (Device, Return) {
 	var device nvmlDevice
@@ -3314,4 +3321,94 @@ func (l *library) DevicePowerSmoothingSetState(device Device, state *PowerSmooth
 
 func (device nvmlDevice) PowerSmoothingSetState(state *PowerSmoothingState) Return {
 	return nvmlDevicePowerSmoothingSetState(device, state)
+}
+
+// nvml.GpuInstanceGetCreatableVgpus()
+func (l *library) GpuInstanceGetCreatableVgpus(gpuInstance GpuInstance) (VgpuTypeIdInfo, Return) {
+	return gpuInstance.GetCreatableVgpus()
+}
+
+func (gpuInstance nvmlGpuInstance) GetCreatableVgpus() (VgpuTypeIdInfo, Return) {
+	var vgpuTypeIdInfo VgpuTypeIdInfo
+	vgpuTypeIdInfo.Version = STRUCT_VERSION(vgpuTypeIdInfo, 1)
+	ret := nvmlGpuInstanceGetCreatableVgpus(gpuInstance, &vgpuTypeIdInfo)
+	return vgpuTypeIdInfo, ret
+}
+
+// nvml.GpuInstanceGetActiveVgpus()
+func (l *library) GpuInstanceGetActiveVgpus(gpuInstance GpuInstance) (ActiveVgpuInstanceInfo, Return) {
+	return gpuInstance.GetActiveVgpus()
+}
+
+func (gpuInstance nvmlGpuInstance) GetActiveVgpus() (ActiveVgpuInstanceInfo, Return) {
+	var activeVgpuInstanceInfo ActiveVgpuInstanceInfo
+	activeVgpuInstanceInfo.Version = STRUCT_VERSION(activeVgpuInstanceInfo, 1)
+	ret := nvmlGpuInstanceGetActiveVgpus(gpuInstance, &activeVgpuInstanceInfo)
+	return activeVgpuInstanceInfo, ret
+}
+
+// nvml.GpuInstanceSetVgpuSchedulerState()
+func (l *library) GpuInstanceSetVgpuSchedulerState(gpuInstance GpuInstance, scheduler *VgpuSchedulerState) Return {
+	return gpuInstance.SetVgpuSchedulerState(scheduler)
+}
+
+func (gpuInstance nvmlGpuInstance) SetVgpuSchedulerState(scheduler *VgpuSchedulerState) Return {
+	return nvmlGpuInstanceSetVgpuSchedulerState(gpuInstance, scheduler)
+}
+
+// nvml.GpuInstanceGetVgpuSchedulerState()
+func (l *library) GpuInstanceGetVgpuSchedulerState(gpuInstance GpuInstance) (VgpuSchedulerStateInfo, Return) {
+	return gpuInstance.GetVgpuSchedulerState()
+}
+
+func (gpuInstance nvmlGpuInstance) GetVgpuSchedulerState() (VgpuSchedulerStateInfo, Return) {
+	var schedulerStateInfo VgpuSchedulerStateInfo
+	schedulerStateInfo.Version = STRUCT_VERSION(schedulerStateInfo, 1)
+	ret := nvmlGpuInstanceGetVgpuSchedulerState(gpuInstance, &schedulerStateInfo)
+	return schedulerStateInfo, ret
+}
+
+// nvml.GpuInstanceGetVgpuSchedulerLog()
+func (l *library) GpuInstanceGetVgpuSchedulerLog(gpuInstance GpuInstance) (VgpuSchedulerLogInfo, Return) {
+	return gpuInstance.GetVgpuSchedulerLog()
+}
+
+func (gpuInstance nvmlGpuInstance) GetVgpuSchedulerLog() (VgpuSchedulerLogInfo, Return) {
+	var schedulerLogInfo VgpuSchedulerLogInfo
+	schedulerLogInfo.Version = STRUCT_VERSION(schedulerLogInfo, 1)
+	ret := nvmlGpuInstanceGetVgpuSchedulerLog(gpuInstance, &schedulerLogInfo)
+	return schedulerLogInfo, ret
+}
+
+// nvml.GpuInstanceGetVgpuTypeCreatablePlacements()
+func (l *library) GpuInstanceGetVgpuTypeCreatablePlacements(gpuInstance GpuInstance) (VgpuCreatablePlacementInfo, Return) {
+	return gpuInstance.GetVgpuTypeCreatablePlacements()
+}
+
+func (gpuInstance nvmlGpuInstance) GetVgpuTypeCreatablePlacements() (VgpuCreatablePlacementInfo, Return) {
+	var creatablePlacementInfo VgpuCreatablePlacementInfo
+	creatablePlacementInfo.Version = STRUCT_VERSION(creatablePlacementInfo, 1)
+	ret := nvmlGpuInstanceGetVgpuTypeCreatablePlacements(gpuInstance, &creatablePlacementInfo)
+	return creatablePlacementInfo, ret
+}
+
+// nvml.GpuInstanceGetVgpuHeterogeneousMode()
+func (l *library) GpuInstanceGetVgpuHeterogeneousMode(gpuInstance GpuInstance) (VgpuHeterogeneousMode, Return) {
+	return gpuInstance.GetVgpuHeterogeneousMode()
+}
+
+func (gpuInstance nvmlGpuInstance) GetVgpuHeterogeneousMode() (VgpuHeterogeneousMode, Return) {
+	var heterogeneousMode VgpuHeterogeneousMode
+	heterogeneousMode.Version = STRUCT_VERSION(heterogeneousMode, 1)
+	ret := nvmlGpuInstanceGetVgpuHeterogeneousMode(gpuInstance, &heterogeneousMode)
+	return heterogeneousMode, ret
+}
+
+// nvml.GpuInstanceSetVgpuHeterogeneousMode()
+func (l *library) GpuInstanceSetVgpuHeterogeneousMode(gpuInstance GpuInstance, heterogeneousMode *VgpuHeterogeneousMode) Return {
+	return gpuInstance.SetVgpuHeterogeneousMode(heterogeneousMode)
+}
+
+func (gpuInstance nvmlGpuInstance) SetVgpuHeterogeneousMode(heterogeneousMode *VgpuHeterogeneousMode) Return {
+	return nvmlGpuInstanceSetVgpuHeterogeneousMode(gpuInstance, heterogeneousMode)
 }

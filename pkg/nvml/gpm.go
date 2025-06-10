@@ -20,7 +20,7 @@ type GpmMetricsGetType struct {
 	NumMetrics uint32
 	Sample1    GpmSample
 	Sample2    GpmSample
-	Metrics    [98]GpmMetric
+	Metrics    [210]GpmMetric
 }
 
 func (g *GpmMetricsGetType) convert() *nvmlGpmMetricsGetType {
