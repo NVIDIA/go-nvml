@@ -211,6 +211,95 @@ type ClockOffset struct {
 	MaxClockOffsetMHz int32
 }
 
+type ProcessUtilizationSample struct {
+	Pid       uint32
+	TimeStamp uint64
+	SmUtil    uint32
+	MemUtil   uint32
+	EncUtil   uint32
+	DecUtil   uint32
+}
+
+type ProcessUtilizationInfo_v1 struct {
+	TimeStamp uint64
+	Pid       uint32
+	SmUtil    uint32
+	MemUtil   uint32
+	EncUtil   uint32
+	DecUtil   uint32
+	JpgUtil   uint32
+	OfaUtil   uint32
+	Pad_cgo_0 [4]byte
+}
+
+type ProcessesUtilizationInfo_v1 struct {
+	Version             uint32
+	ProcessSamplesCount uint32
+	LastSeenTimeStamp   uint64
+	ProcUtilArray       *ProcessUtilizationInfo_v1
+}
+
+type ProcessesUtilizationInfo struct {
+	Version             uint32
+	ProcessSamplesCount uint32
+	LastSeenTimeStamp   uint64
+	ProcUtilArray       *ProcessUtilizationInfo_v1
+}
+
+type EccSramErrorStatus_v1 struct {
+	Version                 uint32
+	AggregateUncParity      uint64
+	AggregateUncSecDed      uint64
+	AggregateCor            uint64
+	VolatileUncParity       uint64
+	VolatileUncSecDed       uint64
+	VolatileCor             uint64
+	AggregateUncBucketL2    uint64
+	AggregateUncBucketSm    uint64
+	AggregateUncBucketPcie  uint64
+	AggregateUncBucketMcu   uint64
+	AggregateUncBucketOther uint64
+	BThresholdExceeded      uint32
+	Pad_cgo_0               [4]byte
+}
+
+type EccSramErrorStatus struct {
+	Version                 uint32
+	AggregateUncParity      uint64
+	AggregateUncSecDed      uint64
+	AggregateCor            uint64
+	VolatileUncParity       uint64
+	VolatileUncSecDed       uint64
+	VolatileCor             uint64
+	AggregateUncBucketL2    uint64
+	AggregateUncBucketSm    uint64
+	AggregateUncBucketPcie  uint64
+	AggregateUncBucketMcu   uint64
+	AggregateUncBucketOther uint64
+	BThresholdExceeded      uint32
+	Pad_cgo_0               [4]byte
+}
+
+type DeviceArchitecture uint32
+
+type BusType uint32
+
+type FanControlPolicy uint32
+
+type PowerSource uint32
+
+type GpuDynamicPstatesInfoUtilization struct {
+	BIsPresent   uint32
+	Percentage   uint32
+	IncThreshold uint32
+	DecThreshold uint32
+}
+
+type GpuDynamicPstatesInfo struct {
+	Flags       uint32
+	Utilization [8]GpuDynamicPstatesInfoUtilization
+}
+
 type nvmlVgpuTypeId uint32
 
 type nvmlVgpuInstance uint32
@@ -247,6 +336,16 @@ type VgpuPlacementList struct {
 	PlacementSize uint32
 	Count         uint32
 	PlacementIds  *uint32
+}
+
+type VgpuTypeBar1Info_v1 struct {
+	Version  uint32
+	Bar1Size uint64
+}
+
+type VgpuTypeBar1Info struct {
+	Version  uint32
+	Bar1Size uint64
 }
 
 type VgpuInstanceUtilizationSample struct {
@@ -408,41 +507,6 @@ type VgpuLicenseInfo struct {
 	CurrentState  uint32
 }
 
-type ProcessUtilizationSample struct {
-	Pid       uint32
-	TimeStamp uint64
-	SmUtil    uint32
-	MemUtil   uint32
-	EncUtil   uint32
-	DecUtil   uint32
-}
-
-type ProcessUtilizationInfo_v1 struct {
-	TimeStamp uint64
-	Pid       uint32
-	SmUtil    uint32
-	MemUtil   uint32
-	EncUtil   uint32
-	DecUtil   uint32
-	JpgUtil   uint32
-	OfaUtil   uint32
-	Pad_cgo_0 [4]byte
-}
-
-type ProcessesUtilizationInfo_v1 struct {
-	Version             uint32
-	ProcessSamplesCount uint32
-	LastSeenTimeStamp   uint64
-	ProcUtilArray       *ProcessUtilizationInfo_v1
-}
-
-type ProcessesUtilizationInfo struct {
-	Version             uint32
-	ProcessSamplesCount uint32
-	LastSeenTimeStamp   uint64
-	ProcUtilArray       *ProcessUtilizationInfo_v1
-}
-
 type GridLicenseExpiry struct {
 	Year      uint32
 	Month     uint16
@@ -469,58 +533,8 @@ type GridLicensableFeatures struct {
 	GridLicensableFeatures  [3]GridLicensableFeature
 }
 
-type EccSramErrorStatus_v1 struct {
-	Version                 uint32
-	AggregateUncParity      uint64
-	AggregateUncSecDed      uint64
-	AggregateCor            uint64
-	VolatileUncParity       uint64
-	VolatileUncSecDed       uint64
-	VolatileCor             uint64
-	AggregateUncBucketL2    uint64
-	AggregateUncBucketSm    uint64
-	AggregateUncBucketPcie  uint64
-	AggregateUncBucketMcu   uint64
-	AggregateUncBucketOther uint64
-	BThresholdExceeded      uint32
-	Pad_cgo_0               [4]byte
-}
-
-type EccSramErrorStatus struct {
-	Version                 uint32
-	AggregateUncParity      uint64
-	AggregateUncSecDed      uint64
-	AggregateCor            uint64
-	VolatileUncParity       uint64
-	VolatileUncSecDed       uint64
-	VolatileCor             uint64
-	AggregateUncBucketL2    uint64
-	AggregateUncBucketSm    uint64
-	AggregateUncBucketPcie  uint64
-	AggregateUncBucketMcu   uint64
-	AggregateUncBucketOther uint64
-	BThresholdExceeded      uint32
-	Pad_cgo_0               [4]byte
-}
-
-type DeviceArchitecture uint32
-
-type BusType uint32
-
-type FanControlPolicy uint32
-
-type PowerSource uint32
-
-type GpuDynamicPstatesInfoUtilization struct {
-	BIsPresent   uint32
-	Percentage   uint32
-	IncThreshold uint32
-	DecThreshold uint32
-}
-
-type GpuDynamicPstatesInfo struct {
-	Flags       uint32
-	Utilization [8]GpuDynamicPstatesInfoUtilization
+type NvLinkPowerThres struct {
+	LowPwrThreshold uint32
 }
 
 type FieldValue struct {
@@ -729,6 +743,16 @@ type PowerValue_v2 struct {
 	PowerValueMw uint32
 }
 
+type SystemDriverBranchInfo_v1 struct {
+	Version uint32
+	Branch  [80]int8
+}
+
+type SystemDriverBranchInfo struct {
+	Version uint32
+	Branch  [80]int8
+}
+
 type AffinityScope uint32
 
 type VgpuVersion struct {
@@ -919,10 +943,6 @@ type nvmlGpmMetricsGetType struct {
 type GpmSupport struct {
 	Version           uint32
 	IsSupportedDevice uint32
-}
-
-type NvLinkPowerThres struct {
-	LowPwrThreshold uint32
 }
 
 type DeviceCapabilities_v1 struct {

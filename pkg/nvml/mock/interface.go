@@ -849,6 +849,9 @@ var _ nvml.Interface = &Interface{}
 //			SystemGetCudaDriverVersion_v2Func: func() (int, nvml.Return) {
 //				panic("mock out the SystemGetCudaDriverVersion_v2 method")
 //			},
+//			SystemGetDriverBranchFunc: func() (nvml.SystemDriverBranchInfo, nvml.Return) {
+//				panic("mock out the SystemGetDriverBranch method")
+//			},
 //			SystemGetDriverVersionFunc: func() (string, nvml.Return) {
 //				panic("mock out the SystemGetDriverVersion method")
 //			},
@@ -971,6 +974,9 @@ var _ nvml.Interface = &Interface{}
 //			},
 //			VgpuInstanceSetEncoderCapacityFunc: func(vgpuInstance nvml.VgpuInstance, n int) nvml.Return {
 //				panic("mock out the VgpuInstanceSetEncoderCapacity method")
+//			},
+//			VgpuTypeGetBAR1InfoFunc: func(vgpuTypeId nvml.VgpuTypeId) (nvml.VgpuTypeBar1Info, nvml.Return) {
+//				panic("mock out the VgpuTypeGetBAR1Info method")
 //			},
 //			VgpuTypeGetCapabilitiesFunc: func(vgpuTypeId nvml.VgpuTypeId, vgpuCapability nvml.VgpuCapability) (bool, nvml.Return) {
 //				panic("mock out the VgpuTypeGetCapabilities method")
@@ -1846,6 +1852,9 @@ type Interface struct {
 	// SystemGetCudaDriverVersion_v2Func mocks the SystemGetCudaDriverVersion_v2 method.
 	SystemGetCudaDriverVersion_v2Func func() (int, nvml.Return)
 
+	// SystemGetDriverBranchFunc mocks the SystemGetDriverBranch method.
+	SystemGetDriverBranchFunc func() (nvml.SystemDriverBranchInfo, nvml.Return)
+
 	// SystemGetDriverVersionFunc mocks the SystemGetDriverVersion method.
 	SystemGetDriverVersionFunc func() (string, nvml.Return)
 
@@ -1968,6 +1977,9 @@ type Interface struct {
 
 	// VgpuInstanceSetEncoderCapacityFunc mocks the VgpuInstanceSetEncoderCapacity method.
 	VgpuInstanceSetEncoderCapacityFunc func(vgpuInstance nvml.VgpuInstance, n int) nvml.Return
+
+	// VgpuTypeGetBAR1InfoFunc mocks the VgpuTypeGetBAR1Info method.
+	VgpuTypeGetBAR1InfoFunc func(vgpuTypeId nvml.VgpuTypeId) (nvml.VgpuTypeBar1Info, nvml.Return)
 
 	// VgpuTypeGetCapabilitiesFunc mocks the VgpuTypeGetCapabilities method.
 	VgpuTypeGetCapabilitiesFunc func(vgpuTypeId nvml.VgpuTypeId, vgpuCapability nvml.VgpuCapability) (bool, nvml.Return)
@@ -3648,6 +3660,9 @@ type Interface struct {
 		// SystemGetCudaDriverVersion_v2 holds details about calls to the SystemGetCudaDriverVersion_v2 method.
 		SystemGetCudaDriverVersion_v2 []struct {
 		}
+		// SystemGetDriverBranch holds details about calls to the SystemGetDriverBranch method.
+		SystemGetDriverBranch []struct {
+		}
 		// SystemGetDriverVersion holds details about calls to the SystemGetDriverVersion method.
 		SystemGetDriverVersion []struct {
 		}
@@ -3850,6 +3865,11 @@ type Interface struct {
 			VgpuInstance nvml.VgpuInstance
 			// N is the n argument value.
 			N int
+		}
+		// VgpuTypeGetBAR1Info holds details about calls to the VgpuTypeGetBAR1Info method.
+		VgpuTypeGetBAR1Info []struct {
+			// VgpuTypeId is the vgpuTypeId argument value.
+			VgpuTypeId nvml.VgpuTypeId
 		}
 		// VgpuTypeGetCapabilities holds details about calls to the VgpuTypeGetCapabilities method.
 		VgpuTypeGetCapabilities []struct {
@@ -4195,6 +4215,7 @@ type Interface struct {
 	lockSystemGetConfComputeState                       sync.RWMutex
 	lockSystemGetCudaDriverVersion                      sync.RWMutex
 	lockSystemGetCudaDriverVersion_v2                   sync.RWMutex
+	lockSystemGetDriverBranch                           sync.RWMutex
 	lockSystemGetDriverVersion                          sync.RWMutex
 	lockSystemGetHicVersion                             sync.RWMutex
 	lockSystemGetNVMLVersion                            sync.RWMutex
@@ -4236,6 +4257,7 @@ type Interface struct {
 	lockVgpuInstanceGetVmDriverVersion                  sync.RWMutex
 	lockVgpuInstanceGetVmID                             sync.RWMutex
 	lockVgpuInstanceSetEncoderCapacity                  sync.RWMutex
+	lockVgpuTypeGetBAR1Info                             sync.RWMutex
 	lockVgpuTypeGetCapabilities                         sync.RWMutex
 	lockVgpuTypeGetClass                                sync.RWMutex
 	lockVgpuTypeGetDeviceID                             sync.RWMutex
@@ -13610,6 +13632,33 @@ func (mock *Interface) SystemGetCudaDriverVersion_v2Calls() []struct {
 	return calls
 }
 
+// SystemGetDriverBranch calls SystemGetDriverBranchFunc.
+func (mock *Interface) SystemGetDriverBranch() (nvml.SystemDriverBranchInfo, nvml.Return) {
+	if mock.SystemGetDriverBranchFunc == nil {
+		panic("Interface.SystemGetDriverBranchFunc: method is nil but Interface.SystemGetDriverBranch was just called")
+	}
+	callInfo := struct {
+	}{}
+	mock.lockSystemGetDriverBranch.Lock()
+	mock.calls.SystemGetDriverBranch = append(mock.calls.SystemGetDriverBranch, callInfo)
+	mock.lockSystemGetDriverBranch.Unlock()
+	return mock.SystemGetDriverBranchFunc()
+}
+
+// SystemGetDriverBranchCalls gets all the calls that were made to SystemGetDriverBranch.
+// Check the length with:
+//
+//	len(mockedInterface.SystemGetDriverBranchCalls())
+func (mock *Interface) SystemGetDriverBranchCalls() []struct {
+} {
+	var calls []struct {
+	}
+	mock.lockSystemGetDriverBranch.RLock()
+	calls = mock.calls.SystemGetDriverBranch
+	mock.lockSystemGetDriverBranch.RUnlock()
+	return calls
+}
+
 // SystemGetDriverVersion calls SystemGetDriverVersionFunc.
 func (mock *Interface) SystemGetDriverVersion() (string, nvml.Return) {
 	if mock.SystemGetDriverVersionFunc == nil {
@@ -14910,6 +14959,38 @@ func (mock *Interface) VgpuInstanceSetEncoderCapacityCalls() []struct {
 	mock.lockVgpuInstanceSetEncoderCapacity.RLock()
 	calls = mock.calls.VgpuInstanceSetEncoderCapacity
 	mock.lockVgpuInstanceSetEncoderCapacity.RUnlock()
+	return calls
+}
+
+// VgpuTypeGetBAR1Info calls VgpuTypeGetBAR1InfoFunc.
+func (mock *Interface) VgpuTypeGetBAR1Info(vgpuTypeId nvml.VgpuTypeId) (nvml.VgpuTypeBar1Info, nvml.Return) {
+	if mock.VgpuTypeGetBAR1InfoFunc == nil {
+		panic("Interface.VgpuTypeGetBAR1InfoFunc: method is nil but Interface.VgpuTypeGetBAR1Info was just called")
+	}
+	callInfo := struct {
+		VgpuTypeId nvml.VgpuTypeId
+	}{
+		VgpuTypeId: vgpuTypeId,
+	}
+	mock.lockVgpuTypeGetBAR1Info.Lock()
+	mock.calls.VgpuTypeGetBAR1Info = append(mock.calls.VgpuTypeGetBAR1Info, callInfo)
+	mock.lockVgpuTypeGetBAR1Info.Unlock()
+	return mock.VgpuTypeGetBAR1InfoFunc(vgpuTypeId)
+}
+
+// VgpuTypeGetBAR1InfoCalls gets all the calls that were made to VgpuTypeGetBAR1Info.
+// Check the length with:
+//
+//	len(mockedInterface.VgpuTypeGetBAR1InfoCalls())
+func (mock *Interface) VgpuTypeGetBAR1InfoCalls() []struct {
+	VgpuTypeId nvml.VgpuTypeId
+} {
+	var calls []struct {
+		VgpuTypeId nvml.VgpuTypeId
+	}
+	mock.lockVgpuTypeGetBAR1Info.RLock()
+	calls = mock.calls.VgpuTypeGetBAR1Info
+	mock.lockVgpuTypeGetBAR1Info.RUnlock()
 	return calls
 }
 
