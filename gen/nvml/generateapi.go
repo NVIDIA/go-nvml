@@ -14,6 +14,7 @@
 # limitations under the License.
 **/
 
+//go:build generateapi
 package main
 
 import (
