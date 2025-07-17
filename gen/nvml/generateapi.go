@@ -29,6 +29,7 @@ import (
 	"slices"
 	"sort"
 	"strings"
+	"text/template"
 	"unicode"
 )
 
@@ -78,6 +79,45 @@ var GeneratableInterfaces = []GeneratableInterfacePoperties{
 		Type:      "nvmlVgpuTypeId",
 		Interface: "VgpuTypeId",
 	},
+}
+
+// Template definitions
+const handleHelperTemplate = `
+// {{.Type}}Handle attempts to convert a {{.Interface}} to an {{.Type}}.
+func {{.Type}}Handle({{.ParamName}} {{.Interface}}) {{.Type}} {
+	var helper func(val reflect.Value) {{.Type}}
+	helper = func(val reflect.Value) {{.Type}} {
+		if val.Kind() == reflect.Interface {
+			val = val.Elem()
+		}
+		if val.Kind() == reflect.Ptr {
+			val = val.Elem()
+		}
+		if val.Type() == reflect.TypeOf((*{{.Type}})(nil)).Elem() {
+			return val.Interface().({{.Type}})
+		}
+		if val.Kind() != reflect.Struct {
+			panic(fmt.Errorf("unable to convert non-struct type %v to {{.Type}}", val.Kind()))
+		}
+		for i := 0; i < val.Type().NumField(); i++ {
+			if !val.Type().Field(i).Anonymous {
+				continue
+			}
+			if !val.Field(i).Type().Implements(reflect.TypeOf((*{{.Interface}})(nil)).Elem()) {
+				continue
+			}
+			return helper(val.Field(i))
+		}
+		panic(fmt.Errorf("unable to convert %T to {{.Type}}", {{.ParamName}}))
+	}
+	return helper(reflect.ValueOf({{.ParamName}}))
+}`
+
+// Template data structures
+type HandleHelperTemplateData struct {
+	Type      string
+	Interface string
+	ParamName string
 }
 
 func main() {
@@ -140,6 +180,15 @@ func main() {
 			fmt.Fprint(writer, "\n")
 		}
 	}
+
+	// Generate handle conversion helpers
+	fmt.Fprint(writer, "\n")
+	handleHelpers, err := generateHandleHelpers()
+	if err != nil {
+		fmt.Printf("Error: %v", err)
+		return
+	}
+	fmt.Fprint(writer, handleHelpers)
 }
 
 func getWriter(outputFile string) (io.Writer, func() error, error) {
@@ -176,6 +225,11 @@ func generateHeader() (string, error) {
 		"// Generated Code; DO NOT EDIT.",
 		"",
 		"package nvml",
+		"",
+		"import (",
+		"	\"fmt\"",
+		"	\"reflect\"",
+		")",
 		"",
 		"",
 	}
@@ -418,3 +472,37 @@ func isPublic(name string) bool {
 	}
 	return unicode.IsUpper([]rune(name)[0])
 }
+
+func generateHandleHelpers() (string, error) {
+	// Parse the template
+	tmpl, err := template.New("handleHelper").Parse(handleHelperTemplate)
+	if err != nil {
+		return "", fmt.Errorf("failed to parse handle helper template: %v", err)
+	}
+
+	var builder strings.Builder
+
+	// Generate helper for each type (only if Type starts with 'nvml')
+	for _, p := range GeneratableInterfaces {
+		if !strings.HasPrefix(p.Type, "nvml") {
+			continue
+		}
+		
+		// Create template data
+		data := HandleHelperTemplateData{
+			Type:      p.Type,
+			Interface: p.Interface,
+			ParamName:  strings.ToLower(p.Interface[0:1]) + p.Interface[1:],
+		}
+
+		// Execute template
+		if err := tmpl.Execute(&builder, data); err != nil {
+			return "", fmt.Errorf("failed to execute handle helper template for %s: %v", p.Type, err)
+		}
+		builder.WriteString("\n")
+	}
+
+	return builder.String(), nil
+}
+
+

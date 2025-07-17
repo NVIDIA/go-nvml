@@ -18,6 +18,11 @@
 
 package nvml
 
+import (
+	"fmt"
+	"reflect"
+)
+
 // The variables below represent package level methods from the library type.
 var (
 	ComputeInstanceDestroy                           = libnvml.ComputeInstanceDestroy
@@ -1127,4 +1132,244 @@ type VgpuTypeId interface {
 	GetNumDisplayHeads() (int, Return)
 	GetResolution(int) (uint32, uint32, Return)
 	GetSupportedPlacements(Device) (VgpuPlacementList, Return)
+}
+
+// nvmlDeviceHandle attempts to convert a Device to an nvmlDevice.
+func nvmlDeviceHandle(device Device) nvmlDevice {
+	var helper func(val reflect.Value) nvmlDevice
+	helper = func(val reflect.Value) nvmlDevice {
+		if val.Kind() == reflect.Interface {
+			val = val.Elem()
+		}
+		if val.Kind() == reflect.Ptr {
+			val = val.Elem()
+		}
+		if val.Type() == reflect.TypeOf((*nvmlDevice)(nil)).Elem() {
+			return val.Interface().(nvmlDevice)
+		}
+		if val.Kind() != reflect.Struct {
+			panic(fmt.Errorf("unable to convert non-struct type %v to nvmlDevice", val.Kind()))
+		}
+		for i := 0; i < val.Type().NumField(); i++ {
+			if !val.Type().Field(i).Anonymous {
+				continue
+			}
+			if !val.Field(i).Type().Implements(reflect.TypeOf((*Device)(nil)).Elem()) {
+				continue
+			}
+			return helper(val.Field(i))
+		}
+		panic(fmt.Errorf("unable to convert %T to nvmlDevice", device))
+	}
+	return helper(reflect.ValueOf(device))
+}
+
+// nvmlGpuInstanceHandle attempts to convert a GpuInstance to an nvmlGpuInstance.
+func nvmlGpuInstanceHandle(gpuInstance GpuInstance) nvmlGpuInstance {
+	var helper func(val reflect.Value) nvmlGpuInstance
+	helper = func(val reflect.Value) nvmlGpuInstance {
+		if val.Kind() == reflect.Interface {
+			val = val.Elem()
+		}
+		if val.Kind() == reflect.Ptr {
+			val = val.Elem()
+		}
+		if val.Type() == reflect.TypeOf((*nvmlGpuInstance)(nil)).Elem() {
+			return val.Interface().(nvmlGpuInstance)
+		}
+		if val.Kind() != reflect.Struct {
+			panic(fmt.Errorf("unable to convert non-struct type %v to nvmlGpuInstance", val.Kind()))
+		}
+		for i := 0; i < val.Type().NumField(); i++ {
+			if !val.Type().Field(i).Anonymous {
+				continue
+			}
+			if !val.Field(i).Type().Implements(reflect.TypeOf((*GpuInstance)(nil)).Elem()) {
+				continue
+			}
+			return helper(val.Field(i))
+		}
+		panic(fmt.Errorf("unable to convert %T to nvmlGpuInstance", gpuInstance))
+	}
+	return helper(reflect.ValueOf(gpuInstance))
+}
+
+// nvmlComputeInstanceHandle attempts to convert a ComputeInstance to an nvmlComputeInstance.
+func nvmlComputeInstanceHandle(computeInstance ComputeInstance) nvmlComputeInstance {
+	var helper func(val reflect.Value) nvmlComputeInstance
+	helper = func(val reflect.Value) nvmlComputeInstance {
+		if val.Kind() == reflect.Interface {
+			val = val.Elem()
+		}
+		if val.Kind() == reflect.Ptr {
+			val = val.Elem()
+		}
+		if val.Type() == reflect.TypeOf((*nvmlComputeInstance)(nil)).Elem() {
+			return val.Interface().(nvmlComputeInstance)
+		}
+		if val.Kind() != reflect.Struct {
+			panic(fmt.Errorf("unable to convert non-struct type %v to nvmlComputeInstance", val.Kind()))
+		}
+		for i := 0; i < val.Type().NumField(); i++ {
+			if !val.Type().Field(i).Anonymous {
+				continue
+			}
+			if !val.Field(i).Type().Implements(reflect.TypeOf((*ComputeInstance)(nil)).Elem()) {
+				continue
+			}
+			return helper(val.Field(i))
+		}
+		panic(fmt.Errorf("unable to convert %T to nvmlComputeInstance", computeInstance))
+	}
+	return helper(reflect.ValueOf(computeInstance))
+}
+
+// nvmlEventSetHandle attempts to convert a EventSet to an nvmlEventSet.
+func nvmlEventSetHandle(eventSet EventSet) nvmlEventSet {
+	var helper func(val reflect.Value) nvmlEventSet
+	helper = func(val reflect.Value) nvmlEventSet {
+		if val.Kind() == reflect.Interface {
+			val = val.Elem()
+		}
+		if val.Kind() == reflect.Ptr {
+			val = val.Elem()
+		}
+		if val.Type() == reflect.TypeOf((*nvmlEventSet)(nil)).Elem() {
+			return val.Interface().(nvmlEventSet)
+		}
+		if val.Kind() != reflect.Struct {
+			panic(fmt.Errorf("unable to convert non-struct type %v to nvmlEventSet", val.Kind()))
+		}
+		for i := 0; i < val.Type().NumField(); i++ {
+			if !val.Type().Field(i).Anonymous {
+				continue
+			}
+			if !val.Field(i).Type().Implements(reflect.TypeOf((*EventSet)(nil)).Elem()) {
+				continue
+			}
+			return helper(val.Field(i))
+		}
+		panic(fmt.Errorf("unable to convert %T to nvmlEventSet", eventSet))
+	}
+	return helper(reflect.ValueOf(eventSet))
+}
+
+// nvmlGpmSampleHandle attempts to convert a GpmSample to an nvmlGpmSample.
+func nvmlGpmSampleHandle(gpmSample GpmSample) nvmlGpmSample {
+	var helper func(val reflect.Value) nvmlGpmSample
+	helper = func(val reflect.Value) nvmlGpmSample {
+		if val.Kind() == reflect.Interface {
+			val = val.Elem()
+		}
+		if val.Kind() == reflect.Ptr {
+			val = val.Elem()
+		}
+		if val.Type() == reflect.TypeOf((*nvmlGpmSample)(nil)).Elem() {
+			return val.Interface().(nvmlGpmSample)
+		}
+		if val.Kind() != reflect.Struct {
+			panic(fmt.Errorf("unable to convert non-struct type %v to nvmlGpmSample", val.Kind()))
+		}
+		for i := 0; i < val.Type().NumField(); i++ {
+			if !val.Type().Field(i).Anonymous {
+				continue
+			}
+			if !val.Field(i).Type().Implements(reflect.TypeOf((*GpmSample)(nil)).Elem()) {
+				continue
+			}
+			return helper(val.Field(i))
+		}
+		panic(fmt.Errorf("unable to convert %T to nvmlGpmSample", gpmSample))
+	}
+	return helper(reflect.ValueOf(gpmSample))
+}
+
+// nvmlUnitHandle attempts to convert a Unit to an nvmlUnit.
+func nvmlUnitHandle(unit Unit) nvmlUnit {
+	var helper func(val reflect.Value) nvmlUnit
+	helper = func(val reflect.Value) nvmlUnit {
+		if val.Kind() == reflect.Interface {
+			val = val.Elem()
+		}
+		if val.Kind() == reflect.Ptr {
+			val = val.Elem()
+		}
+		if val.Type() == reflect.TypeOf((*nvmlUnit)(nil)).Elem() {
+			return val.Interface().(nvmlUnit)
+		}
+		if val.Kind() != reflect.Struct {
+			panic(fmt.Errorf("unable to convert non-struct type %v to nvmlUnit", val.Kind()))
+		}
+		for i := 0; i < val.Type().NumField(); i++ {
+			if !val.Type().Field(i).Anonymous {
+				continue
+			}
+			if !val.Field(i).Type().Implements(reflect.TypeOf((*Unit)(nil)).Elem()) {
+				continue
+			}
+			return helper(val.Field(i))
+		}
+		panic(fmt.Errorf("unable to convert %T to nvmlUnit", unit))
+	}
+	return helper(reflect.ValueOf(unit))
+}
+
+// nvmlVgpuInstanceHandle attempts to convert a VgpuInstance to an nvmlVgpuInstance.
+func nvmlVgpuInstanceHandle(vgpuInstance VgpuInstance) nvmlVgpuInstance {
+	var helper func(val reflect.Value) nvmlVgpuInstance
+	helper = func(val reflect.Value) nvmlVgpuInstance {
+		if val.Kind() == reflect.Interface {
+			val = val.Elem()
+		}
+		if val.Kind() == reflect.Ptr {
+			val = val.Elem()
+		}
+		if val.Type() == reflect.TypeOf((*nvmlVgpuInstance)(nil)).Elem() {
+			return val.Interface().(nvmlVgpuInstance)
+		}
+		if val.Kind() != reflect.Struct {
+			panic(fmt.Errorf("unable to convert non-struct type %v to nvmlVgpuInstance", val.Kind()))
+		}
+		for i := 0; i < val.Type().NumField(); i++ {
+			if !val.Type().Field(i).Anonymous {
+				continue
+			}
+			if !val.Field(i).Type().Implements(reflect.TypeOf((*VgpuInstance)(nil)).Elem()) {
+				continue
+			}
+			return helper(val.Field(i))
+		}
+		panic(fmt.Errorf("unable to convert %T to nvmlVgpuInstance", vgpuInstance))
+	}
+	return helper(reflect.ValueOf(vgpuInstance))
+}
+
+// nvmlVgpuTypeIdHandle attempts to convert a VgpuTypeId to an nvmlVgpuTypeId.
+func nvmlVgpuTypeIdHandle(vgpuTypeId VgpuTypeId) nvmlVgpuTypeId {
+	var helper func(val reflect.Value) nvmlVgpuTypeId
+	helper = func(val reflect.Value) nvmlVgpuTypeId {
+		if val.Kind() == reflect.Interface {
+			val = val.Elem()
+		}
+		if val.Kind() == reflect.Ptr {
+			val = val.Elem()
+		}
+		if val.Type() == reflect.TypeOf((*nvmlVgpuTypeId)(nil)).Elem() {
+			return val.Interface().(nvmlVgpuTypeId)
+		}
+		if val.Kind() != reflect.Struct {
+			panic(fmt.Errorf("unable to convert non-struct type %v to nvmlVgpuTypeId", val.Kind()))
+		}
+		for i := 0; i < val.Type().NumField(); i++ {
+			if !val.Type().Field(i).Anonymous {
+				continue
+			}
+			if !val.Field(i).Type().Implements(reflect.TypeOf((*VgpuTypeId)(nil)).Elem()) {
+				continue
+			}
+			return helper(val.Field(i))
+		}
+		panic(fmt.Errorf("unable to convert %T to nvmlVgpuTypeId", vgpuTypeId))
+	}
+	return helper(reflect.ValueOf(vgpuTypeId))
 }
