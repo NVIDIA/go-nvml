@@ -22,9 +22,11 @@ PKG_BINDINGS_DIR := $(PKG_DIR)/nvml
 
 DOCKER ?= docker
 ifeq ($(shell uname),Darwin)
-	SED := $(DOCKER) run -i --rm -v "$(PWD):$(PWD)" -w "$(PWD)" alpine:latest sed
+	JQ ?= $(DOCKER) run -i --rm -v "$(PWD):$(PWD)" -w "$(PWD)" backplane/jq:latest
+	SED ?= $(DOCKER) run -i --rm -v "$(PWD):$(PWD)" -w "$(PWD)" alpine:latest sed
 else
-	SED := sed
+	JQ ?= jq
+	SED ?= sed
 endif
 
 EXAMPLES := $(patsubst ./examples/%/,%,$(sort $(dir $(wildcard ./examples/*/))))
@@ -180,7 +182,6 @@ clean-bindings:
 	rm -f $(PKG_BINDINGS_DIR)/zz_generated.api.go
 
 # Update nvml.h from the NVIDIA CUDA redistributable JSON
-update-nvml-h: JQ ?= $(DOCKER) run -i --rm -v "$(PWD):$(PWD)" -w "$(PWD)" backplane/jq:latest
 update-nvml-h: CUDA_VERSION := 13.0.0
 update-nvml-h: CUDA_REDIST_BASE_URL := https://developer.download.nvidia.com/compute/cuda/redist
 update-nvml-h: CUDA_REDIST_JSON_URL := $(CUDA_REDIST_BASE_URL)/redistrib_$(CUDA_VERSION).json
