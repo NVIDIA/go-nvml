@@ -50,7 +50,12 @@ func main() {
 		if ret != nvml.SUCCESS {
 			log.Fatalf("Unable to get uuid of device at index %d: %v", i, nvml.ErrorString(ret))
 		}
+		fmt.Printf("uuid=%v\n", uuid)
+		mode, ret := device.GetAddressingMode()
+		if ret != nvml.SUCCESS {
+			log.Fatalf("unabled to get addressing mode of device at index %d: %v", i, nvml.ErrorString(ret))
+		}
+		fmt.Printf("mode=%v\n", mode)
 
-		fmt.Printf("%v\n", uuid)
 	}
 }
