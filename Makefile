@@ -22,9 +22,11 @@ PKG_BINDINGS_DIR := $(PKG_DIR)/nvml
 
 DOCKER ?= docker
 ifeq ($(shell uname),Darwin)
-	SED := $(DOCKER) run -i --rm -v "$(PWD):$(PWD)" -w "$(PWD)" alpine:latest sed
+	JQ ?= $(DOCKER) run -i --rm -v "$(PWD):$(PWD)" -w "$(PWD)" backplane/jq:latest
+	SED ?= $(DOCKER) run -i --rm -v "$(PWD):$(PWD)" -w "$(PWD)" alpine:latest sed
 else
-	SED := sed
+	JQ ?= jq
+	SED ?= sed
 endif
 
 EXAMPLES := $(patsubst ./examples/%/,%,$(sort $(dir $(wildcard ./examples/*/))))
@@ -59,7 +61,7 @@ fmt:
 		| xargs gofmt -s -l -w
 
 golangci-lint:
-	golangci-lint run ./pkg/...
+	golangci-lint run ./pkg/... ./examples/...
 
 generate:
 	go generate $(MODULE)/...
@@ -179,12 +181,14 @@ clean-bindings:
 	rm -f $(PKG_BINDINGS_DIR)/types_gen.go
 	rm -f $(PKG_BINDINGS_DIR)/zz_generated.api.go
 
-# Update nvml.h from the NVIDIA headers repo on gitlab
-update-nvml-h: JQ ?= $(DOCKER) run -i --rm -v "$(PWD):$(PWD)" -w "$(PWD)" backplane/jq:latest
+# Update nvml.h from the NVIDIA CUDA redistributable JSON
+update-nvml-h: CUDA_VERSION := 13.0.0
+update-nvml-h: CUDA_REDIST_BASE_URL := https://developer.download.nvidia.com/compute/cuda/redist
+update-nvml-h: CUDA_REDIST_JSON_URL := $(CUDA_REDIST_BASE_URL)/redistrib_$(CUDA_VERSION).json
 update-nvml-h: NVML_DEV_HEADERS_INFO := $(shell \
-		wget -qO - https://gitlab.com/api/v4/projects/nvidia%2Fheaders%2Fcuda-individual%2Fnvml_dev/repository/tags?search="^v" | \
-			$(JQ) '.[] | select(.name | test("^v")) | .name[1:] + "@" + .created_at[:19]' | \
-			tr -d '"' | tr ' ' '-' | sort -rV \
+		wget -qO - $(CUDA_REDIST_JSON_URL) | \
+			$(JQ) '.cuda_nvml_dev.version + "@" + .cuda_nvml_dev."linux-x86_64".relative_path' | \
+			tr -d '"' \
 	)
 update-nvml-h: NVML_DEV_HEADERS_COUNT := $(words $(NVML_DEV_HEADERS_INFO))
 update-nvml-h: .list-nvml-packages
@@ -194,30 +198,36 @@ update-nvml-h:
 	if ! [ $${idx} -ge 1 ] || ! [ $${idx} -le $(NVML_DEV_HEADERS_COUNT) ]; then echo "Invalid number: \"$${idx}\""; exit 1; fi; \
 	NVML_DEV_HEADERS_INFO="$$(echo "$(NVML_DEV_HEADERS_INFO)" | cut -d ' ' -f$${idx})"; \
 	NVML_VERSION="$$(echo "$${NVML_DEV_HEADERS_INFO}" | cut -d '@' -f1)"; \
-	NVML_DEV_HEADER_URL="https://gitlab.com/nvidia/headers/cuda-individual/nvml_dev/-/raw/v$${NVML_VERSION}/nvml.h"; \
+	NVML_TAR_PATH="$$(echo "$${NVML_DEV_HEADERS_INFO}" | cut -d '@' -f2)"; \
+	NVML_TAR_URL="$(CUDA_REDIST_BASE_URL)/$${NVML_TAR_PATH}"; \
 	echo; \
 	echo "NVML version: $${NVML_VERSION}"; \
+	echo "Tar file: $${NVML_TAR_URL}"; \
 	echo; \
-	echo "Updating nvml.h to $${NVML_VERSION} from $${NVML_DEV_HEADER_URL} ..."; \
-	wget -O "$(GEN_BINDINGS_DIR)/nvml.h" "$${NVML_DEV_HEADER_URL}" && \
+	echo "Downloading and extracting nvml.h to $${NVML_VERSION} ..."; \
+	TMP_DIR=$$(mktemp -d); \
+	wget -O $${TMP_DIR}/nvml_dev.tar.xz "$${NVML_TAR_URL}" && \
+	tar -xf $${TMP_DIR}/nvml_dev.tar.xz -C $${TMP_DIR} --strip-components=1 && \
+	cp $${TMP_DIR}/include/nvml.h "$(GEN_BINDINGS_DIR)/nvml.h" && \
+	rm -rf $${TMP_DIR} && \
 	$(SED) -i -E 's#[[:blank:]]+$$##g' "$(GEN_BINDINGS_DIR)/nvml.h" && \
-	$(SED) -i "1i /*** From $${NVML_DEV_HEADER_URL} ***/" "$(GEN_BINDINGS_DIR)/nvml.h" && \
+	$(SED) -i "1i /*** From $${NVML_TAR_URL} ***/" "$(GEN_BINDINGS_DIR)/nvml.h" && \
 	$(SED) -i "1i /*** NVML VERSION: $${NVML_VERSION} ***/" "$(GEN_BINDINGS_DIR)/nvml.h" && \
 	echo "Successfully updated nvml.h to $${NVML_VERSION}."
 
 .list-nvml-packages:
 	@if [ $(NVML_DEV_HEADERS_COUNT) -eq 0 ]; then \
-		echo "Failed to get NVML from anaconda.org, please try again."; \
+		echo "Failed to get NVML from CUDA redistributable JSON, please try again."; \
 		exit 1; \
 	fi
 	@echo "Found $(NVML_DEV_HEADERS_COUNT) NVML headers:"; echo
-	@printf "%3s  %-8s  %-19s\n" "No." "Version" "Upload Time"
+	@printf "%3s  %-8s  %-19s\n" "No." "Version" "Source"
 	@idx=0; \
 	for info in $(NVML_DEV_HEADERS_INFO); do \
 		idx=$$((idx + 1)); \
 		NVML_VERSION="$$(echo "$${info}" | cut -d '@' -f1)"; \
-		UPLOAD_TIME="$$(echo "$${info}" | cut -d '@' -f2)"; \
-		printf "%3s  %-8s  %-19s\n" "$${idx}" "$${NVML_VERSION}" "$${UPLOAD_TIME}"; \
+		NVML_TAR_PATH="$$(echo "$${info}" | cut -d '@' -f2)"; \
+		printf "%3s  %-8s  %-19s\n" "$${idx}" "$${NVML_VERSION}" "CUDA Redist"; \
 	done; \
 	echo
 

@@ -26,7 +26,7 @@ RUN apt-get update && apt-get install -y \
   && rm -rf /var/lib/apt/lists/*
 
 
-ARG	TARGETARCH=amd64
+ARG	TARGETARCH
 ARG GOLANG_VERSION=0.0.0
 ENV GOLANG_VERSION=${GOLANG_VERSION}
 
@@ -35,8 +35,8 @@ ENV ARCH=${TARGETARCH}
 RUN ARCH=${ARCH/x86_64/amd64} && ARCH=${ARCH/aarch64/arm64} && \
     curl https://storage.googleapis.com/golang/go${GOLANG_VERSION}.linux-${ARCH}.tar.gz \
     | tar -C /usr/local -xz
-ENV GOPATH /go
-ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
+ENV GOPATH=/go
+ENV PATH=$GOPATH/bin:/usr/local/go/bin:$PATH
 
 # Get the supported version of c-for-go. Here we force the use of `GO111MODULE` for go get
 # to support the @VERSION syntax.
