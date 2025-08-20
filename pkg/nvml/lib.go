@@ -51,6 +51,8 @@ type library struct {
 	path     string
 	refcount refcount
 	dl       dynamicLibrary
+
+	errors []error
 }
 
 var _ Interface = (*library)(nil)
@@ -98,13 +100,21 @@ func (l *library) LookupSymbol(name string) error {
 	return l.dl.Lookup(name)
 }
 
+// GetErrors returns errors that are associated with the library but not NVML.
+func (l *library) GetErrors() []error {
+	return l.errors
+}
+
 // load initializes the library and updates the versioned symbols.
 // Multiple calls to an already loaded library will return without error.
 func (l *library) load() (rerr error) {
 	l.Lock()
 	defer l.Unlock()
 
-	defer func() { l.refcount.IncOnNoError(rerr) }()
+	defer func() {
+		l.errors = append(l.errors, rerr)
+		l.refcount.IncOnNoError(rerr)
+	}()
 	if l.refcount > 0 {
 		return nil
 	}
@@ -129,7 +139,10 @@ func (l *library) close() (rerr error) {
 	l.Lock()
 	defer l.Unlock()
 
-	defer func() { l.refcount.DecOnNoError(rerr) }()
+	defer func() {
+		l.errors = append(l.errors, rerr)
+		l.refcount.DecOnNoError(rerr)
+	}()
 	if l.refcount != 1 {
 		return nil
 	}
