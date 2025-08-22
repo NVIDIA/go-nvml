@@ -15,47 +15,8 @@
 package nvml
 
 import (
-	"fmt"
-	"reflect"
 	"unsafe"
 )
-
-// nvmlDeviceHandle attempts to convert a device d to an nvmlDevice.
-// This is required for functions such as GetTopologyCommonAncestor which
-// accept Device arguments that need to be passed to internal nvml* functions
-// as nvmlDevice parameters.
-func nvmlDeviceHandle(d Device) nvmlDevice {
-	var helper func(val reflect.Value) nvmlDevice
-	helper = func(val reflect.Value) nvmlDevice {
-		if val.Kind() == reflect.Interface {
-			val = val.Elem()
-		}
-
-		if val.Kind() == reflect.Ptr {
-			val = val.Elem()
-		}
-
-		if val.Type() == reflect.TypeOf(nvmlDevice{}) {
-			return val.Interface().(nvmlDevice)
-		}
-
-		if val.Kind() != reflect.Struct {
-			panic(fmt.Errorf("unable to convert non-struct type %v to nvmlDevice", val.Kind()))
-		}
-
-		for i := 0; i < val.Type().NumField(); i++ {
-			if !val.Type().Field(i).Anonymous {
-				continue
-			}
-			if !val.Field(i).Type().Implements(reflect.TypeOf((*Device)(nil)).Elem()) {
-				continue
-			}
-			return helper(val.Field(i))
-		}
-		panic(fmt.Errorf("unable to convert %T to nvmlDevice", d))
-	}
-	return helper(reflect.ValueOf(d))
-}
 
 // EccBitType
 type EccBitType = MemoryErrorType

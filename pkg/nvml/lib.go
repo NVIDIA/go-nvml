@@ -144,7 +144,7 @@ func (l *library) close() (rerr error) {
 	return nil
 }
 
-// Default all versioned APIs to v1 (to infer the types)
+// BEGIN_UNVERSIONED_FUNCTIONS
 var nvmlInit = nvmlInit_v1
 var nvmlDeviceGetPciInfo = nvmlDeviceGetPciInfo_v1
 var nvmlDeviceGetCount = nvmlDeviceGetCount_v1
@@ -156,14 +156,21 @@ var nvmlDeviceGetGridLicensableFeatures = nvmlDeviceGetGridLicensableFeatures_v1
 var nvmlEventSetWait = nvmlEventSetWait_v1
 var nvmlDeviceGetAttributes = nvmlDeviceGetAttributes_v1
 var nvmlComputeInstanceGetInfo = nvmlComputeInstanceGetInfo_v1
+var nvmlDeviceGetComputeRunningProcesses = nvmlDeviceGetComputeRunningProcesses_v3
 var deviceGetComputeRunningProcesses = deviceGetComputeRunningProcesses_v1
+var nvmlDeviceGetGraphicsRunningProcesses = nvmlDeviceGetGraphicsRunningProcesses_v3
 var deviceGetGraphicsRunningProcesses = deviceGetGraphicsRunningProcesses_v1
+var nvmlDeviceGetMPSComputeRunningProcesses = nvmlDeviceGetMPSComputeRunningProcesses_v3
 var deviceGetMPSComputeRunningProcesses = deviceGetMPSComputeRunningProcesses_v1
+var nvmlGetBlacklistDeviceCount = nvmlGetExcludedDeviceCount
 var GetBlacklistDeviceCount = GetExcludedDeviceCount
+var nvmlGetBlacklistDeviceInfoByIndex = nvmlGetExcludedDeviceInfoByIndex
 var GetBlacklistDeviceInfoByIndex = GetExcludedDeviceInfoByIndex
 var nvmlDeviceGetGpuInstancePossiblePlacements = nvmlDeviceGetGpuInstancePossiblePlacements_v1
 var nvmlVgpuInstanceGetLicenseInfo = nvmlVgpuInstanceGetLicenseInfo_v1
 var nvmlDeviceGetDriverModel = nvmlDeviceGetDriverModel_v1
+
+// END_UNVERSIONED_FUNCTIONS
 
 // BlacklistDeviceInfo was replaced by ExcludedDeviceInfo
 type BlacklistDeviceInfo = ExcludedDeviceInfo
