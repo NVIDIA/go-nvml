@@ -36,7 +36,7 @@ jobs:
         GOLANG_VERSION=$( grep "GOLANG_VERSION ?=" versions.mk )
         echo "GOLANG_VERSION=${GOLANG_VERSION##GOLANG_VERSION ?= }" >> $GITHUB_ENV
     - name: Install Go
-      uses: actions/setup-go@v5
+      uses: actions/setup-go@v6
       with:
         go-version: ${{ env.GOLANG_VERSION }}
     - name: Lint
@@ -64,7 +64,7 @@ jobs:
         GOLANG_VERSION=$( grep "GOLANG_VERSION ?=" versions.mk )
         echo "GOLANG_VERSION=${GOLANG_VERSION##GOLANG_VERSION ?= }" >> $GITHUB_ENV
     - name: Install Go
-      uses: actions/setup-go@v5
+      uses: actions/setup-go@v6
       with:
         go-version: ${{ env.GOLANG_VERSION }}
     - run: make build
