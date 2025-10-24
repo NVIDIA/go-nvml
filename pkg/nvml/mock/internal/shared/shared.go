@@ -26,6 +26,9 @@ import (
 	"github.com/NVIDIA/go-nvml/pkg/nvml/mock"
 )
 
+// GBtoMB is a conversion constant from GB to MB (1 GB = 1024 MB)
+const GBtoMB = 1024
+
 // Config contains the minimal configuration needed for a GPU generation
 type Config struct {
 	Name         string
@@ -59,7 +62,7 @@ type MIGProfileConfig struct {
 type Server struct {
 	mock.Interface
 	mock.ExtendedInterface
-	Devices           [8]nvml.Device
+	Devices           []nvml.Device
 	DriverVersion     string
 	NvmlVersion       string
 	CudaDriverVersion int
@@ -69,20 +72,15 @@ type Server struct {
 type Device struct {
 	mock.Device
 	sync.RWMutex
+	Config                Config // Embedded configuration
 	UUID                  string
-	Name                  string
-	Brand                 nvml.BrandType
-	Architecture          nvml.DeviceArchitecture
 	PciBusID              string
 	Minor                 int
 	Index                 int
-	CudaComputeCapability CudaComputeCapability
 	MigMode               int
 	GpuInstances          map[*GpuInstance]struct{}
 	GpuInstanceCounter    uint32
 	MemoryInfo            nvml.Memory
-	PciDeviceId           uint32
-	MIGProfiles           MIGProfileConfig
 }
 
 // GpuInstance provides a reusable GPU instance implementation
@@ -114,8 +112,8 @@ var _ nvml.ComputeInstance = (*ComputeInstance)(nil)
 
 // NewServerFromConfig creates a new server from the provided configuration
 func NewServerFromConfig(config ServerConfig) *Server {
-	var devices [8]nvml.Device
-	for i := 0; i < config.GPUCount && i < 8; i++ {
+	devices := make([]nvml.Device, config.GPUCount)
+	for i := 0; i < config.GPUCount; i++ {
 		devices[i] = NewDeviceFromConfig(config.Config, i)
 	}
 
@@ -129,25 +127,34 @@ func NewServerFromConfig(config ServerConfig) *Server {
 	return server
 }
 
+// NewServerWithGPUs creates a new server with heterogeneous GPU configurations
+func NewServerWithGPUs(driverVersion, nvmlVersion string, cudaDriverVersion int, gpuConfigs ...Config) *Server {
+	devices := make([]nvml.Device, len(gpuConfigs))
+	for i, config := range gpuConfigs {
+		devices[i] = NewDeviceFromConfig(config, i)
+	}
+
+	server := &Server{
+		Devices:           devices,
+		DriverVersion:     driverVersion,
+		NvmlVersion:       nvmlVersion,
+		CudaDriverVersion: cudaDriverVersion,
+	}
+	server.SetMockFuncs()
+	return server
+}
+
 // NewDeviceFromConfig creates a new device from the provided GPU configuration
 func NewDeviceFromConfig(config Config, index int) *Device {
 	device := &Device{
-		UUID:         "GPU-" + uuid.New().String(),
-		Name:         config.Name,
-		Brand:        config.Brand,
-		Architecture: config.Architecture,
-		PciBusID:     fmt.Sprintf("0000:%02x:00.0", index),
-		Minor:        index,
-		Index:        index,
-		CudaComputeCapability: CudaComputeCapability{
-			Major: config.CudaMajor,
-			Minor: config.CudaMinor,
-		},
+		Config:             config,
+		UUID:               "GPU-" + uuid.New().String(),
+		PciBusID:           fmt.Sprintf("0000:%02x:00.0", index),
+		Minor:              index,
+		Index:              index,
 		GpuInstances:       make(map[*GpuInstance]struct{}),
 		GpuInstanceCounter: 0,
 		MemoryInfo:         nvml.Memory{Total: config.MemoryMB * 1024 * 1024, Free: 0, Used: 0},
-		PciDeviceId:        config.PciDeviceId,
-		MIGProfiles:        config.MIGProfiles,
 	}
 	device.SetMockFuncs()
 	return device
@@ -245,7 +252,7 @@ func (d *Device) SetMockFuncs() {
 	}
 
 	d.GetCudaComputeCapabilityFunc = func() (int, int, nvml.Return) {
-		return d.CudaComputeCapability.Major, d.CudaComputeCapability.Minor, nvml.SUCCESS
+		return d.Config.CudaMajor, d.Config.CudaMinor, nvml.SUCCESS
 	}
 
 	d.GetUUIDFunc = func() (string, nvml.Return) {
@@ -253,15 +260,15 @@ func (d *Device) SetMockFuncs() {
 	}
 
 	d.GetNameFunc = func() (string, nvml.Return) {
-		return d.Name, nvml.SUCCESS
+		return d.Config.Name, nvml.SUCCESS
 	}
 
 	d.GetBrandFunc = func() (nvml.BrandType, nvml.Return) {
-		return d.Brand, nvml.SUCCESS
+		return d.Config.Brand, nvml.SUCCESS
 	}
 
 	d.GetArchitectureFunc = func() (nvml.DeviceArchitecture, nvml.Return) {
-		return d.Architecture, nvml.SUCCESS
+		return d.Config.Architecture, nvml.SUCCESS
 	}
 
 	d.GetMemoryInfoFunc = func() (nvml.Memory, nvml.Return) {
@@ -270,7 +277,7 @@ func (d *Device) SetMockFuncs() {
 
 	d.GetPciInfoFunc = func() (nvml.PciInfo, nvml.Return) {
 		p := nvml.PciInfo{
-			PciDeviceId: d.PciDeviceId,
+			PciDeviceId: d.Config.PciDeviceId,
 		}
 		return p, nvml.SUCCESS
 	}
@@ -289,15 +296,15 @@ func (d *Device) SetMockFuncs() {
 			return nvml.GpuInstanceProfileInfo{}, nvml.ERROR_INVALID_ARGUMENT
 		}
 
-		if _, exists := d.MIGProfiles.GpuInstanceProfiles[giProfileId]; !exists {
+		if _, exists := d.Config.MIGProfiles.GpuInstanceProfiles[giProfileId]; !exists {
 			return nvml.GpuInstanceProfileInfo{}, nvml.ERROR_NOT_SUPPORTED
 		}
 
-		return d.MIGProfiles.GpuInstanceProfiles[giProfileId], nvml.SUCCESS
+		return d.Config.MIGProfiles.GpuInstanceProfiles[giProfileId], nvml.SUCCESS
 	}
 
 	d.GetGpuInstancePossiblePlacementsFunc = func(info *nvml.GpuInstanceProfileInfo) ([]nvml.GpuInstancePlacement, nvml.Return) {
-		return d.MIGProfiles.GpuInstancePlacements[int(info.Id)], nvml.SUCCESS
+		return d.Config.MIGProfiles.GpuInstancePlacements[int(info.Id)], nvml.SUCCESS
 	}
 
 	d.CreateGpuInstanceFunc = func(info *nvml.GpuInstanceProfileInfo) (nvml.GpuInstance, nvml.Return) {
@@ -309,7 +316,7 @@ func (d *Device) SetMockFuncs() {
 			ProfileId: info.Id,
 		}
 		d.GpuInstanceCounter++
-		gi := NewGpuInstanceFromInfo(giInfo, d.MIGProfiles)
+		gi := NewGpuInstanceFromInfo(giInfo, d.Config.MIGProfiles)
 		d.GpuInstances[gi] = struct{}{}
 		return gi, nvml.SUCCESS
 	}
@@ -324,7 +331,7 @@ func (d *Device) SetMockFuncs() {
 			Placement: *placement,
 		}
 		d.GpuInstanceCounter++
-		gi := NewGpuInstanceFromInfo(giInfo, d.MIGProfiles)
+		gi := NewGpuInstanceFromInfo(giInfo, d.Config.MIGProfiles)
 		d.GpuInstances[gi] = struct{}{}
 		return gi, nvml.SUCCESS
 	}

@@ -23,7 +23,12 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/NVIDIA/go-nvml/pkg/nvml"
+	"github.com/NVIDIA/go-nvml/pkg/nvml/mock/internal/shared"
 )
+
+// Compile-time interface checks
+var _ nvml.Interface = (*shared.Server)(nil)
+var _ nvml.ExtendedInterface = (*shared.Server)(nil)
 
 func TestB200Server(t *testing.T) {
 	server := New()

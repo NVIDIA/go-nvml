@@ -18,7 +18,7 @@ package gpus
 
 import (
 	"github.com/NVIDIA/go-nvml/pkg/nvml"
-	"github.com/NVIDIA/go-nvml/pkg/nvml/mock/shared"
+	"github.com/NVIDIA/go-nvml/pkg/nvml/mock/internal/shared"
 )
 
 // A30 GPU Variants with different memory profiles and PCI device IDs

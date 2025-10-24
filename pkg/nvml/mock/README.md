@@ -61,7 +61,7 @@ import (
     "github.com/NVIDIA/go-nvml/pkg/nvml/mock/dgxh100"
     "github.com/NVIDIA/go-nvml/pkg/nvml/mock/dgxh200"
     "github.com/NVIDIA/go-nvml/pkg/nvml/mock/dgxb200"
-    "github.com/NVIDIA/go-nvml/pkg/nvml/mock/shared/gpus"
+    "github.com/NVIDIA/go-nvml/pkg/nvml/mock/internal/shared/gpus"
 )
 
 // Create default systems

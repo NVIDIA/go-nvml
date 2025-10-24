@@ -18,129 +18,258 @@ package gpus
 
 import (
 	"github.com/NVIDIA/go-nvml/pkg/nvml"
-	"github.com/NVIDIA/go-nvml/pkg/nvml/mock/shared"
+	"github.com/NVIDIA/go-nvml/pkg/nvml/mock/internal/shared"
 )
 
-// H200 GPU Variants
+// A100 GPU Variants with different memory profiles and PCI device IDs
 var (
-	H200_SXM5_141GB = shared.Config{
-		Name:         "NVIDIA H200 141GB HBM3e",
-		Architecture: nvml.DEVICE_ARCH_HOPPER,
+	A100_PCIE_40GB = shared.Config{
+		Name:         "NVIDIA A100-PCIE-40GB",
+		Architecture: nvml.DEVICE_ARCH_AMPERE,
 		Brand:        nvml.BRAND_NVIDIA,
-		MemoryMB:     144384, // 141GB
-		CudaMajor:    9,
+		MemoryMB:     40960,
+		CudaMajor:    8,
 		CudaMinor:    0,
-		PciDeviceId:  0x233310DE,
-		MIGProfiles:  h200_141gb_MIGProfiles,
+		PciDeviceId:  0x20F110DE,
+		MIGProfiles:  a100_40gb_MIGProfiles,
+	}
+	A100_PCIE_80GB = shared.Config{
+		Name:         "NVIDIA A100-PCIE-80GB",
+		Architecture: nvml.DEVICE_ARCH_AMPERE,
+		Brand:        nvml.BRAND_NVIDIA,
+		MemoryMB:     81920,
+		CudaMajor:    8,
+		CudaMinor:    0,
+		PciDeviceId:  0x20B510DE,
+		MIGProfiles:  a100_80gb_MIGProfiles,
+	}
+	A100_SXM4_40GB = shared.Config{
+		Name:         "Mock NVIDIA A100-SXM4-40GB",
+		Architecture: nvml.DEVICE_ARCH_AMPERE,
+		Brand:        nvml.BRAND_NVIDIA,
+		MemoryMB:     40960,
+		CudaMajor:    8,
+		CudaMinor:    0,
+		PciDeviceId:  0x20B010DE,
+		MIGProfiles:  a100_40gb_MIGProfiles,
+	}
+	A100_SXM4_80GB = shared.Config{
+		Name:         "NVIDIA A100-SXM4-80GB",
+		Architecture: nvml.DEVICE_ARCH_AMPERE,
+		Brand:        nvml.BRAND_NVIDIA,
+		MemoryMB:     81920,
+		CudaMajor:    8,
+		CudaMinor:    0,
+		PciDeviceId:  0x20B210DE,
+		MIGProfiles:  a100_80gb_MIGProfiles,
 	}
 )
 
 var (
-	h200_141gb_MIGProfiles = shared.MIGProfileConfig{
-		GpuInstanceProfiles:       h200_141gb_GpuInstanceProfiles,
-		ComputeInstanceProfiles:   h200_ComputeInstanceProfiles,
-		GpuInstancePlacements:     h200_GpuInstancePlacements,
-		ComputeInstancePlacements: h200_ComputeInstancePlacements,
+	a100_40gb_MIGProfiles = shared.MIGProfileConfig{
+		GpuInstanceProfiles:       a100_40gb_GpuInstanceProfiles,
+		ComputeInstanceProfiles:   a100_ComputeInstanceProfiles,
+		GpuInstancePlacements:     a100_GpuInstancePlacements,
+		ComputeInstancePlacements: a100_ComputeInstancePlacements,
+	}
+	a100_80gb_MIGProfiles = shared.MIGProfileConfig{
+		GpuInstanceProfiles:       a100_80gb_GpuInstanceProfiles,
+		ComputeInstanceProfiles:   a100_ComputeInstanceProfiles,
+		GpuInstancePlacements:     a100_GpuInstancePlacements,
+		ComputeInstancePlacements: a100_ComputeInstancePlacements,
 	}
 )
 
 var (
-	h200_141gb_GpuInstanceProfiles = map[int]nvml.GpuInstanceProfileInfo{
+	a100_40gb_GpuInstanceProfiles = map[int]nvml.GpuInstanceProfileInfo{
 		nvml.GPU_INSTANCE_PROFILE_1_SLICE: {
 			Id:                  nvml.GPU_INSTANCE_PROFILE_1_SLICE,
-			IsP2pSupported:      1,
+			IsP2pSupported:      0,
 			SliceCount:          1,
 			InstanceCount:       7,
-			MultiprocessorCount: 16,
+			MultiprocessorCount: 14,
 			CopyEngineCount:     1,
 			DecoderCount:        1,
 			EncoderCount:        0,
 			JpegCount:           0,
 			OfaCount:            0,
-			MemorySizeMB:        18432, // 18GB (MIG 1g.18gb)
+			MemorySizeMB:        4864,
 		},
 		nvml.GPU_INSTANCE_PROFILE_1_SLICE_REV1: {
 			Id:                  nvml.GPU_INSTANCE_PROFILE_1_SLICE_REV1,
-			IsP2pSupported:      1,
+			IsP2pSupported:      0,
 			SliceCount:          1,
 			InstanceCount:       1,
-			MultiprocessorCount: 16,
+			MultiprocessorCount: 14,
 			CopyEngineCount:     1,
 			DecoderCount:        1,
 			EncoderCount:        0,
 			JpegCount:           1,
 			OfaCount:            1,
-			MemorySizeMB:        18432, // 18GB (MIG 1g.18gb+me)
+			MemorySizeMB:        4864,
 		},
 		nvml.GPU_INSTANCE_PROFILE_1_SLICE_REV2: {
 			Id:                  nvml.GPU_INSTANCE_PROFILE_1_SLICE_REV2,
-			IsP2pSupported:      1,
+			IsP2pSupported:      0,
 			SliceCount:          1,
 			InstanceCount:       4,
-			MultiprocessorCount: 16,
+			MultiprocessorCount: 14,
 			CopyEngineCount:     1,
 			DecoderCount:        1,
 			EncoderCount:        0,
 			JpegCount:           0,
 			OfaCount:            0,
-			MemorySizeMB:        35840, // 35GB (MIG 1g.35gb)
+			MemorySizeMB:        9856,
 		},
 		nvml.GPU_INSTANCE_PROFILE_2_SLICE: {
 			Id:                  nvml.GPU_INSTANCE_PROFILE_2_SLICE,
-			IsP2pSupported:      1,
+			IsP2pSupported:      0,
 			SliceCount:          2,
 			InstanceCount:       3,
-			MultiprocessorCount: 32,
+			MultiprocessorCount: 28,
 			CopyEngineCount:     2,
 			DecoderCount:        1,
 			EncoderCount:        0,
 			JpegCount:           0,
 			OfaCount:            0,
-			MemorySizeMB:        35840, // 35GB (MIG 2g.35gb)
+			MemorySizeMB:        9856,
 		},
 		nvml.GPU_INSTANCE_PROFILE_3_SLICE: {
 			Id:                  nvml.GPU_INSTANCE_PROFILE_3_SLICE,
-			IsP2pSupported:      1,
+			IsP2pSupported:      0,
 			SliceCount:          3,
 			InstanceCount:       2,
-			MultiprocessorCount: 48,
+			MultiprocessorCount: 42,
 			CopyEngineCount:     3,
 			DecoderCount:        2,
 			EncoderCount:        0,
 			JpegCount:           0,
 			OfaCount:            0,
-			MemorySizeMB:        72704, // 71GB (MIG 3g.71gb)
+			MemorySizeMB:        19968,
 		},
 		nvml.GPU_INSTANCE_PROFILE_4_SLICE: {
 			Id:                  nvml.GPU_INSTANCE_PROFILE_4_SLICE,
-			IsP2pSupported:      1,
+			IsP2pSupported:      0,
 			SliceCount:          4,
 			InstanceCount:       1,
-			MultiprocessorCount: 64,
+			MultiprocessorCount: 56,
 			CopyEngineCount:     4,
 			DecoderCount:        2,
 			EncoderCount:        0,
 			JpegCount:           0,
 			OfaCount:            0,
-			MemorySizeMB:        72704, // 71GB (MIG 4g.71gb)
+			MemorySizeMB:        19968,
 		},
 		nvml.GPU_INSTANCE_PROFILE_7_SLICE: {
 			Id:                  nvml.GPU_INSTANCE_PROFILE_7_SLICE,
-			IsP2pSupported:      1,
+			IsP2pSupported:      0,
 			SliceCount:          7,
 			InstanceCount:       1,
-			MultiprocessorCount: 112,
+			MultiprocessorCount: 96,
 			CopyEngineCount:     7,
 			DecoderCount:        5,
 			EncoderCount:        0,
+			JpegCount:           1,
+			OfaCount:            1,
+			MemorySizeMB:        40192,
+		},
+	}
+	a100_80gb_GpuInstanceProfiles = map[int]nvml.GpuInstanceProfileInfo{
+		nvml.GPU_INSTANCE_PROFILE_1_SLICE: {
+			Id:                  nvml.GPU_INSTANCE_PROFILE_1_SLICE,
+			IsP2pSupported:      0,
+			SliceCount:          1,
+			InstanceCount:       7,
+			MultiprocessorCount: 14,
+			CopyEngineCount:     1,
+			DecoderCount:        1,
+			EncoderCount:        0,
 			JpegCount:           0,
 			OfaCount:            0,
-			MemorySizeMB:        144384, // 141GB (MIG 7g.141gb)
+			MemorySizeMB:        9856,
+		},
+		nvml.GPU_INSTANCE_PROFILE_1_SLICE_REV1: {
+			Id:                  nvml.GPU_INSTANCE_PROFILE_1_SLICE_REV1,
+			IsP2pSupported:      0,
+			SliceCount:          1,
+			InstanceCount:       1,
+			MultiprocessorCount: 14,
+			CopyEngineCount:     1,
+			DecoderCount:        1,
+			EncoderCount:        0,
+			JpegCount:           1,
+			OfaCount:            1,
+			MemorySizeMB:        9856,
+		},
+		nvml.GPU_INSTANCE_PROFILE_1_SLICE_REV2: {
+			Id:                  nvml.GPU_INSTANCE_PROFILE_1_SLICE_REV2,
+			IsP2pSupported:      0,
+			SliceCount:          1,
+			InstanceCount:       4,
+			MultiprocessorCount: 14,
+			CopyEngineCount:     1,
+			DecoderCount:        1,
+			EncoderCount:        0,
+			JpegCount:           0,
+			OfaCount:            0,
+			MemorySizeMB:        19968,
+		},
+		nvml.GPU_INSTANCE_PROFILE_2_SLICE: {
+			Id:                  nvml.GPU_INSTANCE_PROFILE_2_SLICE,
+			IsP2pSupported:      0,
+			SliceCount:          2,
+			InstanceCount:       3,
+			MultiprocessorCount: 28,
+			CopyEngineCount:     2,
+			DecoderCount:        1,
+			EncoderCount:        0,
+			JpegCount:           0,
+			OfaCount:            0,
+			MemorySizeMB:        19968,
+		},
+		nvml.GPU_INSTANCE_PROFILE_3_SLICE: {
+			Id:                  nvml.GPU_INSTANCE_PROFILE_3_SLICE,
+			IsP2pSupported:      0,
+			SliceCount:          3,
+			InstanceCount:       2,
+			MultiprocessorCount: 42,
+			CopyEngineCount:     3,
+			DecoderCount:        2,
+			EncoderCount:        0,
+			JpegCount:           0,
+			OfaCount:            0,
+			MemorySizeMB:        40192,
+		},
+		nvml.GPU_INSTANCE_PROFILE_4_SLICE: {
+			Id:                  nvml.GPU_INSTANCE_PROFILE_4_SLICE,
+			IsP2pSupported:      0,
+			SliceCount:          4,
+			InstanceCount:       1,
+			MultiprocessorCount: 56,
+			CopyEngineCount:     4,
+			DecoderCount:        2,
+			EncoderCount:        0,
+			JpegCount:           0,
+			OfaCount:            0,
+			MemorySizeMB:        40192,
+		},
+		nvml.GPU_INSTANCE_PROFILE_7_SLICE: {
+			Id:                  nvml.GPU_INSTANCE_PROFILE_7_SLICE,
+			IsP2pSupported:      0,
+			SliceCount:          7,
+			InstanceCount:       1,
+			MultiprocessorCount: 98,
+			CopyEngineCount:     7,
+			DecoderCount:        5,
+			EncoderCount:        0,
+			JpegCount:           1,
+			OfaCount:            1,
+			MemorySizeMB:        80384,
 		},
 	}
 )
 
-var h200_ComputeInstanceProfiles = map[int]map[int]nvml.ComputeInstanceProfileInfo{
+var a100_ComputeInstanceProfiles = map[int]map[int]nvml.ComputeInstanceProfileInfo{
 	nvml.GPU_INSTANCE_PROFILE_1_SLICE: {
 		nvml.COMPUTE_INSTANCE_PROFILE_1_SLICE: {
 			Id:                  nvml.COMPUTE_INSTANCE_PROFILE_1_SLICE,
@@ -231,7 +360,7 @@ var h200_ComputeInstanceProfiles = map[int]map[int]nvml.ComputeInstanceProfileIn
 	},
 }
 
-var h200_GpuInstancePlacements = map[int][]nvml.GpuInstancePlacement{
+var a100_GpuInstancePlacements = map[int][]nvml.GpuInstancePlacement{
 	nvml.GPU_INSTANCE_PROFILE_1_SLICE: {
 		{Start: 0, Size: 1},
 		{Start: 1, Size: 1},
@@ -254,11 +383,11 @@ var h200_GpuInstancePlacements = map[int][]nvml.GpuInstancePlacement{
 		{Start: 0, Size: 4},
 	},
 	nvml.GPU_INSTANCE_PROFILE_7_SLICE: {
-		{Start: 0, Size: 7},
+		{Start: 0, Size: 8}, // Test expects Size 8
 	},
 }
 
-var h200_ComputeInstancePlacements = map[int]map[int][]nvml.ComputeInstancePlacement{
+var a100_ComputeInstancePlacements = map[int]map[int][]nvml.ComputeInstancePlacement{
 	0: {
 		nvml.COMPUTE_INSTANCE_PROFILE_1_SLICE: {
 			{Start: 0, Size: 1},
@@ -321,7 +450,7 @@ var h200_ComputeInstancePlacements = map[int]map[int][]nvml.ComputeInstancePlace
 			{Start: 4, Size: 3},
 		},
 		nvml.COMPUTE_INSTANCE_PROFILE_7_SLICE: {
-			{Start: 0, Size: 7},
+			{Start: 0, Size: 8}, // Test expects Size 8
 		},
 	},
 }
