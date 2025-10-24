@@ -18,34 +18,34 @@ package gpus
 
 import (
 	"github.com/NVIDIA/go-nvml/pkg/nvml"
-	"github.com/NVIDIA/go-nvml/pkg/nvml/mock/shared"
+	"github.com/NVIDIA/go-nvml/pkg/nvml/mock/internal/shared"
 )
 
-// H200 GPU Variants
+// H100 GPU Variants
 var (
-	H200_SXM5_141GB = shared.Config{
-		Name:         "NVIDIA H200 141GB HBM3e",
+	H100_SXM5_80GB = shared.Config{
+		Name:         "NVIDIA H100 80GB HBM3",
 		Architecture: nvml.DEVICE_ARCH_HOPPER,
 		Brand:        nvml.BRAND_NVIDIA,
-		MemoryMB:     144384, // 141GB
+		MemoryMB:     81920, // 80GB
 		CudaMajor:    9,
 		CudaMinor:    0,
-		PciDeviceId:  0x233310DE,
-		MIGProfiles:  h200_141gb_MIGProfiles,
+		PciDeviceId:  0x233010DE,
+		MIGProfiles:  h100_80gb_MIGProfiles,
 	}
 )
 
 var (
-	h200_141gb_MIGProfiles = shared.MIGProfileConfig{
-		GpuInstanceProfiles:       h200_141gb_GpuInstanceProfiles,
-		ComputeInstanceProfiles:   h200_ComputeInstanceProfiles,
-		GpuInstancePlacements:     h200_GpuInstancePlacements,
-		ComputeInstancePlacements: h200_ComputeInstancePlacements,
+	h100_80gb_MIGProfiles = shared.MIGProfileConfig{
+		GpuInstanceProfiles:       h100_80gb_GpuInstanceProfiles,
+		ComputeInstanceProfiles:   h100_ComputeInstanceProfiles,
+		GpuInstancePlacements:     h100_GpuInstancePlacements,
+		ComputeInstancePlacements: h100_ComputeInstancePlacements,
 	}
 )
 
 var (
-	h200_141gb_GpuInstanceProfiles = map[int]nvml.GpuInstanceProfileInfo{
+	h100_80gb_GpuInstanceProfiles = map[int]nvml.GpuInstanceProfileInfo{
 		nvml.GPU_INSTANCE_PROFILE_1_SLICE: {
 			Id:                  nvml.GPU_INSTANCE_PROFILE_1_SLICE,
 			IsP2pSupported:      1,
@@ -57,7 +57,7 @@ var (
 			EncoderCount:        0,
 			JpegCount:           0,
 			OfaCount:            0,
-			MemorySizeMB:        18432, // 18GB (MIG 1g.18gb)
+			MemorySizeMB:        10240, // 10GB (MIG 1g.10gb)
 		},
 		nvml.GPU_INSTANCE_PROFILE_1_SLICE_REV1: {
 			Id:                  nvml.GPU_INSTANCE_PROFILE_1_SLICE_REV1,
@@ -70,7 +70,7 @@ var (
 			EncoderCount:        0,
 			JpegCount:           1,
 			OfaCount:            1,
-			MemorySizeMB:        18432, // 18GB (MIG 1g.18gb+me)
+			MemorySizeMB:        10240, // 10GB (MIG 1g.10gb+me)
 		},
 		nvml.GPU_INSTANCE_PROFILE_1_SLICE_REV2: {
 			Id:                  nvml.GPU_INSTANCE_PROFILE_1_SLICE_REV2,
@@ -83,7 +83,7 @@ var (
 			EncoderCount:        0,
 			JpegCount:           0,
 			OfaCount:            0,
-			MemorySizeMB:        35840, // 35GB (MIG 1g.35gb)
+			MemorySizeMB:        20480, // 20GB (MIG 1g.20gb)
 		},
 		nvml.GPU_INSTANCE_PROFILE_2_SLICE: {
 			Id:                  nvml.GPU_INSTANCE_PROFILE_2_SLICE,
@@ -96,7 +96,7 @@ var (
 			EncoderCount:        0,
 			JpegCount:           0,
 			OfaCount:            0,
-			MemorySizeMB:        35840, // 35GB (MIG 2g.35gb)
+			MemorySizeMB:        20480, // 20GB (MIG 2g.20gb)
 		},
 		nvml.GPU_INSTANCE_PROFILE_3_SLICE: {
 			Id:                  nvml.GPU_INSTANCE_PROFILE_3_SLICE,
@@ -109,7 +109,7 @@ var (
 			EncoderCount:        0,
 			JpegCount:           0,
 			OfaCount:            0,
-			MemorySizeMB:        72704, // 71GB (MIG 3g.71gb)
+			MemorySizeMB:        40960, // 40GB (MIG 3g.40gb)
 		},
 		nvml.GPU_INSTANCE_PROFILE_4_SLICE: {
 			Id:                  nvml.GPU_INSTANCE_PROFILE_4_SLICE,
@@ -122,7 +122,7 @@ var (
 			EncoderCount:        0,
 			JpegCount:           0,
 			OfaCount:            0,
-			MemorySizeMB:        72704, // 71GB (MIG 4g.71gb)
+			MemorySizeMB:        40960, // 40GB (MIG 4g.40gb)
 		},
 		nvml.GPU_INSTANCE_PROFILE_7_SLICE: {
 			Id:                  nvml.GPU_INSTANCE_PROFILE_7_SLICE,
@@ -135,12 +135,12 @@ var (
 			EncoderCount:        0,
 			JpegCount:           0,
 			OfaCount:            0,
-			MemorySizeMB:        144384, // 141GB (MIG 7g.141gb)
+			MemorySizeMB:        81920, // 80GB (MIG 7g.80gb)
 		},
 	}
 )
 
-var h200_ComputeInstanceProfiles = map[int]map[int]nvml.ComputeInstanceProfileInfo{
+var h100_ComputeInstanceProfiles = map[int]map[int]nvml.ComputeInstanceProfileInfo{
 	nvml.GPU_INSTANCE_PROFILE_1_SLICE: {
 		nvml.COMPUTE_INSTANCE_PROFILE_1_SLICE: {
 			Id:                  nvml.COMPUTE_INSTANCE_PROFILE_1_SLICE,
@@ -247,7 +247,7 @@ var h200_ComputeInstanceProfiles = map[int]map[int]nvml.ComputeInstanceProfileIn
 	},
 }
 
-var h200_GpuInstancePlacements = map[int][]nvml.GpuInstancePlacement{
+var h100_GpuInstancePlacements = map[int][]nvml.GpuInstancePlacement{
 	nvml.GPU_INSTANCE_PROFILE_1_SLICE: {
 		{Start: 0, Size: 1},
 		{Start: 1, Size: 1},
@@ -292,7 +292,7 @@ var h200_GpuInstancePlacements = map[int][]nvml.GpuInstancePlacement{
 	},
 }
 
-var h200_ComputeInstancePlacements = map[int]map[int][]nvml.ComputeInstancePlacement{
+var h100_ComputeInstancePlacements = map[int]map[int][]nvml.ComputeInstancePlacement{
 	nvml.GPU_INSTANCE_PROFILE_1_SLICE: {
 		nvml.COMPUTE_INSTANCE_PROFILE_1_SLICE: {
 			{Start: 0, Size: 1},

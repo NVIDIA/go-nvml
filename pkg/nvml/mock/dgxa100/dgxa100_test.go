@@ -23,7 +23,12 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/NVIDIA/go-nvml/pkg/nvml"
+	"github.com/NVIDIA/go-nvml/pkg/nvml/mock/internal/shared/gpus"
 )
+
+// Compile-time interface checks
+var _ nvml.Interface = (*Server)(nil)
+var _ nvml.ExtendedInterface = (*Server)(nil)
 
 // TestServerCreation verifies server creation and basic properties
 func TestServerCreation(t *testing.T) {
@@ -525,3 +530,58 @@ func TestA100SpecificCharacteristics(t *testing.T) {
 	require.Equal(t, nvml.SUCCESS, ret)
 	require.Equal(t, uint32(0x20B010DE), pciInfo.PciDeviceId) // A100-SXM4-40GB
 }
+
+// TestHeterogeneousGPUs verifies creation of servers with mixed GPU types
+func TestHeterogeneousGPUs(t *testing.T) {
+	// Create server with mix of A100 40GB and 80GB GPUs
+	server := NewServerWithGPUs(
+		gpus.A100_SXM4_40GB,
+		gpus.A100_SXM4_80GB,
+		gpus.A100_SXM4_40GB,
+		gpus.A100_PCIE_80GB,
+	)
+	require.NotNil(t, server)
+
+	// Verify device count
+	count, ret := server.DeviceGetCount()
+	require.Equal(t, nvml.SUCCESS, ret)
+	require.Equal(t, 4, count)
+
+	// Verify first device is 40GB SXM4
+	dev0, ret := server.DeviceGetHandleByIndex(0)
+	require.Equal(t, nvml.SUCCESS, ret)
+	name0, ret := dev0.GetName()
+	require.Equal(t, nvml.SUCCESS, ret)
+	require.Equal(t, "Mock NVIDIA A100-SXM4-40GB", name0)
+	mem0, ret := dev0.GetMemoryInfo()
+	require.Equal(t, nvml.SUCCESS, ret)
+	require.Equal(t, uint64(40*1024*1024*1024), mem0.Total)
+
+	// Verify second device is 80GB SXM4
+	dev1, ret := server.DeviceGetHandleByIndex(1)
+	require.Equal(t, nvml.SUCCESS, ret)
+	name1, ret := dev1.GetName()
+	require.Equal(t, nvml.SUCCESS, ret)
+	require.Equal(t, "NVIDIA A100-SXM4-80GB", name1)
+	mem1, ret := dev1.GetMemoryInfo()
+	require.Equal(t, nvml.SUCCESS, ret)
+	require.Equal(t, uint64(80*1024*1024*1024), mem1.Total)
+
+	// Verify third device is 40GB SXM
+	dev2, ret := server.DeviceGetHandleByIndex(2)
+	require.Equal(t, nvml.SUCCESS, ret)
+	name2, ret := dev2.GetName()
+	require.Equal(t, nvml.SUCCESS, ret)
+	require.Equal(t, "Mock NVIDIA A100-SXM4-40GB", name2)
+
+	// Verify fourth device is 80GB PCIe
+	dev3, ret := server.DeviceGetHandleByIndex(3)
+	require.Equal(t, nvml.SUCCESS, ret)
+	name3, ret := dev3.GetName()
+	require.Equal(t, nvml.SUCCESS, ret)
+	require.Equal(t, "NVIDIA A100-PCIE-80GB", name3)
+	pci3, ret := dev3.GetPciInfo()
+	require.Equal(t, nvml.SUCCESS, ret)
+	require.Equal(t, uint32(0x20B510DE), pci3.PciDeviceId) // A100-PCIE-80GB
+}
+

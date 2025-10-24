@@ -6,9 +6,9 @@ This package provides mock implementations of NVIDIA's NVML (NVIDIA Management L
 
 ```
 pkg/nvml/mock/
-├── shared/
+├── internal/shared/
 │   ├── shared.go                 # Core shared factory and types
-│   └── gpus/                     # GPU configuration definitions
+│   └── gpus/                     # GPU configuration definitions (internal)
 │       ├── a100.go              # A100 GPU variants (Ampere)
 │       ├── a30.go               # A30 GPU variants (Ampere)
 │       ├── h100.go              # H100 GPU variants (Hopper)
@@ -61,7 +61,6 @@ import (
     "github.com/NVIDIA/go-nvml/pkg/nvml/mock/dgxh100"
     "github.com/NVIDIA/go-nvml/pkg/nvml/mock/dgxh200"
     "github.com/NVIDIA/go-nvml/pkg/nvml/mock/dgxb200"
-    "github.com/NVIDIA/go-nvml/pkg/nvml/mock/shared/gpus"
 )
 
 // Create default systems
@@ -69,12 +68,11 @@ serverA100 := dgxa100.New()   // A100-SXM4-40GB (8 GPUs)
 serverH100 := dgxh100.New()   // H100-SXM5-80GB (8 GPUs)
 serverH200 := dgxh200.New()   // H200-SXM5-141GB (8 GPUs)
 serverB200 := dgxb200.New()   // B200-SXM5-180GB (8 GPUs)
-
-// Create specific variants
-serverA100_80GB := dgxa100.NewServerWithGPU(gpus.A100_SXM4_80GB)
-serverH200_Custom := dgxh200.NewServerWithGPU(gpus.H200_SXM5_141GB)
-serverB200_Custom := dgxb200.NewServerWithGPU(gpus.B200_SXM5_180GB)
 ```
+
+> **Note:** The GPU configuration definitions in `internal/shared/gpus/` are internal
+> to this module and cannot be imported by external consumers. Use the public
+> `dgx*` package APIs shown above.
 
 ### Device Creation
 
@@ -84,51 +82,20 @@ deviceA100 := dgxa100.NewDevice(0)
 deviceH100 := dgxh100.NewDevice(0)
 deviceH200 := dgxh200.NewDevice(0)
 deviceB200 := dgxb200.NewDevice(0)
-
-// Create devices with specific GPU variants
-deviceA100_80GB := dgxa100.NewDeviceWithGPU(gpus.A100_SXM4_80GB, 0)
-deviceH200_Custom := dgxh200.NewDeviceWithGPU(gpus.H200_SXM5_141GB, 1)
-deviceB200_Custom := dgxb200.NewDeviceWithGPU(gpus.B200_SXM5_180GB, 2)
 ```
 
-### Accessing GPU Configurations
+### Available GPU Configurations (internal)
 
-```go
-// Available GPU configurations
-// A100 Family
-gpus.A100_SXM4_40GB     // A100 SXM4 40GB
-gpus.A100_SXM4_80GB     // A100 SXM4 80GB
-gpus.A100_PCIE_40GB     // A100 PCIe 40GB
-gpus.A100_PCIE_80GB     // A100 PCIe 80GB
+The following GPU configurations are defined in `internal/shared/gpus/` and used
+internally by the `dgx*` packages:
 
-// A30 Family
-gpus.A30_PCIE_24GB      // A30 PCIe 24GB
-
-// H100 Family
-gpus.H100_SXM5_80GB     // H100 SXM5 80GB
-
-// H200 Family
-gpus.H200_SXM5_141GB    // H200 SXM5 141GB
-
-// B200 Family
-gpus.B200_SXM5_180GB    // B200 SXM5 180GB
-
-// Inspect configurations
-fmt.Printf("GPU: %s\n", gpus.A100_SXM4_80GB.Name)
-fmt.Printf("Memory: %d MB\n", gpus.A100_SXM4_80GB.MemoryMB)
-fmt.Printf("Architecture: %v\n", gpus.A100_SXM4_80GB.Architecture)
-fmt.Printf("PCI Device ID: 0x%X\n", gpus.A100_SXM4_80GB.PciDeviceId)
-
-// Inspect H100 configuration
-fmt.Printf("GPU: %s\n", gpus.H100_SXM5_80GB.Name)
-fmt.Printf("Memory: %d MB\n", gpus.H100_SXM5_80GB.MemoryMB)
-fmt.Printf("CUDA Major: %d\n", gpus.H100_SXM5_80GB.CudaMajor)
-
-// Inspect B200 configuration
-fmt.Printf("GPU: %s\n", gpus.B200_SXM5_180GB.Name)
-fmt.Printf("Memory: %d MB\n", gpus.B200_SXM5_180GB.MemoryMB)
-fmt.Printf("CUDA Major: %d\n", gpus.B200_SXM5_180GB.CudaMajor)
-```
+| Family | Config | Memory | Architecture |
+|--------|--------|--------|--------------|
+| A100 | `A100_SXM4_40GB`, `A100_SXM4_80GB`, `A100_PCIE_40GB`, `A100_PCIE_80GB` | 40/80 GB | Ampere (8.0) |
+| A30 | `A30_PCIE_24GB` | 24 GB | Ampere (8.0) |
+| H100 | `H100_SXM5_80GB` | 80 GB | Hopper (9.0) |
+| H200 | `H200_SXM5_141GB` | 141 GB | Hopper (9.0) |
+| B200 | `B200_SXM5_180GB` | 180 GB | Blackwell (10.0) |
 
 ## Available GPU Models
 
@@ -319,7 +286,7 @@ go test -v ./pkg/nvml/mock/dgxh100/ -run TestMIGProfilesExist
 
 ### Adding GPU Variants
 
-Add new configurations to the appropriate file in `shared/gpus/`:
+Add new configurations to the appropriate file in `internal/shared/gpus/`:
 
 ```go
 var A100_PCIE_24GB = shared.Config{
@@ -337,7 +304,7 @@ var A100_PCIE_24GB = shared.Config{
 ### Adding GPU Generations
 
 1. **Create new package** (e.g., `dgxb200/`)
-2. **Define GPU configurations** in `shared/gpus/b200.go`
+2. **Define GPU configurations** in `internal/shared/gpus/b200.go`
 3. **Define MIG profiles** with appropriate memory and SM allocations
 4. **Implement server and device factory functions**
 5. **Add comprehensive tests**
@@ -345,7 +312,7 @@ var A100_PCIE_24GB = shared.Config{
 Example structure for B200 generation:
 
 ```go
-// In shared/gpus/b200.go
+// In internal/shared/gpus/b200.go
 var B200_SXM5_180GB = shared.Config{
     Name:         "NVIDIA B200 180GB HBM3e",
     Architecture: nvml.DEVICE_ARCH_BLACKWELL,
@@ -377,7 +344,7 @@ The framework maintains full backward compatibility:
 - Legacy global variables (`MIGProfiles`, `MIGPlacements`) are preserved for all generations
 - Legacy A100 SXM4 40GB config retains "Mock" name prefix for backward compatibility
 - All existing tests pass without modification
-- All GPU configurations reference `shared/gpus` package for consistency
+- All GPU configurations reference `internal/shared/gpus` package for consistency
 - Type aliases ensure seamless transition from generation-specific types
 
 ## Performance Considerations
@@ -393,4 +360,4 @@ The framework maintains full backward compatibility:
 - **Memory Management**: No memory leaks in device/instance lifecycle
 - **Error Handling**: Proper NVML return codes for all operations
 - **Standards Compliance**: Follows official NVML API patterns and behaviors
-- **Separation of Concerns**: GPU configs in `shared/gpus`, server logic in package-specific files
+- **Separation of Concerns**: GPU configs in `internal/shared/gpus`, server logic in package-specific files

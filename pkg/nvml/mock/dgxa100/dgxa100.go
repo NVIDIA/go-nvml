@@ -18,15 +18,38 @@ package dgxa100
 
 import (
 	"github.com/NVIDIA/go-nvml/pkg/nvml"
-	"github.com/NVIDIA/go-nvml/pkg/nvml/mock/shared"
-	"github.com/NVIDIA/go-nvml/pkg/nvml/mock/shared/gpus"
+	"github.com/NVIDIA/go-nvml/pkg/nvml/mock/internal/shared"
+	"github.com/NVIDIA/go-nvml/pkg/nvml/mock/internal/shared/gpus"
 )
 
-// Backwards compatible type aliases
+// Server is a type alias for shared.Server maintained for backward compatibility.
+//
+// Deprecated: This type alias is maintained for backward compatibility only.
+// The type may be removed in a future version.
 type Server = shared.Server
+
+// Device is a type alias for shared.Device maintained for backward compatibility.
+//
+// Deprecated: This type alias is maintained for backward compatibility only.
+// The type may be removed in a future version.
 type Device = shared.Device
+
+// GpuInstance is a type alias for shared.GpuInstance maintained for backward compatibility.
+//
+// Deprecated: This type alias is maintained for backward compatibility only.
+// The type may be removed in a future version.
 type GpuInstance = shared.GpuInstance
+
+// ComputeInstance is a type alias for shared.ComputeInstance maintained for backward compatibility.
+//
+// Deprecated: This type alias is maintained for backward compatibility only.
+// The type may be removed in a future version.
 type ComputeInstance = shared.ComputeInstance
+
+// CudaComputeCapability is a type alias for shared.CudaComputeCapability maintained for backward compatibility.
+//
+// Deprecated: This type alias is maintained for backward compatibility only.
+// The type may be removed in a future version.
 type CudaComputeCapability = shared.CudaComputeCapability
 
 func New() *Server {
@@ -43,7 +66,10 @@ func NewDevice(index int) *Device {
 	return shared.NewDeviceFromConfig(gpus.A100_SXM4_40GB, index)
 }
 
-// NewServerWithGPU creates a new server with a specific A100 GPU variant
+// NewServerWithGPU creates a new server with a specific A100 GPU variant.
+//
+// Deprecated: Use NewServerWithGPUs instead for more flexible configurations,
+// including support for heterogeneous GPU setups.
 func NewServerWithGPU(gpuConfig shared.Config) *Server {
 	return shared.NewServerFromConfig(shared.ServerConfig{
 		Config:            gpuConfig,
@@ -54,9 +80,17 @@ func NewServerWithGPU(gpuConfig shared.Config) *Server {
 	})
 }
 
-// NewDeviceWithGPU creates a new device with a specific A100 GPU variant
+// NewDeviceWithGPU creates a new device with a specific A100 GPU variant.
+//
+// Deprecated: Use shared.NewDeviceFromConfig directly for device creation.
 func NewDeviceWithGPU(gpuConfig shared.Config, index int) *Device {
 	return shared.NewDeviceFromConfig(gpuConfig, index)
+}
+
+// NewServerWithGPUs creates a new server with heterogeneous GPU configurations
+// Example: NewServerWithGPUs(gpus.A100_SXM4_40GB, gpus.A100_SXM4_80GB, gpus.A100_SXM4_40GB)
+func NewServerWithGPUs(gpuConfigs ...shared.Config) *Server {
+	return shared.NewServerWithGPUs("550.54.15", "12.550.54.15", 12040, gpuConfigs...)
 }
 
 // Legacy globals for backward compatibility - expose the internal data
