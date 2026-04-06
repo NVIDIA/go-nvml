@@ -190,7 +190,7 @@ func generatePackageMethodsComment(input GeneratableInterfacePoperties) (string,
 	var signature strings.Builder
 	comment := strings.Join(commentFmt, "\n")
 	comment = fmt.Sprintf(comment, input.Type)
-	signature.WriteString(fmt.Sprintf("%s\n", comment))
+	fmt.Fprintf(&signature, "%s\n", comment)
 	return signature.String(), nil
 }
 
@@ -204,7 +204,7 @@ func generateInterfaceComment(input GeneratableInterfacePoperties) (string, erro
 	var signature strings.Builder
 	comment := strings.Join(commentFmt, "\n")
 	comment = fmt.Sprintf(comment, input.Interface, input.Type, strings.ToLower(input.Interface), input.Interface, input.Interface)
-	signature.WriteString(fmt.Sprintf("%s\n", comment))
+	fmt.Fprintf(&signature, "%s\n", comment)
 	return signature.String(), nil
 }
 
@@ -232,7 +232,7 @@ func generatePackageMethods(sourceDir string, input GeneratableInterfacePopertie
 func generateInterface(sourceDir string, input GeneratableInterfacePoperties) (string, error) {
 	var signature strings.Builder
 
-	signature.WriteString(fmt.Sprintf("type %s interface {\n", input.Interface))
+	fmt.Fprintf(&signature, "type %s interface {\n", input.Interface)
 
 	methods, err := extractMethodsFromPackage(sourceDir, input)
 	if err != nil {
