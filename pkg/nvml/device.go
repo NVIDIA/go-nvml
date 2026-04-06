@@ -3276,21 +3276,23 @@ func (device nvmlDevice) GetCoolerInfo() (CoolerInfo, Return) {
 // nvml.DeviceGetTemperatureV()
 type TemperatureHandler struct {
 	device nvmlDevice
+	sensorType TemperatureSensors
 }
 
 func (handler TemperatureHandler) V1() (Temperature, Return) {
 	var temperature Temperature
 	temperature.Version = STRUCT_VERSION(temperature, 1)
+	temperature.SensorType = uint32(handler.sensorType)
 	ret := nvmlDeviceGetTemperatureV(handler.device, &temperature)
 	return temperature, ret
 }
 
-func (l *library) DeviceGetTemperatureV(device Device) TemperatureHandler {
-	return device.GetTemperatureV()
+func (l *library) DeviceGetTemperatureV(device Device, sensorType TemperatureSensors) TemperatureHandler {
+	return device.GetTemperatureV(sensorType)
 }
 
-func (device nvmlDevice) GetTemperatureV() TemperatureHandler {
-	return TemperatureHandler{device}
+func (device nvmlDevice) GetTemperatureV(sensorType TemperatureSensors) TemperatureHandler {
+	return TemperatureHandler{device, sensorType}
 }
 
 // nvml.DeviceGetMarginTemperature()
