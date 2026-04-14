@@ -582,7 +582,7 @@ var _ nvml.Interface = &Interface{}
 //			DeviceGetTemperatureThresholdFunc: func(device nvml.Device, temperatureThresholds nvml.TemperatureThresholds) (uint32, nvml.Return) {
 //				panic("mock out the DeviceGetTemperatureThreshold method")
 //			},
-//			DeviceGetTemperatureVFunc: func(device nvml.Device) nvml.TemperatureHandler {
+//			DeviceGetTemperatureVFunc: func(device nvml.Device, temperatureSensors nvml.TemperatureSensors) nvml.TemperatureHandler {
 //				panic("mock out the DeviceGetTemperatureV method")
 //			},
 //			DeviceGetThermalSettingsFunc: func(device nvml.Device, v uint32) (nvml.GpuThermalSettings, nvml.Return) {
@@ -1712,7 +1712,7 @@ type Interface struct {
 	DeviceGetTemperatureThresholdFunc func(device nvml.Device, temperatureThresholds nvml.TemperatureThresholds) (uint32, nvml.Return)
 
 	// DeviceGetTemperatureVFunc mocks the DeviceGetTemperatureV method.
-	DeviceGetTemperatureVFunc func(device nvml.Device) nvml.TemperatureHandler
+	DeviceGetTemperatureVFunc func(device nvml.Device, temperatureSensors nvml.TemperatureSensors) nvml.TemperatureHandler
 
 	// DeviceGetThermalSettingsFunc mocks the DeviceGetThermalSettings method.
 	DeviceGetThermalSettingsFunc func(device nvml.Device, v uint32) (nvml.GpuThermalSettings, nvml.Return)
@@ -11081,7 +11081,7 @@ func (mock *Interface) DeviceGetTemperatureThresholdCalls() []struct {
 }
 
 // DeviceGetTemperatureV calls DeviceGetTemperatureVFunc.
-func (mock *Interface) DeviceGetTemperatureV(device nvml.Device) nvml.TemperatureHandler {
+func (mock *Interface) DeviceGetTemperatureV(device nvml.Device, temperatureSensors nvml.TemperatureSensors) nvml.TemperatureHandler {
 	if mock.DeviceGetTemperatureVFunc == nil {
 		panic("Interface.DeviceGetTemperatureVFunc: method is nil but Interface.DeviceGetTemperatureV was just called")
 	}
@@ -11093,7 +11093,7 @@ func (mock *Interface) DeviceGetTemperatureV(device nvml.Device) nvml.Temperatur
 	mock.lockDeviceGetTemperatureV.Lock()
 	mock.calls.DeviceGetTemperatureV = append(mock.calls.DeviceGetTemperatureV, callInfo)
 	mock.lockDeviceGetTemperatureV.Unlock()
-	return mock.DeviceGetTemperatureVFunc(device)
+	return mock.DeviceGetTemperatureVFunc(device, temperatureSensors)
 }
 
 // DeviceGetTemperatureVCalls gets all the calls that were made to DeviceGetTemperatureV.
