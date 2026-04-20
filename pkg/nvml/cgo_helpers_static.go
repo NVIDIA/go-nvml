@@ -18,6 +18,9 @@ import (
 	"unsafe"
 )
 
+/*
+#include <stdlib.h>
+*/
 import "C"
 
 var cgoAllocsUnknown = new(struct{})
@@ -72,4 +75,12 @@ func packPCharString(p *C.char) (raw string) {
 func unpackPCharString(str string) (*C.char, *struct{}) {
 	h := (*stringHeader)(unsafe.Pointer(&str))
 	return (*C.char)(h.Data), cgoAllocsUnknown
+}
+
+func malloc(size uintptr) unsafe.Pointer {
+	return C.malloc(C.size_t(size))
+}
+
+func free(ptr unsafe.Pointer) {
+	C.free(ptr)
 }
