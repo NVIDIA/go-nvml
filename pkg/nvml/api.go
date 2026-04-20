@@ -27,6 +27,11 @@ type ExtendedInterface interface {
 	LookupSymbol(string) error
 }
 
+//go:generate moq -rm -out mock/extendedvgputypeid.go -pkg mock . ExtendedVgpuTypeId:ExtendedVgpuTypeId
+type ExtendedVgpuTypeId interface {
+	ID() uint32
+}
+
 // libraryOptions hold the paramaters than can be set by a LibraryOption
 type libraryOptions struct {
 	path  string
