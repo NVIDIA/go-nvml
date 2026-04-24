@@ -23,11 +23,13 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"strings"
 )
 
 var (
 	reAutogenComment  = regexp.MustCompile(`(?m)// WARNING: This file has automatically been generated on.*$`)
 	reNvmlHLineNumber = regexp.MustCompile(`(?m)(// .* nvml/nvml\.h):[0-9]+$`)
+	reNvmlCall        = regexp.MustCompile(`C\.(nvml[A-Za-z0-9_]+)\(`)
 )
 
 func main() {
@@ -60,15 +62,70 @@ func transformFiles(sourceDir string) error {
 			return err
 		}
 
-		transformed := reAutogenComment.ReplaceAll(
-			content,
-			[]byte("// WARNING: THIS FILE WAS AUTOMATICALLY GENERATED."),
-		)
-		transformed = reNvmlHLineNumber.ReplaceAll(transformed, []byte("$1"))
+		transformed := applyGeneralTransforms(content)
+		if filepath.Base(path) == "nvml.go" {
+			transformed = []byte(applyNvmlGoTransforms(string(transformed)))
+		}
 
 		if string(transformed) == string(content) {
 			return nil
 		}
 		return os.WriteFile(path, transformed, 0644)
 	})
+}
+
+func applyGeneralTransforms(content []byte) []byte {
+	content = reAutogenComment.ReplaceAll(content, []byte("// WARNING: THIS FILE WAS AUTOMATICALLY GENERATED."))
+	content = reNvmlHLineNumber.ReplaceAll(content, []byte("$1"))
+	return content
+}
+
+func applyNvmlGoTransforms(src string) string {
+	src = stripLDFlags(src)
+	src = rewriteCalls(src)
+	src = insertDispatchInclude(src)
+	return src
+}
+
+func stripLDFlags(src string) string {
+	var out strings.Builder
+	for _, line := range strings.SplitAfter(src, "\n") {
+		trimmed := strings.TrimSpace(line)
+		if strings.HasPrefix(trimmed, "#cgo") && strings.Contains(trimmed, "LDFLAGS:") {
+			continue
+		}
+		out.WriteString(line)
+	}
+	return out.String()
+}
+
+func rewriteCalls(src string) string {
+	return reNvmlCall.ReplaceAllStringFunc(src, func(match string) string {
+		return "C.dispatch_" + match[len("C."):]
+	})
+}
+
+func insertDispatchInclude(src string) string {
+	const dispatchInclude = `#include "nvml_dispatch.h"`
+	if strings.Contains(src, dispatchInclude) {
+		return src
+	}
+
+	importC := `import "C"`
+	importIdx := strings.Index(src, importC)
+	if importIdx < 0 {
+		return src
+	}
+	preamble := src[:importIdx]
+	lastInclude := strings.LastIndex(preamble, "#include")
+	if lastInclude < 0 {
+		return src
+	}
+	lineEnd := strings.Index(preamble[lastInclude:], "\n")
+	if lineEnd < 0 {
+		return src
+	}
+	insertAt := lastInclude + lineEnd + 1
+
+	return preamble[:insertAt] + dispatchInclude + "\n" + src[insertAt:]
 }

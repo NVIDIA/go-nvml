@@ -144,7 +144,7 @@ $(PKG_BINDINGS_DIR)/nvml.h: $(GEN_BINDINGS_DIR)/nvml.h | $(PKG_BINDINGS_DIR)
 	$(SED) -i -E 's#(typedef\s+struct)\s+(nvml.*_st\*)\s+(nvml.*_t);#\1\n{\n    struct \2 handle;\n} \3;#g' $(@)
 	spatch --in-place --very-quiet --sp-file $(GEN_BINDINGS_DIR)/anonymous_structs.cocci $(@) > /dev/null
 
-bindings: .create-bindings .transform-bindings .generate-api
+bindings: .create-bindings .generate-dispatch .transform-bindings .generate-api
 .create-bindings: $(PKG_BINDINGS_DIR)/nvml.h $(SOURCES) | $(PKG_BINDINGS_DIR)
 	c-for-go -out $(PKG_DIR) $(GEN_BINDINGS_DIR)/nvml.yml
 	cd $(PKG_BINDINGS_DIR); \
@@ -153,7 +153,13 @@ bindings: .create-bindings .transform-bindings .generate-api
 	cd -> /dev/null
 	rm -rf $(PKG_BINDINGS_DIR)/cgo_helpers.go $(PKG_BINDINGS_DIR)/types.go $(PKG_BINDINGS_DIR)/_obj $(PKG_BINDINGS_DIR)/_cgo_2.o
 
-.transform-bindings: | .create-bindings
+.generate-dispatch: | .create-bindings
+	go run $(GEN_BINDINGS_DIR)/generate-dispatch \
+		-header $(GEN_BINDINGS_DIR)/nvml.h \
+		-output-h $(PKG_BINDINGS_DIR)/nvml_dispatch.h \
+		-output-go $(PKG_BINDINGS_DIR)/zz_generated_nvml_dispatch.go
+
+.transform-bindings: | .generate-dispatch
 	go run $(GEN_BINDINGS_DIR)/transformbindings \
 		--sourceDir $(PKG_BINDINGS_DIR)
 
@@ -163,6 +169,7 @@ bindings: .create-bindings .transform-bindings .generate-api
 		--output $(PKG_BINDINGS_DIR)/zz_generated.api.go
 	make fmt
 
+
 test-bindings: bindings
 clean-bindings:
 	rm -f $(PKG_BINDINGS_DIR)/cgo_helpers.go
@@ -171,6 +178,8 @@ clean-bindings:
 	rm -f $(PKG_BINDINGS_DIR)/doc.go
 	rm -f $(PKG_BINDINGS_DIR)/nvml.go
 	rm -f $(PKG_BINDINGS_DIR)/nvml.h
+	rm -f $(PKG_BINDINGS_DIR)/nvml_dispatch.h
+	rm -f $(PKG_BINDINGS_DIR)/zz_generated_nvml_dispatch.go
 	rm -f $(PKG_BINDINGS_DIR)/types_gen.go
 	rm -f $(PKG_BINDINGS_DIR)/zz_generated.api.go
 
