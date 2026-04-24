@@ -82,7 +82,10 @@ func (l *library) init(opts ...LibraryOption) {
 	}
 
 	l.path = o.path
-	l.dl = dl.New(o.path, o.flags)
+	l.dl = dl.New(o.path, o.flags,
+		dl.WithAfterOpen(populateDispatch),
+		dl.WithBeforeClose(clearDispatch),
+	)
 }
 
 func (l *library) Extensions() ExtendedInterface {

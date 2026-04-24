@@ -144,31 +144,31 @@ $(PKG_BINDINGS_DIR)/nvml.h: $(GEN_BINDINGS_DIR)/nvml.h | $(PKG_BINDINGS_DIR)
 	$(SED) -i -E 's#(typedef\s+struct)\s+(nvml.*_st\*)\s+(nvml.*_t);#\1\n{\n    struct \2 handle;\n} \3;#g' $(@)
 	spatch --in-place --very-quiet --sp-file $(GEN_BINDINGS_DIR)/anonymous_structs.cocci $(@) > /dev/null
 
-bindings: .create-bindings .strip-autogen-comment .strip-nvml-h-linenumber
+bindings: .create-bindings .generate-dispatch .transform-bindings .generate-api
 .create-bindings: $(PKG_BINDINGS_DIR)/nvml.h $(SOURCES) | $(PKG_BINDINGS_DIR)
-	cp $(GEN_BINDINGS_DIR)/nvml.yml $(PKG_BINDINGS_DIR)
-	c-for-go -out $(PKG_DIR) $(PKG_BINDINGS_DIR)/nvml.yml
+	c-for-go -out $(PKG_DIR) $(GEN_BINDINGS_DIR)/nvml.yml
 	cd $(PKG_BINDINGS_DIR); \
 		go tool cgo -godefs types.go > types_gen.go; \
 		go fmt types_gen.go; \
 	cd -> /dev/null
-	rm -rf $(PKG_BINDINGS_DIR)/nvml.yml $(PKG_BINDINGS_DIR)/cgo_helpers.go $(PKG_BINDINGS_DIR)/types.go $(PKG_BINDINGS_DIR)/_obj
-	go run $(GEN_BINDINGS_DIR)/generateapi.go \
+	rm -rf $(PKG_BINDINGS_DIR)/cgo_helpers.go $(PKG_BINDINGS_DIR)/types.go $(PKG_BINDINGS_DIR)/_obj $(PKG_BINDINGS_DIR)/_cgo_2.o
+
+.generate-dispatch: | .create-bindings
+	go run $(GEN_BINDINGS_DIR)/generate-dispatch \
+		-header $(GEN_BINDINGS_DIR)/nvml.h \
+		-output-h $(PKG_BINDINGS_DIR)/nvml_dispatch.h \
+		-output-go $(PKG_BINDINGS_DIR)/zz_generated_nvml_dispatch.go
+
+.transform-bindings: | .generate-dispatch
+	go run $(GEN_BINDINGS_DIR)/transformbindings \
+		--sourceDir $(PKG_BINDINGS_DIR)
+
+.generate-api: | .transform-bindings
+	go run $(GEN_BINDINGS_DIR)/generateapi \
 		--sourceDir $(PKG_BINDINGS_DIR) \
 		--output $(PKG_BINDINGS_DIR)/zz_generated.api.go
 	make fmt
 
-.strip-autogen-comment: SED_SEARCH_STRING := // WARNING: This file has automatically been generated on
-.strip-autogen-comment: SED_REPLACE_STRING := // WARNING: THIS FILE WAS AUTOMATICALLY GENERATED.
-.strip-autogen-comment: | .create-bindings
-	grep -l -R "$(SED_SEARCH_STRING)" pkg \
-		| xargs $(SED) -i -E 's#$(SED_SEARCH_STRING).*$$#$(SED_REPLACE_STRING)#g'
-
-.strip-nvml-h-linenumber: SED_SEARCH_STRING := // (.*) nvml/nvml.h:[0-9]+
-.strip-nvml-h-linenumber: SED_REPLACE_STRING := // \1 nvml/nvml.h
-.strip-nvml-h-linenumber: | .create-bindings
-	grep -l -RE "$(SED_SEARCH_STRING)" pkg \
-		| xargs $(SED) -i -E 's#$(SED_SEARCH_STRING)$$#$(SED_REPLACE_STRING)#g'
 
 test-bindings: bindings
 clean-bindings:
@@ -178,6 +178,8 @@ clean-bindings:
 	rm -f $(PKG_BINDINGS_DIR)/doc.go
 	rm -f $(PKG_BINDINGS_DIR)/nvml.go
 	rm -f $(PKG_BINDINGS_DIR)/nvml.h
+	rm -f $(PKG_BINDINGS_DIR)/nvml_dispatch.h
+	rm -f $(PKG_BINDINGS_DIR)/zz_generated_nvml_dispatch.go
 	rm -f $(PKG_BINDINGS_DIR)/types_gen.go
 	rm -f $(PKG_BINDINGS_DIR)/zz_generated.api.go
 
