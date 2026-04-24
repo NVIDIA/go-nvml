@@ -146,13 +146,12 @@ $(PKG_BINDINGS_DIR)/nvml.h: $(GEN_BINDINGS_DIR)/nvml.h | $(PKG_BINDINGS_DIR)
 
 bindings: .create-bindings .strip-autogen-comment .strip-nvml-h-linenumber
 .create-bindings: $(PKG_BINDINGS_DIR)/nvml.h $(SOURCES) | $(PKG_BINDINGS_DIR)
-	cp $(GEN_BINDINGS_DIR)/nvml.yml $(PKG_BINDINGS_DIR)
-	c-for-go -out $(PKG_DIR) $(PKG_BINDINGS_DIR)/nvml.yml
+	c-for-go -out $(PKG_DIR) $(GEN_BINDINGS_DIR)/nvml.yml
 	cd $(PKG_BINDINGS_DIR); \
 		go tool cgo -godefs types.go > types_gen.go; \
 		go fmt types_gen.go; \
 	cd -> /dev/null
-	rm -rf $(PKG_BINDINGS_DIR)/nvml.yml $(PKG_BINDINGS_DIR)/cgo_helpers.go $(PKG_BINDINGS_DIR)/types.go $(PKG_BINDINGS_DIR)/_obj
+	rm -rf $(PKG_BINDINGS_DIR)/cgo_helpers.go $(PKG_BINDINGS_DIR)/types.go $(PKG_BINDINGS_DIR)/_obj $(PKG_BINDINGS_DIR)/_cgo_2.o
 	go run $(GEN_BINDINGS_DIR)/generateapi.go \
 		--sourceDir $(PKG_BINDINGS_DIR) \
 		--output $(PKG_BINDINGS_DIR)/zz_generated.api.go
