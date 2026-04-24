@@ -144,7 +144,7 @@ $(PKG_BINDINGS_DIR)/nvml.h: $(GEN_BINDINGS_DIR)/nvml.h | $(PKG_BINDINGS_DIR)
 	$(SED) -i -E 's#(typedef\s+struct)\s+(nvml.*_st\*)\s+(nvml.*_t);#\1\n{\n    struct \2 handle;\n} \3;#g' $(@)
 	spatch --in-place --very-quiet --sp-file $(GEN_BINDINGS_DIR)/anonymous_structs.cocci $(@) > /dev/null
 
-bindings: .create-bindings .strip-autogen-comment .strip-nvml-h-linenumber
+bindings: .create-bindings .strip-autogen-comment .strip-nvml-h-linenumber .generate-api
 .create-bindings: $(PKG_BINDINGS_DIR)/nvml.h $(SOURCES) | $(PKG_BINDINGS_DIR)
 	c-for-go -out $(PKG_DIR) $(GEN_BINDINGS_DIR)/nvml.yml
 	cd $(PKG_BINDINGS_DIR); \
@@ -152,7 +152,9 @@ bindings: .create-bindings .strip-autogen-comment .strip-nvml-h-linenumber
 		go fmt types_gen.go; \
 	cd -> /dev/null
 	rm -rf $(PKG_BINDINGS_DIR)/cgo_helpers.go $(PKG_BINDINGS_DIR)/types.go $(PKG_BINDINGS_DIR)/_obj $(PKG_BINDINGS_DIR)/_cgo_2.o
-	go run $(GEN_BINDINGS_DIR)/generateapi.go \
+
+.generate-api: | .create-bindings
+	go run $(GEN_BINDINGS_DIR)/generateapi \
 		--sourceDir $(PKG_BINDINGS_DIR) \
 		--output $(PKG_BINDINGS_DIR)/zz_generated.api.go
 	make fmt
