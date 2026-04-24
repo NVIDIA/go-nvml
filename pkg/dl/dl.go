@@ -36,18 +36,43 @@ const (
 	RTLD_NOLOAD   = C.RTLD_NOLOAD
 )
 
-type DynamicLibrary struct {
-	Name   string
-	Flags  int
-	handle unsafe.Pointer
-	path   string
+// Option is a functional option for configuring a DynamicLibrary.
+type Option func(*DynamicLibrary)
+
+// WithAfterOpen registers a hook that is called after a successful Open.
+// If the hook returns an error, Open fails and the library is closed.
+func WithAfterOpen(hook func(*DynamicLibrary) error) Option {
+	return func(dl *DynamicLibrary) {
+		dl.afterOpen = hook
+	}
 }
 
-func New(name string, flags int) *DynamicLibrary {
-	return (&DynamicLibrary{
+// WithBeforeClose registers a hook that is called just before the library is
+// unloaded by Close.
+func WithBeforeClose(hook func(*DynamicLibrary) error) Option {
+	return func(dl *DynamicLibrary) {
+		dl.beforeClose = hook
+	}
+}
+
+type DynamicLibrary struct {
+	Name        string
+	Flags       int
+	handle      unsafe.Pointer
+	path        string
+	afterOpen   func(*DynamicLibrary) error
+	beforeClose func(*DynamicLibrary) error
+}
+
+func New(name string, flags int, opts ...Option) *DynamicLibrary {
+	dl := &DynamicLibrary{
 		Name:  name,
 		Flags: flags,
-	}).init()
+	}
+	for _, opt := range opts {
+		opt(dl)
+	}
+	return dl.init()
 }
 
 func (dl *DynamicLibrary) reset() {
@@ -94,6 +119,13 @@ func (dl *DynamicLibrary) Open() error {
 	}); err != nil {
 		return err
 	}
+
+	if dl.afterOpen != nil {
+		if err := dl.afterOpen(dl); err != nil {
+			_ = dl.Close()
+			return err
+		}
+	}
 	return nil
 }
 
@@ -101,6 +133,13 @@ func (dl *DynamicLibrary) Close() error {
 	if dl.handle == nil {
 		return nil
 	}
+
+	if dl.beforeClose != nil {
+		if err := dl.beforeClose(dl); err != nil {
+			return err
+		}
+	}
+
 	if err := withOSLock(func() error {
 		if C.dlclose(dl.handle) != 0 {
 			return dlError()
@@ -111,6 +150,21 @@ func (dl *DynamicLibrary) Close() error {
 		return err
 	}
 	return nil
+}
+
+// Resolve looks up symbol in the library and returns its address, or nil if
+// not found. It implements the Resolver interface.
+func (dl *DynamicLibrary) Resolve(symbol string) unsafe.Pointer {
+	sym := C.CString(symbol)
+	defer C.free(unsafe.Pointer(sym))
+
+	var ptr unsafe.Pointer
+	_ = withOSLock(func() error {
+		_ = dlError() // clear any previous error
+		ptr = C.dlsym(dl.handle, sym)
+		return nil
+	})
+	return ptr
 }
 
 func (dl *DynamicLibrary) Lookup(symbol string) error {
