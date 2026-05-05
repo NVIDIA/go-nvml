@@ -42,6 +42,15 @@ func (vgpuTypeId nvmlVgpuTypeId) GetClass() (string, Return) {
 	return string(vgpuTypeClass[:clen(vgpuTypeClass)]), ret
 }
 
+// nvml.VgpuTypeGetID
+func (l *library) VgpuTypeGetID(vgpuTypeId VgpuTypeId) uint32 {
+	return vgpuTypeId.GetID()
+}
+
+func (vgpuTypeId nvmlVgpuTypeId) GetID() uint32 {
+	return uint32(vgpuTypeId)
+}
+
 // nvml.VgpuTypeGetName()
 func (l *library) VgpuTypeGetName(vgpuTypeId VgpuTypeId) (string, Return) {
 	return vgpuTypeId.GetName()
