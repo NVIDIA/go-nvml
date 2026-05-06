@@ -2931,10 +2931,56 @@ func (l *library) DeviceGetRunningProcessDetailList(device Device) (ProcessDetai
 }
 
 func (device nvmlDevice) GetRunningProcessDetailList() (ProcessDetailList, Return) {
+	return deviceGetRunningProcessDetailList(device)
+}
+
+func deviceGetRunningProcessDetailList(device nvmlDevice) (ProcessDetailList, Return) {
 	var plist ProcessDetailList
 	plist.Version = STRUCT_VERSION(plist, 1)
-	ret := nvmlDeviceGetRunningProcessDetailList(device, &plist)
-	return plist, ret
+	plist.NumProcArrayEntries = 1
+
+	for {
+		// Allocate memory in cgo for ProcessDetailList::ProcArray
+		// We can't simply use a unsafe.Pointer of Go slice here
+		// otherwise it will trigger the following error:
+		//   runtime error: cgo argument has Go pointer to unpinned Go pointer
+		count := plist.NumProcArrayEntries
+		cptr := malloc(uintptr(count) * unsafe.Sizeof(ProcessDetail_v1{}))
+		if cptr == nil {
+			return plist, ERROR_MEMORY
+		}
+
+		plist.ProcArray = (*ProcessDetail_v1)(cptr)
+		ret := nvmlDeviceGetRunningProcessDetailList(device, &plist)
+		if ret == SUCCESS {
+			out := make([]ProcessDetail_v1, plist.NumProcArrayEntries)
+			src := unsafe.Slice((*ProcessDetail_v1)(cptr), plist.NumProcArrayEntries)
+			copy(out, src)
+
+			if plist.NumProcArrayEntries > 0 {
+				plist.ProcArray = &out[0]
+			} else {
+				plist.ProcArray = nil
+			}
+
+			// Clean up C memory before return
+			free(cptr)
+
+			return plist, ret
+		}
+
+		// Clean up C memory before retry/return
+		if cptr != nil {
+			free(cptr)
+		}
+
+		if ret != ERROR_INSUFFICIENT_SIZE {
+			return plist, ret
+		}
+
+		// Increase capacity and retry
+		plist.NumProcArrayEntries *= 2
+	}
 }
 
 // nvml.DeviceGetConfComputeMemSizeInfo()
