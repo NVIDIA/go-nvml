@@ -1397,6 +1397,24 @@ func (device nvmlDevice) GetPdi() (Pdi, Return) {
 	return pdi, ret
 }
 
+func (l *library) DeviceSetHostname_v1(device Device, hostName Hostname_v1) Return {
+	return device.SetHostname_v1(hostName)
+}
+
+func (device nvmlDevice) SetHostname_v1(hostName Hostname_v1) Return {
+	return nvmlDeviceSetHostname_v1(device, &hostName)
+}
+
+func (l *library) DeviceGetHostname_v1(device Device) (Hostname_v1, Return) {
+	return device.GetHostname_v1()
+}
+
+func (device nvmlDevice) GetHostname_v1() (Hostname_v1, Return) {
+	var hostName Hostname_v1
+	ret := nvmlDeviceGetHostname_v1(device, &hostName)
+	return hostName, ret
+}
+
 // nvml.DeviceGetAccountingStats()
 func (l *library) DeviceGetAccountingStats(device Device, pid uint32) (AccountingStats, Return) {
 	return device.GetAccountingStats(pid)
@@ -1882,6 +1900,14 @@ func (device nvmlDevice) SetVirtualizationMode(virtualMode GpuVirtualizationMode
 	return nvmlDeviceSetVirtualizationMode(device, virtualMode)
 }
 
+func (l *library) DeviceVgpuForceGspUnload(device Device) Return {
+	return device.VgpuForceGspUnload()
+}
+
+func (device nvmlDevice) VgpuForceGspUnload() Return {
+	return nvmlDeviceVgpuForceGspUnload(device)
+}
+
 // nvml.DeviceGetGridLicensableFeatures()
 func (l *library) DeviceGetGridLicensableFeatures(device Device) (GridLicensableFeatures, Return) {
 	return device.GetGridLicensableFeatures()
@@ -2123,6 +2149,14 @@ func (l *library) DeviceReadWritePRM_v1(device Device, buffer *PRMTLV_v1) Return
 
 func (device nvmlDevice) ReadWritePRM_v1(buffer *PRMTLV_v1) Return {
 	return nvmlDeviceReadWritePRM_v1(device, buffer)
+}
+
+func (l *library) DeviceReadPRMCounters_v1(device Device, counterList PRMCounterList_v1) Return {
+	return device.ReadPRMCounters_v1(counterList)
+}
+
+func (device nvmlDevice) ReadPRMCounters_v1(counterList PRMCounterList_v1) Return {
+	return nvmlDeviceReadPRMCounters_v1(device, &counterList)
 }
 
 // nvml.DeviceSetMigMode()
@@ -2806,6 +2840,14 @@ func (device nvmlDevice) SetVgpuSchedulerState(pSchedulerState *VgpuSchedulerSet
 	return nvmlDeviceSetVgpuSchedulerState(device, pSchedulerState)
 }
 
+func (l *library) DeviceSetVgpuSchedulerState_v2(device Device, pSchedulerState *VgpuSchedulerState_v2) Return {
+	return device.SetVgpuSchedulerState_v2(pSchedulerState)
+}
+
+func (device nvmlDevice) SetVgpuSchedulerState_v2(schedulerState *VgpuSchedulerState_v2) Return {
+	return nvmlDeviceSetVgpuSchedulerState_v2(device, schedulerState)
+}
+
 // nvml.DeviceGetVgpuSchedulerCapabilities()
 func (l *library) DeviceGetVgpuSchedulerCapabilities(device Device) (VgpuSchedulerCapabilities, Return) {
 	return device.GetVgpuSchedulerCapabilities()
@@ -3096,6 +3138,17 @@ func (device nvmlDevice) GetRepairStatus() (RepairStatus, Return) {
 	repairStatus.Version = STRUCT_VERSION(repairStatus, 1)
 	ret := nvmlDeviceGetRepairStatus(device, &repairStatus)
 	return repairStatus, ret
+}
+
+// nvml.DeviceGetUnrepairableMemoryFlag()
+func (l *library) DeviceGetUnrepairableMemoryFlag(device Device) (UnrepairableMemoryStatus_v1, Return) {
+	return device.GetUnrepairableMemoryFlag()
+}
+
+func (device nvmlDevice) GetUnrepairableMemoryFlag() (UnrepairableMemoryStatus_v1, Return) {
+	var unrepairableMemoryStatus UnrepairableMemoryStatus_v1
+	ret := nvmlDeviceGetUnrepairableMemoryFlag_v1(device, &unrepairableMemoryStatus)
+	return unrepairableMemoryStatus, ret
 }
 
 // nvml.DeviceGetPciInfoExt()
@@ -3512,6 +3565,15 @@ func (device nvmlDevice) WorkloadPowerProfileClearRequestedProfiles(requestedPro
 	return nvmlDeviceWorkloadPowerProfileClearRequestedProfiles(device, requestedProfiles)
 }
 
+// nvml.DeviceWorkloadPowerProfileUpdateProfiles_v1
+func (l *library) DeviceWorkloadPowerProfileUpdateProfiles_v1(device Device, updateProfiles *WorkloadPowerProfileUpdateProfiles_v1) Return {
+	return device.WorkloadPowerProfileUpdateProfiles_v1(updateProfiles)
+}
+
+func (device nvmlDevice) WorkloadPowerProfileUpdateProfiles_v1(updateProfiles *WorkloadPowerProfileUpdateProfiles_v1) Return {
+	return nvmlDeviceWorkloadPowerProfileUpdateProfiles_v1(device, updateProfiles)
+}
+
 // nvml.DevicePowerSmoothingActivatePresetProfile()
 func (l *library) DevicePowerSmoothingActivatePresetProfile(device Device, profile *PowerSmoothingProfile) Return {
 	return device.PowerSmoothingActivatePresetProfile(profile)
@@ -3545,6 +3607,33 @@ func (l *library) DeviceGetSramUniqueUncorrectedEccErrorCounts(device Device, er
 
 func (device nvmlDevice) GetSramUniqueUncorrectedEccErrorCounts(errorCounts *EccSramUniqueUncorrectedErrorCounts) Return {
 	return nvmlDeviceGetSramUniqueUncorrectedEccErrorCounts(device, errorCounts)
+}
+
+func (l *library) DeviceGetRemappedRows_v2(device Device) (RemappedRowsInfo_v2, Return) {
+	return device.GetRemappedRows_v2()
+}
+
+func (device nvmlDevice) GetRemappedRows_v2() (RemappedRowsInfo_v2, Return) {
+	var rowsInfo RemappedRowsInfo_v2
+	ret := nvmlDeviceGetRemappedRows_v2(device, &rowsInfo)
+	return rowsInfo, ret
+}
+
+func (l *library) DeviceSetRusdSettings_v1(device Device, settings RusdSettings_v1) Return {
+	return device.SetRusdSettings_v1(settings)
+}
+func (device nvmlDevice) SetRusdSettings_v1(settings RusdSettings_v1) Return {
+	return nvmlDeviceSetRusdSettings_v1(device, &settings)
+}
+
+func (l *library) DeviceGetVgpuSchedulerLog_v2(device Device) (VgpuSchedulerLogInfo_v2, Return) {
+	return device.GetVgpuSchedulerLog_v2()
+}
+
+func (device nvmlDevice) GetVgpuSchedulerLog_v2() (VgpuSchedulerLogInfo_v2, Return) {
+	var logInfo VgpuSchedulerLogInfo_v2
+	ret := nvmlDeviceGetVgpuSchedulerLog_v2(device, &logInfo)
+	return logInfo, ret
 }
 
 // nvml.GpuInstanceGetCreatableVgpus()
@@ -3635,4 +3724,32 @@ func (l *library) GpuInstanceSetVgpuHeterogeneousMode(gpuInstance GpuInstance, h
 
 func (gpuInstance nvmlGpuInstance) SetVgpuHeterogeneousMode(heterogeneousMode *VgpuHeterogeneousMode) Return {
 	return nvmlGpuInstanceSetVgpuHeterogeneousMode(gpuInstance, heterogeneousMode)
+}
+
+func (l *library) GpuInstanceGetVgpuSchedulerState_v2(gpuInstance GpuInstance) (VgpuSchedulerStateInfo_v2, Return) {
+	return gpuInstance.GetVgpuSchedulerState_v2()
+}
+
+func (gpuInstance nvmlGpuInstance) GetVgpuSchedulerState_v2() (VgpuSchedulerStateInfo_v2, Return) {
+	var info VgpuSchedulerStateInfo_v2
+	ret := nvmlGpuInstanceGetVgpuSchedulerState_v2(gpuInstance, &info)
+	return info, ret
+}
+
+func (l *library) GpuInstanceGetVgpuSchedulerLog_v2(gpuInstance GpuInstance) (VgpuSchedulerLogInfo_v2, Return) {
+	return gpuInstance.GetVgpuSchedulerLog_v2()
+}
+
+func (gpuInstance nvmlGpuInstance) GetVgpuSchedulerLog_v2() (VgpuSchedulerLogInfo_v2, Return) {
+	var logInfo VgpuSchedulerLogInfo_v2
+	ret := nvmlGpuInstanceGetVgpuSchedulerLog_v2(gpuInstance, &logInfo)
+	return logInfo, ret
+}
+
+func (l *library) GpuInstanceSetVgpuSchedulerState_v2(gpuInstance GpuInstance, schedulerState *VgpuSchedulerState_v2) Return {
+	return gpuInstance.SetVgpuSchedulerState_v2(schedulerState)
+}
+
+func (gpuInstance nvmlGpuInstance) SetVgpuSchedulerState_v2(schedulerState *VgpuSchedulerState_v2) Return {
+	return nvmlGpuInstanceSetVgpuSchedulerState_v2(gpuInstance, schedulerState)
 }
