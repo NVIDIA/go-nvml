@@ -153,9 +153,14 @@ bindings: .create-bindings .strip-autogen-comment .strip-nvml-h-linenumber
 		go fmt types_gen.go; \
 	cd -> /dev/null
 	rm -rf $(PKG_BINDINGS_DIR)/nvml.yml $(PKG_BINDINGS_DIR)/cgo_helpers.go $(PKG_BINDINGS_DIR)/types.go $(PKG_BINDINGS_DIR)/_obj
-	go run $(GEN_BINDINGS_DIR)/generateapi.go \
+	go run -tags generateapi \
+		$(GEN_BINDINGS_DIR)/generateapi.go \
 		--sourceDir $(PKG_BINDINGS_DIR) \
 		--output $(PKG_BINDINGS_DIR)/zz_generated.api.go
+	go run -tags generatecgoapi \
+		$(GEN_BINDINGS_DIR)/generatecgoapi.go \
+		--sourceDir $(PKG_BINDINGS_DIR) \
+		--output $(PKG_BINDINGS_DIR)/zz_generated.cgoapi.go
 	make fmt
 
 .strip-autogen-comment: SED_SEARCH_STRING := // WARNING: This file has automatically been generated on
