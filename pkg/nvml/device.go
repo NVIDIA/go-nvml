@@ -1905,7 +1905,7 @@ func (device nvmlDevice) GetProcessUtilization(lastSeenTimestamp uint64) ([]Proc
 		return nil, ret
 	}
 	if processSamplesCount == 0 {
-		return []ProcessUtilizationSample{}, ret
+		return []ProcessUtilizationSample{}, SUCCESS
 	}
 	utilization := make([]ProcessUtilizationSample, processSamplesCount)
 	ret = nvmlDeviceGetProcessUtilization(device, &utilization[0], &processSamplesCount, lastSeenTimestamp)
