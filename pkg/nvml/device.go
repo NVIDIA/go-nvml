@@ -17,6 +17,7 @@ package nvml
 import (
 	"fmt"
 	"reflect"
+	"runtime"
 	"unsafe"
 )
 
@@ -1397,6 +1398,26 @@ func (device nvmlDevice) GetPdi() (Pdi, Return) {
 	return pdi, ret
 }
 
+func (l *library) DeviceSetHostname_v1(device Device, hostName string) Return {
+	return device.SetHostname_v1(hostName)
+}
+
+func (device nvmlDevice) SetHostname_v1(hostName string) Return {
+	var hostNameReq Hostname_v1
+	stringToInt8Slice(hostName, hostNameReq.Value[:])
+	return nvmlDeviceSetHostname_v1(device, &hostNameReq)
+}
+
+func (l *library) DeviceGetHostname_v1(device Device) (string, Return) {
+	return device.GetHostname_v1()
+}
+
+func (device nvmlDevice) GetHostname_v1() (string, Return) {
+	var hostName Hostname_v1
+	ret := nvmlDeviceGetHostname_v1(device, &hostName)
+	return int8SliceToString(hostName.Value[:]), ret
+}
+
 // nvml.DeviceGetAccountingStats()
 func (l *library) DeviceGetAccountingStats(device Device, pid uint32) (AccountingStats, Return) {
 	return device.GetAccountingStats(pid)
@@ -2123,6 +2144,41 @@ func (l *library) DeviceReadWritePRM_v1(device Device, buffer *PRMTLV_v1) Return
 
 func (device nvmlDevice) ReadWritePRM_v1(buffer *PRMTLV_v1) Return {
 	return nvmlDeviceReadWritePRM_v1(device, buffer)
+}
+
+func (l *library) DeviceReadPRMCounters_v1(device Device, prmCounters []PRMCounterId, localPort int) ([]PRMCounter_v1, Return) {
+	return device.ReadPRMCounters_v1(prmCounters, localPort)
+}
+
+func (device nvmlDevice) ReadPRMCounters_v1(prmCounters []PRMCounterId, localPort int) ([]PRMCounter_v1, Return) {
+	if len(prmCounters) == 0 {
+		return nil, ERROR_INVALID_ARGUMENT
+	}
+
+	inData := PRMCounterInput_v1{
+		LocalPort: uint32(localPort),
+	}
+
+	counters := make([]PRMCounter_v1, 0, len(prmCounters))
+	for _, counterId := range prmCounters {
+		counters = append(counters, PRMCounter_v1{
+			CounterId: uint32(counterId),
+			InData:    inData,
+		})
+	}
+
+	var pinner runtime.Pinner
+	prmCounterList := PRMCounterList_v1{
+		NumCounters: uint32(len(counters)),
+		Counters:    &counters[0],
+	}
+	pinner.Pin(&counters[0])
+	defer pinner.Unpin()
+	ret := nvmlDeviceReadPRMCounters_v1(device, &prmCounterList)
+	if ret != SUCCESS {
+		return nil, ret
+	}
+	return counters, ret
 }
 
 // nvml.DeviceSetMigMode()
@@ -3098,6 +3154,16 @@ func (device nvmlDevice) GetRepairStatus() (RepairStatus, Return) {
 	return repairStatus, ret
 }
 
+func (l *library) DeviceGetUnrepairableMemoryFlag_v1(device Device) (UnrepairableMemoryStatus_v1, Return) {
+	return device.GetUnrepairableMemoryFlag_v1()
+}
+
+func (device nvmlDevice) GetUnrepairableMemoryFlag_v1() (UnrepairableMemoryStatus_v1, Return) {
+	var status UnrepairableMemoryStatus_v1
+	ret := nvmlDeviceGetUnrepairableMemoryFlag_v1(device, &status)
+	return status, ret
+}
+
 // nvml.DeviceGetPciInfoExt()
 func (l *library) DeviceGetPciInfoExt(device Device) (PciInfoExt, Return) {
 	return device.GetPciInfoExt()
@@ -3512,6 +3578,25 @@ func (device nvmlDevice) WorkloadPowerProfileClearRequestedProfiles(requestedPro
 	return nvmlDeviceWorkloadPowerProfileClearRequestedProfiles(device, requestedProfiles)
 }
 
+// nvml.DeviceWorkloadPowerProfileUpdateProfiles_v1
+func (l *library) DeviceWorkloadPowerProfileUpdateProfiles_v1(device Device, operation PowerProfileOperation, profileTypes []PowerProfileType) Return {
+	return device.WorkloadPowerProfileUpdateProfiles_v1(operation, profileTypes)
+}
+
+func (device nvmlDevice) WorkloadPowerProfileUpdateProfiles_v1(operation PowerProfileOperation, profileTypes []PowerProfileType) Return {
+	var profileTypesInt32 []int32
+	for _, profileType := range profileTypes {
+		profileTypesInt32 = append(profileTypesInt32, int32(profileType))
+	}
+	updateProfileMask := int32SliceToMask255(profileTypesInt32)
+	updateProfilesRequest := WorkloadPowerProfileUpdateProfiles_v1{
+		Operation:          uint32(operation),
+		UpdateProfilesMask: updateProfileMask,
+	}
+
+	return nvmlDeviceWorkloadPowerProfileUpdateProfiles_v1(device, &updateProfilesRequest)
+}
+
 // nvml.DevicePowerSmoothingActivatePresetProfile()
 func (l *library) DevicePowerSmoothingActivatePresetProfile(device Device, profile *PowerSmoothingProfile) Return {
 	return device.PowerSmoothingActivatePresetProfile(profile)
@@ -3545,6 +3630,15 @@ func (l *library) DeviceGetSramUniqueUncorrectedEccErrorCounts(device Device, er
 
 func (device nvmlDevice) GetSramUniqueUncorrectedEccErrorCounts(errorCounts *EccSramUniqueUncorrectedErrorCounts) Return {
 	return nvmlDeviceGetSramUniqueUncorrectedEccErrorCounts(device, errorCounts)
+}
+
+// nvml.DeviceSetRusdSettings_v1()
+func (l *library) DeviceSetRusdSettings_v1(device Device, settings RusdSettings_v1) Return {
+	return device.SetRusdSettings_v1(settings)
+}
+func (device nvmlDevice) SetRusdSettings_v1(settings RusdSettings_v1) Return {
+	settings.Version = STRUCT_VERSION(settings, 1)
+	return nvmlDeviceSetRusdSettings_v1(device, &settings)
 }
 
 // nvml.GpuInstanceGetCreatableVgpus()
