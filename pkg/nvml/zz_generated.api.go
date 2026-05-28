@@ -387,6 +387,7 @@ var (
 	VgpuTypeGetFrameRateLimit                        = libnvml.VgpuTypeGetFrameRateLimit
 	VgpuTypeGetFramebufferSize                       = libnvml.VgpuTypeGetFramebufferSize
 	VgpuTypeGetGpuInstanceProfileId                  = libnvml.VgpuTypeGetGpuInstanceProfileId
+	VgpuTypeGetID                                    = libnvml.VgpuTypeGetID
 	VgpuTypeGetLicense                               = libnvml.VgpuTypeGetLicense
 	VgpuTypeGetMaxInstances                          = libnvml.VgpuTypeGetMaxInstances
 	VgpuTypeGetMaxInstancesPerGpuInstance            = libnvml.VgpuTypeGetMaxInstancesPerGpuInstance
@@ -767,6 +768,7 @@ type Interface interface {
 	VgpuTypeGetFrameRateLimit(VgpuTypeId) (uint32, Return)
 	VgpuTypeGetFramebufferSize(VgpuTypeId) (uint64, Return)
 	VgpuTypeGetGpuInstanceProfileId(VgpuTypeId) (uint32, Return)
+	VgpuTypeGetID(VgpuTypeId) uint32
 	VgpuTypeGetLicense(VgpuTypeId) (string, Return)
 	VgpuTypeGetMaxInstances(Device, VgpuTypeId) (int, Return)
 	VgpuTypeGetMaxInstancesPerGpuInstance(*VgpuTypeMaxInstance) Return
@@ -1144,6 +1146,7 @@ type VgpuTypeId interface {
 	GetFrameRateLimit() (uint32, Return)
 	GetFramebufferSize() (uint64, Return)
 	GetGpuInstanceProfileId() (uint32, Return)
+	GetID() uint32
 	GetLicense() (string, Return)
 	GetMaxInstances(Device) (int, Return)
 	GetMaxInstancesPerVm() (int, Return)
