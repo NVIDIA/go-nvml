@@ -588,7 +588,7 @@ type Interface interface {
 	DeviceGetTargetFanSpeed(Device, int) (int, Return)
 	DeviceGetTemperature(Device, TemperatureSensors) (uint32, Return)
 	DeviceGetTemperatureThreshold(Device, TemperatureThresholds) (uint32, Return)
-	DeviceGetTemperatureV(Device) TemperatureHandler
+	DeviceGetTemperatureV(Device, TemperatureSensors) TemperatureHandler
 	DeviceGetThermalSettings(Device, uint32) (GpuThermalSettings, Return)
 	DeviceGetTopologyCommonAncestor(Device, Device) (GpuTopologyLevel, Return)
 	DeviceGetTopologyNearestGpus(Device, GpuTopologyLevel) ([]Device, Return)
@@ -959,7 +959,7 @@ type Device interface {
 	GetTargetFanSpeed(int) (int, Return)
 	GetTemperature(TemperatureSensors) (uint32, Return)
 	GetTemperatureThreshold(TemperatureThresholds) (uint32, Return)
-	GetTemperatureV() TemperatureHandler
+	GetTemperatureV(TemperatureSensors) TemperatureHandler
 	GetThermalSettings(uint32) (GpuThermalSettings, Return)
 	GetTopologyCommonAncestor(Device) (GpuTopologyLevel, Return)
 	GetTopologyNearestGpus(GpuTopologyLevel) ([]Device, Return)
