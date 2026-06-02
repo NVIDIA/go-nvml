@@ -1,5 +1,6 @@
 *.swp
 *.swo
+*.o
 .cache
 coverage.out*
 # Examples
