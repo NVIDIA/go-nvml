@@ -4013,7 +4013,7 @@ nvmlReturn_t DECLDIR nvmlSystemGetNVMLVersion(char *version, unsigned int length
  *
  * For all products.
  *
- * The CUDA driver version returned will be retreived from the currently installed version of CUDA.
+ * The CUDA driver version returned will be retrieved from the currently installed version of CUDA.
  * If the cuda library is not found, this function will return a known supported version number.
  *
  * @param cudaDriverVersion                    Reference in which to return the version identifier
@@ -7544,7 +7544,7 @@ nvmlReturn_t DECLDIR nvmlDeviceGetAdaptiveClockInfoStatus(nvmlDevice_t device, u
  * @param type                                 The PCI Bus type
  *
  * return
- *         - \ref NVML_SUCCESS                 if the bus \a type is successfully retreived
+ *         - \ref NVML_SUCCESS                 if the bus \a type is successfully retrieved
  *         - \ref NVML_ERROR_UNINITIALIZED     if the library has not been successfully initialized
  *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a device is invalid or \a type is NULL
  *         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
@@ -7787,7 +7787,7 @@ nvmlReturn_t DECLDIR nvmlSystemSetConfComputeGpusReadyState(unsigned int isAccep
  * @param pKeyRotationThrInfo                  Reference to the key rotation threshold data
  *
  * @return
- *         - \ref NVML_SUCCESS                 if \a key rotation threashold max attacker advantage has been set
+ *         - \ref NVML_SUCCESS                 if \a key rotation threshold max attacker advantage has been set
  *         - \ref NVML_ERROR_UNINITIALIZED     if the library has not been successfully initialized
  *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a device is invalid or \a memory is NULL
  *         - \ref NVML_ERROR_INVALID_STATE     if confidential compute GPU ready state is enabled
@@ -7826,7 +7826,7 @@ nvmlReturn_t DECLDIR nvmlSystemGetConfComputeSettings(nvmlSystemConfComputeSetti
  * @param version                              The retrieved GSP firmware version
  *
  * @return
- *         - \ref NVML_SUCCESS                 if GSP firmware version is sucessfully retrieved
+ *         - \ref NVML_SUCCESS                 if GSP firmware version is successfully retrieved
  *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a device is invalid or GSP \a version pointer is NULL
  *         - \ref NVML_ERROR_NOT_SUPPORTED     if GSP firmware is not enabled for GPU
  *         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
@@ -7844,7 +7844,7 @@ nvmlReturn_t DECLDIR nvmlDeviceGetGspFirmwareVersion(nvmlDevice_t device, char *
  * @param defaultMode                          Pointer to specify if GSP firmware is supported by default on \a device
  *
  * @return
- *         - \ref NVML_SUCCESS                 if GSP firmware mode is sucessfully retrieved
+ *         - \ref NVML_SUCCESS                 if GSP firmware mode is successfully retrieved
  *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a device is invalid or any of \a isEnabled or \a defaultMode is NULL
  *         - \ref NVML_ERROR_NOT_SUPPORTED     if GSP firmware is not enabled for GPU
  *         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
@@ -10910,7 +10910,7 @@ nvmlReturn_t DECLDIR nvmlVgpuInstanceGetGpuInstanceId(nvmlVgpuInstance_t vgpuIns
 * @param length                               Size of the vgpuPciId buffer
 *
 * @return
-*         - \ref NVML_SUCCESS                 if vGPU PCI Id is sucessfully retrieved
+*         - \ref NVML_SUCCESS                 if vGPU PCI Id is successfully retrieved
 *         - \ref NVML_ERROR_UNINITIALIZED     if the library has not been successfully initialized
 *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a vgpuInstance is 0, or \a vgpuPciId is NULL
 *         - \ref NVML_ERROR_NOT_FOUND         if \a vgpuInstance does not match a valid active vGPU instance on the system
@@ -11919,7 +11919,7 @@ typedef struct
  *
  * Supported on Linux only.
  *
- * @param device                                        Identifer of target GPU device
+ * @param device                                        Identifier of target GPU device
  * @param buffer                                        Structure holding the input data in TLV format as well as
  *                                                      the PRM register contents in TLV format (in the case of a successful
  *                                                      read operation).
@@ -12008,7 +12008,7 @@ typedef struct
  *
  * Supported on Linux only.
  *
- * @param device                                    Identifer of target GPU device
+ * @param device                                    Identifier of target GPU device
  * @param counterList                               Structure holding the input parameters as well as the retrieved counter values
  *
  * @return
@@ -13742,7 +13742,7 @@ typedef struct
     unsigned int version; //!< the API version number
 
     unsigned int profileId; //!< The requested profile ID
-    unsigned int paramId;   //!< The requested paramater ID
+    unsigned int paramId;   //!< The requested parameter ID
     double value;           //!< The requested value for the given parameter
 } nvmlPowerSmoothingProfile_v1_t;
 typedef nvmlPowerSmoothingProfile_v1_t  nvmlPowerSmoothingProfile_t;
