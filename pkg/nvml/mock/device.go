@@ -498,6 +498,9 @@ var _ nvml.Device = &Device{}
 //			GetRemappedRowsFunc: func() (int, int, bool, bool, nvml.Return) {
 //				panic("mock out the GetRemappedRows method")
 //			},
+//			GetRemappedRows_v2Func: func() (nvml.RemappedRowsInfo_v2, nvml.Return) {
+//				panic("mock out the GetRemappedRows_v2 method")
+//			},
 //			GetRepairStatusFunc: func() (nvml.RepairStatus, nvml.Return) {
 //				panic("mock out the GetRepairStatus method")
 //			},
@@ -612,8 +615,14 @@ var _ nvml.Device = &Device{}
 //			GetVgpuSchedulerLogFunc: func() (nvml.VgpuSchedulerLog, nvml.Return) {
 //				panic("mock out the GetVgpuSchedulerLog method")
 //			},
+//			GetVgpuSchedulerLog_v2Func: func(vgpuSchedulerLogInfo_v2 nvml.VgpuSchedulerLogInfo_v2) (nvml.VgpuSchedulerLogInfo_v2, nvml.Return) {
+//				panic("mock out the GetVgpuSchedulerLog_v2 method")
+//			},
 //			GetVgpuSchedulerStateFunc: func() (nvml.VgpuSchedulerGetState, nvml.Return) {
 //				panic("mock out the GetVgpuSchedulerState method")
+//			},
+//			GetVgpuSchedulerState_v2Func: func(vgpuSchedulerStateInfo_v2 nvml.VgpuSchedulerStateInfo_v2) (nvml.VgpuSchedulerStateInfo_v2, nvml.Return) {
+//				panic("mock out the GetVgpuSchedulerState_v2 method")
 //			},
 //			GetVgpuTypeCreatablePlacementsFunc: func(vgpuTypeId nvml.VgpuTypeId) (nvml.VgpuPlacementList, nvml.Return) {
 //				panic("mock out the GetVgpuTypeCreatablePlacements method")
@@ -786,11 +795,17 @@ var _ nvml.Device = &Device{}
 //			SetVgpuSchedulerStateFunc: func(vgpuSchedulerSetState *nvml.VgpuSchedulerSetState) nvml.Return {
 //				panic("mock out the SetVgpuSchedulerState method")
 //			},
+//			SetVgpuSchedulerState_v2Func: func(vgpuSchedulerState_v2 *nvml.VgpuSchedulerState_v2) nvml.Return {
+//				panic("mock out the SetVgpuSchedulerState_v2 method")
+//			},
 //			SetVirtualizationModeFunc: func(gpuVirtualizationMode nvml.GpuVirtualizationMode) nvml.Return {
 //				panic("mock out the SetVirtualizationMode method")
 //			},
 //			ValidateInforomFunc: func() nvml.Return {
 //				panic("mock out the ValidateInforom method")
+//			},
+//			VgpuForceGspUnloadFunc: func() nvml.Return {
+//				panic("mock out the VgpuForceGspUnload method")
 //			},
 //			VgpuTypeGetMaxInstancesFunc: func(vgpuTypeId nvml.VgpuTypeId) (int, nvml.Return) {
 //				panic("mock out the VgpuTypeGetMaxInstances method")
@@ -1297,6 +1312,9 @@ type Device struct {
 	// GetRemappedRowsFunc mocks the GetRemappedRows method.
 	GetRemappedRowsFunc func() (int, int, bool, bool, nvml.Return)
 
+	// GetRemappedRows_v2Func mocks the GetRemappedRows_v2 method.
+	GetRemappedRows_v2Func func() (nvml.RemappedRowsInfo_v2, nvml.Return)
+
 	// GetRepairStatusFunc mocks the GetRepairStatus method.
 	GetRepairStatusFunc func() (nvml.RepairStatus, nvml.Return)
 
@@ -1411,8 +1429,14 @@ type Device struct {
 	// GetVgpuSchedulerLogFunc mocks the GetVgpuSchedulerLog method.
 	GetVgpuSchedulerLogFunc func() (nvml.VgpuSchedulerLog, nvml.Return)
 
+	// GetVgpuSchedulerLog_v2Func mocks the GetVgpuSchedulerLog_v2 method.
+	GetVgpuSchedulerLog_v2Func func(vgpuSchedulerLogInfo_v2 nvml.VgpuSchedulerLogInfo_v2) (nvml.VgpuSchedulerLogInfo_v2, nvml.Return)
+
 	// GetVgpuSchedulerStateFunc mocks the GetVgpuSchedulerState method.
 	GetVgpuSchedulerStateFunc func() (nvml.VgpuSchedulerGetState, nvml.Return)
+
+	// GetVgpuSchedulerState_v2Func mocks the GetVgpuSchedulerState_v2 method.
+	GetVgpuSchedulerState_v2Func func(vgpuSchedulerStateInfo_v2 nvml.VgpuSchedulerStateInfo_v2) (nvml.VgpuSchedulerStateInfo_v2, nvml.Return)
 
 	// GetVgpuTypeCreatablePlacementsFunc mocks the GetVgpuTypeCreatablePlacements method.
 	GetVgpuTypeCreatablePlacementsFunc func(vgpuTypeId nvml.VgpuTypeId) (nvml.VgpuPlacementList, nvml.Return)
@@ -1585,11 +1609,17 @@ type Device struct {
 	// SetVgpuSchedulerStateFunc mocks the SetVgpuSchedulerState method.
 	SetVgpuSchedulerStateFunc func(vgpuSchedulerSetState *nvml.VgpuSchedulerSetState) nvml.Return
 
+	// SetVgpuSchedulerState_v2Func mocks the SetVgpuSchedulerState_v2 method.
+	SetVgpuSchedulerState_v2Func func(vgpuSchedulerState_v2 *nvml.VgpuSchedulerState_v2) nvml.Return
+
 	// SetVirtualizationModeFunc mocks the SetVirtualizationMode method.
 	SetVirtualizationModeFunc func(gpuVirtualizationMode nvml.GpuVirtualizationMode) nvml.Return
 
 	// ValidateInforomFunc mocks the ValidateInforom method.
 	ValidateInforomFunc func() nvml.Return
+
+	// VgpuForceGspUnloadFunc mocks the VgpuForceGspUnload method.
+	VgpuForceGspUnloadFunc func() nvml.Return
 
 	// VgpuTypeGetMaxInstancesFunc mocks the VgpuTypeGetMaxInstances method.
 	VgpuTypeGetMaxInstancesFunc func(vgpuTypeId nvml.VgpuTypeId) (int, nvml.Return)
@@ -2209,6 +2239,9 @@ type Device struct {
 		// GetRemappedRows holds details about calls to the GetRemappedRows method.
 		GetRemappedRows []struct {
 		}
+		// GetRemappedRows_v2 holds details about calls to the GetRemappedRows_v2 method.
+		GetRemappedRows_v2 []struct {
+		}
 		// GetRepairStatus holds details about calls to the GetRepairStatus method.
 		GetRepairStatus []struct {
 		}
@@ -2355,8 +2388,18 @@ type Device struct {
 		// GetVgpuSchedulerLog holds details about calls to the GetVgpuSchedulerLog method.
 		GetVgpuSchedulerLog []struct {
 		}
+		// GetVgpuSchedulerLog_v2 holds details about calls to the GetVgpuSchedulerLog_v2 method.
+		GetVgpuSchedulerLog_v2 []struct {
+			// VgpuSchedulerLogInfo_v2 is the vgpuSchedulerLogInfo_v2 argument value.
+			VgpuSchedulerLogInfo_v2 nvml.VgpuSchedulerLogInfo_v2
+		}
 		// GetVgpuSchedulerState holds details about calls to the GetVgpuSchedulerState method.
 		GetVgpuSchedulerState []struct {
+		}
+		// GetVgpuSchedulerState_v2 holds details about calls to the GetVgpuSchedulerState_v2 method.
+		GetVgpuSchedulerState_v2 []struct {
+			// VgpuSchedulerStateInfo_v2 is the vgpuSchedulerStateInfo_v2 argument value.
+			VgpuSchedulerStateInfo_v2 nvml.VgpuSchedulerStateInfo_v2
 		}
 		// GetVgpuTypeCreatablePlacements holds details about calls to the GetVgpuTypeCreatablePlacements method.
 		GetVgpuTypeCreatablePlacements []struct {
@@ -2659,6 +2702,11 @@ type Device struct {
 			// VgpuSchedulerSetState is the vgpuSchedulerSetState argument value.
 			VgpuSchedulerSetState *nvml.VgpuSchedulerSetState
 		}
+		// SetVgpuSchedulerState_v2 holds details about calls to the SetVgpuSchedulerState_v2 method.
+		SetVgpuSchedulerState_v2 []struct {
+			// VgpuSchedulerState_v2 is the vgpuSchedulerState_v2 argument value.
+			VgpuSchedulerState_v2 *nvml.VgpuSchedulerState_v2
+		}
 		// SetVirtualizationMode holds details about calls to the SetVirtualizationMode method.
 		SetVirtualizationMode []struct {
 			// GpuVirtualizationMode is the gpuVirtualizationMode argument value.
@@ -2666,6 +2714,9 @@ type Device struct {
 		}
 		// ValidateInforom holds details about calls to the ValidateInforom method.
 		ValidateInforom []struct {
+		}
+		// VgpuForceGspUnload holds details about calls to the VgpuForceGspUnload method.
+		VgpuForceGspUnload []struct {
 		}
 		// VgpuTypeGetMaxInstances holds details about calls to the VgpuTypeGetMaxInstances method.
 		VgpuTypeGetMaxInstances []struct {
@@ -2856,6 +2907,7 @@ type Device struct {
 	lockGetProcessUtilization                      sync.RWMutex
 	lockGetProcessesUtilizationInfo                sync.RWMutex
 	lockGetRemappedRows                            sync.RWMutex
+	lockGetRemappedRows_v2                         sync.RWMutex
 	lockGetRepairStatus                            sync.RWMutex
 	lockGetRetiredPages                            sync.RWMutex
 	lockGetRetiredPagesPendingStatus               sync.RWMutex
@@ -2894,7 +2946,9 @@ type Device struct {
 	lockGetVgpuProcessesUtilizationInfo            sync.RWMutex
 	lockGetVgpuSchedulerCapabilities               sync.RWMutex
 	lockGetVgpuSchedulerLog                        sync.RWMutex
+	lockGetVgpuSchedulerLog_v2                     sync.RWMutex
 	lockGetVgpuSchedulerState                      sync.RWMutex
+	lockGetVgpuSchedulerState_v2                   sync.RWMutex
 	lockGetVgpuTypeCreatablePlacements             sync.RWMutex
 	lockGetVgpuTypeSupportedPlacements             sync.RWMutex
 	lockGetVgpuUtilization                         sync.RWMutex
@@ -2952,8 +3006,10 @@ type Device struct {
 	lockSetVgpuCapabilities                        sync.RWMutex
 	lockSetVgpuHeterogeneousMode                   sync.RWMutex
 	lockSetVgpuSchedulerState                      sync.RWMutex
+	lockSetVgpuSchedulerState_v2                   sync.RWMutex
 	lockSetVirtualizationMode                      sync.RWMutex
 	lockValidateInforom                            sync.RWMutex
+	lockVgpuForceGspUnload                         sync.RWMutex
 	lockVgpuTypeGetMaxInstances                    sync.RWMutex
 	lockWorkloadPowerProfileClearRequestedProfiles sync.RWMutex
 	lockWorkloadPowerProfileGetCurrentProfiles     sync.RWMutex
@@ -7562,6 +7618,33 @@ func (mock *Device) GetRemappedRowsCalls() []struct {
 	return calls
 }
 
+// GetRemappedRows_v2 calls GetRemappedRows_v2Func.
+func (mock *Device) GetRemappedRows_v2() (nvml.RemappedRowsInfo_v2, nvml.Return) {
+	if mock.GetRemappedRows_v2Func == nil {
+		panic("Device.GetRemappedRows_v2Func: method is nil but Device.GetRemappedRows_v2 was just called")
+	}
+	callInfo := struct {
+	}{}
+	mock.lockGetRemappedRows_v2.Lock()
+	mock.calls.GetRemappedRows_v2 = append(mock.calls.GetRemappedRows_v2, callInfo)
+	mock.lockGetRemappedRows_v2.Unlock()
+	return mock.GetRemappedRows_v2Func()
+}
+
+// GetRemappedRows_v2Calls gets all the calls that were made to GetRemappedRows_v2.
+// Check the length with:
+//
+//	len(mockedDevice.GetRemappedRows_v2Calls())
+func (mock *Device) GetRemappedRows_v2Calls() []struct {
+} {
+	var calls []struct {
+	}
+	mock.lockGetRemappedRows_v2.RLock()
+	calls = mock.calls.GetRemappedRows_v2
+	mock.lockGetRemappedRows_v2.RUnlock()
+	return calls
+}
+
 // GetRepairStatus calls GetRepairStatusFunc.
 func (mock *Device) GetRepairStatus() (nvml.RepairStatus, nvml.Return) {
 	if mock.GetRepairStatusFunc == nil {
@@ -8666,6 +8749,38 @@ func (mock *Device) GetVgpuSchedulerLogCalls() []struct {
 	return calls
 }
 
+// GetVgpuSchedulerLog_v2 calls GetVgpuSchedulerLog_v2Func.
+func (mock *Device) GetVgpuSchedulerLog_v2(vgpuSchedulerLogInfo_v2 nvml.VgpuSchedulerLogInfo_v2) (nvml.VgpuSchedulerLogInfo_v2, nvml.Return) {
+	if mock.GetVgpuSchedulerLog_v2Func == nil {
+		panic("Device.GetVgpuSchedulerLog_v2Func: method is nil but Device.GetVgpuSchedulerLog_v2 was just called")
+	}
+	callInfo := struct {
+		VgpuSchedulerLogInfo_v2 nvml.VgpuSchedulerLogInfo_v2
+	}{
+		VgpuSchedulerLogInfo_v2: vgpuSchedulerLogInfo_v2,
+	}
+	mock.lockGetVgpuSchedulerLog_v2.Lock()
+	mock.calls.GetVgpuSchedulerLog_v2 = append(mock.calls.GetVgpuSchedulerLog_v2, callInfo)
+	mock.lockGetVgpuSchedulerLog_v2.Unlock()
+	return mock.GetVgpuSchedulerLog_v2Func(vgpuSchedulerLogInfo_v2)
+}
+
+// GetVgpuSchedulerLog_v2Calls gets all the calls that were made to GetVgpuSchedulerLog_v2.
+// Check the length with:
+//
+//	len(mockedDevice.GetVgpuSchedulerLog_v2Calls())
+func (mock *Device) GetVgpuSchedulerLog_v2Calls() []struct {
+	VgpuSchedulerLogInfo_v2 nvml.VgpuSchedulerLogInfo_v2
+} {
+	var calls []struct {
+		VgpuSchedulerLogInfo_v2 nvml.VgpuSchedulerLogInfo_v2
+	}
+	mock.lockGetVgpuSchedulerLog_v2.RLock()
+	calls = mock.calls.GetVgpuSchedulerLog_v2
+	mock.lockGetVgpuSchedulerLog_v2.RUnlock()
+	return calls
+}
+
 // GetVgpuSchedulerState calls GetVgpuSchedulerStateFunc.
 func (mock *Device) GetVgpuSchedulerState() (nvml.VgpuSchedulerGetState, nvml.Return) {
 	if mock.GetVgpuSchedulerStateFunc == nil {
@@ -8690,6 +8805,38 @@ func (mock *Device) GetVgpuSchedulerStateCalls() []struct {
 	mock.lockGetVgpuSchedulerState.RLock()
 	calls = mock.calls.GetVgpuSchedulerState
 	mock.lockGetVgpuSchedulerState.RUnlock()
+	return calls
+}
+
+// GetVgpuSchedulerState_v2 calls GetVgpuSchedulerState_v2Func.
+func (mock *Device) GetVgpuSchedulerState_v2(vgpuSchedulerStateInfo_v2 nvml.VgpuSchedulerStateInfo_v2) (nvml.VgpuSchedulerStateInfo_v2, nvml.Return) {
+	if mock.GetVgpuSchedulerState_v2Func == nil {
+		panic("Device.GetVgpuSchedulerState_v2Func: method is nil but Device.GetVgpuSchedulerState_v2 was just called")
+	}
+	callInfo := struct {
+		VgpuSchedulerStateInfo_v2 nvml.VgpuSchedulerStateInfo_v2
+	}{
+		VgpuSchedulerStateInfo_v2: vgpuSchedulerStateInfo_v2,
+	}
+	mock.lockGetVgpuSchedulerState_v2.Lock()
+	mock.calls.GetVgpuSchedulerState_v2 = append(mock.calls.GetVgpuSchedulerState_v2, callInfo)
+	mock.lockGetVgpuSchedulerState_v2.Unlock()
+	return mock.GetVgpuSchedulerState_v2Func(vgpuSchedulerStateInfo_v2)
+}
+
+// GetVgpuSchedulerState_v2Calls gets all the calls that were made to GetVgpuSchedulerState_v2.
+// Check the length with:
+//
+//	len(mockedDevice.GetVgpuSchedulerState_v2Calls())
+func (mock *Device) GetVgpuSchedulerState_v2Calls() []struct {
+	VgpuSchedulerStateInfo_v2 nvml.VgpuSchedulerStateInfo_v2
+} {
+	var calls []struct {
+		VgpuSchedulerStateInfo_v2 nvml.VgpuSchedulerStateInfo_v2
+	}
+	mock.lockGetVgpuSchedulerState_v2.RLock()
+	calls = mock.calls.GetVgpuSchedulerState_v2
+	mock.lockGetVgpuSchedulerState_v2.RUnlock()
 	return calls
 }
 
@@ -10540,6 +10687,38 @@ func (mock *Device) SetVgpuSchedulerStateCalls() []struct {
 	return calls
 }
 
+// SetVgpuSchedulerState_v2 calls SetVgpuSchedulerState_v2Func.
+func (mock *Device) SetVgpuSchedulerState_v2(vgpuSchedulerState_v2 *nvml.VgpuSchedulerState_v2) nvml.Return {
+	if mock.SetVgpuSchedulerState_v2Func == nil {
+		panic("Device.SetVgpuSchedulerState_v2Func: method is nil but Device.SetVgpuSchedulerState_v2 was just called")
+	}
+	callInfo := struct {
+		VgpuSchedulerState_v2 *nvml.VgpuSchedulerState_v2
+	}{
+		VgpuSchedulerState_v2: vgpuSchedulerState_v2,
+	}
+	mock.lockSetVgpuSchedulerState_v2.Lock()
+	mock.calls.SetVgpuSchedulerState_v2 = append(mock.calls.SetVgpuSchedulerState_v2, callInfo)
+	mock.lockSetVgpuSchedulerState_v2.Unlock()
+	return mock.SetVgpuSchedulerState_v2Func(vgpuSchedulerState_v2)
+}
+
+// SetVgpuSchedulerState_v2Calls gets all the calls that were made to SetVgpuSchedulerState_v2.
+// Check the length with:
+//
+//	len(mockedDevice.SetVgpuSchedulerState_v2Calls())
+func (mock *Device) SetVgpuSchedulerState_v2Calls() []struct {
+	VgpuSchedulerState_v2 *nvml.VgpuSchedulerState_v2
+} {
+	var calls []struct {
+		VgpuSchedulerState_v2 *nvml.VgpuSchedulerState_v2
+	}
+	mock.lockSetVgpuSchedulerState_v2.RLock()
+	calls = mock.calls.SetVgpuSchedulerState_v2
+	mock.lockSetVgpuSchedulerState_v2.RUnlock()
+	return calls
+}
+
 // SetVirtualizationMode calls SetVirtualizationModeFunc.
 func (mock *Device) SetVirtualizationMode(gpuVirtualizationMode nvml.GpuVirtualizationMode) nvml.Return {
 	if mock.SetVirtualizationModeFunc == nil {
@@ -10596,6 +10775,33 @@ func (mock *Device) ValidateInforomCalls() []struct {
 	mock.lockValidateInforom.RLock()
 	calls = mock.calls.ValidateInforom
 	mock.lockValidateInforom.RUnlock()
+	return calls
+}
+
+// VgpuForceGspUnload calls VgpuForceGspUnloadFunc.
+func (mock *Device) VgpuForceGspUnload() nvml.Return {
+	if mock.VgpuForceGspUnloadFunc == nil {
+		panic("Device.VgpuForceGspUnloadFunc: method is nil but Device.VgpuForceGspUnload was just called")
+	}
+	callInfo := struct {
+	}{}
+	mock.lockVgpuForceGspUnload.Lock()
+	mock.calls.VgpuForceGspUnload = append(mock.calls.VgpuForceGspUnload, callInfo)
+	mock.lockVgpuForceGspUnload.Unlock()
+	return mock.VgpuForceGspUnloadFunc()
+}
+
+// VgpuForceGspUnloadCalls gets all the calls that were made to VgpuForceGspUnload.
+// Check the length with:
+//
+//	len(mockedDevice.VgpuForceGspUnloadCalls())
+func (mock *Device) VgpuForceGspUnloadCalls() []struct {
+} {
+	var calls []struct {
+	}
+	mock.lockVgpuForceGspUnload.RLock()
+	calls = mock.calls.VgpuForceGspUnload
+	mock.lockVgpuForceGspUnload.RUnlock()
 	return calls
 }
 
