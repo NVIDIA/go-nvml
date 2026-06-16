@@ -182,7 +182,7 @@ clean-bindings:
 	rm -f $(PKG_BINDINGS_DIR)/zz_generated.api.go
 
 # Update nvml.h from the NVIDIA CUDA redistributable JSON
-update-nvml-h: CUDA_VERSION := 13.2.1
+update-nvml-h: CUDA_VERSION := 13.3.0
 update-nvml-h: CUDA_REDIST_BASE_URL := https://developer.download.nvidia.com/compute/cuda/redist
 update-nvml-h: CUDA_REDIST_JSON_URL := $(CUDA_REDIST_BASE_URL)/redistrib_$(CUDA_VERSION).json
 update-nvml-h: NVML_DEV_HEADERS_INFO := $(shell \
