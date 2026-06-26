@@ -63,6 +63,9 @@ var _ nvml.Interface = &Interface{}
 //			DeviceGetAccountingStatsFunc: func(device nvml.Device, v uint32) (nvml.AccountingStats, nvml.Return) {
 //				panic("mock out the DeviceGetAccountingStats method")
 //			},
+//			DeviceGetAccountingStats_v2Func: func(device nvml.Device, v uint32) (nvml.AccountingStats_v2, nvml.Return) {
+//				panic("mock out the DeviceGetAccountingStats_v2 method")
+//			},
 //			DeviceGetActiveVgpusFunc: func(device nvml.Device) ([]nvml.VgpuInstance, nvml.Return) {
 //				panic("mock out the DeviceGetActiveVgpus method")
 //			},
@@ -86,6 +89,9 @@ var _ nvml.Interface = &Interface{}
 //			},
 //			DeviceGetBAR1MemoryInfoFunc: func(device nvml.Device) (nvml.BAR1Memory, nvml.Return) {
 //				panic("mock out the DeviceGetBAR1MemoryInfo method")
+//			},
+//			DeviceGetBBXTimeData_v1Func: func(device nvml.Device) (nvml.BBXTimeData_v1, nvml.Return) {
+//				panic("mock out the DeviceGetBBXTimeData_v1 method")
 //			},
 //			DeviceGetBoardIdFunc: func(device nvml.Device) (uint32, nvml.Return) {
 //				panic("mock out the DeviceGetBoardId method")
@@ -987,6 +993,9 @@ var _ nvml.Interface = &Interface{}
 //			SystemEventSetWaitFunc: func(systemEventSetWaitRequest *nvml.SystemEventSetWaitRequest) nvml.Return {
 //				panic("mock out the SystemEventSetWait method")
 //			},
+//			SystemGetCPER_v1Func: func(getCPER_v1 *nvml.GetCPER_v1) nvml.Return {
+//				panic("mock out the SystemGetCPER_v1 method")
+//			},
 //			SystemGetConfComputeCapabilitiesFunc: func() (nvml.ConfComputeSystemCaps, nvml.Return) {
 //				panic("mock out the SystemGetConfComputeCapabilities method")
 //			},
@@ -1234,6 +1243,9 @@ type Interface struct {
 	// DeviceGetAccountingStatsFunc mocks the DeviceGetAccountingStats method.
 	DeviceGetAccountingStatsFunc func(device nvml.Device, v uint32) (nvml.AccountingStats, nvml.Return)
 
+	// DeviceGetAccountingStats_v2Func mocks the DeviceGetAccountingStats_v2 method.
+	DeviceGetAccountingStats_v2Func func(device nvml.Device, v uint32) (nvml.AccountingStats_v2, nvml.Return)
+
 	// DeviceGetActiveVgpusFunc mocks the DeviceGetActiveVgpus method.
 	DeviceGetActiveVgpusFunc func(device nvml.Device) ([]nvml.VgpuInstance, nvml.Return)
 
@@ -1257,6 +1269,9 @@ type Interface struct {
 
 	// DeviceGetBAR1MemoryInfoFunc mocks the DeviceGetBAR1MemoryInfo method.
 	DeviceGetBAR1MemoryInfoFunc func(device nvml.Device) (nvml.BAR1Memory, nvml.Return)
+
+	// DeviceGetBBXTimeData_v1Func mocks the DeviceGetBBXTimeData_v1 method.
+	DeviceGetBBXTimeData_v1Func func(device nvml.Device) (nvml.BBXTimeData_v1, nvml.Return)
 
 	// DeviceGetBoardIdFunc mocks the DeviceGetBoardId method.
 	DeviceGetBoardIdFunc func(device nvml.Device) (uint32, nvml.Return)
@@ -2158,6 +2173,9 @@ type Interface struct {
 	// SystemEventSetWaitFunc mocks the SystemEventSetWait method.
 	SystemEventSetWaitFunc func(systemEventSetWaitRequest *nvml.SystemEventSetWaitRequest) nvml.Return
 
+	// SystemGetCPER_v1Func mocks the SystemGetCPER_v1 method.
+	SystemGetCPER_v1Func func(getCPER_v1 *nvml.GetCPER_v1) nvml.Return
+
 	// SystemGetConfComputeCapabilitiesFunc mocks the SystemGetConfComputeCapabilities method.
 	SystemGetConfComputeCapabilitiesFunc func() (nvml.ConfComputeSystemCaps, nvml.Return)
 
@@ -2448,6 +2466,13 @@ type Interface struct {
 			// V is the v argument value.
 			V uint32
 		}
+		// DeviceGetAccountingStats_v2 holds details about calls to the DeviceGetAccountingStats_v2 method.
+		DeviceGetAccountingStats_v2 []struct {
+			// Device is the device argument value.
+			Device nvml.Device
+			// V is the v argument value.
+			V uint32
+		}
 		// DeviceGetActiveVgpus holds details about calls to the DeviceGetActiveVgpus method.
 		DeviceGetActiveVgpus []struct {
 			// Device is the device argument value.
@@ -2487,6 +2512,11 @@ type Interface struct {
 		}
 		// DeviceGetBAR1MemoryInfo holds details about calls to the DeviceGetBAR1MemoryInfo method.
 		DeviceGetBAR1MemoryInfo []struct {
+			// Device is the device argument value.
+			Device nvml.Device
+		}
+		// DeviceGetBBXTimeData_v1 holds details about calls to the DeviceGetBBXTimeData_v1 method.
+		DeviceGetBBXTimeData_v1 []struct {
 			// Device is the device argument value.
 			Device nvml.Device
 		}
@@ -4290,6 +4320,11 @@ type Interface struct {
 			// SystemEventSetWaitRequest is the systemEventSetWaitRequest argument value.
 			SystemEventSetWaitRequest *nvml.SystemEventSetWaitRequest
 		}
+		// SystemGetCPER_v1 holds details about calls to the SystemGetCPER_v1 method.
+		SystemGetCPER_v1 []struct {
+			// GetCPER_v1 is the getCPER_v1 argument value.
+			GetCPER_v1 *nvml.GetCPER_v1
+		}
 		// SystemGetConfComputeCapabilities holds details about calls to the SystemGetConfComputeCapabilities method.
 		SystemGetConfComputeCapabilities []struct {
 		}
@@ -4619,6 +4654,7 @@ type Interface struct {
 	lockDeviceGetAccountingMode                          sync.RWMutex
 	lockDeviceGetAccountingPids                          sync.RWMutex
 	lockDeviceGetAccountingStats                         sync.RWMutex
+	lockDeviceGetAccountingStats_v2                      sync.RWMutex
 	lockDeviceGetActiveVgpus                             sync.RWMutex
 	lockDeviceGetAdaptiveClockInfoStatus                 sync.RWMutex
 	lockDeviceGetAddressingMode                          sync.RWMutex
@@ -4627,6 +4663,7 @@ type Interface struct {
 	lockDeviceGetAttributes                              sync.RWMutex
 	lockDeviceGetAutoBoostedClocksEnabled                sync.RWMutex
 	lockDeviceGetBAR1MemoryInfo                          sync.RWMutex
+	lockDeviceGetBBXTimeData_v1                          sync.RWMutex
 	lockDeviceGetBoardId                                 sync.RWMutex
 	lockDeviceGetBoardPartNumber                         sync.RWMutex
 	lockDeviceGetBrand                                   sync.RWMutex
@@ -4927,6 +4964,7 @@ type Interface struct {
 	lockSystemEventSetCreate                             sync.RWMutex
 	lockSystemEventSetFree                               sync.RWMutex
 	lockSystemEventSetWait                               sync.RWMutex
+	lockSystemGetCPER_v1                                 sync.RWMutex
 	lockSystemGetConfComputeCapabilities                 sync.RWMutex
 	lockSystemGetConfComputeGpusReadyState               sync.RWMutex
 	lockSystemGetConfComputeKeyRotationThresholdInfo     sync.RWMutex
@@ -5509,6 +5547,42 @@ func (mock *Interface) DeviceGetAccountingStatsCalls() []struct {
 	return calls
 }
 
+// DeviceGetAccountingStats_v2 calls DeviceGetAccountingStats_v2Func.
+func (mock *Interface) DeviceGetAccountingStats_v2(device nvml.Device, v uint32) (nvml.AccountingStats_v2, nvml.Return) {
+	if mock.DeviceGetAccountingStats_v2Func == nil {
+		panic("Interface.DeviceGetAccountingStats_v2Func: method is nil but Interface.DeviceGetAccountingStats_v2 was just called")
+	}
+	callInfo := struct {
+		Device nvml.Device
+		V      uint32
+	}{
+		Device: device,
+		V:      v,
+	}
+	mock.lockDeviceGetAccountingStats_v2.Lock()
+	mock.calls.DeviceGetAccountingStats_v2 = append(mock.calls.DeviceGetAccountingStats_v2, callInfo)
+	mock.lockDeviceGetAccountingStats_v2.Unlock()
+	return mock.DeviceGetAccountingStats_v2Func(device, v)
+}
+
+// DeviceGetAccountingStats_v2Calls gets all the calls that were made to DeviceGetAccountingStats_v2.
+// Check the length with:
+//
+//	len(mockedInterface.DeviceGetAccountingStats_v2Calls())
+func (mock *Interface) DeviceGetAccountingStats_v2Calls() []struct {
+	Device nvml.Device
+	V      uint32
+} {
+	var calls []struct {
+		Device nvml.Device
+		V      uint32
+	}
+	mock.lockDeviceGetAccountingStats_v2.RLock()
+	calls = mock.calls.DeviceGetAccountingStats_v2
+	mock.lockDeviceGetAccountingStats_v2.RUnlock()
+	return calls
+}
+
 // DeviceGetActiveVgpus calls DeviceGetActiveVgpusFunc.
 func (mock *Interface) DeviceGetActiveVgpus(device nvml.Device) ([]nvml.VgpuInstance, nvml.Return) {
 	if mock.DeviceGetActiveVgpusFunc == nil {
@@ -5766,6 +5840,38 @@ func (mock *Interface) DeviceGetBAR1MemoryInfoCalls() []struct {
 	mock.lockDeviceGetBAR1MemoryInfo.RLock()
 	calls = mock.calls.DeviceGetBAR1MemoryInfo
 	mock.lockDeviceGetBAR1MemoryInfo.RUnlock()
+	return calls
+}
+
+// DeviceGetBBXTimeData_v1 calls DeviceGetBBXTimeData_v1Func.
+func (mock *Interface) DeviceGetBBXTimeData_v1(device nvml.Device) (nvml.BBXTimeData_v1, nvml.Return) {
+	if mock.DeviceGetBBXTimeData_v1Func == nil {
+		panic("Interface.DeviceGetBBXTimeData_v1Func: method is nil but Interface.DeviceGetBBXTimeData_v1 was just called")
+	}
+	callInfo := struct {
+		Device nvml.Device
+	}{
+		Device: device,
+	}
+	mock.lockDeviceGetBBXTimeData_v1.Lock()
+	mock.calls.DeviceGetBBXTimeData_v1 = append(mock.calls.DeviceGetBBXTimeData_v1, callInfo)
+	mock.lockDeviceGetBBXTimeData_v1.Unlock()
+	return mock.DeviceGetBBXTimeData_v1Func(device)
+}
+
+// DeviceGetBBXTimeData_v1Calls gets all the calls that were made to DeviceGetBBXTimeData_v1.
+// Check the length with:
+//
+//	len(mockedInterface.DeviceGetBBXTimeData_v1Calls())
+func (mock *Interface) DeviceGetBBXTimeData_v1Calls() []struct {
+	Device nvml.Device
+} {
+	var calls []struct {
+		Device nvml.Device
+	}
+	mock.lockDeviceGetBBXTimeData_v1.RLock()
+	calls = mock.calls.DeviceGetBBXTimeData_v1
+	mock.lockDeviceGetBBXTimeData_v1.RUnlock()
 	return calls
 }
 
@@ -15958,6 +16064,38 @@ func (mock *Interface) SystemEventSetWaitCalls() []struct {
 	mock.lockSystemEventSetWait.RLock()
 	calls = mock.calls.SystemEventSetWait
 	mock.lockSystemEventSetWait.RUnlock()
+	return calls
+}
+
+// SystemGetCPER_v1 calls SystemGetCPER_v1Func.
+func (mock *Interface) SystemGetCPER_v1(getCPER_v1 *nvml.GetCPER_v1) nvml.Return {
+	if mock.SystemGetCPER_v1Func == nil {
+		panic("Interface.SystemGetCPER_v1Func: method is nil but Interface.SystemGetCPER_v1 was just called")
+	}
+	callInfo := struct {
+		GetCPER_v1 *nvml.GetCPER_v1
+	}{
+		GetCPER_v1: getCPER_v1,
+	}
+	mock.lockSystemGetCPER_v1.Lock()
+	mock.calls.SystemGetCPER_v1 = append(mock.calls.SystemGetCPER_v1, callInfo)
+	mock.lockSystemGetCPER_v1.Unlock()
+	return mock.SystemGetCPER_v1Func(getCPER_v1)
+}
+
+// SystemGetCPER_v1Calls gets all the calls that were made to SystemGetCPER_v1.
+// Check the length with:
+//
+//	len(mockedInterface.SystemGetCPER_v1Calls())
+func (mock *Interface) SystemGetCPER_v1Calls() []struct {
+	GetCPER_v1 *nvml.GetCPER_v1
+} {
+	var calls []struct {
+		GetCPER_v1 *nvml.GetCPER_v1
+	}
+	mock.lockSystemGetCPER_v1.RLock()
+	calls = mock.calls.SystemGetCPER_v1
+	mock.lockSystemGetCPER_v1.RUnlock()
 	return calls
 }
 

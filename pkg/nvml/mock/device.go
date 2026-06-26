@@ -54,6 +54,9 @@ var _ nvml.Device = &Device{}
 //			GetAccountingStatsFunc: func(v uint32) (nvml.AccountingStats, nvml.Return) {
 //				panic("mock out the GetAccountingStats method")
 //			},
+//			GetAccountingStats_v2Func: func(v uint32) (nvml.AccountingStats_v2, nvml.Return) {
+//				panic("mock out the GetAccountingStats_v2 method")
+//			},
 //			GetActiveVgpusFunc: func() ([]nvml.VgpuInstance, nvml.Return) {
 //				panic("mock out the GetActiveVgpus method")
 //			},
@@ -77,6 +80,9 @@ var _ nvml.Device = &Device{}
 //			},
 //			GetBAR1MemoryInfoFunc: func() (nvml.BAR1Memory, nvml.Return) {
 //				panic("mock out the GetBAR1MemoryInfo method")
+//			},
+//			GetBBXTimeData_v1Func: func() (nvml.BBXTimeData_v1, nvml.Return) {
+//				panic("mock out the GetBBXTimeData_v1 method")
 //			},
 //			GetBoardIdFunc: func() (uint32, nvml.Return) {
 //				panic("mock out the GetBoardId method")
@@ -868,6 +874,9 @@ type Device struct {
 	// GetAccountingStatsFunc mocks the GetAccountingStats method.
 	GetAccountingStatsFunc func(v uint32) (nvml.AccountingStats, nvml.Return)
 
+	// GetAccountingStats_v2Func mocks the GetAccountingStats_v2 method.
+	GetAccountingStats_v2Func func(v uint32) (nvml.AccountingStats_v2, nvml.Return)
+
 	// GetActiveVgpusFunc mocks the GetActiveVgpus method.
 	GetActiveVgpusFunc func() ([]nvml.VgpuInstance, nvml.Return)
 
@@ -891,6 +900,9 @@ type Device struct {
 
 	// GetBAR1MemoryInfoFunc mocks the GetBAR1MemoryInfo method.
 	GetBAR1MemoryInfoFunc func() (nvml.BAR1Memory, nvml.Return)
+
+	// GetBBXTimeData_v1Func mocks the GetBBXTimeData_v1 method.
+	GetBBXTimeData_v1Func func() (nvml.BBXTimeData_v1, nvml.Return)
 
 	// GetBoardIdFunc mocks the GetBoardId method.
 	GetBoardIdFunc func() (uint32, nvml.Return)
@@ -1697,6 +1709,11 @@ type Device struct {
 			// V is the v argument value.
 			V uint32
 		}
+		// GetAccountingStats_v2 holds details about calls to the GetAccountingStats_v2 method.
+		GetAccountingStats_v2 []struct {
+			// V is the v argument value.
+			V uint32
+		}
 		// GetActiveVgpus holds details about calls to the GetActiveVgpus method.
 		GetActiveVgpus []struct {
 		}
@@ -1722,6 +1739,9 @@ type Device struct {
 		}
 		// GetBAR1MemoryInfo holds details about calls to the GetBAR1MemoryInfo method.
 		GetBAR1MemoryInfo []struct {
+		}
+		// GetBBXTimeData_v1 holds details about calls to the GetBBXTimeData_v1 method.
+		GetBBXTimeData_v1 []struct {
 		}
 		// GetBoardId holds details about calls to the GetBoardId method.
 		GetBoardId []struct {
@@ -2759,6 +2779,7 @@ type Device struct {
 	lockGetAccountingMode                          sync.RWMutex
 	lockGetAccountingPids                          sync.RWMutex
 	lockGetAccountingStats                         sync.RWMutex
+	lockGetAccountingStats_v2                      sync.RWMutex
 	lockGetActiveVgpus                             sync.RWMutex
 	lockGetAdaptiveClockInfoStatus                 sync.RWMutex
 	lockGetAddressingMode                          sync.RWMutex
@@ -2767,6 +2788,7 @@ type Device struct {
 	lockGetAttributes                              sync.RWMutex
 	lockGetAutoBoostedClocksEnabled                sync.RWMutex
 	lockGetBAR1MemoryInfo                          sync.RWMutex
+	lockGetBBXTimeData_v1                          sync.RWMutex
 	lockGetBoardId                                 sync.RWMutex
 	lockGetBoardPartNumber                         sync.RWMutex
 	lockGetBrand                                   sync.RWMutex
@@ -3389,6 +3411,38 @@ func (mock *Device) GetAccountingStatsCalls() []struct {
 	return calls
 }
 
+// GetAccountingStats_v2 calls GetAccountingStats_v2Func.
+func (mock *Device) GetAccountingStats_v2(v uint32) (nvml.AccountingStats_v2, nvml.Return) {
+	if mock.GetAccountingStats_v2Func == nil {
+		panic("Device.GetAccountingStats_v2Func: method is nil but Device.GetAccountingStats_v2 was just called")
+	}
+	callInfo := struct {
+		V uint32
+	}{
+		V: v,
+	}
+	mock.lockGetAccountingStats_v2.Lock()
+	mock.calls.GetAccountingStats_v2 = append(mock.calls.GetAccountingStats_v2, callInfo)
+	mock.lockGetAccountingStats_v2.Unlock()
+	return mock.GetAccountingStats_v2Func(v)
+}
+
+// GetAccountingStats_v2Calls gets all the calls that were made to GetAccountingStats_v2.
+// Check the length with:
+//
+//	len(mockedDevice.GetAccountingStats_v2Calls())
+func (mock *Device) GetAccountingStats_v2Calls() []struct {
+	V uint32
+} {
+	var calls []struct {
+		V uint32
+	}
+	mock.lockGetAccountingStats_v2.RLock()
+	calls = mock.calls.GetAccountingStats_v2
+	mock.lockGetAccountingStats_v2.RUnlock()
+	return calls
+}
+
 // GetActiveVgpus calls GetActiveVgpusFunc.
 func (mock *Device) GetActiveVgpus() ([]nvml.VgpuInstance, nvml.Return) {
 	if mock.GetActiveVgpusFunc == nil {
@@ -3607,6 +3661,33 @@ func (mock *Device) GetBAR1MemoryInfoCalls() []struct {
 	mock.lockGetBAR1MemoryInfo.RLock()
 	calls = mock.calls.GetBAR1MemoryInfo
 	mock.lockGetBAR1MemoryInfo.RUnlock()
+	return calls
+}
+
+// GetBBXTimeData_v1 calls GetBBXTimeData_v1Func.
+func (mock *Device) GetBBXTimeData_v1() (nvml.BBXTimeData_v1, nvml.Return) {
+	if mock.GetBBXTimeData_v1Func == nil {
+		panic("Device.GetBBXTimeData_v1Func: method is nil but Device.GetBBXTimeData_v1 was just called")
+	}
+	callInfo := struct {
+	}{}
+	mock.lockGetBBXTimeData_v1.Lock()
+	mock.calls.GetBBXTimeData_v1 = append(mock.calls.GetBBXTimeData_v1, callInfo)
+	mock.lockGetBBXTimeData_v1.Unlock()
+	return mock.GetBBXTimeData_v1Func()
+}
+
+// GetBBXTimeData_v1Calls gets all the calls that were made to GetBBXTimeData_v1.
+// Check the length with:
+//
+//	len(mockedDevice.GetBBXTimeData_v1Calls())
+func (mock *Device) GetBBXTimeData_v1Calls() []struct {
+} {
+	var calls []struct {
+	}
+	mock.lockGetBBXTimeData_v1.RLock()
+	calls = mock.calls.GetBBXTimeData_v1
+	mock.lockGetBBXTimeData_v1.RUnlock()
 	return calls
 }
 
