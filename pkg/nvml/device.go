@@ -3239,6 +3239,7 @@ func (l *library) DeviceGetProcessesUtilizationInfo(device Device) (ProcessesUti
 
 func (device nvmlDevice) GetProcessesUtilizationInfo() (ProcessesUtilizationInfo, Return) {
 	var processesUtilInfo ProcessesUtilizationInfo
+	processesUtilInfo.Version = STRUCT_VERSION(processesUtilInfo, 1)
 	ret := nvmlDeviceGetProcessesUtilizationInfo(device, &processesUtilInfo)
 	return processesUtilInfo, ret
 }
@@ -3314,6 +3315,7 @@ func (l *library) DeviceGetVgpuInstancesUtilizationInfo(device Device) (VgpuInst
 
 func (device nvmlDevice) GetVgpuInstancesUtilizationInfo() (VgpuInstancesUtilizationInfo, Return) {
 	var vgpuUtilInfo VgpuInstancesUtilizationInfo
+	vgpuUtilInfo.Version = STRUCT_VERSION(vgpuUtilInfo, 1)
 	ret := nvmlDeviceGetVgpuInstancesUtilizationInfo(device, &vgpuUtilInfo)
 	return vgpuUtilInfo, ret
 }
