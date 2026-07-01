@@ -2916,6 +2916,9 @@ func (l *library) GpuInstanceGetComputeInstancePossiblePlacements(gpuInstance Gp
 }
 
 func (gpuInstance nvmlGpuInstance) GetComputeInstancePossiblePlacements(info *ComputeInstanceProfileInfo) ([]ComputeInstancePlacement, Return) {
+	if info == nil {
+		return nil, ERROR_INVALID_ARGUMENT
+	}
 	var count uint32
 	ret := nvmlGpuInstanceGetComputeInstancePossiblePlacements(gpuInstance, info.Id, nil, &count)
 	if ret != SUCCESS {
@@ -2935,6 +2938,9 @@ func (l *library) GpuInstanceCreateComputeInstanceWithPlacement(gpuInstance GpuI
 }
 
 func (gpuInstance nvmlGpuInstance) CreateComputeInstanceWithPlacement(info *ComputeInstanceProfileInfo, placement *ComputeInstancePlacement) (ComputeInstance, Return) {
+	if info == nil {
+		return nil, ERROR_INVALID_ARGUMENT
+	}
 	var computeInstance nvmlComputeInstance
 	ret := nvmlGpuInstanceCreateComputeInstanceWithPlacement(gpuInstance, info.Id, placement, &computeInstance)
 	return computeInstance, ret
