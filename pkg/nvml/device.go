@@ -2281,7 +2281,7 @@ func (handler GpuInstanceProfileInfoByIdHandler) V2() (GpuInstanceProfileInfo_v2
 func (handler GpuInstanceProfileInfoByIdHandler) V3() (GpuInstanceProfileInfo_v3, Return) {
 	var info GpuInstanceProfileInfo_v3
 	info.Version = STRUCT_VERSION(info, 3)
-	ret := nvmlDeviceGetGpuInstanceProfileInfoV(handler.device, uint32(handler.profileId), (*GpuInstanceProfileInfo_v2)(unsafe.Pointer(&info)))
+	ret := nvmlDeviceGetGpuInstanceProfileInfoByIdV(handler.device, uint32(handler.profileId), (*GpuInstanceProfileInfo_v2)(unsafe.Pointer(&info)))
 	return info, ret
 }
 
