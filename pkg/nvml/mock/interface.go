@@ -1170,6 +1170,9 @@ var _ nvml.Interface = &Interface{}
 //			VgpuTypeGetGpuInstanceProfileIdFunc: func(vgpuTypeId nvml.VgpuTypeId) (uint32, nvml.Return) {
 //				panic("mock out the VgpuTypeGetGpuInstanceProfileId method")
 //			},
+//			VgpuTypeGetIDFunc: func(vgpuTypeId nvml.VgpuTypeId) uint32 {
+//				panic("mock out the VgpuTypeGetID method")
+//			},
 //			VgpuTypeGetLicenseFunc: func(vgpuTypeId nvml.VgpuTypeId) (string, nvml.Return) {
 //				panic("mock out the VgpuTypeGetLicense method")
 //			},
@@ -2349,6 +2352,9 @@ type Interface struct {
 
 	// VgpuTypeGetGpuInstanceProfileIdFunc mocks the VgpuTypeGetGpuInstanceProfileId method.
 	VgpuTypeGetGpuInstanceProfileIdFunc func(vgpuTypeId nvml.VgpuTypeId) (uint32, nvml.Return)
+
+	// VgpuTypeGetIDFunc mocks the VgpuTypeGetID method.
+	VgpuTypeGetIDFunc func(vgpuTypeId nvml.VgpuTypeId) uint32
 
 	// VgpuTypeGetLicenseFunc mocks the VgpuTypeGetLicense method.
 	VgpuTypeGetLicenseFunc func(vgpuTypeId nvml.VgpuTypeId) (string, nvml.Return)
@@ -4599,6 +4605,11 @@ type Interface struct {
 			// VgpuTypeId is the vgpuTypeId argument value.
 			VgpuTypeId nvml.VgpuTypeId
 		}
+		// VgpuTypeGetID holds details about calls to the VgpuTypeGetID method.
+		VgpuTypeGetID []struct {
+			// VgpuTypeId is the vgpuTypeId argument value.
+			VgpuTypeId nvml.VgpuTypeId
+		}
 		// VgpuTypeGetLicense holds details about calls to the VgpuTypeGetLicense method.
 		VgpuTypeGetLicense []struct {
 			// VgpuTypeId is the vgpuTypeId argument value.
@@ -5023,6 +5034,7 @@ type Interface struct {
 	lockVgpuTypeGetFrameRateLimit                        sync.RWMutex
 	lockVgpuTypeGetFramebufferSize                       sync.RWMutex
 	lockVgpuTypeGetGpuInstanceProfileId                  sync.RWMutex
+	lockVgpuTypeGetID                                    sync.RWMutex
 	lockVgpuTypeGetLicense                               sync.RWMutex
 	lockVgpuTypeGetMaxInstances                          sync.RWMutex
 	lockVgpuTypeGetMaxInstancesPerGpuInstance            sync.RWMutex
@@ -17907,6 +17919,38 @@ func (mock *Interface) VgpuTypeGetGpuInstanceProfileIdCalls() []struct {
 	mock.lockVgpuTypeGetGpuInstanceProfileId.RLock()
 	calls = mock.calls.VgpuTypeGetGpuInstanceProfileId
 	mock.lockVgpuTypeGetGpuInstanceProfileId.RUnlock()
+	return calls
+}
+
+// VgpuTypeGetID calls VgpuTypeGetIDFunc.
+func (mock *Interface) VgpuTypeGetID(vgpuTypeId nvml.VgpuTypeId) uint32 {
+	if mock.VgpuTypeGetIDFunc == nil {
+		panic("Interface.VgpuTypeGetIDFunc: method is nil but Interface.VgpuTypeGetID was just called")
+	}
+	callInfo := struct {
+		VgpuTypeId nvml.VgpuTypeId
+	}{
+		VgpuTypeId: vgpuTypeId,
+	}
+	mock.lockVgpuTypeGetID.Lock()
+	mock.calls.VgpuTypeGetID = append(mock.calls.VgpuTypeGetID, callInfo)
+	mock.lockVgpuTypeGetID.Unlock()
+	return mock.VgpuTypeGetIDFunc(vgpuTypeId)
+}
+
+// VgpuTypeGetIDCalls gets all the calls that were made to VgpuTypeGetID.
+// Check the length with:
+//
+//	len(mockedInterface.VgpuTypeGetIDCalls())
+func (mock *Interface) VgpuTypeGetIDCalls() []struct {
+	VgpuTypeId nvml.VgpuTypeId
+} {
+	var calls []struct {
+		VgpuTypeId nvml.VgpuTypeId
+	}
+	mock.lockVgpuTypeGetID.RLock()
+	calls = mock.calls.VgpuTypeGetID
+	mock.lockVgpuTypeGetID.RUnlock()
 	return calls
 }
 
