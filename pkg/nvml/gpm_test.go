@@ -23,7 +23,7 @@ import (
 )
 
 func TestGpmMetricsGet(t *testing.T) {
-	overrideMetrics := [333]GpmMetric{
+	overrideMetrics := [477]GpmMetric{
 		{
 			Value: 99,
 		},
@@ -46,7 +46,7 @@ func TestGpmMetricsGet(t *testing.T) {
 }
 
 func TestGpmMetricsGetV(t *testing.T) {
-	overrideMetrics := [333]GpmMetric{
+	overrideMetrics := [477]GpmMetric{
 		{
 			Value: 99,
 		},

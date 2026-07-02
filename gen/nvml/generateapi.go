@@ -408,6 +408,12 @@ func formatFieldList(field *ast.Field) string {
 	case *ast.StarExpr:
 		builder.WriteString("*")
 		builder.WriteString(formatFieldList(&ast.Field{Type: fieldType.X}))
+	case *ast.SelectorExpr:
+		if pkg, ok := fieldType.X.(*ast.Ident); ok {
+			builder.WriteString(pkg.Name)
+			builder.WriteString(".")
+		}
+		builder.WriteString(fieldType.Sel.Name)
 	}
 	return builder.String()
 }
