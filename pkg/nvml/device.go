@@ -2929,7 +2929,7 @@ func (gpuInstance nvmlGpuInstance) GetComputeInstancePossiblePlacements(info *Co
 	}
 	placementArray := make([]ComputeInstancePlacement, count)
 	ret = nvmlGpuInstanceGetComputeInstancePossiblePlacements(gpuInstance, info.Id, &placementArray[0], &count)
-	return placementArray, ret
+	return placementArray[:count], ret
 }
 
 // nvml.GpuInstanceCreateComputeInstanceWithPlacement()
