@@ -236,3 +236,13 @@ update-nvml-h:
 markdownlint: MDL := $(DOCKER) run --rm -v "$(PWD):$(PWD)" -w "$(PWD)" markdownlint/markdownlint:latest
 markdownlint:
 	@$(MDL) --rules=~no-hard-tabs,~line-length README.md
+
+validate-modules:
+	@echo "- Verifying that the dependencies have expected content..."
+	go mod verify
+	@echo "- Checking for any unused/missing packages in go.mod..."
+	go mod tidy
+	@git diff --exit-code -- go.sum go.mod
+	@echo "- Checking if the vendor dir is in sync..."
+	go mod vendor
+	@git diff --exit-code -- vendor
