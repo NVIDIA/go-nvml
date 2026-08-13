@@ -21,6 +21,7 @@ VERSION ?= $(GIT_TAG)
 
 GOLANG_VERSION ?= 1.26.5
 C_FOR_GO_TAG ?= 8eeee8c3b71f9c3c90c4a73db54ed08b0bba971d
+GO_LICENSES_VERSION ?= v2.0.1
 
 ifeq ($(IMAGE),)
 REGISTRY ?= nvidia

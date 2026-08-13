@@ -72,3 +72,19 @@ jobs:
         with:
           go-version: ${{ env.GOLANG_VERSION }}
       - run: make build
+  third-party-notices:
+    name: Check third-party notices
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v7
+      name: Checkout code
+    - name: Get Golang version
+      id: vars
+      run: |
+        GOLANG_VERSION=$( grep "GOLANG_VERSION ?=" versions.mk )
+        echo "GOLANG_VERSION=${GOLANG_VERSION##GOLANG_VERSION ?= }" >> $GITHUB_ENV
+    - name: Install Go
+      uses: actions/setup-go@v7
+      with:
+        go-version: ${{ env.GOLANG_VERSION }}
+    - run: make check-third-party-notices

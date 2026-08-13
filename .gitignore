@@ -5,3 +5,5 @@
 coverage.out*
 # Examples
 dl
+/bin/
+/.licenses-cache
