@@ -37,7 +37,7 @@ CMD_TARGETS := $(patsubst %,cmd-%, $(CMDS))
 
 CHECK_TARGETS := validate-modules golangci-lint
 
-MAKE_TARGETS := binary build all fmt generate test coverage check examples update-nvml-h
+MAKE_TARGETS := binary build all fmt generate test coverage check examples update-nvml-h third-party-notices check-third-party-notices
 
 GENERATE_TARGETS := clean bindings test-bindings clean-bindings patch-nvml-h
 
@@ -73,6 +73,21 @@ test: build
 coverage: test
 	cat $(COVERAGE_FILE) | grep -v "_mock.go" > $(COVERAGE_FILE).no-mocks
 	go tool cover -func=$(COVERAGE_FILE).no-mocks
+
+GO_LICENSES := $(PWD)/bin/go-licenses
+
+$(GO_LICENSES): versions.mk
+	GOBIN=$(PWD)/bin GOFLAGS=-mod=readonly go install github.com/google/go-licenses/v2@$(GO_LICENSES_VERSION)
+
+third-party-notices: $(GO_LICENSES)
+	@bash hack/generate-third-party-notices.sh
+
+check-third-party-notices: third-party-notices
+	@echo "- Checking if THIRD_PARTY_NOTICES.md is up to date..."
+	@git ls-files --error-unmatch THIRD_PARTY_NOTICES.md >/dev/null 2>&1 \
+		|| { echo "ERROR: THIRD_PARTY_NOTICES.md is not tracked. Run 'make third-party-notices' and commit the result."; exit 1; }
+	@git diff --exit-code -- THIRD_PARTY_NOTICES.md \
+		|| { echo "ERROR: THIRD_PARTY_NOTICES.md is stale. Run 'make third-party-notices' and commit the change."; exit 1; }
 
 validate-modules:
 	@echo "- Verifying that the dependencies have expected content..."
