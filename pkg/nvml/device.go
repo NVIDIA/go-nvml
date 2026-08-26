@@ -3291,6 +3291,7 @@ func (l *library) DeviceSetVgpuHeterogeneousMode(device Device, heterogeneousMod
 }
 
 func (device nvmlDevice) SetVgpuHeterogeneousMode(heterogeneousMode VgpuHeterogeneousMode) Return {
+	heterogeneousMode.Version = STRUCT_VERSION(heterogeneousMode, 1)
 	ret := nvmlDeviceSetVgpuHeterogeneousMode(device, &heterogeneousMode)
 	return ret
 }
@@ -3391,6 +3392,7 @@ func (l *library) DeviceSetClockOffsets(device Device, info ClockOffset) Return 
 }
 
 func (device nvmlDevice) SetClockOffsets(info ClockOffset) Return {
+	info.Version = STRUCT_VERSION(info, 1)
 	return nvmlDeviceSetClockOffsets(device, &info)
 }
 
