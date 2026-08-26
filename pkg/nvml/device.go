@@ -2734,7 +2734,7 @@ func (l *library) DeviceGetSupportedPerformanceStates(device Device) ([]Pstates,
 
 func (device nvmlDevice) GetSupportedPerformanceStates() ([]Pstates, Return) {
 	pstates := make([]Pstates, MAX_GPU_PERF_PSTATES)
-	ret := nvmlDeviceGetSupportedPerformanceStates(device, &pstates[0], MAX_GPU_PERF_PSTATES)
+	ret := nvmlDeviceGetSupportedPerformanceStates(device, &pstates[0], MAX_GPU_PERF_PSTATES*uint32(unsafe.Sizeof(Pstates(0))))
 	for i := 0; i < MAX_GPU_PERF_PSTATES; i++ {
 		if pstates[i] == PSTATE_UNKNOWN {
 			return pstates[0:i], ret
