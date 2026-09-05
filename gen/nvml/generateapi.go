@@ -20,6 +20,7 @@ import (
 	"flag"
 	"fmt"
 	"go/ast"
+	"go/format"
 	"go/parser"
 	"go/token"
 	"io"
@@ -91,19 +92,29 @@ func main() {
 		return
 	}
 
-	writer, closer, err := getWriter(*output)
+	var buf strings.Builder
+
+	imports, err := extractImports(*sourceDir)
 	if err != nil {
 		fmt.Printf("Error: %v", err)
 		return
 	}
-	defer closer()
 
 	header, err := generateHeader()
 	if err != nil {
 		fmt.Printf("Error: %v", err)
 		return
 	}
-	fmt.Fprint(writer, header)
+	fmt.Fprint(&buf, header)
+
+	if len(imports) > 0 {
+		importBlock, err := generateImports(imports)
+		if err != nil {
+			fmt.Printf("Error: %v", err)
+			return
+		}
+		fmt.Fprint(&buf, importBlock)
+	}
 
 	for i, p := range GeneratableInterfaces {
 		if p.PackageMethodsAliasedFrom != "" {
@@ -112,14 +123,14 @@ func main() {
 				fmt.Printf("Error: %v", err)
 				return
 			}
-			fmt.Fprint(writer, comment)
+			fmt.Fprint(&buf, comment)
 
-			output, err := generatePackageMethods(*sourceDir, p)
+			out, err := generatePackageMethods(*sourceDir, p)
 			if err != nil {
 				fmt.Printf("Error: %v", err)
 				return
 			}
-			fmt.Fprintf(writer, "%s\n", output)
+			fmt.Fprintf(&buf, "%s\n", out)
 		}
 
 		comment, err := generateInterfaceComment(p)
@@ -127,18 +138,36 @@ func main() {
 			fmt.Printf("Error: %v", err)
 			return
 		}
-		fmt.Fprint(writer, comment)
+		fmt.Fprint(&buf, comment)
 
-		output, err := generateInterface(*sourceDir, p)
+		out, err := generateInterface(*sourceDir, p)
 		if err != nil {
 			fmt.Printf("Error: %v", err)
 			return
 		}
-		fmt.Fprint(writer, output)
+		fmt.Fprint(&buf, out)
 
 		if i < (len(GeneratableInterfaces) - 1) {
-			fmt.Fprint(writer, "\n")
+			fmt.Fprint(&buf, "\n")
 		}
+	}
+
+	formatted, err := format.Source([]byte(buf.String()))
+	if err != nil {
+		fmt.Printf("Error: formatting output: %v", err)
+		return
+	}
+
+	writer, closer, err := getWriter(*output)
+	if err != nil {
+		fmt.Printf("Error: %v", err)
+		return
+	}
+	defer closer()
+
+	_, err = writer.Write(formatted)
+	if err != nil {
+		fmt.Printf("Error: writing output: %v", err)
 	}
 }
 
@@ -179,6 +208,15 @@ func generateHeader() (string, error) {
 		"",
 		"",
 	}
+	return strings.Join(lines, "\n"), nil
+}
+
+func generateImports(imports []string) (string, error) {
+	lines := []string{"import ("}
+	for _, pkg := range imports {
+		lines = append(lines, "\t\""+pkg+"\"")
+	}
+	lines = append(lines, ")", "")
 	return strings.Join(lines, "\n"), nil
 }
 
@@ -408,8 +446,60 @@ func formatFieldList(field *ast.Field) string {
 	case *ast.StarExpr:
 		builder.WriteString("*")
 		builder.WriteString(formatFieldList(&ast.Field{Type: fieldType.X}))
+	case *ast.SelectorExpr:
+		if pkg, ok := fieldType.X.(*ast.Ident); ok {
+			builder.WriteString(pkg.Name)
+			builder.WriteString(".")
+		}
+		builder.WriteString(fieldType.Sel.Name)
 	}
 	return builder.String()
+}
+
+func extractImports(sourceDir string) ([]string, error) {
+	importSet := make(map[string]bool)
+	for _, p := range GeneratableInterfaces {
+		methods, err := extractMethodsFromPackage(sourceDir, p)
+		if err != nil {
+			return nil, err
+		}
+		getQualifiedPackages(methods, importSet)
+	}
+	var imports []string
+	for pkg := range importSet {
+		imports = append(imports, pkg)
+	}
+	sort.Strings(imports)
+	return imports, nil
+}
+
+func getQualifiedPackages(methods []*ast.FuncDecl, seen map[string]bool) {
+	for _, method := range methods {
+		getPackagesFromFieldList(method.Type.Params, seen)
+		getPackagesFromFieldList(method.Type.Results, seen)
+	}
+}
+
+func getPackagesFromFieldList(fieldList *ast.FieldList, seen map[string]bool) {
+	if fieldList == nil {
+		return
+	}
+	for _, field := range fieldList.List {
+		collectPackagesFromExpr(field.Type, seen)
+	}
+}
+
+func collectPackagesFromExpr(expr ast.Expr, seen map[string]bool) {
+	switch e := expr.(type) {
+	case *ast.SelectorExpr:
+		if pkg, ok := e.X.(*ast.Ident); ok {
+			seen[pkg.Name] = true
+		}
+	case *ast.StarExpr:
+		collectPackagesFromExpr(e.X, seen)
+	case *ast.ArrayType:
+		collectPackagesFromExpr(e.Elt, seen)
+	}
 }
 
 func isPublic(name string) bool {

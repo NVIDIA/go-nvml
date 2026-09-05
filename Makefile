@@ -171,7 +171,6 @@ bindings: .create-bindings .strip-autogen-comment .strip-nvml-h-linenumber
 	go run $(GEN_BINDINGS_DIR)/generateapi.go \
 		--sourceDir $(PKG_BINDINGS_DIR) \
 		--output $(PKG_BINDINGS_DIR)/zz_generated.api.go
-	make fmt
 
 .strip-autogen-comment: SED_SEARCH_STRING := // WARNING: This file has automatically been generated on
 .strip-autogen-comment: SED_REPLACE_STRING := // WARNING: THIS FILE WAS AUTOMATICALLY GENERATED.
