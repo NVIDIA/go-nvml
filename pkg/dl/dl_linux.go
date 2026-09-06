@@ -39,7 +39,10 @@ func (dl *DynamicLibrary) Path() (string, error) {
 		return "", fmt.Errorf("%v not opened", dl.Name)
 	}
 
-	libParentPathBuffer := C.CBytes(make([]byte, 0, C.PATH_MAX))
+	// C.CBytes allocates len(b) bytes, not cap(b), so the slice must carry its
+	// full length: dlinfo(RTLD_DI_ORIGIN) writes the library's directory here
+	// and the buffer has to hold PATH_MAX bytes.
+	libParentPathBuffer := C.CBytes(make([]byte, C.PATH_MAX))
 	defer C.free(unsafe.Pointer(libParentPathBuffer))
 
 	var libPath string
