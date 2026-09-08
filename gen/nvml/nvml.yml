@@ -81,6 +81,11 @@ TRANSLATOR:
       - {action: replace, from: "^VgpuMetadata", to: "nvmlVgpuMetadata"}
       - {action: replace, from: "^VgpuPgpuMetadata", to: "nvmlVgpuPgpuMetadata"}
       - {action: replace, from: "^GpmMetricsGet", to: "nvmlGpmMetricsGetType"}
+      - {action: replace, from: "^EventSetWait_v3$", to: "EventSetWaitData_v3"}
+      - {action: replace, from: "^EventSetGetContextCount_v1$", to: "GetContextCount_v1"}
+      - {action: replace, from: "^EventSetGetContextInfo_v1$", to: "GetContextInfo_v1"}
+      - {action: replace, from: "^EventSetGetContextData_v1$", to: "GetContextData_v1"}
+      - {action: replace, from: "^EventSetGetGpuOperationalEventContextLegacyXid_v1$", to: "GetGpuOperationalEventContextLegacyXid_v1"}
     function:
       - {action: accept, from: "^nvml"}
       - {action: replace, from: "^nvmlInit$", to: "nvmlInit_v1"}
