@@ -33,7 +33,18 @@ func (l *library) InitWithFlags(flags uint32) Return {
 }
 
 // nvml.Shutdown()
+//
+// Returns ERROR_UNINITIALIZED when the library was never loaded: nvmlShutdown
+// resolves only after Init has opened libnvidia-ml.so.1, and calling it before
+// that aborts the process with a symbol lookup error.
 func (l *library) Shutdown() Return {
+	l.Lock()
+	loaded := l.refcount > 0
+	l.Unlock()
+	if !loaded {
+		return ERROR_UNINITIALIZED
+	}
+
 	ret := nvmlShutdown()
 	if ret != SUCCESS {
 		return ret
