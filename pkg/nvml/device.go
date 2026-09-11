@@ -1945,6 +1945,9 @@ func (l *library) DeviceGetFieldValues(device Device, values []FieldValue) Retur
 
 func (device nvmlDevice) GetFieldValues(values []FieldValue) Return {
 	valuesCount := len(values)
+	if valuesCount == 0 {
+		return ERROR_INVALID_ARGUMENT
+	}
 	return nvmlDeviceGetFieldValues(device, int32(valuesCount), &values[0])
 }
 
@@ -2907,6 +2910,9 @@ func (l *library) DeviceClearFieldValues(device Device, values []FieldValue) Ret
 
 func (device nvmlDevice) ClearFieldValues(values []FieldValue) Return {
 	valuesCount := len(values)
+	if valuesCount == 0 {
+		return ERROR_INVALID_ARGUMENT
+	}
 	return nvmlDeviceClearFieldValues(device, int32(valuesCount), &values[0])
 }
 
