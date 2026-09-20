@@ -262,7 +262,7 @@ func (l *library) DeviceGetTopologyNearestGpus(device Device, level GpuTopologyL
 
 func (device nvmlDevice) GetTopologyNearestGpus(level GpuTopologyLevel) ([]Device, Return) {
 	var count uint32
-	ret := nvmlDeviceGetTopologyNearestGpus(device, level, &count, nil)
+	ret := nvmlDeviceGetTopologyNearestGpusStub(device, level, &count, nil)
 	if ret != SUCCESS {
 		return nil, ret
 	}
@@ -270,7 +270,10 @@ func (device nvmlDevice) GetTopologyNearestGpus(level GpuTopologyLevel) ([]Devic
 		return []Device{}, ret
 	}
 	deviceArray := make([]nvmlDevice, count)
-	ret = nvmlDeviceGetTopologyNearestGpus(device, level, &count, &deviceArray[0])
+	ret = nvmlDeviceGetTopologyNearestGpusStub(device, level, &count, &deviceArray[0])
+	if ret == SUCCESS {
+		deviceArray = deviceArray[:count]
+	}
 	return convertSlice[nvmlDevice, Device](deviceArray), ret
 }
 
@@ -1327,7 +1330,7 @@ func (l *library) DeviceGetSamples(device Device, samplingType SamplingType, las
 func (device nvmlDevice) GetSamples(samplingType SamplingType, lastSeenTimestamp uint64) (ValueType, []Sample, Return) {
 	var sampleValType ValueType
 	var sampleCount uint32
-	ret := nvmlDeviceGetSamples(device, samplingType, lastSeenTimestamp, &sampleValType, &sampleCount, nil)
+	ret := nvmlDeviceGetSamplesStub(device, samplingType, lastSeenTimestamp, &sampleValType, &sampleCount, nil)
 	if ret != SUCCESS {
 		return sampleValType, nil, ret
 	}
@@ -1335,7 +1338,10 @@ func (device nvmlDevice) GetSamples(samplingType SamplingType, lastSeenTimestamp
 		return sampleValType, []Sample{}, ret
 	}
 	samples := make([]Sample, sampleCount)
-	ret = nvmlDeviceGetSamples(device, samplingType, lastSeenTimestamp, &sampleValType, &sampleCount, &samples[0])
+	ret = nvmlDeviceGetSamplesStub(device, samplingType, lastSeenTimestamp, &sampleValType, &sampleCount, &samples[0])
+	if ret == SUCCESS {
+		samples = samples[:sampleCount]
+	}
 	return sampleValType, samples, ret
 }
 
@@ -3955,3 +3961,9 @@ func (l *library) GpuInstanceSetVgpuSchedulerState_v2(gpuInstance GpuInstance, s
 func (gpuInstance nvmlGpuInstance) SetVgpuSchedulerState_v2(schedulerState *VgpuSchedulerState_v2) Return {
 	return nvmlGpuInstanceSetVgpuSchedulerState_v2(gpuInstance, schedulerState)
 }
+
+// nvmlDeviceGetTopologyNearestGpusStub allows us to override this for testing.
+var nvmlDeviceGetTopologyNearestGpusStub = nvmlDeviceGetTopologyNearestGpus
+
+// nvmlDeviceGetSamplesStub allows us to override this for testing.
+var nvmlDeviceGetSamplesStub = nvmlDeviceGetSamples
