@@ -271,6 +271,9 @@ func (device nvmlDevice) GetTopologyNearestGpus(level GpuTopologyLevel) ([]Devic
 	}
 	deviceArray := make([]nvmlDevice, count)
 	ret = nvmlDeviceGetTopologyNearestGpus(device, level, &count, &deviceArray[0])
+	if ret == SUCCESS {
+		deviceArray = deviceArray[:count]
+	}
 	return convertSlice[nvmlDevice, Device](deviceArray), ret
 }
 
@@ -1336,6 +1339,9 @@ func (device nvmlDevice) GetSamples(samplingType SamplingType, lastSeenTimestamp
 	}
 	samples := make([]Sample, sampleCount)
 	ret = nvmlDeviceGetSamples(device, samplingType, lastSeenTimestamp, &sampleValType, &sampleCount, &samples[0])
+	if ret == SUCCESS {
+		samples = samples[:sampleCount]
+	}
 	return sampleValType, samples, ret
 }
 
