@@ -561,10 +561,10 @@ var _ nvml.Device = &Device{}
 //			GetSupportedEventTypesFunc: func() (uint64, nvml.Return) {
 //				panic("mock out the GetSupportedEventTypes method")
 //			},
-//			GetSupportedGraphicsClocksFunc: func(n int) (int, uint32, nvml.Return) {
+//			GetSupportedGraphicsClocksFunc: func(n int) ([]uint32, nvml.Return) {
 //				panic("mock out the GetSupportedGraphicsClocks method")
 //			},
-//			GetSupportedMemoryClocksFunc: func() (int, uint32, nvml.Return) {
+//			GetSupportedMemoryClocksFunc: func() ([]uint32, nvml.Return) {
 //				panic("mock out the GetSupportedMemoryClocks method")
 //			},
 //			GetSupportedPerformanceStatesFunc: func() ([]nvml.Pstates, nvml.Return) {
@@ -1409,10 +1409,10 @@ type Device struct {
 	GetSupportedEventTypesFunc func() (uint64, nvml.Return)
 
 	// GetSupportedGraphicsClocksFunc mocks the GetSupportedGraphicsClocks method.
-	GetSupportedGraphicsClocksFunc func(n int) (int, uint32, nvml.Return)
+	GetSupportedGraphicsClocksFunc func(n int) ([]uint32, nvml.Return)
 
 	// GetSupportedMemoryClocksFunc mocks the GetSupportedMemoryClocks method.
-	GetSupportedMemoryClocksFunc func() (int, uint32, nvml.Return)
+	GetSupportedMemoryClocksFunc func() ([]uint32, nvml.Return)
 
 	// GetSupportedPerformanceStatesFunc mocks the GetSupportedPerformanceStates method.
 	GetSupportedPerformanceStatesFunc func() ([]nvml.Pstates, nvml.Return)
@@ -8351,7 +8351,7 @@ func (mock *Device) GetSupportedEventTypesCalls() []struct {
 }
 
 // GetSupportedGraphicsClocks calls GetSupportedGraphicsClocksFunc.
-func (mock *Device) GetSupportedGraphicsClocks(n int) (int, uint32, nvml.Return) {
+func (mock *Device) GetSupportedGraphicsClocks(n int) ([]uint32, nvml.Return) {
 	if mock.GetSupportedGraphicsClocksFunc == nil {
 		panic("Device.GetSupportedGraphicsClocksFunc: method is nil but Device.GetSupportedGraphicsClocks was just called")
 	}
@@ -8383,7 +8383,7 @@ func (mock *Device) GetSupportedGraphicsClocksCalls() []struct {
 }
 
 // GetSupportedMemoryClocks calls GetSupportedMemoryClocksFunc.
-func (mock *Device) GetSupportedMemoryClocks() (int, uint32, nvml.Return) {
+func (mock *Device) GetSupportedMemoryClocks() ([]uint32, nvml.Return) {
 	if mock.GetSupportedMemoryClocksFunc == nil {
 		panic("Device.GetSupportedMemoryClocksFunc: method is nil but Device.GetSupportedMemoryClocks was just called")
 	}
