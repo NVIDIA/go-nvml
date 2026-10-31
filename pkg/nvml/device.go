@@ -558,25 +558,43 @@ func (device nvmlDevice) GetMaxCustomerBoostClock(clockType ClockType) (uint32, 
 }
 
 // nvml.DeviceGetSupportedMemoryClocks()
-func (l *library) DeviceGetSupportedMemoryClocks(device Device) (int, uint32, Return) {
+func (l *library) DeviceGetSupportedMemoryClocks(device Device) ([]uint32, Return) {
 	return device.GetSupportedMemoryClocks()
 }
 
-func (device nvmlDevice) GetSupportedMemoryClocks() (int, uint32, Return) {
-	var count, clocksMHz uint32
-	ret := nvmlDeviceGetSupportedMemoryClocks(device, &count, &clocksMHz)
-	return int(count), clocksMHz, ret
+func (device nvmlDevice) GetSupportedMemoryClocks() ([]uint32, Return) {
+	var count uint32 = 1 // Will be reduced upon returning
+	for {
+		clocksMHz := make([]uint32, count)
+		ret := nvmlDeviceGetSupportedMemoryClocks(device, &count, &clocksMHz[0])
+		if ret == SUCCESS {
+			return clocksMHz[:count], ret
+		}
+		if ret != ERROR_INSUFFICIENT_SIZE {
+			return nil, ret
+		}
+		count *= 2
+	}
 }
 
 // nvml.DeviceGetSupportedGraphicsClocks()
-func (l *library) DeviceGetSupportedGraphicsClocks(device Device, memoryClockMHz int) (int, uint32, Return) {
+func (l *library) DeviceGetSupportedGraphicsClocks(device Device, memoryClockMHz int) ([]uint32, Return) {
 	return device.GetSupportedGraphicsClocks(memoryClockMHz)
 }
 
-func (device nvmlDevice) GetSupportedGraphicsClocks(memoryClockMHz int) (int, uint32, Return) {
-	var count, clocksMHz uint32
-	ret := nvmlDeviceGetSupportedGraphicsClocks(device, uint32(memoryClockMHz), &count, &clocksMHz)
-	return int(count), clocksMHz, ret
+func (device nvmlDevice) GetSupportedGraphicsClocks(memoryClockMHz int) ([]uint32, Return) {
+	var count uint32 = 1 // Will be reduced upon returning
+	for {
+		clocksMHz := make([]uint32, count)
+		ret := nvmlDeviceGetSupportedGraphicsClocks(device, uint32(memoryClockMHz), &count, &clocksMHz[0])
+		if ret == SUCCESS {
+			return clocksMHz[:count], ret
+		}
+		if ret != ERROR_INSUFFICIENT_SIZE {
+			return nil, ret
+		}
+		count *= 2
+	}
 }
 
 // nvml.DeviceGetAutoBoostedClocksEnabled()
