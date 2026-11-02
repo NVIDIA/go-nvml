@@ -588,10 +588,10 @@ var _ nvml.Interface = &Interface{}
 //			DeviceGetSupportedEventTypesFunc: func(device nvml.Device) (uint64, nvml.Return) {
 //				panic("mock out the DeviceGetSupportedEventTypes method")
 //			},
-//			DeviceGetSupportedGraphicsClocksFunc: func(device nvml.Device, n int) (int, uint32, nvml.Return) {
+//			DeviceGetSupportedGraphicsClocksFunc: func(device nvml.Device, n int) ([]uint32, nvml.Return) {
 //				panic("mock out the DeviceGetSupportedGraphicsClocks method")
 //			},
-//			DeviceGetSupportedMemoryClocksFunc: func(device nvml.Device) (int, uint32, nvml.Return) {
+//			DeviceGetSupportedMemoryClocksFunc: func(device nvml.Device) ([]uint32, nvml.Return) {
 //				panic("mock out the DeviceGetSupportedMemoryClocks method")
 //			},
 //			DeviceGetSupportedPerformanceStatesFunc: func(device nvml.Device) ([]nvml.Pstates, nvml.Return) {
@@ -1817,10 +1817,10 @@ type Interface struct {
 	DeviceGetSupportedEventTypesFunc func(device nvml.Device) (uint64, nvml.Return)
 
 	// DeviceGetSupportedGraphicsClocksFunc mocks the DeviceGetSupportedGraphicsClocks method.
-	DeviceGetSupportedGraphicsClocksFunc func(device nvml.Device, n int) (int, uint32, nvml.Return)
+	DeviceGetSupportedGraphicsClocksFunc func(device nvml.Device, n int) ([]uint32, nvml.Return)
 
 	// DeviceGetSupportedMemoryClocksFunc mocks the DeviceGetSupportedMemoryClocks method.
-	DeviceGetSupportedMemoryClocksFunc func(device nvml.Device) (int, uint32, nvml.Return)
+	DeviceGetSupportedMemoryClocksFunc func(device nvml.Device) ([]uint32, nvml.Return)
 
 	// DeviceGetSupportedPerformanceStatesFunc mocks the DeviceGetSupportedPerformanceStates method.
 	DeviceGetSupportedPerformanceStatesFunc func(device nvml.Device) ([]nvml.Pstates, nvml.Return)
@@ -11587,7 +11587,7 @@ func (mock *Interface) DeviceGetSupportedEventTypesCalls() []struct {
 }
 
 // DeviceGetSupportedGraphicsClocks calls DeviceGetSupportedGraphicsClocksFunc.
-func (mock *Interface) DeviceGetSupportedGraphicsClocks(device nvml.Device, n int) (int, uint32, nvml.Return) {
+func (mock *Interface) DeviceGetSupportedGraphicsClocks(device nvml.Device, n int) ([]uint32, nvml.Return) {
 	if mock.DeviceGetSupportedGraphicsClocksFunc == nil {
 		panic("Interface.DeviceGetSupportedGraphicsClocksFunc: method is nil but Interface.DeviceGetSupportedGraphicsClocks was just called")
 	}
@@ -11623,7 +11623,7 @@ func (mock *Interface) DeviceGetSupportedGraphicsClocksCalls() []struct {
 }
 
 // DeviceGetSupportedMemoryClocks calls DeviceGetSupportedMemoryClocksFunc.
-func (mock *Interface) DeviceGetSupportedMemoryClocks(device nvml.Device) (int, uint32, nvml.Return) {
+func (mock *Interface) DeviceGetSupportedMemoryClocks(device nvml.Device) ([]uint32, nvml.Return) {
 	if mock.DeviceGetSupportedMemoryClocksFunc == nil {
 		panic("Interface.DeviceGetSupportedMemoryClocksFunc: method is nil but Interface.DeviceGetSupportedMemoryClocks was just called")
 	}
