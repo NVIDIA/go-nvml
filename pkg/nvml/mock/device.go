@@ -582,7 +582,7 @@ var _ nvml.Device = &Device{}
 //			GetTemperatureThresholdFunc: func(temperatureThresholds nvml.TemperatureThresholds) (uint32, nvml.Return) {
 //				panic("mock out the GetTemperatureThreshold method")
 //			},
-//			GetTemperatureVFunc: func() nvml.TemperatureHandler {
+//			GetTemperatureVFunc: func(temperatureSensors nvml.TemperatureSensors) nvml.TemperatureHandler {
 //				panic("mock out the GetTemperatureV method")
 //			},
 //			GetThermalSettingsFunc: func(v uint32) (nvml.GpuThermalSettings, nvml.Return) {
@@ -1430,7 +1430,7 @@ type Device struct {
 	GetTemperatureThresholdFunc func(temperatureThresholds nvml.TemperatureThresholds) (uint32, nvml.Return)
 
 	// GetTemperatureVFunc mocks the GetTemperatureV method.
-	GetTemperatureVFunc func() nvml.TemperatureHandler
+	GetTemperatureVFunc func(temperatureSensors nvml.TemperatureSensors) nvml.TemperatureHandler
 
 	// GetThermalSettingsFunc mocks the GetThermalSettings method.
 	GetThermalSettingsFunc func(v uint32) (nvml.GpuThermalSettings, nvml.Return)
@@ -8560,7 +8560,7 @@ func (mock *Device) GetTemperatureThresholdCalls() []struct {
 }
 
 // GetTemperatureV calls GetTemperatureVFunc.
-func (mock *Device) GetTemperatureV() nvml.TemperatureHandler {
+func (mock *Device) GetTemperatureV(temperatureSensors nvml.TemperatureSensors) nvml.TemperatureHandler {
 	if mock.GetTemperatureVFunc == nil {
 		panic("Device.GetTemperatureVFunc: method is nil but Device.GetTemperatureV was just called")
 	}
@@ -8569,7 +8569,7 @@ func (mock *Device) GetTemperatureV() nvml.TemperatureHandler {
 	mock.lockGetTemperatureV.Lock()
 	mock.calls.GetTemperatureV = append(mock.calls.GetTemperatureV, callInfo)
 	mock.lockGetTemperatureV.Unlock()
-	return mock.GetTemperatureVFunc()
+	return mock.GetTemperatureVFunc(temperatureSensors)
 }
 
 // GetTemperatureVCalls gets all the calls that were made to GetTemperatureV.
