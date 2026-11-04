@@ -1972,8 +1972,21 @@ func (device nvmlDevice) GetFieldValues(values []FieldValue) Return {
 	if valuesCount == 0 {
 		return ERROR_INVALID_ARGUMENT
 	}
-	return nvmlDeviceGetFieldValues(device, int32(valuesCount), &values[0])
+	// Driver 595.91.07 may access one entry beyond the requested count during NVLink queries.
+	// See https://github.com/XuehaiPan/nvitop/pull/232.
+	buffer := make([]FieldValue, valuesCount+1)
+	copy(buffer, values)
+	// Mark the guard as unsuccessful so NVML skips it; initialize all entries defensively.
+	for i := range buffer {
+		buffer[i].NvmlReturn = uint32(ERROR_INVALID_ARGUMENT)
+	}
+	ret := nvmlDeviceGetFieldValuesStub(device, int32(valuesCount), &buffer[0])
+	copy(values, buffer[:valuesCount])
+	return ret
 }
+
+// `nvmlDeviceGetFieldValuesStub` allows us to override this for testing.
+var nvmlDeviceGetFieldValuesStub = nvmlDeviceGetFieldValues
 
 // nvml.DeviceGetVirtualizationMode()
 func (l *library) DeviceGetVirtualizationMode(device Device) (GpuVirtualizationMode, Return) {
