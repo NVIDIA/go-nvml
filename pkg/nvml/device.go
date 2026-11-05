@@ -3275,6 +3275,17 @@ func (device nvmlDevice) GetBBXTimeData_v1() (BBXTimeData_v1, Return) {
 	return timeData, ret
 }
 
+// nvml.DeviceGetGpuUptime_v1()
+func (l *library) DeviceGetGpuUptime_v1(device Device) (GpuUptime_v1, Return) {
+	return device.GetGpuUptime_v1()
+}
+
+func (device nvmlDevice) GetGpuUptime_v1() (GpuUptime_v1, Return) {
+	var uptime GpuUptime_v1
+	ret := nvmlDeviceGetGpuUptime_v1(device, &uptime)
+	return uptime, ret
+}
+
 // nvml.DeviceGetNumaNodeId()
 func (l *library) DeviceGetNumaNodeId(device Device) (int, Return) {
 	return device.GetNumaNodeId()
@@ -3712,6 +3723,17 @@ func (handler NvLinkInfoHandler) V2() (NvLinkInfo_v2, Return) {
 	return info, ret
 }
 
+// nvml.DeviceGetNvLinkInfo_v3()
+func (l *library) DeviceGetNvLinkInfo_v3(device Device) (NvLinkInfo_v3, Return) {
+	return device.GetNvLinkInfo_v3()
+}
+
+func (device nvmlDevice) GetNvLinkInfo_v3() (NvLinkInfo_v3, Return) {
+	var info NvLinkInfo_v3
+	ret := nvmlDeviceGetNvLinkInfo_v3(device, &info)
+	return info, ret
+}
+
 // nvml.DeviceGetNvLinkTelemetrySamples_v1()
 func (l *library) DeviceGetNvLinkTelemetrySamples_v1(device Device, samples NvlinkTelemetrySamples_v1) (NvlinkTelemetrySamples_v1, Return) {
 	return device.GetNvLinkTelemetrySamples_v1(samples)
@@ -3732,6 +3754,55 @@ func (device nvmlDevice) GetNvLinkTelemetrySamples_v1(samples NvlinkTelemetrySam
 	}
 	ret := nvmlDeviceGetNvLinkTelemetrySamples_v1(device, &samples)
 	return samples, ret
+}
+
+// nvml.DeviceGetNvlinkRemapTableInfo_v1()
+func (l *library) DeviceGetNvlinkRemapTableInfo_v1(device Device) (NvlinkGetRemapTableInfo_v1, Return) {
+	return device.GetNvlinkRemapTableInfo_v1()
+}
+
+func (device nvmlDevice) GetNvlinkRemapTableInfo_v1() (NvlinkGetRemapTableInfo_v1, Return) {
+	var info NvlinkGetRemapTableInfo_v1
+	ret := nvmlDeviceGetNvlinkRemapTableInfo_v1(device, &info)
+	return info, ret
+}
+
+// nvml.DeviceSetNvlinkNvleReady_v1()
+func (l *library) DeviceSetNvlinkNvleReady_v1(device Device, nvleReady *NvlinkSetNvleReady_v1) Return {
+	return device.SetNvlinkNvleReady_v1(nvleReady)
+}
+
+func (device nvmlDevice) SetNvlinkNvleReady_v1(nvleReady *NvlinkSetNvleReady_v1) Return {
+	return nvmlDeviceSetNvlinkNvleReady_v1(device, nvleReady)
+}
+
+// nvml.DeviceLockNvlinkRemapTable_v1()
+func (l *library) DeviceLockNvlinkRemapTable_v1(device Device, info *NvlinkLockRemapTable_v1) Return {
+	return device.LockNvlinkRemapTable_v1(info)
+}
+
+func (device nvmlDevice) LockNvlinkRemapTable_v1(info *NvlinkLockRemapTable_v1) Return {
+	return nvmlDeviceLockNvlinkRemapTable_v1(device, info)
+}
+
+// nvml.DeviceSetupNvlinkNvleEncryptionKey_v1()
+func (l *library) DeviceSetupNvlinkNvleEncryptionKey_v1(device Device, encryptionKey *NvlinkSetupNvleEncryptionKey_v1) Return {
+	return device.SetupNvlinkNvleEncryptionKey_v1(encryptionKey)
+}
+
+func (device nvmlDevice) SetupNvlinkNvleEncryptionKey_v1(encryptionKey *NvlinkSetupNvleEncryptionKey_v1) Return {
+	return nvmlDeviceSetupNvlinkNvleEncryptionKey_v1(device, encryptionKey)
+}
+
+// nvml.DeviceGetNvlinkNvlePrivateInfo_v1()
+func (l *library) DeviceGetNvlinkNvlePrivateInfo_v1(device Device) (NvlinkNvlePrivateInfo_v1, Return) {
+	return device.GetNvlinkNvlePrivateInfo_v1()
+}
+
+func (device nvmlDevice) GetNvlinkNvlePrivateInfo_v1() (NvlinkNvlePrivateInfo_v1, Return) {
+	var info NvlinkNvlePrivateInfo_v1
+	ret := nvmlDeviceGetNvlinkNvlePrivateInfo_v1(device, &info)
+	return info, ret
 }
 
 // nvml.DeviceWorkloadPowerProfileGetProfilesInfo()

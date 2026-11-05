@@ -137,6 +137,14 @@ func (l *library) SystemGetConfComputeSettings() (SystemConfComputeSettings, Ret
 	return settings, ret
 }
 
+// nvml.SystemGetConfComputeSettings_v2()
+func (l *library) SystemGetConfComputeSettings_v2() (SystemConfComputeSettings_v2, Return) {
+	var settings SystemConfComputeSettings_v2
+	settings.Version = STRUCT_VERSION(settings, 2)
+	ret := nvmlSystemGetConfComputeSettings_v2(&settings)
+	return settings, ret
+}
+
 // nvml.SystemSetConfComputeKeyRotationThresholdInfo()
 func (l *library) SystemSetConfComputeKeyRotationThresholdInfo(keyRotationThresholdInfo ConfComputeSetKeyRotationThresholdInfo) Return {
 	keyRotationThresholdInfo.Version = STRUCT_VERSION(keyRotationThresholdInfo, 1)
