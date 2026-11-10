@@ -674,3 +674,6 @@ backports from time-to-time as deemed necessary (or upon request).
 
 Please see the file [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to
 contribute to this project.
+
+## Support and Getting Help
+You can join our [community Slack](https://inviter.co/dsx-ai-factory). Your feedback is appreciated.
