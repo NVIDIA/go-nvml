@@ -356,6 +356,10 @@ type BBXTimeData_v1 struct {
 	TimeRun uint32
 }
 
+type GpuUptime_v1 struct {
+	Uptime uint32
+}
+
 type DramEncryptionInfo_v1 struct {
 	Version         uint32
 	EncryptionState uint32
@@ -1248,6 +1252,15 @@ type SystemConfComputeSettings struct {
 	MultiGpuMode uint32
 }
 
+type SystemConfComputeSettings_v2 struct {
+	Version      uint32
+	Environment  uint32
+	CcFeature    uint32
+	DevToolsMode uint32
+	MultiGpuMode uint32
+	TdispState   uint32
+}
+
 type ConfComputeMemSizeInfo struct {
 	ProtectedMemSizeKib   uint64
 	UnprotectedMemSizeKib uint64
@@ -1495,6 +1508,12 @@ type NvLinkInfo struct {
 	FirmwareInfo  NvlinkFirmwareInfo
 }
 
+type NvLinkInfo_v3 struct {
+	IsNvleEnabled uint32
+	FirmwareInfo  NvlinkFirmwareInfo
+	IsNvleReady   uint32
+}
+
 type NvlinkTelemetrySample_v1 struct {
 	LinkId      uint32
 	SampleType  uint32
@@ -1507,6 +1526,35 @@ type NvlinkTelemetrySample_v1 struct {
 type NvlinkTelemetrySamples_v1 struct {
 	TelemetryCount   uint32
 	TelemetrySamples *NvlinkTelemetrySample_v1
+}
+
+type NvlinkGetRemapTableInfo_v1 struct {
+	Alid            uint32
+	FlaRemapTabAddr [4096]uint32
+	GpaRemapTabAddr [4096]uint32
+	RemapTabSize    uint32
+}
+
+type NvlinkSetNvleReady_v1 struct {
+	BNvleReady uint8
+}
+
+type NvlinkLockRemapTable_v1 struct {
+	BRemapTableLocked       uint8
+	BRemapTableLockDisabled uint8
+}
+
+type NvlinkNvlePrivateInfo_v1 struct {
+	Data [256]uint8
+	Size uint32
+}
+
+type NvlinkSetupNvleEncryptionKey_v1 struct {
+	NvleKey                  [32]uint8
+	LocalGpuAlid             uint32
+	RemoteGpuAlid            uint32
+	LocalGpuNvlePrivateInfo  NvlinkNvlePrivateInfo_v1
+	RemoteGpuNvlePrivateInfo NvlinkNvlePrivateInfo_v1
 }
 
 type VgpuVersion struct {
