@@ -3380,6 +3380,16 @@ func (device nvmlDevice) GetProcessesUtilizationInfo() (ProcessesUtilizationInfo
 	var processesUtilInfo ProcessesUtilizationInfo
 	processesUtilInfo.Version = STRUCT_VERSION(processesUtilInfo, 1)
 	ret := nvmlDeviceGetProcessesUtilizationInfo(device, &processesUtilInfo)
+	if ret != ERROR_INSUFFICIENT_SIZE || processesUtilInfo.ProcessSamplesCount == 0 {
+		return processesUtilInfo, ret
+	}
+
+	var pinner runtime.Pinner
+	procUtilArray := make([]ProcessUtilizationInfo_v1, processesUtilInfo.ProcessSamplesCount)
+	processesUtilInfo.ProcUtilArray = &procUtilArray[0]
+	pinner.Pin(&procUtilArray[0])
+	defer pinner.Unpin()
+	ret = nvmlDeviceGetProcessesUtilizationInfo(device, &processesUtilInfo)
 	return processesUtilInfo, ret
 }
 
