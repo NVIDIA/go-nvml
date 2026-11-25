@@ -531,6 +531,15 @@ func nvmlDeviceGetBBXTimeData_v1(nvmlDevice nvmlDevice, TimeData *BBXTimeData_v1
 	return __v
 }
 
+// nvmlDeviceGetGpuUptime_v1 function as declared in nvml/nvml.h
+func nvmlDeviceGetGpuUptime_v1(nvmlDevice nvmlDevice, Uptime *GpuUptime_v1) Return {
+	cnvmlDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&nvmlDevice)), cgoAllocsUnknown
+	cUptime, _ := (*C.nvmlGpuUptime_v1_t)(unsafe.Pointer(Uptime)), cgoAllocsUnknown
+	__ret := C.nvmlDeviceGetGpuUptime_v1(cnvmlDevice, cUptime)
+	__v := (Return)(__ret)
+	return __v
+}
+
 // nvmlDeviceGetDisplayMode function as declared in nvml/nvml.h
 func nvmlDeviceGetDisplayMode(nvmlDevice nvmlDevice, Display *EnableState) Return {
 	cnvmlDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&nvmlDevice)), cgoAllocsUnknown
@@ -1689,6 +1698,14 @@ func nvmlSystemGetConfComputeSettings(Settings *SystemConfComputeSettings) Retur
 	return __v
 }
 
+// nvmlSystemGetConfComputeSettings_v2 function as declared in nvml/nvml.h
+func nvmlSystemGetConfComputeSettings_v2(Settings *SystemConfComputeSettings_v2) Return {
+	cSettings, _ := (*C.nvmlSystemConfComputeSettings_v2_t)(unsafe.Pointer(Settings)), cgoAllocsUnknown
+	__ret := C.nvmlSystemGetConfComputeSettings_v2(cSettings)
+	__v := (Return)(__ret)
+	return __v
+}
+
 // nvmlDeviceGetGspFirmwareVersion function as declared in nvml/nvml.h
 func nvmlDeviceGetGspFirmwareVersion(nvmlDevice nvmlDevice, Version *byte) Return {
 	cnvmlDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&nvmlDevice)), cgoAllocsUnknown
@@ -2336,11 +2353,65 @@ func nvmlDeviceGetNvLinkInfo(nvmlDevice nvmlDevice, Info *NvLinkInfo) Return {
 	return __v
 }
 
+// nvmlDeviceGetNvLinkInfo_v3 function as declared in nvml/nvml.h
+func nvmlDeviceGetNvLinkInfo_v3(nvmlDevice nvmlDevice, Info *NvLinkInfo_v3) Return {
+	cnvmlDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&nvmlDevice)), cgoAllocsUnknown
+	cInfo, _ := (*C.nvmlNvLinkInfo_v3_t)(unsafe.Pointer(Info)), cgoAllocsUnknown
+	__ret := C.nvmlDeviceGetNvLinkInfo_v3(cnvmlDevice, cInfo)
+	__v := (Return)(__ret)
+	return __v
+}
+
 // nvmlDeviceGetNvLinkTelemetrySamples_v1 function as declared in nvml/nvml.h
 func nvmlDeviceGetNvLinkTelemetrySamples_v1(nvmlDevice nvmlDevice, Samples *NvlinkTelemetrySamples_v1) Return {
 	cnvmlDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&nvmlDevice)), cgoAllocsUnknown
 	cSamples, _ := (*C.nvmlNvlinkTelemetrySamples_v1_t)(unsafe.Pointer(Samples)), cgoAllocsUnknown
 	__ret := C.nvmlDeviceGetNvLinkTelemetrySamples_v1(cnvmlDevice, cSamples)
+	__v := (Return)(__ret)
+	return __v
+}
+
+// nvmlDeviceGetNvlinkRemapTableInfo_v1 function as declared in nvml/nvml.h
+func nvmlDeviceGetNvlinkRemapTableInfo_v1(nvmlDevice nvmlDevice, RemapTableInfo *NvlinkGetRemapTableInfo_v1) Return {
+	cnvmlDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&nvmlDevice)), cgoAllocsUnknown
+	cRemapTableInfo, _ := (*C.nvmlNvlinkGetRemapTableInfo_v1_t)(unsafe.Pointer(RemapTableInfo)), cgoAllocsUnknown
+	__ret := C.nvmlDeviceGetNvlinkRemapTableInfo_v1(cnvmlDevice, cRemapTableInfo)
+	__v := (Return)(__ret)
+	return __v
+}
+
+// nvmlDeviceSetNvlinkNvleReady_v1 function as declared in nvml/nvml.h
+func nvmlDeviceSetNvlinkNvleReady_v1(nvmlDevice nvmlDevice, SetNvleReady *NvlinkSetNvleReady_v1) Return {
+	cnvmlDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&nvmlDevice)), cgoAllocsUnknown
+	cSetNvleReady, _ := (*C.nvmlNvlinkSetNvleReady_v1_t)(unsafe.Pointer(SetNvleReady)), cgoAllocsUnknown
+	__ret := C.nvmlDeviceSetNvlinkNvleReady_v1(cnvmlDevice, cSetNvleReady)
+	__v := (Return)(__ret)
+	return __v
+}
+
+// nvmlDeviceLockNvlinkRemapTable_v1 function as declared in nvml/nvml.h
+func nvmlDeviceLockNvlinkRemapTable_v1(nvmlDevice nvmlDevice, RemapTableLockInfo *NvlinkLockRemapTable_v1) Return {
+	cnvmlDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&nvmlDevice)), cgoAllocsUnknown
+	cRemapTableLockInfo, _ := (*C.nvmlNvlinkLockRemapTable_v1_t)(unsafe.Pointer(RemapTableLockInfo)), cgoAllocsUnknown
+	__ret := C.nvmlDeviceLockNvlinkRemapTable_v1(cnvmlDevice, cRemapTableLockInfo)
+	__v := (Return)(__ret)
+	return __v
+}
+
+// nvmlDeviceSetupNvlinkNvleEncryptionKey_v1 function as declared in nvml/nvml.h
+func nvmlDeviceSetupNvlinkNvleEncryptionKey_v1(nvmlDevice nvmlDevice, EncryptionKey *NvlinkSetupNvleEncryptionKey_v1) Return {
+	cnvmlDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&nvmlDevice)), cgoAllocsUnknown
+	cEncryptionKey, _ := (*C.nvmlNvlinkSetupNvleEncryptionKey_v1_t)(unsafe.Pointer(EncryptionKey)), cgoAllocsUnknown
+	__ret := C.nvmlDeviceSetupNvlinkNvleEncryptionKey_v1(cnvmlDevice, cEncryptionKey)
+	__v := (Return)(__ret)
+	return __v
+}
+
+// nvmlDeviceGetNvlinkNvlePrivateInfo_v1 function as declared in nvml/nvml.h
+func nvmlDeviceGetNvlinkNvlePrivateInfo_v1(nvmlDevice nvmlDevice, PrivateInfo *NvlinkNvlePrivateInfo_v1) Return {
+	cnvmlDevice, _ := *(*C.nvmlDevice_t)(unsafe.Pointer(&nvmlDevice)), cgoAllocsUnknown
+	cPrivateInfo, _ := (*C.nvmlNvlinkNvlePrivateInfo_v1_t)(unsafe.Pointer(PrivateInfo)), cgoAllocsUnknown
+	__ret := C.nvmlDeviceGetNvlinkNvlePrivateInfo_v1(cnvmlDevice, cPrivateInfo)
 	__v := (Return)(__ret)
 	return __v
 }

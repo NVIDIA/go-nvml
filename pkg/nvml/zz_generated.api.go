@@ -115,6 +115,7 @@ var (
 	DeviceGetGpuInstances                             = libnvml.DeviceGetGpuInstances
 	DeviceGetGpuMaxPcieLinkGeneration                 = libnvml.DeviceGetGpuMaxPcieLinkGeneration
 	DeviceGetGpuOperationMode                         = libnvml.DeviceGetGpuOperationMode
+	DeviceGetGpuUptime_v1                             = libnvml.DeviceGetGpuUptime_v1
 	DeviceGetGraphicsRunningProcesses                 = libnvml.DeviceGetGraphicsRunningProcesses
 	DeviceGetGridLicensableFeatures                   = libnvml.DeviceGetGridLicensableFeatures
 	DeviceGetGspFirmwareMode                          = libnvml.DeviceGetGspFirmwareMode
@@ -162,6 +163,7 @@ var (
 	DeviceGetNvLinkCapability                         = libnvml.DeviceGetNvLinkCapability
 	DeviceGetNvLinkErrorCounter                       = libnvml.DeviceGetNvLinkErrorCounter
 	DeviceGetNvLinkInfo                               = libnvml.DeviceGetNvLinkInfo
+	DeviceGetNvLinkInfo_v3                            = libnvml.DeviceGetNvLinkInfo_v3
 	DeviceGetNvLinkRemoteDeviceType                   = libnvml.DeviceGetNvLinkRemoteDeviceType
 	DeviceGetNvLinkRemotePciInfo                      = libnvml.DeviceGetNvLinkRemotePciInfo
 	DeviceGetNvLinkState                              = libnvml.DeviceGetNvLinkState
@@ -170,6 +172,8 @@ var (
 	DeviceGetNvLinkUtilizationCounter                 = libnvml.DeviceGetNvLinkUtilizationCounter
 	DeviceGetNvLinkVersion                            = libnvml.DeviceGetNvLinkVersion
 	DeviceGetNvlinkBwMode                             = libnvml.DeviceGetNvlinkBwMode
+	DeviceGetNvlinkNvlePrivateInfo_v1                 = libnvml.DeviceGetNvlinkNvlePrivateInfo_v1
+	DeviceGetNvlinkRemapTableInfo_v1                  = libnvml.DeviceGetNvlinkRemapTableInfo_v1
 	DeviceGetNvlinkSupportedBwModes                   = libnvml.DeviceGetNvlinkSupportedBwModes
 	DeviceGetOfaUtilization                           = libnvml.DeviceGetOfaUtilization
 	DeviceGetP2PStatus                                = libnvml.DeviceGetP2PStatus
@@ -244,6 +248,7 @@ var (
 	DeviceGetViolationStatus                          = libnvml.DeviceGetViolationStatus
 	DeviceGetVirtualizationMode                       = libnvml.DeviceGetVirtualizationMode
 	DeviceIsMigDeviceHandle                           = libnvml.DeviceIsMigDeviceHandle
+	DeviceLockNvlinkRemapTable_v1                     = libnvml.DeviceLockNvlinkRemapTable_v1
 	DeviceModifyDrainState                            = libnvml.DeviceModifyDrainState
 	DeviceOnSameBoard                                 = libnvml.DeviceOnSameBoard
 	DevicePerfMetricsGetSamples_v1                    = libnvml.DevicePerfMetricsGetSamples_v1
@@ -289,6 +294,7 @@ var (
 	DeviceSetNvLinkUtilizationControl                 = libnvml.DeviceSetNvLinkUtilizationControl
 	DeviceSetNvlinkBwMode                             = libnvml.DeviceSetNvlinkBwMode
 	DeviceSetNvlinkBwModeAsync_v1                     = libnvml.DeviceSetNvlinkBwModeAsync_v1
+	DeviceSetNvlinkNvleReady_v1                       = libnvml.DeviceSetNvlinkNvleReady_v1
 	DeviceSetPersistenceMode                          = libnvml.DeviceSetPersistenceMode
 	DeviceSetPowerManagementLimit                     = libnvml.DeviceSetPowerManagementLimit
 	DeviceSetPowerManagementLimit_v2                  = libnvml.DeviceSetPowerManagementLimit_v2
@@ -299,6 +305,7 @@ var (
 	DeviceSetVgpuSchedulerState                       = libnvml.DeviceSetVgpuSchedulerState
 	DeviceSetVgpuSchedulerState_v2                    = libnvml.DeviceSetVgpuSchedulerState_v2
 	DeviceSetVirtualizationMode                       = libnvml.DeviceSetVirtualizationMode
+	DeviceSetupNvlinkNvleEncryptionKey_v1             = libnvml.DeviceSetupNvlinkNvleEncryptionKey_v1
 	DeviceValidateInforom                             = libnvml.DeviceValidateInforom
 	DeviceVgpuForceGspUnload                          = libnvml.DeviceVgpuForceGspUnload
 	DeviceWorkloadPowerProfileClearRequestedProfiles  = libnvml.DeviceWorkloadPowerProfileClearRequestedProfiles
@@ -365,6 +372,7 @@ var (
 	SystemGetConfComputeGpusReadyState                = libnvml.SystemGetConfComputeGpusReadyState
 	SystemGetConfComputeKeyRotationThresholdInfo      = libnvml.SystemGetConfComputeKeyRotationThresholdInfo
 	SystemGetConfComputeSettings                      = libnvml.SystemGetConfComputeSettings
+	SystemGetConfComputeSettings_v2                   = libnvml.SystemGetConfComputeSettings_v2
 	SystemGetConfComputeState                         = libnvml.SystemGetConfComputeState
 	SystemGetCudaDriverVersion                        = libnvml.SystemGetCudaDriverVersion
 	SystemGetCudaDriverVersion_v2                     = libnvml.SystemGetCudaDriverVersion_v2
@@ -528,6 +536,7 @@ type Interface interface {
 	DeviceGetGpuInstances(Device, *GpuInstanceProfileInfo) ([]GpuInstance, Return)
 	DeviceGetGpuMaxPcieLinkGeneration(Device) (int, Return)
 	DeviceGetGpuOperationMode(Device) (GpuOperationMode, GpuOperationMode, Return)
+	DeviceGetGpuUptime_v1(Device) (GpuUptime_v1, Return)
 	DeviceGetGraphicsRunningProcesses(Device) ([]ProcessInfo, Return)
 	DeviceGetGridLicensableFeatures(Device) (GridLicensableFeatures, Return)
 	DeviceGetGspFirmwareMode(Device) (bool, bool, Return)
@@ -575,6 +584,7 @@ type Interface interface {
 	DeviceGetNvLinkCapability(Device, int, NvLinkCapability) (uint32, Return)
 	DeviceGetNvLinkErrorCounter(Device, int, NvLinkErrorCounter) (uint64, Return)
 	DeviceGetNvLinkInfo(Device) NvLinkInfoHandler
+	DeviceGetNvLinkInfo_v3(Device) (NvLinkInfo_v3, Return)
 	DeviceGetNvLinkRemoteDeviceType(Device, int) (IntNvLinkDeviceType, Return)
 	DeviceGetNvLinkRemotePciInfo(Device, int) (PciInfo, Return)
 	DeviceGetNvLinkState(Device, int) (EnableState, Return)
@@ -583,6 +593,8 @@ type Interface interface {
 	DeviceGetNvLinkUtilizationCounter(Device, int, int) (uint64, uint64, Return)
 	DeviceGetNvLinkVersion(Device, int) (uint32, Return)
 	DeviceGetNvlinkBwMode(Device) (NvlinkGetBwMode, Return)
+	DeviceGetNvlinkNvlePrivateInfo_v1(Device) (NvlinkNvlePrivateInfo_v1, Return)
+	DeviceGetNvlinkRemapTableInfo_v1(Device) (NvlinkGetRemapTableInfo_v1, Return)
 	DeviceGetNvlinkSupportedBwModes(Device) (NvlinkSupportedBwModes, Return)
 	DeviceGetOfaUtilization(Device) (uint32, uint32, Return)
 	DeviceGetP2PStatus(Device, Device, GpuP2PCapsIndex) (GpuP2PStatus, Return)
@@ -657,6 +669,7 @@ type Interface interface {
 	DeviceGetViolationStatus(Device, PerfPolicyType) (ViolationTime, Return)
 	DeviceGetVirtualizationMode(Device) (GpuVirtualizationMode, Return)
 	DeviceIsMigDeviceHandle(Device) (bool, Return)
+	DeviceLockNvlinkRemapTable_v1(Device, *NvlinkLockRemapTable_v1) Return
 	DeviceModifyDrainState(*PciInfo, EnableState) Return
 	DeviceOnSameBoard(Device, Device) (int, Return)
 	DevicePerfMetricsGetSamples_v1(Device) (PerfMetricsSamples_v1, Return)
@@ -702,6 +715,7 @@ type Interface interface {
 	DeviceSetNvLinkUtilizationControl(Device, int, int, *NvLinkUtilizationControl, bool) Return
 	DeviceSetNvlinkBwMode(Device, *NvlinkSetBwMode) Return
 	DeviceSetNvlinkBwModeAsync_v1(Device, *NvlinkSetBwModeAsync_v1) Return
+	DeviceSetNvlinkNvleReady_v1(Device, *NvlinkSetNvleReady_v1) Return
 	DeviceSetPersistenceMode(Device, EnableState) Return
 	DeviceSetPowerManagementLimit(Device, uint32) Return
 	DeviceSetPowerManagementLimit_v2(Device, *PowerValue_v2) Return
@@ -712,6 +726,7 @@ type Interface interface {
 	DeviceSetVgpuSchedulerState(Device, *VgpuSchedulerSetState) Return
 	DeviceSetVgpuSchedulerState_v2(Device, *VgpuSchedulerState_v2) Return
 	DeviceSetVirtualizationMode(Device, GpuVirtualizationMode) Return
+	DeviceSetupNvlinkNvleEncryptionKey_v1(Device, *NvlinkSetupNvleEncryptionKey_v1) Return
 	DeviceValidateInforom(Device) Return
 	DeviceVgpuForceGspUnload(Device) Return
 	DeviceWorkloadPowerProfileClearRequestedProfiles(Device, *WorkloadPowerProfileRequestedProfiles) Return
@@ -778,6 +793,7 @@ type Interface interface {
 	SystemGetConfComputeGpusReadyState() (uint32, Return)
 	SystemGetConfComputeKeyRotationThresholdInfo() (ConfComputeGetKeyRotationThresholdInfo, Return)
 	SystemGetConfComputeSettings() (SystemConfComputeSettings, Return)
+	SystemGetConfComputeSettings_v2() (SystemConfComputeSettings_v2, Return)
 	SystemGetConfComputeState() (ConfComputeSystemState, Return)
 	SystemGetCudaDriverVersion() (int, Return)
 	SystemGetCudaDriverVersion_v2() (int, Return)
@@ -937,6 +953,7 @@ type Device interface {
 	GetGpuInstances(*GpuInstanceProfileInfo) ([]GpuInstance, Return)
 	GetGpuMaxPcieLinkGeneration() (int, Return)
 	GetGpuOperationMode() (GpuOperationMode, GpuOperationMode, Return)
+	GetGpuUptime_v1() (GpuUptime_v1, Return)
 	GetGraphicsRunningProcesses() ([]ProcessInfo, Return)
 	GetGridLicensableFeatures() (GridLicensableFeatures, Return)
 	GetGspFirmwareMode() (bool, bool, Return)
@@ -979,6 +996,7 @@ type Device interface {
 	GetNvLinkCapability(int, NvLinkCapability) (uint32, Return)
 	GetNvLinkErrorCounter(int, NvLinkErrorCounter) (uint64, Return)
 	GetNvLinkInfo() NvLinkInfoHandler
+	GetNvLinkInfo_v3() (NvLinkInfo_v3, Return)
 	GetNvLinkRemoteDeviceType(int) (IntNvLinkDeviceType, Return)
 	GetNvLinkRemotePciInfo(int) (PciInfo, Return)
 	GetNvLinkState(int) (EnableState, Return)
@@ -987,6 +1005,8 @@ type Device interface {
 	GetNvLinkUtilizationCounter(int, int) (uint64, uint64, Return)
 	GetNvLinkVersion(int) (uint32, Return)
 	GetNvlinkBwMode() (NvlinkGetBwMode, Return)
+	GetNvlinkNvlePrivateInfo_v1() (NvlinkNvlePrivateInfo_v1, Return)
+	GetNvlinkRemapTableInfo_v1() (NvlinkGetRemapTableInfo_v1, Return)
 	GetNvlinkSupportedBwModes() (NvlinkSupportedBwModes, Return)
 	GetOfaUtilization() (uint32, uint32, Return)
 	GetP2PStatus(Device, GpuP2PCapsIndex) (GpuP2PStatus, Return)
@@ -1067,6 +1087,7 @@ type Device interface {
 	GpmSampleGet(GpmSample) Return
 	GpmSetStreamingEnabled(uint32) Return
 	IsMigDeviceHandle() (bool, Return)
+	LockNvlinkRemapTable_v1(*NvlinkLockRemapTable_v1) Return
 	OnSameBoard(Device) (int, Return)
 	PerfMetricsGetSamples_v1() (PerfMetricsSamples_v1, Return)
 	PowerSmoothingActivatePresetProfile(*PowerSmoothingProfile) Return
@@ -1108,6 +1129,7 @@ type Device interface {
 	SetNvLinkUtilizationControl(int, int, *NvLinkUtilizationControl, bool) Return
 	SetNvlinkBwMode(*NvlinkSetBwMode) Return
 	SetNvlinkBwModeAsync_v1(*NvlinkSetBwModeAsync_v1) Return
+	SetNvlinkNvleReady_v1(*NvlinkSetNvleReady_v1) Return
 	SetPersistenceMode(EnableState) Return
 	SetPowerManagementLimit(uint32) Return
 	SetPowerManagementLimit_v2(*PowerValue_v2) Return
@@ -1118,6 +1140,7 @@ type Device interface {
 	SetVgpuSchedulerState(*VgpuSchedulerSetState) Return
 	SetVgpuSchedulerState_v2(*VgpuSchedulerState_v2) Return
 	SetVirtualizationMode(GpuVirtualizationMode) Return
+	SetupNvlinkNvleEncryptionKey_v1(*NvlinkSetupNvleEncryptionKey_v1) Return
 	ValidateInforom() Return
 	VgpuForceGspUnload() Return
 	VgpuTypeGetMaxInstances(VgpuTypeId) (int, Return)

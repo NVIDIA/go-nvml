@@ -898,8 +898,12 @@ const (
 	FI_DEV_BANK_REMAPPER_HISTOGRAM_NONE = 306
 	// FI_DEV_PENDING_BANK_REMAPPING as defined in nvml/nvml.h
 	FI_DEV_PENDING_BANK_REMAPPING = 307
+	// FI_DEV_GPU_TEMP as defined in nvml/nvml.h
+	FI_DEV_GPU_TEMP = 308
+	// FI_PWR_SMOOTHING_LIMITED_TIME as defined in nvml/nvml.h
+	FI_PWR_SMOOTHING_LIMITED_TIME = 309
 	// FI_MAX as defined in nvml/nvml.h
-	FI_MAX = 308
+	FI_MAX = 310
 	// MCLK_SWITCH_TYPE_NOT_SUPPORTED as defined in nvml/nvml.h
 	MCLK_SWITCH_TYPE_NOT_SUPPORTED = 0
 	// MCLK_SWITCH_TYPE_DEFERRED as defined in nvml/nvml.h
@@ -1052,10 +1056,18 @@ const (
 	CC_SYSTEM_CPU_CAPS_AMD_SEV_SNP = 3
 	// CC_SYSTEM_CPU_CAPS_AMD_SNP_VTOM as defined in nvml/nvml.h
 	CC_SYSTEM_CPU_CAPS_AMD_SNP_VTOM = 4
+	// CC_SYSTEM_CPU_CAPS_ARM_CCA as defined in nvml/nvml.h
+	CC_SYSTEM_CPU_CAPS_ARM_CCA = 5
+	// CC_SYSTEM_CPU_CAPS_INTEL_TDX_CONNECT as defined in nvml/nvml.h
+	CC_SYSTEM_CPU_CAPS_INTEL_TDX_CONNECT = 6
+	// CC_SYSTEM_CPU_CAPS_AMD_SEV_TIO as defined in nvml/nvml.h
+	CC_SYSTEM_CPU_CAPS_AMD_SEV_TIO = 7
 	// CC_SYSTEM_GPUS_CC_NOT_CAPABLE as defined in nvml/nvml.h
 	CC_SYSTEM_GPUS_CC_NOT_CAPABLE = 0
 	// CC_SYSTEM_GPUS_CC_CAPABLE as defined in nvml/nvml.h
 	CC_SYSTEM_GPUS_CC_CAPABLE = 1
+	// CC_SYSTEM_GPUS_CC_BMSAI_CAPABLE as defined in nvml/nvml.h
+	CC_SYSTEM_GPUS_CC_BMSAI_CAPABLE = 2
 	// CC_SYSTEM_DEVTOOLS_MODE_OFF as defined in nvml/nvml.h
 	CC_SYSTEM_DEVTOOLS_MODE_OFF = 0
 	// CC_SYSTEM_DEVTOOLS_MODE_ON as defined in nvml/nvml.h
@@ -1070,12 +1082,20 @@ const (
 	CC_SYSTEM_FEATURE_DISABLED = 0
 	// CC_SYSTEM_FEATURE_ENABLED as defined in nvml/nvml.h
 	CC_SYSTEM_FEATURE_ENABLED = 1
+	// CC_SYSTEM_FEATURE_BMSAI_ENABLED as defined in nvml/nvml.h
+	CC_SYSTEM_FEATURE_BMSAI_ENABLED = 2
 	// CC_SYSTEM_MULTIGPU_NONE as defined in nvml/nvml.h
 	CC_SYSTEM_MULTIGPU_NONE = 0
 	// CC_SYSTEM_MULTIGPU_PROTECTED_PCIE as defined in nvml/nvml.h
 	CC_SYSTEM_MULTIGPU_PROTECTED_PCIE = 1
 	// CC_SYSTEM_MULTIGPU_NVLE as defined in nvml/nvml.h
 	CC_SYSTEM_MULTIGPU_NVLE = 2
+	// CC_SYSTEM_TDISP_STATE_DISABLED as defined in nvml/nvml.h
+	CC_SYSTEM_TDISP_STATE_DISABLED = 0
+	// CC_SYSTEM_TDISP_STATE_NOT_READY as defined in nvml/nvml.h
+	CC_SYSTEM_TDISP_STATE_NOT_READY = 1
+	// CC_SYSTEM_TDISP_STATE_READY as defined in nvml/nvml.h
+	CC_SYSTEM_TDISP_STATE_READY = 2
 	// CC_ACCEPTING_CLIENT_REQUESTS_FALSE as defined in nvml/nvml.h
 	CC_ACCEPTING_CLIENT_REQUESTS_FALSE = 0
 	// CC_ACCEPTING_CLIENT_REQUESTS_TRUE as defined in nvml/nvml.h
@@ -1270,6 +1290,14 @@ const (
 	NVLINK_FIRMWARE_UCODE_TYPE_NETIR_DLN = 5
 	// NVLINK_FIRMWARE_VERSION_LENGTH as defined in nvml/nvml.h
 	NVLINK_FIRMWARE_VERSION_LENGTH = 100
+	// NVLINK_MAX_REMAP_TABLE_ENTRIES_V2 as defined in nvml/nvml.h
+	NVLINK_MAX_REMAP_TABLE_ENTRIES_V2 = 4096
+	// NVLINK_REMAP_TABLE_ENTRIES_CHUNK as defined in nvml/nvml.h
+	NVLINK_REMAP_TABLE_ENTRIES_CHUNK = 128
+	// NVLINK_NVLE_PRIVATE_INFO_SIZE as defined in nvml/nvml.h
+	NVLINK_NVLE_PRIVATE_INFO_SIZE = 256
+	// NVLINK_NVLE_AES_256_GCM_KEY_SIZE_BYTES as defined in nvml/nvml.h
+	NVLINK_NVLE_AES_256_GCM_KEY_SIZE_BYTES = 32
 	// PRM_DATA_MAX_SIZE as defined in nvml/nvml.h
 	PRM_DATA_MAX_SIZE = 496
 	// DEVICE_MIG_DISABLE as defined in nvml/nvml.h
@@ -1622,8 +1650,8 @@ const (
 	BRAND_GEFORCE_RTX         BrandType = 15
 	BRAND_TITAN_RTX           BrandType = 16
 	BRAND_NVIDIA_DLA          BrandType = 17
-	BRAND_NVIDIA_VGAMEDEV     BrandType = 18
 	BRAND_NVIDIA_NPU          BrandType = 19
+	BRAND_NVIDIA_VGAMEDEV     BrandType = 18
 	BRAND_COUNT               BrandType = 20
 )
 
@@ -1931,7 +1959,8 @@ const (
 	DEVICE_VGPU_CAP_HOMOGENEOUS_PLACEMENTS           DeviceVgpuCapability = 9
 	DEVICE_VGPU_CAP_MIG_TIMESLICING_SUPPORTED        DeviceVgpuCapability = 10
 	DEVICE_VGPU_CAP_MIG_TIMESLICING_ENABLED          DeviceVgpuCapability = 11
-	DEVICE_VGPU_CAP_COUNT                            DeviceVgpuCapability = 12
+	DEVICE_VGPU_CAP_UVM_STUN                         DeviceVgpuCapability = 12
+	DEVICE_VGPU_CAP_COUNT                            DeviceVgpuCapability = 13
 )
 
 // DeviceGpuRecoveryAction as declared in nvml/nvml.h
