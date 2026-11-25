@@ -3428,7 +3428,9 @@ func (device nvmlDevice) GetVgpuTypeSupportedPlacements(vgpuTypeId VgpuTypeId) (
 
 func (vgpuTypeId nvmlVgpuTypeId) GetSupportedPlacements(device Device) (VgpuPlacementList, Return) {
 	var placementList VgpuPlacementList
-	placementList.Version = STRUCT_VERSION(placementList, 1)
+	// VgpuPlacementList mirrors nvmlVgpuPlacementList_v2_t, which is what
+	// nvmlVgpuPlacementList_t resolves to, so the stamp has to be 2.
+	placementList.Version = STRUCT_VERSION(placementList, 2)
 	ret := nvmlDeviceGetVgpuTypeSupportedPlacements(nvmlDeviceHandle(device), vgpuTypeId, &placementList)
 	return placementList, ret
 }
@@ -3444,7 +3446,8 @@ func (device nvmlDevice) GetVgpuTypeCreatablePlacements(vgpuTypeId VgpuTypeId) (
 
 func (vgpuTypeId nvmlVgpuTypeId) GetCreatablePlacements(device Device) (VgpuPlacementList, Return) {
 	var placementList VgpuPlacementList
-	placementList.Version = STRUCT_VERSION(placementList, 1)
+	// Same as GetSupportedPlacements above.
+	placementList.Version = STRUCT_VERSION(placementList, 2)
 	ret := nvmlDeviceGetVgpuTypeCreatablePlacements(nvmlDeviceHandle(device), vgpuTypeId, &placementList)
 	return placementList, ret
 }
